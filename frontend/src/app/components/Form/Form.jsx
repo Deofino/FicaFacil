@@ -3,7 +3,7 @@ import { Button, Input, Checkbox, Select, MenuItem, Radio, RadioGroup } from './
 // import { FaEye } from 'react-icons/fa';
 export default function Form() {
 
-    const [ Checked, setChecked ] = useState(false);
+    const [Checked, setChecked] = useState(false);
     const items = [
         { value: 10, label: 'Dez' },
         { value: 20, label: 'Vinte' },
@@ -30,11 +30,11 @@ export default function Form() {
             </div>
             <div className="c-form__item">
                 <Select label='Categoria:'>
-                    { items.map(e => <MenuItem key={ e.value } value={ e.value }>{ e.label }</MenuItem>) }
+                    {items.map(e => <MenuItem key={e.value} value={e.value}>{e.label}</MenuItem>)}
                 </Select>
             </div>
             <div className="c-form__item">
-                <Checkbox onChange={ () => setChecked(!Checked) } isChecked={ Checked }>Voce aceita os termos</Checkbox>
+                <Checkbox onChange={() => setChecked(!Checked)} isChecked={Checked}>Voce aceita os termos</Checkbox>
             </div>
             <div className="c-form__item ">
                 <Button>Cadastrar</Button>
