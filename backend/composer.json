@@ -2,9 +2,13 @@
     "name": "deofino/fica-facil",
     "autoload": {
         "psr-4": {
-            "Controller\\": "./src/app/controller",
-            "Model\\": "./src/app/model"
-        }
+            "Controller\\": "./controller",
+            "Model\\": "./model",
+            "Routes\\": "./routes",
+            "Helper\\": "./helpers",
+            "App\\": "./"
+        },
+        "files": ["./config.php"]
     },
     "authors": [
         {
