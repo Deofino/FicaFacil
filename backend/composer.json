@@ -1,0 +1,16 @@
+{
+    "name": "deofino/fica-facil",
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "./src/app/controller",
+            "Model\\": "./src/app/model"
+        }
+    },
+    "authors": [
+        {
+            "name": "Deofino",
+            "email": "guilhermedelfino25@gmail.com"
+        }
+    ],
+    "require": {}
+}
