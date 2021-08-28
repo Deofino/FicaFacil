@@ -19,17 +19,16 @@ class Core
     {
 
         if ($this->url[0] === 'api') {
-            array_shift($this->url);
-            if (self::verifyArray($this->url[0])) {
+            if (self::verifyArray($this->url[1])) {
+                $this->controller = '\Controller\\' . ucfirst($this->url[1]) . 'Controller';
 
-                $this->controller = '\Controller\\' . ucfirst($this->url[0]) . 'Controller';
-                array_shift($this->url);
+                if (self::verifyArray($this->url[2])) {
+                    $this->method = $this->url[2];
 
-                if (self::verifyArray($this->url[0])) {
-                    $this->method = $this->url[0];
-                    array_shift($this->url);
+                    if (self::verifyArray($this->url)) {
+                        array_shift($this->url);
+                        array_shift($this->url);
 
-                    if (self::verifyArray($this->url[0])) {
                         $this->params = $this->url;
                     }
                 }
@@ -38,13 +37,17 @@ class Core
         try {
             call_user_func_array(array(new $this->controller, $this->method), $this->params);
         } catch (\Throwable $th) {
-            call_user_func_array(array(new \Controller\notFoundController, 'index'), array());
+            // var_dump($this->url);
+            // echo $this->controller;
+            // echo "method" . $this->method;
+            // var_dump($this->params);
+            call_user_func_array(array(new \Controller\notFoundController, 'index'), array(['url' => $_GET['url']]));
         }
     }
 
-    public static function verifyArray($array)
+    public static function verifyArray($string)
     {
-        if (isset($array[0]))
+        if (isset($string) && $string != "")
             return true;
         return false;
     }
