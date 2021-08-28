@@ -18,15 +18,19 @@ define(
 );
 define(
     "DB_DATABASE_HOST",
-    "https://localhost:3000/"
+    "localhost"
 );
 define(
     "DB_DATABASE_NAME",
-    "dbFicaFacil"
+    "bd_fica_facil"
+);
+define(
+    "DB_DATABASE_USER",
+    "root"
 );
 define(
     "DB_DATABASE_PASSWORD",
-    "senhacriptografada123"
+    ""
 );
 define(
     "EMAIL_HOST",
