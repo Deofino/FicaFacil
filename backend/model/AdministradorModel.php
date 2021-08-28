@@ -4,17 +4,13 @@
     use Model\UserModel;
 
     class AdministradorModel extends UserModel{
-        public function __construct()
+        public function __construct($nome, $email,$senha)
         {
-            // Pegar atributos do pai Extendido.
-            // Parent::
-
-
-            
+            parent::__construct($nome, $email,$senha); 
         }
-
+    
         public function get($params){
-
+            
         }
         public function post($params){
 

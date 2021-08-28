@@ -2,6 +2,7 @@
     namespace Model;
 
     class SugestaoVideoModel{
+        
         private int $id;
         private string $titulo;
         private string $thumbnailVideo;
@@ -13,11 +14,11 @@
         public function getTitulo(): string{
             return $this->titulo;
         }
-        public function setTitulo(string $titulo): void{
-            $this->nome = $titulo;
-        }
         public function getThumbnailVideo(): string{
             return $this->thumbnailVideo;
+        }
+        public function setTitulo(string $tituloSugestao): void{
+            $this->nome = $tituloSugestao;
         }
         public function setThumbnailVideo(string $thumbnailVideo): void{
             $this->nome = $thumbnailVideo;
