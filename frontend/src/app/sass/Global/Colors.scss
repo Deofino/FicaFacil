@@ -18,7 +18,7 @@ $colors: (
   "gray-light": #d1d1d1,
   "gray-dark": #343a40,
   // ? Theme
-  "primary": #007bff,
+  "primary": #5a89ff,
   "secondary": #6c757d,
   "success": #28a745,
   "info": #17a2b8,
@@ -26,7 +26,7 @@ $colors: (
   "danger": #c83241,
   "light": #f8f9fa,
   "dark": #212529,
-  "shadow": #21252944,
+  "shadow": #1114,
   // ? Social
   "facebook": #3b5998,
   "twitter": #00aced,
@@ -35,13 +35,11 @@ $colors: (
   "instagram": #e4405f,
   "github": #333,
   // ? Project Colors
-  "accent": #00798c,
-  "accent-dark": #004752,
-  "accent-light": #00c2e0
+  "accent": #806ba6
 );
 
 // ? SASS variables for personalization
-$primary: #007bff;
+$primary: #5a89ff;
 $secondary: #6c757d;
 $success: #28a745;
 $info: #17a2b8;
@@ -55,3 +53,7 @@ $gray: #6c757d;
 $gray-light: #d1d1d1;
 $gray-dark: #343a40;
 $dark: #212529;
+
+$accent: #806ba6;
+$accent-dark: darken($accent, 5%);
+$accent-light: lighten($accent, 5%);

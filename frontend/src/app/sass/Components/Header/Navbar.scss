@@ -15,18 +15,18 @@
     @include breakpoint(small) {
         .btn-openDrawer {
             display: flex;
-            width: rem(40px);
-            height: rem(35px);
+            width: rem(30px);
+            height: rem(30px);
             background-color: var(--color-background);
             border: none;
             // transition: 1s $t-ease-out-expo;
-            border-radius: $global-radius;
+            border-radius: rem(4);
             padding: $global-padding;
             position: relative;
 
             &::before,
             &::after {
-                transition: 0.6s $t-ease-out-back;
+                transition: 0.4s $t-ease-out-back;
                 height: rem(3.2px);
                 border-radius: $global-radius;
                 background-color: var(--font-color);
@@ -50,7 +50,7 @@
                 &::after {
                     width: 60%;
                     left: 50%;
-                    transition: 0.6s $t-ease-out-back;
+                    transition: 0.4s $t-ease-out-back;
                     top: 45%;
                 }
                 &::after {
@@ -64,7 +64,7 @@
             &:hover {
                 opacity: 1;
                 cursor: pointer;
-                transition: 0.3s $t-ease-in-out-circ;
+                transition: 0.4s $t-ease-in-out-circ;
                 transform: translateY(rem(-2px));
                 box-shadow: 0 rem(4px) rem(4px) var(--color-shadow);
             }
@@ -76,20 +76,19 @@
     }
 
     &__logo {
-        background-color: var(--color-dark);
+        // background-color: var(--color-dark);
         padding: rem(2px) rem(8px);
-        border-radius: $global-radius;
         flex-grow: 1;
         text-align: center;
-        max-width: 100px;
+        max-width: rem(100);
         height: 100%;
         margin-right: rem(8px);
-
-        @include flex(end);
+        filter: brightness(130%) saturate(130%);
+        @include flex(center);
     }
 
     &__image {
-        font-size: $global-font-size-lg;
-        color: var(--color-white);
+        width: 100%;
+        height: 100%;
     }
 }

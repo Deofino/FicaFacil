@@ -1,23 +1,11 @@
 .l-main {
     max-width: $w-extra-large;
     width: 100%;
-    margin: rem(100) auto;
-    @include flex(center);
-    flex-direction: row;
+    margin: rem(60) auto;
     flex-wrap: wrap;
-    color: var(--color-dark);
-    padding: rem(16);
-    background-color: lighten($primary, 45%);
-
-    @include darkMode {
-        color: var(--color-white);
-        background-color: lighten($dark, 5%);
-    }
-
-    &__image {
-        flex-grow: 1;
-        min-width: rem(250px);
-        max-width: rem(400px);
-        margin-left: rem(8);
-    }
+    overflow: visible;
+    color: var(--font-color);
+    @include flex(end);
+    flex-direction: row;
+    // justify-content: flex-end;
 }

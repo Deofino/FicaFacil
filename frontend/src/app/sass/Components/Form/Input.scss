@@ -1,7 +1,7 @@
 .c-input {
     width: 100%;
     background: inherit;
-    margin-top: $global-margin !important;
+    margin-top: $global-margin;
 
     &__icon {
         padding: 0 rem(8);
@@ -22,7 +22,7 @@
     }
 
     label {
-        color: var(--font-color) !important;
+        color: inherit !important;
         font-family: inherit;
         font-size: $global-font-size;
 
@@ -38,9 +38,9 @@
     *::after,
     *::before,
     input {
-        caret-color: var(--font-color);
+        caret-color: inherit;
         padding-top: rem(6);
-        color: var(--font-color) !important;
+        color: inherit;
         border-color: var(--color-primary) !important;
         font-family: $font-family-sans-serif;
         font-size: $global-font-size;
@@ -53,7 +53,7 @@
         border: rem(1) solid rgba($color: $primary, $alpha: 0.4);
         border-bottom: none;
         padding: $global-padding !important;
-        color: var(--font-color);
+        color: inherit;
         background-color: rgba($color: $primary, $alpha: 0.01);
         @include darkMode {
             background-color: rgba($color: $black, $alpha: 0.075);

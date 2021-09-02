@@ -1,24 +1,26 @@
 <?php
 
-    namespace Model;
-    use Model\UserModel;
+namespace Model;
 
-    class AdministradorModel extends UserModel{
-        public function __construct($nome, $email,$senha)
-        {
-            parent::__construct($nome, $email,$senha); 
-        }
-    
-        public function get($params){
-            
-        }
-        public function post($params){
+use Model\UserModel;
 
-        }
-        public function put($params){
-            
-        }
-        public function delete($params){
-            
-        }
+class AdministradorModel extends UserModel
+{
+    public function __construct($nome, $email, $senha)
+    {
+        parent::__construct($nome, $email, $senha);
     }
+
+    public function get($params)
+    {
+    }
+    public function post($params)
+    {
+    }
+    public function put($params)
+    {
+    }
+    public function delete($params)
+    {
+    }
+}

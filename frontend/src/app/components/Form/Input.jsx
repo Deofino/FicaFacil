@@ -2,17 +2,17 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import MaskedInput from 'react-text-mask';
 
-
 function TextMaskCustom(props) {
     const { inputRef, ...other } = props;
     return (
         <MaskedInput
-            {...other}
-            ref={(ref) => {
+            { ...other }
+            // mask={ [ '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/ ] }
+            ref={ (ref) => {
                 inputRef(ref ? ref.inputElement : null);
-            }}
-            mask={props.mask}
-            placeholderChar={'_'}
+            } }
+            mask={ props.mask }
+            placeholderChar={ '_' }
         />
     );
 }
@@ -32,23 +32,25 @@ function TextMaskCustom(props) {
  * @param onChange: void()  -- callback oq fazer com valor
  * @param mask: array regex ou funcao  -- mascara
  * @param multiline: boolean - pode ser multilinha 
- * 
+ * @param rows: int - numeros de linha
+ *
  */
 
 export default function Input(props) {
     return (
         <TextField
-            helperText={props.error || null}
-            error={props.error ? true : false}
-            label={props.title || null}
-            className={props.error ? 'c-input c-input--error' : 'c-input'}
-            variant={props.icon ? 'standard' : 'filled'}
-            InputLabelProps={{ htmlFor: props.id || null }}
+            helperText={ props.error || null }
+            error={ props.error ? true : false }
+            label={ props.title || null }
+            rows={ props.rows || null }
+            className={ props.error ? 'c-input c-input--error ' + props.className : 'c-input ' + props.className }
+            variant={ props.icon ? 'standard' : 'filled' }
+            InputLabelProps={ { htmlFor: props.id || null } }
             size='small'
-            InputProps={{
+            InputProps={ {
                 inputComponent: props.mask && TextMaskCustom,
                 inputProps: { mask: props.mask || null },
-                startAdornment: props.icon ? <p className='c-input__icon'>{props.icon}</p> : null,
+                startAdornment: props.icon ? <p className='c-input__icon'>{ props.icon }</p> : null,
                 type: props.type || 'text',
                 value: props.value,
                 onChange: props.onChange,
@@ -57,9 +59,9 @@ export default function Input(props) {
                 ref: props.ref || null,
                 inputMode: props.inputMode || 'none',
                 required: props.required || null,
-                endAdornment: props.iconEnd ? <p className='c-input__icon'>{props.iconEnd}</p> : null,
-            }}
-            multiline={props.multiline ? true : false}
+                endAdornment: props.iconEnd ? <p className='c-input__icon'>{ props.iconEnd }</p> : null,
+            } }
+            multiline={ props.multiline ? true : false }
         />
-    )
+    );
 }

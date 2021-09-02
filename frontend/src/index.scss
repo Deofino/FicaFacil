@@ -10,6 +10,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap");
 
+
+@import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
+@import "node_modules/@glidejs/glide/src/assets/sass/glide.theme";
+
+
 //? IMPORT FUNCTIONS
 @import "./app/sass/Functions/Default.scss";
 
@@ -43,7 +48,7 @@
 @import "./app/sass/Components/Header/Menu.scss";
 
 @import "./app/sass/Components/Main/Main.scss";
-@import "./app/sass/Components/Form/Form.scss";
+@import "./app/sass/Components/Main/Slider.scss";
 
 @import "./app/sass/Components/Form/Button.scss";
 @import "./app/sass/Components/Form/Input.scss";
@@ -54,5 +59,6 @@
 @import "./app/sass/Components/Alert/Modal.scss";
 @import "./app/sass/Components/Alert/Toast.scss";
 
-// @import "./app/sass/Components/Form/Form.scss";
+
+@import "./app/sass/Components/Footer/Footer.scss";
 // @import "./app/sass/Components/Form/Form.scss";

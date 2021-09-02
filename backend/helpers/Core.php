@@ -25,23 +25,22 @@ class Core
                 if (self::verifyArray($this->url[2])) {
                     $this->method = $this->url[2];
 
+                    array_shift($this->url);
+                    array_shift($this->url);
+                    array_shift($this->url);
                     if (self::verifyArray($this->url)) {
-                        array_shift($this->url);
-                        array_shift($this->url);
-
+                        array_pop($this->url);
                         $this->params = $this->url;
                     }
                 }
             }
         }
         try {
-            call_user_func_array(array(new $this->controller, $this->method), $this->params);
+            call_user_func_array(array(new $this->controller, $this->method), array($this->params));
         } catch (\Throwable $th) {
-            // var_dump($this->url);
-            // echo $this->controller;
-            // echo "method" . $this->method;
-            // var_dump($this->params);
-            call_user_func_array(array(new \Controller\notFoundController, 'index'), array(['url' => $_GET['url']]));
+            echo $th;
+            echo '<br>';
+            call_user_func_array(array(new \Controller\notFoundController, 'index'), $this->params);
         }
     }
 

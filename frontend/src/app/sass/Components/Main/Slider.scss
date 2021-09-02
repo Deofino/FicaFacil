@@ -1,0 +1,94 @@
+.glide {
+    &__slide {
+        filter: grayscale(65%);
+        opacity: 0.6;
+        padding: rem(16) 0;
+        border-radius: $global-radius;
+        text-align: center;
+        color: white;
+        &--active {
+            opacity: 1;
+            filter: grayscale(0);
+        }
+    }
+    &__image {
+        margin: 0 auto;
+    }
+    &__title {
+        font-size: $global-font-size-xlg;
+        color: var(--font-color);
+        line-height: rem(24);
+        margin-top: $global-padding;
+        padding: $global-padding;
+        @include breakpoint(small) {
+            font-size: $global-font-size;
+            line-height: rem(18);
+        }
+        @include breakpoint(medium) {
+            font-size: $global-font-size-lg;
+            line-height: rem(18);
+        }
+    }
+    &__description {
+        color: var(--font-color);
+        line-height: rem(14);
+        font-size: $global-font-size-sm;
+        padding-bottom: $global-padding;
+        font-weight: 500;
+        @include breakpoint(small) {
+            font-size: rem(11);
+        }
+        @include breakpoint(medium) {
+            font-size: rem(11);
+        }
+    }
+
+    &__arrow {
+        opacity: 0.98;
+        border-radius: 50%;
+        font-size: $global-font-size-sm;
+        opacity: 0.8;
+        transition: 0.3s ease;
+        background-color: var(--color-background);
+        border-color: var(--font-color);
+        @include breakpoint(small) {
+            font-size: rem(10);
+            transform: scale(0.8);
+        }
+        &:hover {
+            border-color: var(--font-color);
+            opacity: 1;
+        }
+        &--left {
+            left: 1%;
+        }
+        &--right {
+            right: 1%;
+        }
+    }
+    &__arrows {
+        z-index: $z-overlay;
+    }
+
+    &__bullet {
+        opacity: 0.5;
+        width: rem(10);
+        height: rem(10);
+
+        background-color: var(--font-color);
+        &:hover {
+            opacity: 1;
+        }
+        &--active {
+            opacity: 1;
+        }
+
+        @include breakpoint(small) {
+            width: rem(8);
+            height: rem(8);
+        }
+    }
+    &__bullets {
+        bottom: rem(4);
+    }
+}

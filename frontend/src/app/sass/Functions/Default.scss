@@ -17,9 +17,9 @@
   @if $place == center {
     justify-content: center;
   } @else if $place == end {
-    justify-content: center;
+    justify-content: flex-end;
   } @else if $place == start {
-    justify-content: start;
+    justify-content: flex-start;
   } @else {
     justify-content: $place;
   }

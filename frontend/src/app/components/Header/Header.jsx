@@ -4,11 +4,12 @@ import Navbar from './Navbar';
 export const ContextHeader = React.createContext(null);
 
 export default function Header() {
-    const [isDrawer, setDrawer] = React.useState("")
+    const [ isDrawer, setDrawer ] = React.useState("");
 
     return (
-        <ContextHeader.Provider value={[isDrawer, setDrawer]}>
-            <header className='l-headerMain relative shadow'>
+        <ContextHeader.Provider value={ [ isDrawer, setDrawer ] }>
+
+            <header className='l-headerMain relative shadow' id='home'>
                 <Navbar />
             </header>
         </ContextHeader.Provider>

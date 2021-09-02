@@ -1,3 +1,6 @@
+:root {
+  scroll-behavior: smooth;
+}
 html,
 body,
 div,
@@ -68,6 +71,7 @@ button {
   display: block;
   font-family: $font-family-sans-serif;
   color: inherit;
+  will-change: auto;
   letter-spacing: rem(-0.3);
   outline: 0;
   font-size: $global-font-size;
@@ -104,6 +108,7 @@ label {
   color: var(--font-color);
   font-size: $global-font-size;
   margin: 0;
+  will-change: auto;
   border: none;
   overflow: hidden;
   outline: none;
@@ -203,6 +208,21 @@ textarea {
   resize: none;
 }
 
+body::-webkit-scrollbar {
+  width: rem(16px); /* width of the entire scrollbar */
+}
+* {
+  scrollbar-width: rem(16px);
+  scrollbar-color: darken($primary, 5%) var(--color-background);
+  @include darkMode {
+    scrollbar-color: var(--color-primary) var(--color-background);
+  }
+}
+body::-webkit-scrollbar-thumb {
+  background-color: $primary; /* color of the scroll thumb */
+  border-radius: 8px; /* roundness of the scroll thumb */
+  border: 2px solid var(--color-background);
+}
 // Show focus styles on keyboard focus
 // :focus-visible {
 // }

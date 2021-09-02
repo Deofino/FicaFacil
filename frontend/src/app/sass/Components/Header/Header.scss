@@ -1,17 +1,18 @@
 body {
-    padding-top: rem(60);
+    padding-top: rem(70);
 }
 .l-headerMain {
-    background-color: var(--color-primary);
+    background-color: $primary;
     @include darkMode {
-        background-color: darken($primary, 10%);
+        background-color: $primary;
+        // background-color: #6d88ce;
     }
     padding: $global-padding;
-    height: rem(60px);
-    z-index: $z-dropdown;
+    height: rem(70);
+    z-index: 250;
     position: fixed;
     top: 0;
     left: 0;
-    box-shadow: rem(2) rem(4) rem(6) var(--color-shadow);
+    box-shadow: 0 rem(2) rem(8) var(--color-shadow);
     width: 100%;
 }
