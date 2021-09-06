@@ -5,16 +5,16 @@ import Footer from './components/Footer/Footer';
 
 import Routes from './routes/Routes'; // Controla as telas e chama os layouts
 
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <Router basename="/">
+      <Router>
         <Header />
-        {/* <Switch> */ }
-        <Routes />
-        {/* </Switch> */ }
+        <Switch>
+          <Routes />
+        </Switch>
         <Footer />
       </Router>
     </>

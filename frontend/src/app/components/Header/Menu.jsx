@@ -1,5 +1,5 @@
 import React from "react";
-// import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ContextHeader } from './Header';
 export default function Menu() {
 
@@ -12,22 +12,22 @@ export default function Menu() {
     return (
         <ul className={ 'c-menu ' + isDrawer }>
             <li className="c-menu__item">
-                <a href='#home' className='c-menu__link' onClick={ () => {
+                <Link to='/home' className='c-menu__link' onClick={ () => {
                     window.scrollTo({ top: 0 });
                     disable();
-                } }>Inicio</a>
+                } }>Inicio</Link>
             </li>
             <li className="c-menu__item">
-                <a href='#about' className='c-menu__link' onClick={ disable } >Sobre</a>
+                <Link to='/questao' className='c-menu__link' onClick={ disable } >Questao</Link>
             </li>
             <li className="c-menu__item">
-                <a href='#projects' className='c-menu__link' onClick={ disable } >Projetos</a>
+                <Link to='/projects' className='c-menu__link' onClick={ disable } >Projetos</Link>
             </li>
             <li className="c-menu__item">
-                <a href='#partner' className='c-menu__link' onClick={ disable } >Parcerias</a>
+                <Link to='/partner' className='c-menu__link' onClick={ disable } >Parcerias</Link>
             </li>
             <li className="c-menu__item">
-                <a href='#contact' className='c-menu__link' onClick={ disable } >Contato</a>
+                <Link to='/contact' className='c-menu__link' onClick={ disable } >Contato</Link>
             </li>
         </ul>
 

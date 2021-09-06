@@ -9,7 +9,8 @@ class QuestaoController
 
     public function index($params)
     {
-        echo Response::json('JSON index ' . json_encode($params));
+        var_dump($_FILES['images']);
+        var_dump($_POST);
     }
     public function create($params)
     {

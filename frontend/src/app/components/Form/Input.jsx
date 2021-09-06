@@ -49,14 +49,14 @@ export default function Input(props) {
             size='small'
             InputProps={ {
                 inputComponent: props.mask && TextMaskCustom,
-                inputProps: { mask: props.mask || null },
+                inputProps: { mask: props.mask, "multiple": props.multiple || null, "accept": props.accept || null },
                 startAdornment: props.icon ? <p className='c-input__icon'>{ props.icon }</p> : null,
                 type: props.type || 'text',
                 value: props.value,
+                ref: props.ref || null,
                 onChange: props.onChange,
                 name: props.name || null,
                 id: props.id || null,
-                ref: props.ref || null,
                 inputMode: props.inputMode || 'none',
                 required: props.required || null,
                 endAdornment: props.iconEnd ? <p className='c-input__icon'>{ props.iconEnd }</p> : null,

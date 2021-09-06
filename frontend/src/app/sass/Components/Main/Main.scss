@@ -5,7 +5,7 @@
     flex-wrap: wrap;
     overflow: visible;
     color: var(--font-color);
-    @include flex(end);
+    @include flex(center);
     flex-direction: row;
     // justify-content: flex-end;
 }
