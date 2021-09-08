@@ -4,7 +4,7 @@ namespace Model;
 
 use Helper\Connection;
 use Helper\Response;
-
+use PDO;
 class DificuldadeModel
 {
     private int $id;
@@ -32,7 +32,7 @@ class DificuldadeModel
                 $stmt = $con->prepare("SELECT * FROM tb_dificuldade");
             } else {
                 $stmt = $con->prepare("SELECT * FROM tb_dificuldade WHERE idDificuldade = ?");
-                $stmt->bindValue(1, $params['id']);
+                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
 
             if ($stmt->execute()) {
@@ -49,7 +49,7 @@ class DificuldadeModel
         try {
             $con = Connection::getConn();
             $stmt = $con->prepare("INSERT INTO tb_dificuldade values(null, ?)");
-            $stmt->bindValue(1, $params->dificuldade);
+            $stmt->bindValue(1, $params->dificuldade,PDO::PARAM_STR);
             if ($stmt->execute()) {
                 return Response::success("Dificuldade inserida com sucesso");
             }

@@ -7,13 +7,13 @@ use Helper\Response;
 class QuestaoController
 {
 
-    public function index($params)
+    public function index($params) // GET-->PEGAR
     {
         var_dump($_FILES['images']);
         
         var_dump($_POST);
     }
-    public function create($params)
+    public function create($params) // POST INSERIR
     {
         echo Response::json('JSON create');
     }

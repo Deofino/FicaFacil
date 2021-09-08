@@ -8,20 +8,21 @@ import TextField from '@material-ui/core/TextField';
  * @param onChange: callback()-- onChange selection data
  * @param children: JSX MENUITEM ou Value -- children Menu Items do select
  */
-const CustomSelect = (props) => {
-    return (
-        <TextField
-            select
-            value={props.value || ''}
-            label={props.label || 'Selecione:'}
-            variant='filled'
-            className='c-select'
-            onChange={props.onChange || null}
-        >
-            {props.children}
-        </TextField>
-    )
-}
+const CustomSelect = React.forwardRef((props, ref) => (
+    <TextField
+        select
+        id={ props.id || null }
+        name={ props.name || null }
+        innerRef={ ref }
+        value={ props.value || '' }
+        label={ props.label || 'Selecione:' }
+        variant='filled'
+        className={ props.className + ' c-select' || 'c-select' }
+        onChange={ props.onChange || null }
+    >
+        { props.children }
+    </TextField>
+));
 
 export default CustomSelect;
 

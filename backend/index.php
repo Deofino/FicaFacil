@@ -8,6 +8,11 @@ require_once('./vendor/autoload.php');
 
 use Helper\Core;
 
+// GET --> PEGAR --> READ (SELECT * FROM)
+// POST --> INSERIR --> INSERIR (INSERT INTO)
+// PUT --> ATUALIZAR --> UPDATE (Update table)
+// DELETE --> APAGAR --> DELETAR (DELETAR)
+
 if (isset($_GET['url'])) {
     $url = explode('/', $_GET['url']);
 
