@@ -37,6 +37,9 @@ class UniversidadeModel
             }
 
             if ($stmt->execute()) {
+                if ($stmt->rowCount() == 0) {
+                    return Response::warning("Nenhuma Universidade encontrada...", 404);
+                }
                 return Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
             return Response::error("Erro ao selecionar universidade");

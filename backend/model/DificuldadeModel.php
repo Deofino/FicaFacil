@@ -5,26 +5,36 @@ namespace Model;
 use Helper\Connection;
 use Helper\Response;
 use PDO;
+
 class DificuldadeModel
 {
-    private int $id;
     private string $nivel;
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
     public function getNivel(): string
     {
         return $this->nivel;
     }
     public function setNivel(string $nivel): void
     {
-        $this->nivel = $nivel;
+        if (isset($nivel) && trim($nivel) !== '' && strlen(trim($nivel)) !== 0 && trim($nivel) !== null) {
+            $model = new DificuldadeModel();
+            $data = json_decode($model->get());
+            if ($data->status_code === 200) {
+                foreach ($data->data as $el) {
+                    if (trim(strtoupper($el->nivelDificuldade)) === trim(strtoupper(($nivel)))) {
+                        throw new \Exception("Nivel de dificuldade `" . $nivel . "` ja cadastrada", 400);
+                        return;
+                    };
+                }
+                $this->nivel = ucfirst($nivel);
+                return;
+            };
+        }
+        throw new \Exception("Esse nivel de dificuldade não pode ser aceito", 400);
     }
 
 
-    public function get($params)
+    public function get($params = null)
     {
         try {
             $con = Connection::getConn();
@@ -36,22 +46,26 @@ class DificuldadeModel
             }
 
             if ($stmt->execute()) {
-                return Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+                return ($stmt->rowCount() == 0 ?
+                    Response::warning("Nenhuma dificuldade encontrada...", 404) :
+                    $stmt->rowCount() == 1) ?
+                    Response::success($stmt->fetch(\PDO::FETCH_ASSOC)) :
+                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
             return Response::error("Erro ao selecionar dificuldade");
         } catch (\Throwable $th) {
             return Response::error("Error: $th");
         }
     }
-    
-    public function post($params)
+
+    public function post()
     {
         try {
             $con = Connection::getConn();
             $stmt = $con->prepare("INSERT INTO tb_dificuldade values(null, ?)");
-            $stmt->bindValue(1, $params->dificuldade,PDO::PARAM_STR);
+            $stmt->bindValue(1, trim($this->getNivel()), PDO::PARAM_STR);
             if ($stmt->execute()) {
-                return Response::success("Dificuldade inserida com sucesso");
+                return Response::success("Dificuldade `{$this->getNivel()}` inserida com sucesso, id=" . $con->lastInsertId());
             }
             return Response::error("Erro ao inserir dificuldade");
         } catch (\Throwable $th) {

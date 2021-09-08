@@ -21,15 +21,17 @@ class DificuldadeController
     public function create() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $model = new DificuldadeModel();
             $data = json_decode(file_get_contents('php://input'));
-            // var_dump(json_decode($data));
-            echo $model->post($data);
+            $model = new DificuldadeModel();
+            if ($data->dificuldade) {
+                $model->setNivel(trim($data->dificuldade)); // insere aqui pra passar pelas verificacoes de dados
+                echo $model->post();
+            } else echo Response::warning('Parametro `dificuldade` não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
-    
+
     public function update() // parametro do file_get_contents
     {
         echo Response::json('JSON update');
