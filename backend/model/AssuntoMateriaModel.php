@@ -33,6 +33,7 @@ class AssuntoMateriaModel
 
     public function get($params)
     {
+        
     }
     public function post($params)
     {
