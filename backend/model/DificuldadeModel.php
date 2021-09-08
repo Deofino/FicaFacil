@@ -27,10 +27,13 @@ class DificuldadeModel
                     };
                 }
                 $this->nivel = ucfirst($nivel);
-                return;
+            }else{
+                $this->nivel = ucfirst($nivel);
             };
+            return;
         }
         throw new \Exception("Esse nivel de dificuldade não pode ser aceito", 400);
+        return;
     }
 
 
@@ -46,10 +49,8 @@ class DificuldadeModel
             }
 
             if ($stmt->execute()) {
-                return ($stmt->rowCount() == 0 ?
+                return $stmt->rowCount() == 0 ?
                     Response::warning("Nenhuma dificuldade encontrada...", 404) :
-                    $stmt->rowCount() == 1) ?
-                    Response::success($stmt->fetch(\PDO::FETCH_ASSOC)) :
                     Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
             return Response::error("Erro ao selecionar dificuldade");

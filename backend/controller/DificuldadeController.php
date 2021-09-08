@@ -23,7 +23,7 @@ class DificuldadeController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input'));
             $model = new DificuldadeModel();
-            if ($data->dificuldade) {
+            if (isset($data->dificuldade)) {
                 $model->setNivel(trim($data->dificuldade)); // insere aqui pra passar pelas verificacoes de dados
                 echo $model->post();
             } else echo Response::warning('Parametro `dificuldade` não encontrado ou vazio/nulo', 404);
