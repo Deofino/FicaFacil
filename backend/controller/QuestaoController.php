@@ -10,6 +10,7 @@ class QuestaoController
     public function index($params)
     {
         var_dump($_FILES['images']);
+        
         var_dump($_POST);
     }
     public function create($params)
