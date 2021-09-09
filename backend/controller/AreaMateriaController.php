@@ -21,10 +21,12 @@ class AreaMateriaController
     public function create() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $model = new AreaMateriaModel();
             $data = json_decode(file_get_contents('php://input'));
-            // var_dump(json_decode($data));
-            echo $model->post($data);
+            $model = new AreaMateriaModel();
+            if (isset($data->areaMateria)) {
+                $model->setNome(trim($data->areaMateria)); // insere aqui pra passar pelas verificacoes de dados
+                echo $model->post();
+            } else echo Response::warning('Parametro `areaMateria` não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);

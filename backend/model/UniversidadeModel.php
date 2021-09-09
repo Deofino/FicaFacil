@@ -4,28 +4,39 @@ namespace Model;
 
 use Helper\Connection;
 use Helper\Response;
-
+use \PDO;
 class UniversidadeModel
 {
 
-    private int $id;
-    private string $nome;
-
-    public function getId(): int
+    private string $universidade;
+    public function getUniversidade(): string
     {
-        return $this->id;
+        return $this->universidade;
     }
-    public function getNome(): string
+    public function setNome(string $universidade): void
     {
-        return $this->nome;
-    }
-    public function setNivel(string $nomeUniversidade): void
-    {
-        $this->nivel = $nomeUniversidade;
+        if (isset($universidade) && trim($universidade) !== '' && strlen(trim($universidade)) !== 0 && trim($universidade) !== null) {
+            $model = new UniversidadeModel();
+            $data = json_decode($model->get());
+            if ($data->status_code === 200) {
+                foreach ($data->data as $el) {
+                    if (trim(strtoupper($el->nomeUniversidade)) === trim(strtoupper(($universidade)))) {
+                        throw new \Exception("nome de Universidade `" . $universidade . "` ja cadastrada", 400);
+                        return;
+                    };
+                }
+                $this->universidade = ucfirst($universidade);
+            } else {
+                $this->universidade = ucfirst($universidade);
+            };
+            return;
+        }
+        throw new \Exception("Esse Universidade não pode ser aceito", 400);
+        return;
     }
 
 
-    public function get($params)
+    public function get($params=null)
     {
         try {
             $con = Connection::getConn();
@@ -33,30 +44,29 @@ class UniversidadeModel
                 $stmt = $con->prepare("SELECT * FROM tb_universidade");
             } else {
                 $stmt = $con->prepare("SELECT * FROM tb_universidade WHERE idUniversidade = ?");
-                $stmt->bindValue(1, $params['id']);
+                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
 
             if ($stmt->execute()) {
-                if ($stmt->rowCount() == 0) {
-                    return Response::warning("Nenhuma Universidade encontrada...", 404);
-                }
-                return Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+                return $stmt->rowCount() == 0 ?
+                    Response::warning("Nenhuma Universidade encontrada...", 404) :
+                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
-            return Response::error("Erro ao selecionar universidade");
+            return Response::error("Erro ao selecionar Universidade");
         } catch (\Throwable $th) {
             return Response::error("Error: $th");
         }
     }
-    public function post($params)
+    public function post()
     {
         try {
             $con = Connection::getConn();
             $stmt = $con->prepare("INSERT INTO tb_universidade values(null, ?)");
-            $stmt->bindValue(1, $params->universidade);
+            $stmt->bindValue(1, trim($this->getUniversidade()), PDO::PARAM_STR);
             if ($stmt->execute()) {
-                return Response::success("Universidade inserida com sucesso");
+                return Response::success("Universidade `{$this->getUniversidade()}` inserida com sucesso, id=" . $con->lastInsertId());
             }
-            return Response::error("Erro ao inserir universidade");
+            return Response::error("Erro ao inserir Universidade");
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }

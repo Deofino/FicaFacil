@@ -21,10 +21,12 @@ class universidadeController
     public function create() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $model = new UniversidadeModel();
             $data = json_decode(file_get_contents('php://input'));
-            // var_dump(json_decode($data));
-            echo $model->post($data);
+            $model = new UniversidadeModel();
+            if (isset($data->universidade)) {
+                $model->setNome(trim($data->universidade)); // insere aqui pra passar pelas verificacoes de dados
+                echo $model->post();
+            } else echo Response::warning('Parametro `universidade` não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
