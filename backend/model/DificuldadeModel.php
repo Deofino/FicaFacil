@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Exception;
 use Helper\Connection;
 use Helper\Response;
 use PDO;
@@ -27,7 +28,7 @@ class DificuldadeModel
                     };
                 }
                 $this->nivel = ucfirst($nivel);
-            }else{
+            } else {
                 $this->nivel = ucfirst($nivel);
             };
             return;
@@ -76,7 +77,22 @@ class DificuldadeModel
     public function put($params)
     {
     }
-    public function delete($params)
+    public function delete(int $id)
     {
+        try {
+            $con = Connection::getConn();
+            $data = json_decode($this->get(array('id' => $id)));
+            if ($data->status_code === 200) {
+                $stmt = $con->prepare("DELETE FROM tb_dificuldade WHERE idDificuldade = ?");
+                $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
+                if ($stmt->execute()) {
+                    return Response::success("Dificuldade id=`$id` deletada com sucesso");
+                }
+                return Response::warning("Erro ao deletar dificuldade", 404);
+            };
+            return Response::warning("Dificuldade id=$id nao encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
 }

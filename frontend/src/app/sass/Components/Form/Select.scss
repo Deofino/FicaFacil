@@ -74,7 +74,7 @@
 
 .MuiPaper-root {
     @include darkMode {
-        background-color: var(--color-background) !important;
+        background-color: var(--color-dark) !important;
         color: var(--color-white) !important;
     }
 
