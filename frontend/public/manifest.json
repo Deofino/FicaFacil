@@ -1,27 +1,27 @@
 {
-  "short_name": "Aura",
-  "name": "Aura",
+  "short_name": "Fica Fácil",
+  "name": "Fica Fácil",
   "icons": [{
-      "src": "./img/project/favicon.ico",
+      "src": "./img/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "./img/project/logo192.png",
+      "src": "./img/logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "./img/project/logo512.png",
+      "src": "./img/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "./img/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }, {
-      "src": "/android-chrome-512x512.png",
+      "src": "./img/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
