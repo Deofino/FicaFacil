@@ -27,7 +27,7 @@ abstract class Connection
         ];
         if (self::$connection === null) {
             try {
-                self::$connection = new PDO($dns, $user, $password, $options);
+                self::$connection = new PDO($dns, $user, $password);
             } catch (\Throwable $th) {
                 echo Response::error($th->getMessage());
             }

@@ -95,7 +95,7 @@ export default function FormularioQuestao() {
                     e.preventDefault();
                     axios.post(process.env.REACT_APP_API + '/areamateria/create/',
                         JSON.stringify({
-                            areamateria: refAreaMateria.current.value
+                            areaMateria: refAreaMateria.current.value
                         }))
                         .then(data => console.log(data));
 
