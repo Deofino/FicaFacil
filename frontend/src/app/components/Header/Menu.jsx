@@ -21,7 +21,7 @@ export default function Menu() {
                 <Link to='/questao' className='c-menu__link' onClick={ disable } >Questao</Link>
             </li>
             <li className="c-menu__item">
-                <Link to='/projects' className='c-menu__link' onClick={ disable } >Projetos</Link>
+                <Link to='/materia' className='c-menu__link' onClick={ disable } >Materia</Link>
             </li>
             <li className="c-menu__item">
                 <Link to='/partner' className='c-menu__link' onClick={ disable } >Parcerias</Link>

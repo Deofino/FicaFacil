@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress';
 /**
  * @function ButtonComponent
  * @param onClick: callback -- realizada no click
@@ -9,20 +9,21 @@ import CircularProgress from '@material-ui/core/CircularProgress'
  * @param icon: JSX  -- icone do botao
  * @param children: string  -- texto do botao
  * @param isLoading: boolean -- Mostra botao em carregamento
+ * @param className: string -- Classe do botao para estilizar
  */
 export default function CustomButton(props) {
     return (
         <Button
-            className='c-button'
+            className={ props.className + ' c-button' || 'c-butotn' }
             variant='contained'
             color='primary'
-            type={props.type}
-            startIcon={props.isLoading ? <CircularProgress className='c-button__loading' size={25} /> : props.icon}
-            onClick={props.onClick || null}
-            style={props.styleButton || null}
+            type={ props.type }
+            startIcon={ props.isLoading ? <CircularProgress className='c-button__loading' size={ 25 } /> : props.icon }
+            onClick={ props.onClick || null }
+            style={ props.styleButton || null }
 
         >
-            {props.children}
+            { props.children }
         </Button>
-    )
+    );
 }
