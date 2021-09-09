@@ -36,8 +36,13 @@ class DificuldadeController
     {
         echo Response::json('JSON update');
     }
-    public function delete() // parametro do file_get_contents
+    public function delete($params) // parametro na url
     {
-        echo Response::json('JSON delete');
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            $model = new DificuldadeModel();
+            echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
     }
 }

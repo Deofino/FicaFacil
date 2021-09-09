@@ -27,7 +27,7 @@ class DificuldadeModel
                     };
                 }
                 $this->nivel = ucfirst($nivel);
-            }else{
+            } else {
                 $this->nivel = ucfirst($nivel);
             };
             return;
@@ -76,7 +76,19 @@ class DificuldadeModel
     public function put($params)
     {
     }
-    public function delete($params)
+    public function delete(int $id)
     {
+        try {
+            $con = Connection::getConn();
+            $this->get(array('id' => $id))[0];
+            $stmt = $con->prepare("DELETE FROM tb_dificuldade WHERE idDificuldade = ?");
+            $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Dificuldade id=`$id` deletada com sucesso");
+            }
+            return Response::error("Erro ao deletar dificuldade");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
 }

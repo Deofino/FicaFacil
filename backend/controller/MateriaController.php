@@ -25,7 +25,7 @@ class MateriaController
             $model = new MateriaModel();
             if (isset($data->materia) && isset($data->area)) {
                 $model->setNome(trim($data->materia));
-                $model->setArea(trim($data->area));
+                $model->setArea($data->area);
                 echo $model->post();
             } else echo Response::warning('Parametro `materia` ou `area` não encontrado ou vazio/nulo', 404);
             return;

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Ago-2021 às 19:25
--- Versão do servidor: 10.4.20-MariaDB
--- versão do PHP: 8.0.9
+-- Tempo de geração: 09-Set-2021 às 19:45
+-- Versão do servidor: 10.4.19-MariaDB
+-- versão do PHP: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `bd_fica_facil`
 --
+CREATE DATABASE IF NOT EXISTS `bd_fica_facil` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `bd_fica_facil`;
 
 -- --------------------------------------------------------
 
@@ -97,7 +99,7 @@ CREATE TABLE `tb_dificuldade` (
 
 CREATE TABLE `tb_materia` (
   `idMateria` int(11) NOT NULL,
-  `nomeAssuntoMateria` varchar(30) NOT NULL,
+  `nomeMateria` varchar(100) DEFAULT NULL,
   `idAreaMateria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -51,7 +51,7 @@ class MateriaModel
             $data = json_decode($modelArea->get());
             if ($data->status_code === 200) {
                 foreach ($data->data as $el) {
-                    if ($el->idAreaMateria === $areaMateria) {
+                    if ($el->idAreaMateria == $areaMateria) {
                         $this->area = $areaMateria;
                         return;
                     };
