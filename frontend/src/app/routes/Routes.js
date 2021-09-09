@@ -3,6 +3,7 @@ import React from 'react';
 // Components 
 import Main from '../components/Main/Main';
 import FormularioQuestao from '../components/Main/FormularioQuestao';
+import FormularioAreaMateria from '../components/Main/FormularioAreaMateria';
 import FormularioMateria from '../components/Main/FormularioMateria';
 import { Route } from 'react-router-dom';
 
@@ -16,6 +17,11 @@ export default function Routes() {
             <Route path='/questao'>
                 <Main>
                     <FormularioQuestao />
+                </Main>
+            </Route>
+            <Route path='/areamateria'>
+                <Main>
+                    <FormularioAreaMateria />
                 </Main>
             </Route>
             <Route path='/materia'>
