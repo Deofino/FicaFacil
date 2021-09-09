@@ -18,19 +18,19 @@ export default function Menu() {
                 } }>Inicio</Link>
             </li>
             <li className="c-menu__item">
-                <Link to='/questao' className='c-menu__link' onClick={ disable } >Questao</Link>
+                <Link to='/questao' className='c-menu__link' onClick={ disable } >Questão</Link>
             </li>
             <li className="c-menu__item">
-                <Link to='/areamateria' className='c-menu__link' onClick={ disable } >Area Materia</Link>
+                <Link to='/areamateria' className='c-menu__link' onClick={ disable } >Area Matéria</Link>
             </li>
             <li className="c-menu__item">
-                <Link to='/materia' className='c-menu__link' onClick={ disable } >Materia</Link>
+                <Link to='/materia' className='c-menu__link' onClick={ disable } >Matéria</Link>
             </li>
             <li className="c-menu__item">
-                <Link to='/partner' className='c-menu__link' onClick={ disable } >Parcerias</Link>
+                <Link to='/assuntomateria' className='c-menu__link' onClick={ disable } >Assunto Matéria</Link>
             </li>
             <li className="c-menu__item">
-                <Link to='/contact' className='c-menu__link' onClick={ disable } >Contato</Link>
+                <Link to='/universidade' className='c-menu__link' onClick={ disable } >Universidade</Link>
             </li>
         </ul>
 

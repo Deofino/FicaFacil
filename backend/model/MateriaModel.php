@@ -41,7 +41,7 @@ class MateriaModel
             };
             return;
         }
-        throw new \Exception("Esse materia não pode ser aceito", 400);
+        throw new \Exception("Essa materia não pode ser aceito", 400);
         return;
     }
     public function setArea(int $areaMateria): void

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import { Input, Select, MenuItem, Button } from '../Form/';
-export default function FormularioQuestao() {
+import { AlertError } from '../Alert/Modal';
+export default function FormularioMateria() {
 
     const [ areasMaterias, setAreasMaterias ] = useState([]);
     const [ selectedAreaMateria, setSelectedAreaMateria ] = useState(0);
@@ -18,8 +19,8 @@ export default function FormularioQuestao() {
 
         axios.post(`${process.env.REACT_APP_API}/materia/create/`,
             JSON.stringify({
-                materia: refMateria.current.value || null,
-                area: selectedAreaMateria,
+                 materia: refMateria.current.value || null,
+                 area: selectedAreaMateria,
             }))
             .then(value => {
                 console.log(value.data);
@@ -38,7 +39,7 @@ export default function FormularioQuestao() {
                     { areasMaterias !== [] && areasMaterias.map(item =>
                         <MenuItem value={ item.idAreaMateria } key={ item.idAreaMateria }>{ item.nomeAreaMateria }</MenuItem>) }
                 </Select>
-                <Button className='c-formMateria__submit' type='submit'>Cadastrar</Button>
+                <Button className='c-formMateria__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>
             </form>
         </React.Fragment>
     );

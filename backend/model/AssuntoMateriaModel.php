@@ -1,13 +1,17 @@
 <?php
 
 namespace Model;
+use Helper\Connection;
+use Helper\Response;
+use Model\MateriaModel;
+use PDO;
 
 class AssuntoMateriaModel
 {
 
-    private $id;
-    private $nome;
-    private $materia;
+    private int $id;
+    private string $nome;
+    private int $materia;
 
     public function getId(): int
     {
@@ -17,26 +21,89 @@ class AssuntoMateriaModel
     {
         return $this->nome;
     }
-    public function getMateria(): array
+    public function getMateria(): int
     {
         return $this->materia;
     }
-    public function setNome(string $nomeAreaMateria): void
+    public function setNome(string $nomeAssuntoMateria): void
     {
-        $this->nome = $nomeAreaMateria;
+        if (isset($nomeAssuntoMateria) && trim($nomeAssuntoMateria) !== '' && strlen(trim($nomeAssuntoMateria)) !== 0 && trim($nomeAssuntoMateria) !== null) {
+            $data = json_decode($this->get());
+            if ($data->status_code === 200) {
+                foreach ($data->data as $el) {
+                    if (trim(strtoupper($el->nomeAssuntoMateria)) === trim(strtoupper(($nomeAssuntoMateria)))) {
+                        throw new \Exception("Assunto materia `" . $nomeAssuntoMateria . "` ja cadastrado", 400);
+                        return;
+                    };
+                }
+                $this->nome = ucfirst($nomeAssuntoMateria);
+            } else {
+                $this->nome = ucfirst($nomeAssuntoMateria);
+            };
+            return;
+        }
+        throw new \Exception("Esse assunto da materia não pode ser aceito", 400);
+        return;
     }
-    public function setMateria(array $materia): void
+    public function setMateria(int $materia): void
     {
-        $this->materia = $materia;
+        if($materia > 0 && $materia!==null){
+            $modelMateria = new MateriaModel();
+            $data = json_decode($modelMateria->get());
+            if ($data->status_code === 200) {
+                foreach ($data->data as $el) {
+                    if ($el->idMateria === $materia) {
+                        $this->materia = $materia;
+                        return;
+                    };
+                }
+                throw new \Exception("Assunto materia com id `" . $materia . "` nao encontrado", 400);
+                return;
+            } else {
+                throw new \Exception("Insira um assunto materia materia primeiro", 400);
+                return;
+            };
+        }
+        throw new \Exception("Esse assunto materia não pode ser aceito", 400);
+        return;
     }
 
 
-    public function get($params)
+    public function get($params=null)
     {
-        
+        try {
+            $con = Connection::getConn();
+            if ($params === null) {
+                $stmt = $con->prepare("SELECT * FROM tb_assunto_materia");
+            } else {
+                $stmt = $con->prepare("SELECT * FROM tb_assunto_materia WHERE idAssuntoMateria = ?");
+                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
+            }
+
+            if ($stmt->execute()) {
+                return $stmt->rowCount() == 0 ?
+                    Response::warning("Nenhum assunto materia encontrada...", 404) :
+                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+            }
+            return Response::error("Erro ao selecionar o assunto materia");
+        } catch (\Throwable $th) {
+            return Response::error("Error: $th");
+        }
     }
-    public function post($params)
+    public function post()
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("INSERT INTO tb_assunto_materia values(null, ?, ?)");
+            $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
+            $stmt->bindValue(2, trim($this->getMateria()), PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Assunto materia `{$this->getNome()}` inserido com sucesso, id=" . $con->lastInsertId());
+            }
+            return Response::error("Erro ao inserir Materia");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function put($params)
     {
