@@ -1,18 +1,12 @@
-import React, { useState, Fragment, useRef, useEffect } from "react";
+import React, { useState, Fragment, useRef } from "react";
 import axios from 'axios';
-import { Input, Button } from '../Form';
-import { AlertError } from '../Alert/Modal';
-import { FaUniversity } from 'react-icons/fa';
+import { AlertSuccess } from '../Alert/Modal'; 
+import { Input, Button, } from '../Form';
+import { FaBookOpen } from 'react-icons/fa';
 
 export default function FormularioUniversidade() {
-    const refUniversidade = useRef(null);
-    const [ universidades, setUniversidades ] = useState(null);
     const [ ErroUniversidade, setErroUniversidade ] = useState(null);
-    useEffect(() => {
-        axios.get(process.env.REACT_APP_API + '/universidade/index/')
-            .then(data => setUniversidades(data.data))
-            .catch(error => console.error(error));  
-    }, []);
+    const refUniversidade = useRef(null);
 
     return (
         <Fragment>
@@ -20,26 +14,28 @@ export default function FormularioUniversidade() {
                     e.preventDefault();
 
                     if (refUniversidade !== null) {
-                        if (refUniversidade.current.value !== '' && refUniversidade.current.value.length > 3) {
+                        if (refUniversidade.current.value !== '' && refUniversidade.current.value.length >= 3) {
                             setErroUniversidade(null);
                             axios.post(process.env.REACT_APP_API + '/universidade/create/',
                                 JSON.stringify({
-                                    universidades: refUniversidade.current.value
+                                    universidade: refUniversidade.current.value
                                 }))
                                 .then(data => console.log(data));
-
-                        } else {
-                            // setErroAreaMateria('O campo tem que ser maior que 4');
-                            AlertError({ text: "Campo deve conter mais do que 3 caracteres", title: 'Atenção...' });
+                               
+                                AlertSuccess({ text: "Universidade inserida com sucesso", title: 'Sucesso...' });
+                        }else{
+                            setErroUniversidade('O campo tem que ser maior que 3');
                         }
                     } else {
-                        setErroUniversidade('O campo nao pode estar vazio');
+                        setErroUniversidade('O campo não pode estar vazio');
                     }
+                } }>
+                    <Input title='Universidade:' ref={ refUniversidade } error={ ErroUniversidade } id='universidade' name='universidade' type='text' icon={ <FaBookOpen /> } inputMode='text' />
+                    <Button type='submit' styleButton={ { marginTop: 20 } } onClick={ () => {
 
-                    } }>
-                <Input title='Universidade:' ref={ refUniversidade } id='universidade' name='universidade' type='text' icon={ <FaUniversity /> } inputMode='text' />
-                    <Button type='submit' styleButton={ { marginTop: 20 } }>Adicionar Universidade</Button>
+                    } }>Adicionar Universidade</Button>
                 </form>
-            </Fragment>
+
+        </Fragment >
     );
 }

@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import { Input, Select, MenuItem, Button } from '../Form/';
-import { AlertError } from '../Alert/Modal';
+import { AlertSuccess } from '../Alert/Modal';
+
 export default function FormularioMateria() {
 
     const [ areasMaterias, setAreasMaterias ] = useState([]);
     const [ selectedAreaMateria, setSelectedAreaMateria ] = useState(0);
     const refMateria = useRef(null);
+
+    const [ ErroMateria, setErroMateria ] = useState(null);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/areaMateria/index/`)
@@ -17,20 +20,32 @@ export default function FormularioMateria() {
     const submitForm = (e) => {
         e.preventDefault();
 
-        axios.post(`${process.env.REACT_APP_API}/materia/create/`,
-            JSON.stringify({
-                 materia: refMateria.current.value || null,
-                 area: selectedAreaMateria,
-            }))
-            .then(value => {
-                console.log(value.data);
-            })
-            .catch(error => console.log(error));
+            if (refMateria !== null) {
+                if (refMateria.current.value !== '' && refMateria.current.value.length >= 4) {
+                    setErroMateria(null);
+                    axios.post(`${process.env.REACT_APP_API}/materia/create/`,
+                    JSON.stringify({
+                         materia: refMateria.current.value || null,
+                         area: selectedAreaMateria,
+                    }))
+                    .then(value => {
+                        console.log(value.data);
+                    })
+                    .catch(error => console.log(error));
+                       
+                        AlertSuccess({ text: " Matéria inserida com sucesso", title: 'Sucesso...' });
+                }else{
+                    setErroMateria('O campo tem que ser maior que 4');
+                }
+            } else {
+                setErroMateria('O campo não pode estar vazio');
+            
+            }
     };
 
     return (
         <React.Fragment>
-            <form id="formulario" className="c-formMateria" onSubmit={ submitForm }>
+                <form method="post" id="formM" className="c-formMateria" onSubmit={ submitForm }>
                 <h2 className='c-formMateria__headline'>Materia</h2>
                 <Input title="Materia" id="nomeMateria" className="c-formMateria__input" ref={ refMateria } name="materia" />
                 <Select className='c-formMateria__select' name='areaMateria' id='areaMateria'
