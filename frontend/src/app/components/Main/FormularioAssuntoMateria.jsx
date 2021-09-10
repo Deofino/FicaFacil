@@ -4,7 +4,7 @@ import { Input, Select, MenuItem, Button } from '../Form/';
 import { AlertSuccess } from '../Alert/Modal';
 export default function FormularioAssuntoMateria() {
 
-    const [ materia, setMateria ] = useState([]);
+    const [ materias, setMaterias ] = useState([]);
     const [ selectedMateria, setSelectedMateria ] = useState(0);
     const refAssuntoMateria = useRef(null);
 
@@ -12,13 +12,12 @@ export default function FormularioAssuntoMateria() {
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/materia/index/`)
-            .then(value => setMateria(value.data.data))
+            .then(value => setMaterias(value.data.data))
             .catch(error => console.error(error));
     }, []);
 
     const submitForm = (e) => {
         e.preventDefault();
-
 
             if (refAssuntoMateria !== null) {
                 if (refAssuntoMateria.current.value !== '' && refAssuntoMateria.current.value.length >= 4) {
@@ -46,13 +45,13 @@ export default function FormularioAssuntoMateria() {
 
     return (
         <React.Fragment>
-            <form id="formuAS" className="c-formAssuntoMateria" onSubmit={ submitForm }>
-                <h2 className='c-formMateria__headline'>Assunto Matéria</h2>
-                <Input title="Assunto Matéria" id="nomeassuntoMateria" className="c-formAssuntoMateria__input" ref={ refAssuntoMateria } name="assuntoMateria" />
+            <form method="post" id="formAS"className="c-formAssuntoMateria" onSubmit={ submitForm }>
+                <h2 className='c-formAssuntoMateria__headline'>Assunto Matéria</h2>
+                <Input title="Assunto Matéria" id="assuntomateria" error={ ErroAssuntoMateria }className="c-formAssuntoMateria__input" ref={ refAssuntoMateria } name="assuntomateria" />
                 <Select className='c-formAssuntoMateria__select' name='materia' id='materia'
                     value={ selectedMateria } onChange={ ({ target }) => setSelectedMateria(target.value) }>
                     <MenuItem value='0'>Selecione</MenuItem>
-                    { materia !== [] && materia.map(item =>
+                    { materias !== [] && materias.map(item =>
                         <MenuItem value={ item.idMateria } key={ item.idMateria }>{ item.nomeMateria }</MenuItem>) }
                 </Select>
                 <Button className='c-formAssuntoMateria__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>

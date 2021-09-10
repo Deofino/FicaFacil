@@ -47,7 +47,7 @@ export default function FormularioMateria() {
         <React.Fragment>
                 <form method="post" id="formM" className="c-formMateria" onSubmit={ submitForm }>
                 <h2 className='c-formMateria__headline'>Materia</h2>
-                <Input title="Materia" id="nomeMateria" className="c-formMateria__input" ref={ refMateria } name="materia" />
+                <Input title="Materia" id="nomeMateria"  error={ ErroMateria }className="c-formMateria__input" ref={ refMateria } name="materia" />
                 <Select className='c-formMateria__select' name='areaMateria' id='areaMateria'
                     value={ selectedAreaMateria } onChange={ ({ target }) => setSelectedAreaMateria(target.value) }>
                     <MenuItem value='0'>Selecione</MenuItem>
