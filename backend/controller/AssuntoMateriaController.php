@@ -23,11 +23,11 @@ class AssuntoMateriaController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input', true));
             $model = new AssuntoMateriaModel();
-            if (isset($data->assuntomateria) && isset($data->materia)) {
-                $model->setNome(trim($data->assuntomateria));
-                $model->setMateria(trim($data->materia));
+            if (isset($data->assuntoMateria) && isset($data->materia)) {
+                $model->setNome(trim($data->assuntoMateria));
+                $model->setMateria($data->materia);
                 echo $model->post();
-            } else echo Response::warning('Parametro `materia` ou `area` não encontrado ou vazio/nulo', 404);
+            } else echo Response::warning('Parametro `assunto materia` ou `materia` não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);

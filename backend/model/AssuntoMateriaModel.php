@@ -1,6 +1,7 @@
 <?php
 
 namespace Model;
+
 use Helper\Connection;
 use Helper\Response;
 use Model\MateriaModel;
@@ -32,7 +33,7 @@ class AssuntoMateriaModel
             if ($data->status_code === 200) {
                 foreach ($data->data as $el) {
                     if (trim(strtoupper($el->nomeAssuntoMateria)) === trim(strtoupper(($nomeAssuntoMateria)))) {
-                        throw new \Exception("Assunto materia `" . $nomeAssuntoMateria . "` ja cadastrado", 400);
+                        throw new \Exception("materia `" . $nomeAssuntoMateria . "` ja cadastrada", 400);
                         return;
                     };
                 }
@@ -42,25 +43,25 @@ class AssuntoMateriaModel
             };
             return;
         }
-        throw new \Exception("Esse assunto da materia não pode ser aceito", 400);
+        throw new \Exception("Essa materia não pode ser aceito", 400);
         return;
     }
     public function setMateria(int $materia): void
     {
-        if($materia > 0 && $materia!==null){
+        if ($materia > 0 && $materia !== null) {
             $modelMateria = new MateriaModel();
             $data = json_decode($modelMateria->get());
             if ($data->status_code === 200) {
                 foreach ($data->data as $el) {
-                    if ($el->idMateria === $materia) {
+                    if ($el->idMateria == $materia) {
                         $this->materia = $materia;
                         return;
                     };
                 }
-                throw new \Exception("Assunto materia com id `" . $materia . "` nao encontrado", 400);
+                throw new \Exception("Materia com id `" . $materia . "` nao encontrada", 400);
                 return;
             } else {
-                throw new \Exception("Insira um assunto materia materia primeiro", 400);
+                throw new \Exception("Insira uma materia primeiro", 400);
                 return;
             };
         }
@@ -69,7 +70,7 @@ class AssuntoMateriaModel
     }
 
 
-    public function get($params=null)
+    public function get($params = null)
     {
         try {
             $con = Connection::getConn();
@@ -85,7 +86,7 @@ class AssuntoMateriaModel
                     Response::warning("Nenhum assunto materia encontrada...", 404) :
                     Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
-            return Response::error("Erro ao selecionar o assunto materia");
+            return Response::error("Erro ao selecionar assunto materia");
         } catch (\Throwable $th) {
             return Response::error("Error: $th");
         }
@@ -98,9 +99,9 @@ class AssuntoMateriaModel
             $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getMateria()), PDO::PARAM_INT);
             if ($stmt->execute()) {
-                return Response::success("Assunto materia `{$this->getNome()}` inserido com sucesso, id=" . $con->lastInsertId());
+                return Response::success("Assunto mMteria `{$this->getNome()}` inserida com sucesso, id=" . $con->lastInsertId());
             }
-            return Response::error("Erro ao inserir Materia");
+            return Response::error("Erro ao inserir Assunto Materia");
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }

@@ -8,6 +8,8 @@ import FormularioMateria from '../components/Main/FormularioMateria';
 import FormularioAssuntoMateria from '../components/Main/FormularioAssuntoMateria';
 import FormularioUniversidade from '../components/Main/FormularioUniversidade';
 import { Route } from 'react-router-dom';
+import FormularioDificuldade from '../components/Main/FormularioDificuldade';
+
 
 
 export default function Routes() {
@@ -42,6 +44,12 @@ export default function Routes() {
                     <FormularioUniversidade />
                 </Main>
             </Route>
+            <Route path='/dificuldade'>
+                <Main>
+                    <FormularioDificuldade />
+                </Main>
+            </Route>
+           
         </>
     );
 }
