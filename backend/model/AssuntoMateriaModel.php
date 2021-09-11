@@ -99,7 +99,7 @@ class AssuntoMateriaModel
             $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getMateria()), PDO::PARAM_INT);
             if ($stmt->execute()) {
-                return Response::success("Assunto mMteria `{$this->getNome()}` inserida com sucesso, id=" . $con->lastInsertId());
+                return Response::success("Assunto materia `{$this->getNome()}` inserida com sucesso, id=" . $con->lastInsertId());
             }
             return Response::error("Erro ao inserir Assunto Materia");
         } catch (\Throwable $th) {

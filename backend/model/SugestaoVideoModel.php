@@ -148,7 +148,7 @@ class SugestaoVideoModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("INSERT INTO tb_sugestao_video values(null, ?, ?)");
+            $stmt = $con->prepare("INSERT INTO tb_sugestao_video values(null, ?, ?, ?)");
             $stmt->bindValue(1, trim($this->getTitulo()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getThumbnailVideo()), PDO::PARAM_STR);
             $stmt->bindValue(3, trim($this->getUrlVideo()), PDO::PARAM_STR);

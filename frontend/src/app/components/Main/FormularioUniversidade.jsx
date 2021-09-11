@@ -7,6 +7,7 @@ import { FaBookOpen } from 'react-icons/fa';
 export default function FormularioUniversidade() {
     const [ ErroUniversidade, setErroUniversidade ] = useState(null);
     const refUniversidade = useRef(null);
+    const refApagarTextoUniversidade = useRef(0);
 
     return (
         <Fragment>

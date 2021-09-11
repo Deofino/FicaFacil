@@ -35,6 +35,12 @@ export default function Menu() {
             <li className="c-menu__item">
                 <Link to='/dificuldade' className='c-menu__link' onClick={ disable } >Dificuldade</Link>
             </li>
+            <li className="c-menu__item">
+                <Link to='/resposta' className='c-menu__link' onClick={ disable } >Resposta</Link>
+            </li>
+            <li className="c-menu__item">
+                <Link to='/sugestaoVideo' className='c-menu__link' onClick={ disable } >Sugestão Vídeo</Link>
+            </li>
            
            
         </ul>

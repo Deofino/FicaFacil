@@ -7,9 +7,10 @@ import FormularioAreaMateria from '../components/Main/FormularioAreaMateria';
 import FormularioMateria from '../components/Main/FormularioMateria';
 import FormularioAssuntoMateria from '../components/Main/FormularioAssuntoMateria';
 import FormularioUniversidade from '../components/Main/FormularioUniversidade';
-import { Route } from 'react-router-dom';
 import FormularioDificuldade from '../components/Main/FormularioDificuldade';
-
+import FormularioResposta from '../components/Main/FormularioResposta';
+import FormularioSugestaoVideo from '../components/Main/FormularioSugestaoVideo';
+import { Route } from 'react-router-dom';
 
 
 export default function Routes() {
@@ -17,7 +18,7 @@ export default function Routes() {
     return (
         <>
             <Route exact path='/'>
-                <h1>ola</h1>
+                <h1>ola mundo</h1>
             </Route>
             <Route path='/questao'>
                 <Main>
@@ -47,6 +48,16 @@ export default function Routes() {
             <Route path='/dificuldade'>
                 <Main>
                     <FormularioDificuldade />
+                </Main>
+            </Route>
+            <Route path='/resposta'>
+                <Main>
+                    <FormularioResposta />
+                </Main>
+            </Route>
+            <Route path='/sugestaoVideo'>
+                <Main>
+                    <FormularioSugestaoVideo />
                 </Main>
             </Route>
            

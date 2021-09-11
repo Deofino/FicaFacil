@@ -7,7 +7,6 @@ export default function FormularioAssuntoMateria() {
     const [ materias, setMaterias ] = useState([]);
     const [ selectedMateria, setSelectedMateria ] = useState(0);
     const refAssuntoMateria = useRef(null);
-
     const [ ErroAssuntoMateria, setErroAssuntoMateria ] = useState(null);
 
     useEffect(() => {

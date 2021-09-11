@@ -2,13 +2,18 @@
 
 namespace Model;
 
+use Helper\Connection;
+use Helper\Response;
+use Model\QuestaoModel;
+use PDO;
+
 class RespostaModel
 {
 
     private int $id;
     private string $textoResposta;
     private bool $certaResposta;
-    private array $idQuestao;
+    private int $idQuestao;
 
     public function getId(): int
     {
@@ -30,20 +35,69 @@ class RespostaModel
     {
         $this->certaResposta = $certaResposta;
     }
-    public function getIdQuestao(): array
+    public function getIdQuestao(): int
     {
         return $this->idQuestao;
     }
-    public function setIdQuestao(array $questao): void
+    public function setIdQuestao(int $questao): void
     {
-        $this->idQuestao = $questao;
+        if ($questao > 0 && $questao !== null) {
+            $modelQuestao = new QuestaoModel();
+            $data = json_decode($modelQuestao->get());
+            if ($data->status_code === 200) {
+                foreach ($data->data as $el) {
+                    if ($el->idQuestao == $questao) {
+                        $this->questao = $questao;
+                        return;
+                    };
+                }
+                throw new \Exception("Questão com id `" . $questao . "` nao encontrada", 400);
+                return;
+            } else {
+                throw new \Exception("Insira uma questão primeiro", 400);
+                return;
+            };
+        }
+        throw new \Exception("Essa questão não pode ser aceita", 400);
+        return;
     }
 
-    public function get($params)
+    public function get($params = null)
     {
+        try {
+            $con = Connection::getConn();
+            if ($params === null) {
+                $stmt = $con->prepare("SELECT * FROM tb_resposta");
+            } else {
+                $stmt = $con->prepare("SELECT * FROM tb_resposta WHERE idResposta = ?");
+                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
+            }
+
+            if ($stmt->execute()) {
+                return $stmt->rowCount() == 0 ?
+                    Response::warning("Nenhuma resposta encontrada...", 404) :
+                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+            }
+            return Response::error("Erro ao selecionar resposta");
+        } catch (\Throwable $th) {
+            return Response::error("Error: $th");
+        }
     }
-    public function post($params)
+    public function post()
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("INSERT INTO tb_resposta values(null, ?, ?)");
+            $stmt->bindValue(1, trim($this->getTextoResposta()), PDO::PARAM_STR);
+            $stmt->bindValue(2, trim($this->getCertaResposta()), PDO::PARAM_STR);
+            $stmt->bindValue(3, trim($this->getIdQuestao()), PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Assunto materia `{$this->getTextoResposta()}` inserida com sucesso, id=" . $con->lastInsertId());
+            }
+            return Response::error("Erro ao inserir Assunto Materia");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function put($params)
     {

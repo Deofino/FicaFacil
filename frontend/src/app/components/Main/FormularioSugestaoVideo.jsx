@@ -47,10 +47,12 @@ export default function FormularioSugestaoVideo() {
         <React.Fragment>
                 <form method="post" id="formSV" className="c-formSV" onSubmit={ submitForm }>
                 <h2 className='c-formSVideo__headline'>Sugestão de Vídeo</h2>
-                <Input title="SugestaoVideo" id="sugestaoVideo"  error={ ErroSugestaoVideo }className="c-formSVideo__input" ref={ refSugestaoVideo } name="sugestaoVideo" />
+                <Input title="Titulo Sugestao de Video" id="sugestaoVideo"  error={ ErroSugestaoVideo }className="c-formSVideo__input" ref={ refSugestaoVideo } name="sugestaoVideo" />
+                <Input title="Thumbnail " id="thumbnailsugestaoVideo"  error={ ErroSugestaoVideo }className="c-formSVideo__input" ref={ refSugestaoVideo } name="sugestaoVideo" />
+                <Input title="URL" id="urlsugestaoVideo"  error={ ErroSugestaoVideo }className="c-formSVideo__input" ref={ refSugestaoVideo } name="sugestaoVideo" />
                 <Select className='c-formSVideo__select' name='questao' id='questao'
                     value={ selectedQuestao } onChange={ ({ target }) => setSelectedQuestao(target.value) }>
-                    <MenuItem value='0'>Selecione</MenuItem>
+                    {<MenuItem value='0'>Selecione</MenuItem>}
                     { questao !== [] && questao.map(item =>
                         <MenuItem value={ item.idQuestao } key={ item.idQuestao }>{ item.tituloQuestao }</MenuItem>) }
                 </Select>
