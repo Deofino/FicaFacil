@@ -11,6 +11,8 @@ import TextField from '@material-ui/core/TextField';
 const CustomSelect = React.forwardRef((props, ref) => (
     <TextField
         select
+        helperText={ props.error || null }
+        error={ props.error ? true : false }
         id={ props.id || null }
         name={ props.name || null }
         innerRef={ ref }
