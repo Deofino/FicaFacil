@@ -1,10 +1,9 @@
 import React, { useState, Fragment, useRef, useEffect } from "react";
 import axios from 'axios';
 import { Input, Button, Select, MenuItem } from '../Form';
-import { FaCalendar, FaUser, FaImages } from 'react-icons/fa';
+import { FaUser, FaImages } from 'react-icons/fa';
 
 export default function FormularioQuestao() {
-    const [ alternativas, setAlternativas ] = useState([]);
 
     const [ selectUniversidade, setselectUniversidade ] = useState(0);
     const [ selectAssuntoMateria, setselectAssuntoMateria ] = useState(0);
@@ -13,8 +12,8 @@ export default function FormularioQuestao() {
 
     const refSelectUniversidade = useRef(null);
     const refSelectAssuntoMateria = useRef(null);
-    const refSelectDificuldade= useRef(null);
-    const refSelectAdministrador= useRef(null);
+    const refSelectDificuldade = useRef(null);
+    const refSelectAdministrador = useRef(null);
 
     const [ universidades, setUniversidades ] = useState(null);
     const [ assuntoMaterias, setAssuntoMaterias ] = useState(null);
@@ -22,19 +21,19 @@ export default function FormularioQuestao() {
     const [ adms, setAdms ] = useState(null);
 
     useEffect(() => {
-            axios.get(process.env.REACT_APP_API + '/universidade/index/')
+        axios.get(process.env.REACT_APP_API + '/universidade/index/')
             .then(data => setUniversidades(data.data))
-            .catch(error => console.error(error));  
+            .catch(error => console.error(error));
 
-            axios.get(process.env.REACT_APP_API + '/dificuldade/index/')
+        axios.get(process.env.REACT_APP_API + '/dificuldade/index/')
             .then(data => setDificuldades(data.data))
-            .catch(error => console.error(error));  
+            .catch(error => console.error(error));
 
-             axios.get(process.env.REACT_APP_API + '/assuntoMateria/index/')
+        axios.get(process.env.REACT_APP_API + '/assuntoMateria/index/')
             .then(data => setAssuntoMaterias(data.data))
-            .catch(error => console.error(error));  
+            .catch(error => console.error(error));
 
-            axios.get(process.env.REACT_APP_API + '/administrador/index/')
+        axios.get(process.env.REACT_APP_API + '/administrador/index/')
             .then(data => setAdms(data.data))
             .catch(error => console.error(error));
     }, []);
@@ -43,12 +42,11 @@ export default function FormularioQuestao() {
         e.preventDefault();
         let formulario = document.getElementById('form');
         let formData = new FormData(formulario);
-        formData.append('alternativas', JSON.stringify(alternativas));
 
-        axios.post(process.env.REACT_APP_API + '/questao/index/', formData)
-         .then(el => console.log(el.data)); 
-       
-            
+        axios.post(process.env.REACT_APP_API + '/questao/create/', formData)
+            .then(el => console.log(el.data));
+
+
     }
     return (
         <Fragment>
@@ -68,7 +66,7 @@ export default function FormularioQuestao() {
                         <MenuItem key={ i } value={ el[ 'idUniversidade' ] }>{ el[ 'nomeUniversidade' ] }</MenuItem>
                     ) }
                 </Select>
-                <Select label='Dificuldades' id='dificuldades' name='dificuldades' ref={ refSelectDificuldade }
+                <Select label='Dificuldades' id='dificuldades' name='dificuldade' ref={ refSelectDificuldade }
                     onChange={ e => {
                         // console.log(e.target);
                         setselectDificuldade(e.target.value);
@@ -80,7 +78,7 @@ export default function FormularioQuestao() {
                         <MenuItem key={ i } value={ el[ 'idDificuldade' ] }>{ el[ 'nivelDificuldade' ] }</MenuItem>
                     ) }
                 </Select>
-                
+
                 <Select label='Assunto Matéria' id='assuntoMateria' name='assuntoMateria' ref={ refSelectAssuntoMateria }
                     onChange={ e => {
                         // console.log(e.target);
@@ -92,7 +90,7 @@ export default function FormularioQuestao() {
                     { assuntoMaterias && assuntoMaterias.data.map((el, i) =>
                         <MenuItem key={ i } value={ el[ 'idAssuntoMateria' ] }>{ el[ 'nomeAssuntoMateria' ] }</MenuItem>
                     ) }
-                </Select> 
+                </Select>
                 <Select label='Administrador' id='administrador' name='administrador' ref={ refSelectAdministrador }
                     onChange={ e => {
                         // console.log(e.target);
@@ -104,8 +102,7 @@ export default function FormularioQuestao() {
                     { adms && adms.data.map((el, i) =>
                         <MenuItem key={ i } value={ el[ 'idAdministrador' ] }>{ el[ 'nomeAdministrador' ] }</MenuItem>
                     ) }
-                </Select> 
-              {/*     <Input title='Data:' id='date' name='date' icon={ <FaCalendar /> } type='date' inputMode='date' /> */}
+                </Select>
                 <Button type='submit' styleButton={ { marginTop: 30 } }>Enviar</Button>
             </form>
         </Fragment >

@@ -32,16 +32,16 @@ export default function Footer() {
                     <div className="c-footer__col">
                         <h4>redes sociais</h4>
                         <div className="c-footer__social-links">
-                            <a href="#" target="_blank">
+                            <a href="#d" target="_blank">
                                 <FaFacebook />
                             </a>
-                            <a href="#" target="_blank">
+                            <a href="#d" target="_blank">
                                 <FaTwitter />
                             </a>
-                            <a href="#" target="_blank">
+                            <a href="#d" target="_blank">
                                 <FaInstagram />
                             </a>
-                            <a href="#" target="_blank">
+                            <a href="#d" target="_blank">
                                 <FaYoutube />
                             </a>
                         </div>
