@@ -30,7 +30,7 @@ class SugestaoVideoController
                 $model->setUrlVideo(trim($data->sugestaoVideo));
                 $model->setQuestao($data->questao);
                 echo $model->post(null);
-            } else echo Response::warning('Parametros não encontrado ou vazio/nulo', 404);
+            } else echo Response::warning('Parametro não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
