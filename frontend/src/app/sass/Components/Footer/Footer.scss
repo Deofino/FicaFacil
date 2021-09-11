@@ -1,199 +1,150 @@
-.l-footer {
-    @include flex(space-around);
-    padding: rem(20);
-    position: relative;
-    background-color: lighten($dark, 2%);
-    box-shadow: 0 rem(-2) rem(8) var(--color-shadow);
-    padding-bottom: rem(200);
+.c-footer {
+    padding: rem(70) rem(2);
+    background-color: darken(#5770dc, 3%);
+    box-shadow: 0 rem(0) rem(10) var(--color-shadow);
+    @include flex(center);
+    color: $white;
+    @include darkMode {
+        box-shadow: 0 rem(-4) rem(8) var(--color-shadow);
+        background-color: darken($dark, 4%);
+    }
+    &__row {
+        @include flex(space-between);
+        flex-wrap: wrap;
 
-    @include breakpoint(medium) {
-        padding: $global-padding;
-        padding-bottom: rem(150);
+        @include breakpoint(medium) {
+            justify-content: center;
+        }
+        @include breakpoint(medium) {
+            justify-content: center;
+        }
     }
-    @include breakpoint(small) {
-        flex-direction: column;
-        padding-bottom: rem(120);
-    }
-    &__wave {
-        position: absolute;
-        bottom: 0%;
+    &__container {
+        max-width: $w-large;
+        overflow: hidden;
         width: 100%;
-        height: rem(200);
-        filter: drop-shadow(1px -2px 8px var(--color-shadow)) saturate(100%);
-
-        @include darkMode {
-            filter: drop-shadow(1px -2px 8px var(--color-shadow)) saturate(60%);
-        }
+    }
+    &__col {
+        padding: 0 rem(16);
+        min-width: rem(220);
+        flex-grow: 1;
+        max-width: rem(350);
+        height: rem(220);
+        align-self: center;
         @include breakpoint(medium) {
-            height: rem(150);
-            transform: scaleX(1.6);
+            margin-bottom: rem(32);
+            text-align: center;
+            transition: 0.3s ease;
         }
         @include breakpoint(small) {
-            height: rem(120);
-            transform: scaleX(1.8);
-        }
-    }
-
-    &__logo {
-        max-width: rem(75);
-        margin-bottom: rem(-5);
-        margin-top: rem(-20);
-
-        @include breakpoint(medium) {
-            margin-top: rem(-10);
-        }
-    }
-    section {
-        width: 30%;
-        color: var(--color-white);
-        fill: var(--color-white);
-        height: rem(200);
-        padding: $global-padding;
-
-        &:first-child {
-            @include breakpoint(small) {
-                width: 100%;
-                margin-bottom: 0;
-                @include flex(center);
-                order: 3;
-                flex-direction: column;
-            }
-        }
-        &:nth-child(2) {
-            @include breakpoint(medium) {
-                margin-top: rem(20);
-                order: 1;
-            }
-        }
-        @include breakpoint(medium) {
-            width: 33%;
-        }
-        @include breakpoint(small) {
+            flex-grow: none;
+            min-width: none;
+            height: auto;
+            max-width: rem(300);
             width: 100%;
-            height: min-content;
-            margin-bottom: rem(20);
-        }
-    }
-    &__headline {
-        font-size: $global-font-size-lg;
-    }
-    &__socialList {
-        position: relative;
-        padding-top: rem(15);
-        @include flex(start);
-        &::after {
-            content: "";
-            position: absolute;
-            width: 85%;
-            @include breakpoint(small) {
-                width: 100%;
-            }
-            top: 0px;
-            height: rem(1);
-            background-color: var(--color-white);
-        }
-        @include breakpoint(small) {
-            width: 60%;
-            justify-content: space-evenly;
-        }
-    }
-    &__listItem:not(:last-child) {
-        margin-right: rem(20);
-        @include breakpoint(medium) {
-            margin-right: rem(12);
-        }
-    }
-    &__listItem {
-        svg,
-        img,
-        a {
-            fill: var(--color-white);
-            opacity: 0.9;
-            font-size: $global-font-size-xlg;
-            &:hover {
-                opacity: 1;
-            }
-            @include breakpoint(medium) {
-                font-size: $global-font-size-lg;
-            }
-        }
-    }
 
-    &__nav {
-        &__item {
-            color: var(--color-white);
-            // margin-left: rem(12);
-            margin-top: $global-margin;
-            @include breakpoint(small) {
-                margin-top: rem(2);
+            &:not(:last-child) {
+                padding-bottom: $global-padding;
             }
-            a {
-                opacity: 0.8;
-                font-size: $global-font-size-sm;
+        }
 
-                &:hover {
-                    opacity: 1;
+        h4 {
+            font-size: $global-font-size-lg;
+            color: inherit;
+            text-transform: capitalize;
+            margin-bottom: rem(32);
+            font-weight: bold;
+            position: relative;
+            @include darkMode {
+                font-weight: 500;
+            }
+            @include breakpoint(small) {
+                font-size: $global-font-size;
+            }
+            &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: rem(-10);
+                background-color: lighten($primary, 15%);
+                height: rem(2);
+                box-sizing: border-box;
+                width: rem(50);
+                transition: 0.3s ease;
+                @include breakpoint(medium) {
+                    left: 0;
+                    width: 30%;
+                    margin-left: 35%;
+                }
+                @include breakpoint(small) {
+                    width: 50%;
+                    margin-left: 25%;
+                }
+            }
+        }
+
+        ul {
+            li {
+                &:not(:last-child) {
+                    margin-bottom: $global-padding;
+                }
+
+                a {
+                    color: inherit;
+                    font-size: 16px;
+                    text-transform: capitalize;
+                    text-decoration: none;
+                    display: block;
+                    font-weight: 400;
+                    transition: all 0.3s ease;
+                    @include darkMode {
+                        font-weight: 300;
+                    }
+                    @include breakpoint(small) {
+                        font-size: $global-font-size-sm;
+                    }
+                    &:hover {
+                        transform: translateX(12px);
+                        color: lighten($primary, 15%);
+                    }
                 }
             }
         }
     }
-
-    &__newsletter {
-        @include flex(space-around);
-        flex-direction: column;
-
-        @include breakpoint(medium) {
-            order: 1;
-        }
-    }
-
-    &__row {
-        display: flex;
-        width: 100%;
-        @include breakpoint(small) {
-            align-items: center;
-        }
-        svg,
-        img {
-            min-width: rem(22);
-            fill: var(--color-white);
-            margin-right: rem(16);
-            font-size: $global-font-size-xlg;
-            @include breakpoint(medium) {
-                font-size: $global-font-size;
-                line-height: rem(16);
-            }
+    &__social-links {
+        @include flex(space-between);
+        a {
+            height: rem(40);
+            width: rem(40);
+            background-color: darken($primary, 10%);
+            filter: drop-shadow(0 2px 4px var(--color-shadow));
+            margin: 0 rem(8) rem(8) 0;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.5s ease;
             @include breakpoint(small) {
-                margin-right: rem(8);
-                min-width: rem(16);
+                font-size: $global-font-size-sm;
             }
-        }
-    }
-
-    &__text {
-        font-size: $global-font-size;
-        line-height: rem(20);
-        @include breakpoint(medium) {
-            font-size: $global-font-size-sm;
-            line-height: rem(16);
-        }
-        @include breakpoint(small) {
-            font-size: rem(12);
-        }
-    }
-
-    &__input.c-input {
-        input {
-            @include breakpoint(small) {
-                font-size: rem(12);
+            svg,
+            img,
+            i {
+                filter: drop-shadow(0 2px 4px var(--color-shadow));
+                fill: $white;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
-        }
-        @include breakpoint(small) {
-            margin: rem(8) 0;
-        }
-        & > div {
-            border-radius: rem(2);
-            margin-top: rem(20);
+            &:hover {
+                color: $dark;
+                background-color: lighten($primary, 10%);
+                svg,
+                img,
+                i {
+                    transition: all 0.5s ease;
+                    fill: $dark;
+                }
+            }
         }
     }
 }

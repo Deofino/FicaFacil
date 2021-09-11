@@ -11,7 +11,7 @@ export default function FormularioResposta() {
     const [ ErroResposta, setErroResposta ] = useState(null);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API}/resposta/index/`)
+        axios.get(`${process.env.REACT_APP_API}/questao/index/`)
             .then(value => setRespostas(value.data.data))
             .catch(error => console.error(error));
     }, []);
@@ -35,7 +35,7 @@ export default function FormularioResposta() {
                             AlertError({ text: "Ocorreu algum erro ao adicionar a resposta", title: 'Ops...' });
                         };
                     })
-                    .catch(error => AlertError({ text: "Ocorreu algum erro ao adicionar a resposta "+ error, title: 'Ops...' }));
+                    .catch(error => AlertError({ text: "Ocorreu algum erro ao adicionar a resposta " + error, title: 'Ops...' }));
 
             } else {
                 setErroResposta('O campo tem que ser maior que 4');
@@ -51,16 +51,15 @@ export default function FormularioResposta() {
         <React.Fragment>
             <form method="post" id="formRS" className="c-formResposta" onSubmit={ submitForm }>
                 <h2 className='c-formResposta__headline'>Resposta</h2>
-                <Input title="Resposta" id="resposta" error={ ErroResposta } className="c-formResposta__input" ref={ refResposta } name="resposta" />
-                <Select className='c-formResposta__select' name='questao' id='questao'
+                <Select label='Questao' className='c-formResposta__select' name='questao' id='questao'
                     value={ selectedQuestao } onChange={ ({ target }) => setSelectedQuestao(target.value) }>
                     <MenuItem value='0'>Selecione</MenuItem>
                     { respostas !== [] && respostas.map(item =>
                         <MenuItem value={ item.idQuestao } key={ item.idQuestao }>{ item.tituloQuestao }</MenuItem>) }
                 </Select>
-                <Input title='Alternativa' value={ inputAlternativa } icon={ <FaListAlt /> } onChange={ ({ target }) => {
+                <Input title='Alternativas' value={ inputAlternativa } icon={ <FaListAlt /> } onChange={ ({ target }) => {
                     setInputAlternativa(target.value);
-                } } /> 
+                } } />
                 <Button type='button' styleButton={ { marginTop: 20 } } onClick={ () => {
                     if (!alternativas.includes(inputAlternativa) && inputAlternativa !== '') {
                         setAlternativas([ ...alternativas, inputAlternativa ]);

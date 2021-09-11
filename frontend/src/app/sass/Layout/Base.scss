@@ -1,11 +1,7 @@
 :root {
   scroll-behavior: smooth;
 }
-#root {
-  width: 100vw !important;
-  max-height: 100%;
-  min-height: 100%;
-}
+
 html,
 body,
 div,
@@ -115,7 +111,6 @@ label {
   margin: 0;
   will-change: auto;
   border: none;
-  overflow: hidden;
   outline: none;
   min-width: 0;
   outline-offset: 0.25rem;
@@ -196,6 +191,7 @@ body {
   background-color: var(--color-background);
   min-height: 100vh;
   height: 100%;
+  padding-right: 0 !important;
 }
 a {
   text-decoration: none;
