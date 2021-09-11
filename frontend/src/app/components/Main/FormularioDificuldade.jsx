@@ -20,9 +20,11 @@ export default function FormularioDificuldade() {
                                 JSON.stringify({
                                     dificuldade: refDificuldade.current.value
                                 }))
-                                .then(data => console.log(data));
+                                /* .then(data => console.log(data)); */
+                                .then(refDificuldade.current.value ='');
                                
                                 AlertSuccess({ text: "Dificuldade inserida com sucesso", title: 'Sucesso...' });
+                                                                 
                         }else{
                             setErroDificuldade('O campo tem que ser maior que 3');
                         }
