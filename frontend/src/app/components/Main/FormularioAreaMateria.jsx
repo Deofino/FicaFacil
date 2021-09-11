@@ -20,7 +20,9 @@ export default function FormularioAreaMateria() {
                                 JSON.stringify({
                                     areaMateria: refAreaMateria.current.value
                                 }))
-                                .then(data => console.log(data));
+                                .then(data => {
+                                    console.log(data.data.status_code);
+                                });
                                
                                 AlertSuccess({ text: "Área da Matéria inserida com sucesso", title: 'Sucesso...' });
                         }else{

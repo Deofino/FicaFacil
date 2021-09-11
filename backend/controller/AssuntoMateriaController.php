@@ -27,7 +27,7 @@ class AssuntoMateriaController
                 $model->setNome(trim($data->assuntoMateria));
                 $model->setMateria($data->materia);
                 echo $model->post();
-            } else echo Response::warning('Parametro `assunto materia` ou `materia` não encontrado ou vazio/nulo', 404);
+            } else echo Response::warning('Parametro `assuntoMateria` ou `materia` não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
