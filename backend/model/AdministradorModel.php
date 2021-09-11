@@ -9,11 +9,6 @@ use PDO;
 
 class AdministradorModel extends UserModel
 {
-    public function __construct($nome, $email, $senha)
-    {
-        parent::__construct($nome, $email, $senha);
-    }
-
     public function get($params=null)
     {
         try {
@@ -39,10 +34,10 @@ class AdministradorModel extends UserModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("INSERT INTO tb_materia values(null, ?, ?)");
+            $stmt = $con->prepare("INSERT INTO tb_administrador values(null, ?, ?, ?)");
             $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getEmail()), PDO::PARAM_STR);
-            $stmt->bindValue(2, trim($this->getSenha()), PDO::PARAM_STR);
+            $stmt->bindValue(3, trim($this->getSenha()), PDO::PARAM_STR);
             if ($stmt->execute()) {
                 return Response::success("Administrador `{$this->getNome()}` inserido com sucesso, id=" . $con->lastInsertId());
             }

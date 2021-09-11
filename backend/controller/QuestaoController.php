@@ -27,17 +27,21 @@ class QuestaoController
     public function create() // POST INSERIR
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input', true));
+
+            // var_dump($_POST);
+            // return;
             $model = new QuestaoModel();
-            if (isset($data->questao) && isset($data->administrador) && isset($data->universidade)
-             && isset($data->dificuldade) && isset($data->assuntoMateria)) {
-                $model->setTitulo(trim($data->questao));
-                $model->setTitulo(trim($data->questao));
-                $model->setImagem(trim($data->questao));
-                $model->setIdAdmistrador($data->administrador);
-                $model->setIdUniversidade($data->universidade);
-                $model->setIdAssuntoMateria($data->assuntoMateria);
-                $model->setIdDificuldade($data->dificuldade);
+            if (
+                isset($_POST['titulo']) && isset($_POST['administrador']) && isset($_POST['universidade'])
+                && isset($_POST['dificuldade']) && isset($_POST['assuntoMateria'])
+            ) {
+                $model->setTitulo(trim($_POST['titulo']));
+                $model->setTexto(trim($_POST['texto']));
+                $model->setImagem(trim($_POST['titulo']));
+                $model->setIdAdmistrador($_POST['administrador']);
+                $model->setIdUniversidade($_POST['universidade']);
+                $model->setIdAssuntoMateria($_POST['assuntoMateria']);
+                $model->setIdDificuldade($_POST['dificuldade']);
                 echo $model->post();
             } else echo Response::warning('Parametros não encontrado ou vazio/nulo', 404);
             return;

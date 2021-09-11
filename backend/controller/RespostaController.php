@@ -22,13 +22,21 @@ class RespostaController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input', true));
-            $model = new RespostaModel();
-            if (isset($data->resposta) && isset($data->questao)) {
-                $model->setTextoResposta(trim($data->textoResposta));
-                $model->setCertaResposta(trim($data->certaResposta));
-                $model->setIdQuestao($data->questao);
-                echo $model->post();
-            } else echo Response::warning('Parametro `resposta` ou `questao` não encontrado ou vazio/nulo', 404);
+            
+            if (isset($data->alternativas) && isset($data->questao) && isset($data->certaResposta)) {
+                foreach ($data->alternativas as $al) {
+                    $model = new RespostaModel();
+                    if (isset($al)) {
+                        $model->setCertaResposta(0);
+                        if(strtoupper(trim($al)) === strtoupper(trim($data->certaResposta))){
+                            $model->setCertaResposta(1);
+                        }
+                        $model->setTextoResposta(trim($al));
+                        $model->setIdQuestao($data->questao);
+                        echo $model->post();
+                    }else echo Response::warning('Alternativa com valor vazio', 404);
+                }
+            } else echo Response::warning('Parametro `alternativas/questao/certaResposta` não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);

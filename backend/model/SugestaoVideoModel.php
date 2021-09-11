@@ -10,16 +10,11 @@ use PDO;
 class SugestaoVideoModel
 {
 
-    private int $id;
     private string $titulo;
     private string $thumbnailVideo;
     private string $urlVideo;
-    private string $questao;
+    private int $questao;
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
     public function getTitulo(): string
     {
         return $this->titulo;
@@ -77,7 +72,7 @@ class SugestaoVideoModel
         throw new \Exception("Essa Thumbnail Video de vídeo não pode ser aceita", 400);
         return;
     }
-    
+
     public function setUrlVideo(string $urlVideo): void
     {
         if (isset($urlVideo) && trim($urlVideo) !== '' && strlen(trim($urlVideo)) !== 0 && trim($urlVideo) !== null) {
@@ -100,7 +95,7 @@ class SugestaoVideoModel
     }
     public function setQuestao(int $questao): void
     {
-        if($questao > 0 && $questao!==null){
+        if ($questao > 0 && $questao !== null) {
             $questaoModel = new QuestaoModel();
             $data = json_decode($questaoModel->get());
             if ($data->status_code === 200) {
@@ -122,7 +117,7 @@ class SugestaoVideoModel
     }
 
 
-    public function get($params=null)
+    public function get($params = null)
     {
         try {
             $con = Connection::getConn();
@@ -141,20 +136,19 @@ class SugestaoVideoModel
             return Response::error("Erro ao selecionar sugestão de vídeo");
         } catch (\Throwable $th) {
             return Response::error("Error: $th");
+        }
     }
-
-    }
-    public function post($params)
+    public function post()
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("INSERT INTO tb_sugestao_video values(null, ?, ?, ?)");
+            $stmt = $con->prepare("INSERT INTO tb_sugestao_video values(null, ?, ?, ?, ?)");
             $stmt->bindValue(1, trim($this->getTitulo()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getThumbnailVideo()), PDO::PARAM_STR);
             $stmt->bindValue(3, trim($this->getUrlVideo()), PDO::PARAM_STR);
-            $stmt->bindValue(4, trim($this->getQuestao()), PDO::PARAM_INT);
-            
-            
+            $stmt->bindValue(4, $this->getQuestao(), PDO::PARAM_INT);
+
+
             if ($stmt->execute()) {
                 return Response::success("Sugestão Vídeo `{$this->getTitulo()}` inserida com sucesso, id=" . $con->lastInsertId());
             }

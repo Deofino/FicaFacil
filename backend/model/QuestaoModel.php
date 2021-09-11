@@ -1,6 +1,7 @@
 <?php
 
 namespace Model;
+
 use Helper\Connection;
 use Helper\Response;
 use Model\AdministradorModel; //fazer Model ADM e Controller ADM(Aí é com você Delfs)
@@ -8,6 +9,7 @@ use Model\DificuldadeModel;
 use Model\AssuntoMateriaModel;
 use Model\UniversidadeModel;
 use PDO;
+
 class QuestaoModel
 {
 
@@ -55,18 +57,7 @@ class QuestaoModel
     public function setTitulo(string $tituloQuestao): void
     {
         if (isset($tituloQuestao) && trim($tituloQuestao) !== '' && strlen(trim($tituloQuestao)) !== 0 && trim($tituloQuestao) !== null) {
-            $data = json_decode($this->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
-                    if (trim(strtoupper($el->tituloQuestao)) === trim(strtoupper(($tituloQuestao)))) {
-                        throw new \Exception("titulo `" . $tituloQuestao . "` ja cadastrado", 400);
-                        return;
-                    };
-                }
-                $this->nome = ucfirst($tituloQuestao);
-            } else {
-                $this->nome = ucfirst($tituloQuestao);
-            };
+            $this->titulo = ucfirst($tituloQuestao);
             return;
         }
         throw new \Exception("Esse titulo não pode ser aceito", 400);
@@ -75,40 +66,30 @@ class QuestaoModel
 
     public function setImagem(string $imagemQuestao): void
     {
-        if (isset($tituloQuestao) && trim($imagemQuestao) !== '' && strlen(trim($imagemQuestao)) !== 0 && trim($imagemQuestao) !== null) {
-            $data = json_decode($this->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
-                    if (trim(strtoupper($el->imagemQuestao)) === trim(strtoupper(($imagemQuestao)))) {
-                        throw new \Exception("imagem `" . $imagemQuestao . "` ja cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->nome = ucfirst($imagemQuestao);
-            } else {
-                $this->nome = ucfirst($imagemQuestao);
-            };
-            return;
-        }
-        throw new \Exception("Essa imagem não pode ser aceito", 400);
+        // if (isset($tituloQuestao) && trim($imagemQuestao) !== '' && strlen(trim($imagemQuestao)) !== 0 && trim($imagemQuestao) !== null) {
+        //     $data = json_decode($this->get());
+        //     if ($data->status_code === 200) {
+        //         foreach ($data->data as $el) {
+        //             if (trim(strtoupper($el->imagemQuestao)) === trim(strtoupper(($imagemQuestao)))) {
+        //                 throw new \Exception("imagem `" . $imagemQuestao . "` ja cadastrada", 400);
+        //                 return;
+        //             };
+        //         }
+        //         $this->nome = ucfirst($imagemQuestao);
+        //     } else {
+        //         $this->nome = ucfirst($imagemQuestao);
+        //     };
+        //     return;
+        // }
+        // throw new \Exception("Essa imagem não pode ser aceito", 400);
+        $this->imagem = $imagemQuestao;
         return;
     }
 
     public function setTexto(string $textoQuestao): void
     {
         if (isset($textoQuestao) && trim($textoQuestao) !== '' && strlen(trim($textoQuestao)) !== 0 && trim($textoQuestao) !== null) {
-            $data = json_decode($this->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
-                    if (trim(strtoupper($el->textoQuestao)) === trim(strtoupper(($textoQuestao)))) {
-                        throw new \Exception("texto `" . $textoQuestao . "` ja cadastrado", 400);
-                        return;
-                    };
-                }
-                $this->nome = ucfirst($textoQuestao);
-            } else {
-                $this->nome = ucfirst($textoQuestao);
-            };
+            $this->texto = ucfirst($textoQuestao);
             return;
         }
         throw new \Exception("Esse texto não pode ser aceito", 400);
@@ -122,7 +103,7 @@ class QuestaoModel
             if ($data->status_code === 200) {
                 foreach ($data->data as $el) {
                     if ($el->idDificuldade == $dificuldade) {
-                        $this->dificuldade = $dificuldade;
+                        $this->idDificuldade = $dificuldade;
                         return;
                     };
                 }
@@ -145,7 +126,7 @@ class QuestaoModel
             if ($data->status_code === 200) {
                 foreach ($data->data as $el) {
                     if ($el->idUniversidade == $universidade) {
-                        $this->universidade = $universidade;
+                        $this->idUniversidade = $universidade;
                         return;
                     };
                 }
@@ -168,7 +149,7 @@ class QuestaoModel
             if ($data->status_code === 200) {
                 foreach ($data->data as $el) {
                     if ($el->idAssuntoMateria == $assuntoMateria) {
-                        $this->assuntoMateria = $assuntoMateria;
+                        $this->idAssuntoMateria = $assuntoMateria;
                         return;
                     };
                 }
@@ -182,15 +163,15 @@ class QuestaoModel
         throw new \Exception("Esse assunto matéria não pode ser aceita", 400);
         return;
     }
-     public function setIdAdmistrador(int $administrador): void
+    public function setIdAdmistrador(int $administrador): void
     {
         if ($administrador > 0 && $administrador !== null) {
-            $modelAdministrador = new AdministradorModel(null,null,null);
+            $modelAdministrador = new AdministradorModel(null, null, null);
             $data = json_decode($modelAdministrador->get());
             if ($data->status_code === 200) {
                 foreach ($data->data as $el) {
                     if ($el->idAdministrador == $administrador) {
-                        $this->administrador = $administrador;
+                        $this->idAdministrador = $administrador;
                         return;
                     };
                 }
@@ -203,7 +184,7 @@ class QuestaoModel
         }
         throw new \Exception("Esse assunto materia não pode ser aceito", 400);
         return;
-    } 
+    }
 
     public function get($params = null)
     {
@@ -230,20 +211,20 @@ class QuestaoModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("INSERT INTO tb_questao values(null, ?, ?, ?, ?, 1, ?)");
+            $stmt = $con->prepare("INSERT INTO tb_questao values(null, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bindValue(1, trim($this->getTitulo()), PDO::PARAM_STR);
-            $stmt->bindValue(1, trim($this->getTexto()), PDO::PARAM_STR);
-            $stmt->bindValue(1, trim($this->getImagem()), PDO::PARAM_STR);
-            $stmt->bindValue(2, trim($this->getIdDificuldade()), PDO::PARAM_INT);
-            $stmt->bindValue(2, trim($this->getIdUniversidade()), PDO::PARAM_INT);
-            $stmt->bindValue(2, trim($this->getIdAdministrador()), PDO::PARAM_INT);
-            $stmt->bindValue(2, trim($this->getIdAssuntoMateria()), PDO::PARAM_INT);
+            $stmt->bindValue(2, trim($this->getTexto()), PDO::PARAM_STR);
+            $stmt->bindValue(3, trim($this->getImagem()), PDO::PARAM_STR);
+            $stmt->bindValue(4, trim($this->getIdAdministrador()), PDO::PARAM_INT);
+            $stmt->bindValue(5, trim($this->getIdDificuldade()), PDO::PARAM_INT);
+            $stmt->bindValue(6, trim($this->getIdAssuntoMateria()), PDO::PARAM_INT);
+            $stmt->bindValue(7, trim($this->getIdUniversidade()), PDO::PARAM_INT);
             if ($stmt->execute()) {
                 return Response::success("Questão `{$this->getTitulo()}` inserida com sucesso, id=" . $con->lastInsertId());
             }
             return Response::error("Erro ao inserir Assunto Materia");
         } catch (\Throwable $th) {
-            return Response::error("Error: " . $th->getMessage());
+            return Response::error("Error: " . $th);
         }
     }
     public function put($params)
