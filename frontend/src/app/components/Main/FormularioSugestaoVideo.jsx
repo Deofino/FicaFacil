@@ -29,10 +29,12 @@ export default function FormularioSugestaoVideo() {
                          sugestao: refSugestaoVideo.current.value || null,
                          questao: selectedQuestao,
                     }))
-                    .then(value => {
+                    /* .then(value => {
                         console.log(value.data);
                     })
-                    .catch(error => console.log(error));
+                    .catch(error => console.log(error)); */
+                    .then(refSugestaoVideo.current.value ='');
+                    setSelectedQuestao('');
                        
                         AlertSuccess({ text: " Sugestão de vídeo inserida com sucesso", title: 'Sucesso...' });
                 }else{

@@ -27,11 +27,13 @@ export default function FormularioAssuntoMateria() {
                         materia: selectedMateria,
                     }))
                     .then(value => {
+                        
                         if (value.data.status_code === 200) {
                             AlertSuccess({ text: "Assunto da Matéria inserida com sucesso", title: 'Sucesso...' });
                         } else {
                             AlertError({ text: "Ocorreu algum erro ao adicionar o assunto materia", title: 'Ops...' });
                         };
+                        
                     })
                     .catch(error => AlertError({ text: "Ocorreu algum erro ao adicionar o assunto materia "+ error, title: 'Ops...' }));
 

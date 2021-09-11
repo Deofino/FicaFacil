@@ -28,10 +28,12 @@ export default function FormularioMateria() {
                          materia: refMateria.current.value || null,
                          area: selectedAreaMateria,
                     }))
-                    .then(value => {
-                        console.log(value.data);
-                    })
-                    .catch(error => console.log(error));
+                     /*  .then(data => {
+                                    console.log(data.data.status_code);
+                                }); */
+                                .then(refMateria.current.value ='');
+                                setSelectedAreaMateria('');
+                    /* .catch(error => console.log(error)); */
                        
                         AlertSuccess({ text: " Matéria inserida com sucesso", title: 'Sucesso...' });
                 }else{

@@ -21,7 +21,8 @@ export default function FormularioUniversidade() {
                                 JSON.stringify({
                                     universidade: refUniversidade.current.value
                                 }))
-                                .then(data => console.log(data));
+                                /* .then(data => console.log(data)); */
+                                .then(refUniversidade.current.value ='');
                                
                                 AlertSuccess({ text: "Universidade inserida com sucesso", title: 'Sucesso...' });
                         }else{

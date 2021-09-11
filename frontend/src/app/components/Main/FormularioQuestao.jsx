@@ -46,7 +46,9 @@ export default function FormularioQuestao() {
         formData.append('alternativas', JSON.stringify(alternativas));
 
         axios.post(process.env.REACT_APP_API + '/questao/index/', formData)
-            .then(el => console.log(el.data));
+         .then(el => console.log(el.data)); 
+       
+            
     }
     return (
         <Fragment>
