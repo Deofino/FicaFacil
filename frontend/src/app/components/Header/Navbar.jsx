@@ -1,4 +1,5 @@
 import React from "react";
+import image from '../../../img/project/192.png';
 import { FaSearch, FaChartLine, FaChartPie, FaGraduationCap, FaUserAlt, FaCog, FaSignOutAlt, FaArrowDown } from 'react-icons/fa';
 export default function Navbar() {
 
@@ -17,8 +18,8 @@ export default function Navbar() {
                     <a href="#s">
                         <div className="space">
                             <FaChartLine className='icon' />
+                            <span className="c-navbar__links-name">Ver Acessos</span>
                         </div>
-                        <span className="c-navbar__links-name">Ver Acessos</span>
                     </a>
                     <span className="c-navbar__tooltip">Ver Acessos</span>
                 </li>
@@ -26,8 +27,8 @@ export default function Navbar() {
                     <a href="#s">
                         <div className="space">
                             <FaChartPie className='icon' />
+                            <span className="c-navbar__links-name">Dashboard</span>
                         </div>
-                        <span className="c-navbar__links-name">Dashboard</span>
                     </a>
                     <span className="c-navbar__tooltip">Dashboard</span>
                 </li>
@@ -36,9 +37,9 @@ export default function Navbar() {
                         <a href="#s">
                             <div className="space">
                                 <FaGraduationCap className='icon' />
+                                <span className="c-navbar__links-name">Criar Questão</span>
+                                <FaArrowDown className='arrow icon' />
                             </div>
-                            <span className="c-navbar__links-name">Criar Questão</span>
-                            <FaArrowDown className='arrow icon' />
                         </a>
                         <span className="c-navbar__tooltip">Criar Questão</span>
                     </div>
@@ -53,8 +54,8 @@ export default function Navbar() {
                     <a href="#s">
                         <div className="space">
                             <FaUserAlt className='icon' />
+                            <span className="c-navbar__links-name">Perfil</span>
                         </div>
-                        <span className="c-navbar__links-name">Perfil</span>
                     </a>
                     <span className="c-navbar__tooltip">Perfil</span>
                 </li>
@@ -62,15 +63,15 @@ export default function Navbar() {
                     <a href="#s">
                         <div className="space">
                             <FaCog className='icon' />
+                            <span className="c-navbar__links-name">Configuração</span>
                         </div>
-                        <span className="c-navbar__links-name">Configuração</span>
                     </a>
                     <span className="c-navbar__tooltip">Configuração</span>
                 </li>
                 <li className="c-navbar__profile">
                     <div className="c-navbar__profile-details">
                         <div className="c-navbar__image-profile">
-                            <img src="vitor.jpg" alt="profileImg" />
+                            <img src={ image } alt="Imagem de perfil, profile" />
                         </div>
                         <div className="c-navbar__name-job">
                             <div className="name">Vitor Oliveira</div>

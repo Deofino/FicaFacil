@@ -174,8 +174,6 @@ body {
             display: flex;
             overflow: hidden;
         }
-        &__profile-details {
-        }
         &__image-profile {
             display: none;
         }
@@ -200,6 +198,14 @@ body {
         &__links-name {
             opacity: 1;
             display: flex;
+            position: relative;
+            top: 50%;
+            width: 50px;
+            font-weight: 400;
+            left: 0;
+            flex-grow: 1;
+            align-items: center;
+            transform: translate(0, -50%);
         }
 
         &__search {
@@ -224,8 +230,9 @@ body {
             display: block;
         }
         .space {
-            width: 50px;
+            width: 100%;
             position: relative;
+            display: flex;
             left: 50%;
             transform: translateX(-50%);
             height: 50px;
@@ -236,7 +243,85 @@ body {
                 .icon {
                     fill: #11101d;
                 }
+                span {
+                    color: #11101d;
+                }
             }
+            .icon {
+                position: relative;
+                top: 50%;
+                width: 50px;
+                left: 0;
+                transform: translate(0, -50%);
+            }
+            .arrow {
+                font-size: 12px;
+            }
+        }
+        &__sub-menu {
+            display: block;
+            background-color: #1d1b31;
+            width: 100%;
+            height: 0;
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+
+            a {
+                font-size: 14px;
+                color: white;
+                background-color: transparent;
+                font-weight: 400;
+            }
+
+            li {
+                width: 100%;
+                margin: 2px 0;
+                padding: 6px 12px;
+                border-radius: 12px;
+                color: #1d1b31;
+                &:hover {
+                    background-color: white;
+                }
+                &:hover a {
+                    color: #1d1b31;
+                }
+            }
+        }
+        &__dropdown:hover .c-navbar__sub-menu {
+            margin-top: 8px;
+            visibility: visible;
+            padding: 8px 4px;
+            opacity: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height: 170px;
+        }
+        &__dropdown {
+            margin-bottom: -8px;
+        }
+        &__profile {
+            width: 250px;
+        }
+        &__profile-details {
+            @include flex(center);
+        }
+        &__image-profile {
+            width: 60px;
+            height: 50px;
+            background-color: #777;
+            overflow: hidden;
+            display: block;
+            border-radius: 8px;
+            margin-right: 8px;
+        }
+        &__name-job {
+            display: block;
+        }
+        &__log-out {
+            left: 80%;
         }
     }
 }
