@@ -29,7 +29,7 @@ export default function FormularioDificuldade() {
                             setErroDificuldade('O campo tem que ser maior que 4');
                         }
                     } else {
-                        setErroDificuldade('O campo não pode estar vazioo');
+                        setErroDificuldade('O campo não pode estar vazio');
                     }
                 } }>
                     <Input title='Dificuldade:' ref={ refDificuldade } error={ ErroDificuldade } id='dificuldade' name='dificuldade' type='text' icon={ <FaBookOpen /> } inputMode='text' />
