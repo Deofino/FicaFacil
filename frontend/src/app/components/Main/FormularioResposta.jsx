@@ -8,8 +8,11 @@ export default function FormularioResposta() {
     const [ respostas, setRespostas ] = useState([]);
     const [ selectedQuestao, setSelectedQuestao ] = useState(0);
     const [ certaResposta, setCertaResposta ] = useState(null);
+
     const [ ErroResposta, setErroResposta ] = useState(null);
     const [ ErroQuestaoSelecionada, setErroQuestaoSelecionada ] = useState(null);
+
+    const refSelectAlternativas = useRef(null);
 
 
     useEffect(() => {
@@ -21,7 +24,6 @@ export default function FormularioResposta() {
     const [ alternativas, setAlternativas ] = useState([]);
     const submitForm = (e) => {
         e.preventDefault();
-
 
         if (selectedQuestao === 0) {
             setErroQuestaoSelecionada('Selecione uma questao');
