@@ -7,7 +7,7 @@ import { FaBookOpen } from 'react-icons/fa';
 export default function FormularioAreaMateria() {
     const [ ErroAreaMateria, setErroAreaMateria ] = useState(null);
     const refAreaMateria = useRef(null);
-
+    
     return (
         <Fragment>
                 <form method="post" id='formAM' onSubmit={ (e) => {

@@ -23,39 +23,62 @@ export default function FormularioSugestaoVideo() {
             .catch(error => console.error(error));
     }, []);
 
+
     const submitForm = (e) => {
         e.preventDefault();
 
-        if (questao === 0) {
-            setErroQuestao('Selecione uma questao');
-        } else setErroQuestao(null);
+        let inputs = [
+            refSugestaoVideo.current.value,
+            refThumbVideo.current.value,
+            refUrlVideo.current.value
+        ];
 
-        if(refSugestaoVideo.current.value !== '' || refSugestaoVideo.current.value !== null && refSugestaoVideo.current.value < 4) {
-            setErroSugestaoVideo('O campo precisa ter mais de 4 caracteres');
-            console.log(refSugestaoVideo.current.value);
-        }else {
-            setErroSugestaoVideo('');
-        }
+        let errorMsg = 'O campo precisa ter mais de 4 caracteres';
+
+        // Seta erro no select questão
+        if (selectedQuestao === 0) setErroQuestao('Selecione uma questao');
+        else setErroQuestao(null);
+ 
+        // Seta erro no input sugestão video
+        if (refSugestaoVideo.current.value.length < 4) setErroSugestaoVideo(errorMsg);
+        else setErroSugestaoVideo(null);
+
+        // Seta erro no input thumbnail video
+        if (refThumbVideo.current.value.length < 4) setErroThumbVideo(errorMsg);
+        else setErroThumbVideo(null);
+
+        // Seta erro no input url video
+        if (refUrlVideo.current.value.length < 4) setErroUrlVideo(errorMsg);
+        else setErroUrlVideo(null);
+
+            // Verificação geral
+            if (inputs.every(ipt => ipt.length > 4) && selectedQuestao !== 0) {
+                
+                    axios.post(`${process.env.REACT_APP_API}/sugestaoVideo/create/`,
+                            JSON.stringify({
+                                sugestaoVideo: refSugestaoVideo.current.value || null,
+                                thumbVideo: refUrlVideo.current.value || null,
+                                urlVideo: refThumbVideo.current.value || null,
+                                questao: selectedQuestao,
+                                    }))
+                                    
+                                    .then(function(parametro){
+                                        refSugestaoVideo.current.value = '';
+                                        refThumbVideo.current.value = '';
+                                        refUrlVideo.current.value = '';
+                                        setSelectedQuestao(0);
+                                    });
+                        console.log('Pode passar!');
+                        AlertSuccess({ text: "Sugestao Video inserida com sucesso", title: 'Sucesso...' });
+                    } else console.log('Não pode passar!');
+        
        /*  if (refSugestaoVideo.current.value !== '' || refUrlVideo.current.value !== '' || refThumbVideo.current.value !== '' || questao !== 0) {
             setErroSugestaoVideo('O campo não pode ficar vazio');
                  if (refSugestaoVideo.current.value.length >= 4 ||  refUrlVideo.current.value.length >= 4 || refThumbVideo.current.value.length >= 4) {
                     setErroSugestaoVideo(null);
                     setErroUrlVideo(null);
                     setErroThumbVideo(null);
-                    axios.post(`${process.env.REACT_APP_API}/sugestaoVideo/create/`,
-                        JSON.stringify({
-                            sugestaoVideo: refSugestaoVideo.current.value || null,
-                            thumbVideo: refUrlVideo.current.value || null,
-                            urlVideo: refThumbVideo.current.value || null,
-                            questao: selectedQuestao,
-                        }))
-                        
-                        .then(function(parametro){
-                            refSugestaoVideo.current.value = '';
-                            refThumbVideo.current.value = '';
-                            refUrlVideo.current.value = '';
-                            setSelectedQuestao(0);
-                        });
+                    
                     AlertSuccess({ text: " Sugestão de vídeo inserida com sucesso", title: 'Sucesso...' });
 
             } else {
@@ -73,7 +96,7 @@ export default function FormularioSugestaoVideo() {
                 <Input title="Titulo Sugestao de Video" id="sugestaoVideo" error={ ErroSugestaoVideo } className="c-formSVideo__input" ref={ refSugestaoVideo } name="sugestaoVideo" />
                 <Input title="Thumbnail" id="thumbnailSugestaoVideo" error={ ErroThumbVideo } className="c-formSVideo__input" ref={ refThumbVideo } name="thumbnailSugestaoVideo" />
                 <Input title="URL" id="urlSugestaoVideo" error={ ErroUrlVideo } className="c-formSVideo__input" ref={ refUrlVideo } name="urlSugestaoVideo"/>
-                <Select className='c-formSVideo__select' name='questao' id='questao'
+                <Select className='c-formSVideo__select' name='questao' id='questao' error={ ErroQuestao }
                     value={ selectedQuestao } onChange={ ({ target }) => setSelectedQuestao(target.value) }>
                     { <MenuItem value='0'>Questão</MenuItem> }
                     { questao !== [] && questao.map(item =>

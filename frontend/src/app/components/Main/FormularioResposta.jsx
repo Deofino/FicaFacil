@@ -83,7 +83,7 @@ export default function FormularioResposta() {
                     alternativas !== [] &&
                     alternativas.map(el => (
                         <RadioGroup key={ el } onChange={ (e) => { setCertaResposta(e.target.value); } } value={ certaResposta } >
-                            <Radio value={ el } label={ `${el} eh a resposta dessa questao?` } />
+                            <Radio value={ el } label={ `${el} é a resposta dessa questao!` } />
                         </RadioGroup>
                     ))
                 }

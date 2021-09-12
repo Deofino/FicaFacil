@@ -2,6 +2,7 @@ import React, { useState, Fragment, useRef, useEffect } from "react";
 import axios from 'axios';
 import { Input, Button, Select, MenuItem } from '../Form';
 import { FaUser, FaImages } from 'react-icons/fa';
+import { AlertSuccess } from '../Alert/Modal';
 
 export default function FormularioQuestao() {
 
@@ -10,6 +11,9 @@ export default function FormularioQuestao() {
     const [ selectDificuldade, setselectDificuldade ] = useState(0);
     const [ selectAdministrador, setselectAdministrador ] = useState(0);
 
+    const refTitulo = useRef(null);
+    const refTexto = useRef(null);
+    const refImage = useRef(null);
     const refSelectUniversidade = useRef(null);
     const refSelectAssuntoMateria = useRef(null);
     const refSelectDificuldade = useRef(null);
@@ -19,6 +23,14 @@ export default function FormularioQuestao() {
     const [ assuntoMaterias, setAssuntoMaterias ] = useState(null);
     const [ dificuldades, setDificuldades ] = useState(null);
     const [ adms, setAdms ] = useState(null);
+
+    const [ ErroTitulo, setErroTitulo ] = useState(null);
+    const [ ErroTexto, setErroTexto ] = useState(null);
+    const [ ErroImage, setErroImage] = useState(null);
+    const [ ErroUniversidade, setErroUniversidade ] = useState(null);
+    const [ ErroAssuntoMateria, setErroAssuntoMateria ] = useState(null);
+    const [ ErroDificuldade, setErroDificuldade ] = useState(null);
+    const [ ErroAdministrador, setErroAdministrador ] = useState(null);
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API + '/universidade/index/')
@@ -38,23 +50,77 @@ export default function FormularioQuestao() {
             .catch(error => console.error(error));
     }, []);
 
-    function submitForm(e) {
+    const submitForm = (e) => {
         e.preventDefault();
+
         let formulario = document.getElementById('form');
         let formData = new FormData(formulario);
 
-        axios.post(process.env.REACT_APP_API + '/questao/create/', formData)
-            .then(el => console.log(el.data));
+        let inputs = [
+            refTitulo.current.value,
+            refTexto.current.value,
+            refImage.current.value
+        ];
 
+        let errorMsg = 'O campo precisa ter mais de 4 caracteres';
 
-    }
+        // Seta erro nos input's contidos na questão
+        if (refTitulo.current.value.length < 4) setErroTitulo(errorMsg);
+        else setErroTitulo(null);
+        
+        if (refTexto.current.value.length < 4) setErroTexto(errorMsg);
+        else setErroTexto(null);
+        
+        if (refImage.current.value.length < 4) setErroImage(errorMsg);
+        else setErroImage(null);
+ 
+        // Seta erro nos select's contidos na questão
+        if (selectUniversidade === 0) setErroUniversidade('Selecione uma Universidade');
+        else setErroUniversidade(null);
+        
+        if (selectAssuntoMateria === 0) setErroAssuntoMateria('Selecione um Assunto Matéria');
+        else setErroAssuntoMateria(null);
+
+        if (selectDificuldade === 0) setErroDificuldade('Selecione uma Dificuldade');
+        else setErroDificuldade(null);
+
+        if (selectAdministrador === 0) setErroAdministrador('Selecione um Administrador');
+        else setErroAdministrador(null);
+
+        // Verificação geral
+        if (inputs.every(ipt => ipt.length > 4) && selectUniversidade !== 0 && selectAssuntoMateria !== 0 && selectDificuldade !== 0 && selectAdministrador !== 0) {
+            axios.post(`${process.env.REACT_APP_API}/questao/create/`, formData,
+            JSON.stringify({
+                        titulo: refTitulo.current.value || null,
+                        thumbVideo: refTexto.current.value || null,
+                        urlVideo: refImage.current.value || null,
+                        universidade: selectUniversidade,
+                        assuntoMateria: selectAssuntoMateria,
+                        dificuldades: selectDificuldade,
+                        administrador: selectAdministrador,
+                    }))
+                    
+                    .then(function(parametro){
+                        refTitulo.current.value = '';
+                        refTexto.current.value = '';
+                        refImage.current.value = '';
+                        setselectUniversidade(0);
+                        setselectAssuntoMateria(0);
+                        setselectDificuldade(0);
+                        setselectAdministrador(0);
+                    });
+        console.log('Pode passar!');
+        AlertSuccess({ text: "Questão inserida com sucesso", title: 'Sucesso...' });
+    } else console.log('Não pode passar!');
+    };
+
     return (
         <Fragment>
             <form method="post" id='form' onSubmit={ (e) => submitForm(e) } encType="multipart/form-data">
-                <Input title='Titulo:' id='titulo' name='titulo' type='text' icon={ <FaUser /> } inputMode='text' />
-                <Input title='Texto:' id='texto' name='texto' type='text' icon={ <FaUser /> } inputMode='text' />
-                <Input title='images' accept='image/*' name='images[]' multiple={ true } type='file' icon={ <FaImages /> } />
-                <Select label='Universidades' id='universidade' name='universidade' ref={ refSelectUniversidade }
+                <Input title='Titulo:' id='titulo' name='titulo' type='text' error={ErroTitulo} icon={ <FaUser /> } inputMode='text' />
+                <Input title='Texto:' id='texto' name='texto' type='text' error={ErroTexto} icon={ <FaUser /> } inputMode='text' />
+                <Input title='images' id='image' accept='image/*' name='images[]' multiple={ true } error={ErroImage} type='file' icon={ <FaImages /> } />
+                <Select label='Universidades' id='universidade' name='universidade' error={ErroUniversidade} ref={ refSelectUniversidade }
                     onChange={ e => {
                         // console.log(e.target);
                         setselectUniversidade(e.target.value);
@@ -66,7 +132,7 @@ export default function FormularioQuestao() {
                         <MenuItem key={ i } value={ el[ 'idUniversidade' ] }>{ el[ 'nomeUniversidade' ] }</MenuItem>
                     ) }
                 </Select>
-                <Select label='Dificuldades' id='dificuldades' name='dificuldade' ref={ refSelectDificuldade }
+                <Select label='Dificuldades' id='dificuldades' name='dificuldade' error={ErroDificuldade} ref={ refSelectDificuldade }
                     onChange={ e => {
                         // console.log(e.target);
                         setselectDificuldade(e.target.value);
@@ -79,7 +145,7 @@ export default function FormularioQuestao() {
                     ) }
                 </Select>
 
-                <Select label='Assunto Matéria' id='assuntoMateria' name='assuntoMateria' ref={ refSelectAssuntoMateria }
+                <Select label='Assunto Matéria' id='assuntoMateria' name='assuntoMateria' error={ErroAssuntoMateria} ref={ refSelectAssuntoMateria }
                     onChange={ e => {
                         // console.log(e.target);
                         setselectAssuntoMateria(e.target.value);
@@ -91,7 +157,7 @@ export default function FormularioQuestao() {
                         <MenuItem key={ i } value={ el[ 'idAssuntoMateria' ] }>{ el[ 'nomeAssuntoMateria' ] }</MenuItem>
                     ) }
                 </Select>
-                <Select label='Administrador' id='administrador' name='administrador' ref={ refSelectAdministrador }
+                <Select label='Administrador' id='administrador' name='administrador' error={ErroAdministrador} ref={ refSelectAdministrador }
                     onChange={ e => {
                         // console.log(e.target);
                         setselectAdministrador(e.target.value);

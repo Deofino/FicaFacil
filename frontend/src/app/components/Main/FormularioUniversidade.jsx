@@ -7,7 +7,6 @@ import { FaBookOpen } from 'react-icons/fa';
 export default function FormularioUniversidade() {
     const [ ErroUniversidade, setErroUniversidade ] = useState(null);
     const refUniversidade = useRef(null);
-    const refApagarTextoUniversidade = useRef(0);
 
     return (
         <Fragment>
@@ -15,7 +14,7 @@ export default function FormularioUniversidade() {
                     e.preventDefault();
 
                     if (refUniversidade !== null) {
-                        if (refUniversidade.current.value !== '' && refUniversidade.current.value.length >= 3) {
+                        if (refUniversidade.current.value !== '' && refUniversidade.current.value.length > 3) {
                             setErroUniversidade(null);
                             axios.post(process.env.REACT_APP_API + '/universidade/create/',
                                 JSON.stringify({

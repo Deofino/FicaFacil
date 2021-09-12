@@ -6,8 +6,11 @@ export default function FormularioAssuntoMateria() {
 
     const [ materias, setMaterias ] = useState([]);
     const [ selectedMateria, setSelectedMateria ] = useState(0);
+
     const refAssuntoMateria = useRef(null);
+
     const [ ErroAssuntoMateria, setErroAssuntoMateria ] = useState(null);
+    const [ ErroMateria, setErroMateria ] = useState(null);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/materia/index/`)
@@ -18,33 +21,37 @@ export default function FormularioAssuntoMateria() {
     const submitForm = (e) => {
         e.preventDefault();
 
-        if (refAssuntoMateria !== null) {
-            if (refAssuntoMateria.current.value !== '' && refAssuntoMateria.current.value.length >= 4) {
-                setErroAssuntoMateria(null);
+        let inputs = [
+            refAssuntoMateria.current.value,
+        ];
+
+        let errorMsg = 'O campo precisa ter mais de 4 caracteres';
+        
+        // Seta erro nos input's contidos no Assunto Materia
+        if (selectedMateria === 0) setErroMateria('Selecione uma Matéria');
+        else setErroMateria(null);
+
+        // Seta erro nos select's contidos na Assunto Materia
+        if (refAssuntoMateria.current.value.length < 4) setErroAssuntoMateria(errorMsg);
+        else setErroAssuntoMateria(null);
+
+            if (inputs.every(ipt => ipt.length > 4) && selectedMateria !== 0) {
                 axios.post(`${process.env.REACT_APP_API}/assuntoMateria/create/`,
-                    JSON.stringify({
-                        assuntoMateria: refAssuntoMateria.current.value || null,
-                        materia: selectedMateria,
+                JSON.stringify({
+                         assuntoMateria: refAssuntoMateria.current.value || null,
+                         materia: selectedMateria,
                     }))
-                    .then(value => {
-                        
-                        if (value.data.status_code === 200) {
-                            AlertSuccess({ text: "Assunto da Matéria inserida com sucesso", title: 'Sucesso...' });
-                        } else {
-                            AlertError({ text: "Ocorreu algum erro ao adicionar o assunto materia", title: 'Ops...' });
-                        };
-                        
-                    })
-                    .catch(error => AlertError({ text: "Ocorreu algum erro ao adicionar o assunto materia "+ error, title: 'Ops...' }));
-
-            } else {
-                setErroAssuntoMateria('O campo tem que ser maior que 4');
-                /*    AlertError({ text: "Campo deve conter mais do que 4 caracteres", title: 'Atenção...' }); */
-            }
-        } else {
-            setErroAssuntoMateria('O campo não pode estar vazio');
-        }
-
+                     /*  .then(data => {
+                                    console.log(data.data.status_code);
+                                }); */
+                                .then(function(parametro){
+                                    refAssuntoMateria.current.value = '';
+                                    setSelectedMateria(0);
+                                });
+                                console.log('Pode passar!');
+                                AlertSuccess({ text: "Assunto Matéria inserida com sucesso", title: 'Sucesso...' });
+                    /* .catch(error => console.log(error)); */
+                }else console.log('Não pode passar!');
     };
 
     return (
@@ -53,7 +60,7 @@ export default function FormularioAssuntoMateria() {
                 <h2 className='c-formAssuntoMateria__headline'>Assunto Matéria</h2>
                 <Input title="Assunto Matéria" id="assuntomateria" error={ ErroAssuntoMateria } className="c-formAssuntoMateria__input" ref={ refAssuntoMateria } name="assuntomateria" />
                 <Select className='c-formAssuntoMateria__select' name='materia' id='materia'
-                    value={ selectedMateria } onChange={ ({ target }) => setSelectedMateria(target.value) }>
+                    value={ selectedMateria } error={ ErroMateria } onChange={ ({ target }) => setSelectedMateria(target.value) }>
                     <MenuItem value='0'>Selecione</MenuItem>
                     { materias !== [] && materias.map(item =>
                         <MenuItem value={ item.idMateria } key={ item.idMateria }>{ item.nomeMateria }</MenuItem>) }

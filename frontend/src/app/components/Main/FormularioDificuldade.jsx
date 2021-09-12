@@ -14,7 +14,7 @@ export default function FormularioDificuldade() {
                     e.preventDefault();
 
                     if (refDificuldade !== null) {
-                        if (refDificuldade.current.value !== '' && refDificuldade.current.value.length > 3) {
+                        if (refDificuldade.current.value !== '' && refDificuldade.current.value.length > 4) {
                             setErroDificuldade(null);
                             axios.post(process.env.REACT_APP_API + '/dificuldade/create/',
                                 JSON.stringify({
@@ -26,7 +26,7 @@ export default function FormularioDificuldade() {
                                 AlertSuccess({ text: "Dificuldade inserida com sucesso", title: 'Sucesso...' });
                                                                  
                         }else{
-                            setErroDificuldade('O campo tem que ser maior que 3');
+                            setErroDificuldade('O campo tem que ser maior que 4');
                         }
                     } else {
                         setErroDificuldade('O campo não pode estar vazio');
