@@ -55,6 +55,12 @@ export default function FormularioQuestao() {
 
         let formulario = document.getElementById('form');
         let formData = new FormData(formulario);
+        // formData.append(titulo)
+
+        //             universidade: selectUniversidade,
+        //                 dificuldades: selectDificuldade,
+        //                     assuntoMateria: selectAssuntoMateria,
+        //                         administrador: selectAdministrador,
 
         let inputs = [
             refTitulo.current.value,
@@ -90,16 +96,7 @@ export default function FormularioQuestao() {
 
         // Verificação geral
         if (inputs.every(ipt => ipt.length > 4) && selectUniversidade !== 0 && selectAssuntoMateria !== 0 && selectDificuldade !== 0 && selectAdministrador !== 0) {
-            axios.post(`${process.env.REACT_APP_API}/questao/create/`, formData,
-            JSON.stringify({
-                        titulo: refTitulo.current.value || null,
-                        texto: refTexto.current.value || null,
-                        image: refImage.current.value || null,
-                        universidade: selectUniversidade,
-                        dificuldades: selectDificuldade,
-                        assuntoMateria: selectAssuntoMateria,
-                        administrador: selectAdministrador,
-                    }))
+            axios.post(`${process.env.REACT_APP_API}/questao/create/`, formData)
                     
                     .then(function(parametro){
                         refTitulo.current.value = '';
