@@ -1,18 +1,115 @@
-body {
-    padding-top: rem(70);
-}
-.l-headerMain {
-    background-color: $primary;
-    @include darkMode {
-        background-color: $primary;
-        // background-color: #6d88ce;
-    }
-    padding: $global-padding;
-    height: rem(70);
-    z-index: 250;
+.l-header {
     position: fixed;
-    top: 0;
     left: 0;
-    box-shadow: 0 rem(2) rem(8) var(--color-shadow);
-    width: 100%;
+    top: 0;
+    height: 100%;
+    width: 78px;
+    background: #11101d;
+    padding: 6px 14px;
+    z-index: 99;
+    transition: all 0.5s ease;
+
+    &--isOpen {
+        width: 250px;
+
+        #btn {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            font-size: 22px;
+            transition: all 0.4s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+
+    &__logo {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        #btn {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            font-size: 22px;
+            transition: all 0.4s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+    &__image {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+
+    svg,
+    i {
+        color: #fff;
+        transition: 0.3s ease;
+        fill: #fff;
+        height: 60px;
+        min-width: 50px;
+        font-size: 28px;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .c-navbar {
+    margin-top: 20px;
+    height: 100%;
+
+    li {
+        position: relative;
+        margin: 8px 0;
+        list-style: none;
+
+        &:hover &__tooltip {
+            opacity: 1;
+            pointer-events: auto;
+            transition: all 0.4s ease;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        &__tooltip {
+            position: absolute;
+            top: -20px;
+            left: calc(100% + 15px);
+            z-index: 3;
+            background: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 400;
+            opacity: 0;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: 0s;
+        }
+    }
+
+    &__links-name {
+    }
+    &__iocn-link {
+    }
+    &__sub-menu {
+    }
+    &__profile {
+    }
+    &__profile-details {
+    }
+    &__image-profile {
+    }
+    &__name-job {
+    }
+}
+
 }
