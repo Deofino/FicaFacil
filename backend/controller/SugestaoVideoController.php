@@ -26,8 +26,8 @@ class SugestaoVideoController
             $model = new SugestaoVideoModel();
             if (isset($data->sugestaoVideo) && isset($data->questao)) {
                 $model->setTitulo(trim($data->sugestaoVideo));
-                $model->setThumbnailVideo(trim($data->sugestaoVideo));
-                $model->setUrlVideo(trim($data->sugestaoVideo));
+                $model->setThumbnailVideo(trim($data->thumbVideo));
+                $model->setUrlVideo(trim($data->urlVideo));
                 $model->setQuestao($data->questao);
                 echo $model->post(null);
             } else echo Response::warning('Parametro não encontrado ou vazio/nulo', 404);

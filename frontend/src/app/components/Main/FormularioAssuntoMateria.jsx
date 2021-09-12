@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import { Input, Select, MenuItem, Button } from '../Form/';
-import { AlertSuccess, AlertError } from '../Alert/Modal';
+import { AlertSuccess } from '../Alert/Modal';
 export default function FormularioAssuntoMateria() {
 
     const [ materias, setMaterias ] = useState([]);

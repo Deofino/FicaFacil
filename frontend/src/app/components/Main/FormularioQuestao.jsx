@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useRef, useEffect } from "react";
 import axios from 'axios';
 import { Input, Button, Select, MenuItem } from '../Form';
-import { FaUser, FaImages } from 'react-icons/fa';
+import { FaUser, FaImages, FaFont } from 'react-icons/fa';
 import { AlertSuccess } from '../Alert/Modal';
 
 export default function FormularioQuestao() {
@@ -71,18 +71,19 @@ export default function FormularioQuestao() {
         if (refTexto.current.value.length < 4) setErroTexto(errorMsg);
         else setErroTexto(null);
         
-        if (refImage.current.value.length < 4) setErroImage(errorMsg);
+        if (refImage.current.value.length < 4) setErroImage('Selecione uma Imagem');
         else setErroImage(null);
  
         // Seta erro nos select's contidos na questão
         if (selectUniversidade === 0) setErroUniversidade('Selecione uma Universidade');
         else setErroUniversidade(null);
         
-        if (selectAssuntoMateria === 0) setErroAssuntoMateria('Selecione um Assunto Matéria');
-        else setErroAssuntoMateria(null);
-
+        
         if (selectDificuldade === 0) setErroDificuldade('Selecione uma Dificuldade');
         else setErroDificuldade(null);
+
+        if (selectAssuntoMateria === 0) setErroAssuntoMateria('Selecione um Assunto Matéria');
+        else setErroAssuntoMateria(null);
 
         if (selectAdministrador === 0) setErroAdministrador('Selecione um Administrador');
         else setErroAdministrador(null);
@@ -95,8 +96,8 @@ export default function FormularioQuestao() {
                         thumbVideo: refTexto.current.value || null,
                         urlVideo: refImage.current.value || null,
                         universidade: selectUniversidade,
-                        assuntoMateria: selectAssuntoMateria,
                         dificuldades: selectDificuldade,
+                        assuntoMateria: selectAssuntoMateria,
                         administrador: selectAdministrador,
                     }))
                     
@@ -105,8 +106,8 @@ export default function FormularioQuestao() {
                         refTexto.current.value = '';
                         refImage.current.value = '';
                         setselectUniversidade(0);
-                        setselectAssuntoMateria(0);
                         setselectDificuldade(0);
+                        setselectAssuntoMateria(0);
                         setselectAdministrador(0);
                     });
         console.log('Pode passar!');
@@ -117,9 +118,9 @@ export default function FormularioQuestao() {
     return (
         <Fragment>
             <form method="post" id='form' onSubmit={ (e) => submitForm(e) } encType="multipart/form-data">
-                <Input title='Titulo:' id='titulo' name='titulo' type='text' error={ErroTitulo} icon={ <FaUser /> } inputMode='text' />
-                <Input title='Texto:' id='texto' name='texto' type='text' error={ErroTexto} icon={ <FaUser /> } inputMode='text' />
-                <Input title='images' id='image' accept='image/*' name='images[]' multiple={ true } error={ErroImage} type='file' icon={ <FaImages /> } />
+                <Input title='Titulo:' id='titulo' name='titulo' type='text' error={ErroTitulo} ref={ refTitulo } icon={ <FaUser /> } inputMode='text' />
+                <Input title='Texto:' id='texto' name='texto' type='text' error={ErroTexto} ref={ refTexto } icon={ <FaFont /> } inputMode='text' />
+                <Input title='images' id='image' accept='image/*' name='images[]' multiple={ true } ref={ refImage } error={ErroImage} type='file' icon={ <FaImages /> } />
                 <Select label='Universidades' id='universidade' name='universidade' error={ErroUniversidade} ref={ refSelectUniversidade }
                     onChange={ e => {
                         // console.log(e.target);
