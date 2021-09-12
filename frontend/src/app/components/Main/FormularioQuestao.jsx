@@ -93,8 +93,8 @@ export default function FormularioQuestao() {
             axios.post(`${process.env.REACT_APP_API}/questao/create/`, formData,
             JSON.stringify({
                         titulo: refTitulo.current.value || null,
-                        thumbVideo: refTexto.current.value || null,
-                        urlVideo: refImage.current.value || null,
+                        texto: refTexto.current.value || null,
+                        image: refImage.current.value || null,
                         universidade: selectUniversidade,
                         dificuldades: selectDificuldade,
                         assuntoMateria: selectAssuntoMateria,
