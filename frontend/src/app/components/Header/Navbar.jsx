@@ -6,7 +6,7 @@ export default function Navbar() {
     return (
         <nav className='c-navbar' >
             <ul className="c-navbar__menu">
-                <li className='c-navbar__menu-item'>
+                <li className='c-navbar__menu-item sc'>
                     <div className="c-navbar__search" >
                         <FaSearch className='icon' />
                     </div>

@@ -1,11 +1,12 @@
 import React from "react";
 import Navbar from './Navbar';
 import logo from '../../../img/project/logo-branca.png';
-import { FaBars } from 'react-icons/fa';
-
-export const ContextHeader = React.createContext(null);
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 export default function Header() {
+    const handle = () => {
+        setOpen(isOpen === '' ? 'l-header--open' : '');
+    };
     const [ isOpen, setOpen ] = React.useState('');
     return (
         <header className={ "l-header " + isOpen }>
@@ -13,10 +14,11 @@ export default function Header() {
                 <div className="l-header__image">
                     <img src={ logo } alt="Logotipo, Fica Facil" />
                 </div>
-                <FaBars className='l-header__menu icon' id='btn'
-                    onClick={
-                        () => setOpen(isOpen === '' ? 'l-header--open' : '')
-                    } />
+                { isOpen === '' ?
+                    <FaBars className='l-header__menu icon' onClick={ () => handle() } />
+                    : <FaTimes className='l-header__menu icon' onClick={ () => handle() } />
+                }
+
             </div>
             <Navbar />
         </header>

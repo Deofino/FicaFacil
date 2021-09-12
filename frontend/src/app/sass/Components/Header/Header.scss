@@ -10,7 +10,10 @@ body {
     background: #11101d;
     padding: 6px 14px;
     z-index: 99;
-    transition: all 0.5s ease;
+    transition: 0.4s ease;
+    &--open {
+        width: 250px;
+    }
     // overflow: auto;
     * {
         transition: all 0.5s ease;
@@ -26,9 +29,13 @@ body {
         color: #fff;
         font-size: 20px;
         font-weight: 600;
-        opacity: 0.2;
+        opacity: 0;
         z-index: -5;
+        max-width: 120px;
         // display: none; //Aparecer no open
+    }
+    &--open &__image {
+        opacity: 1;
     }
 
     &__menu {
@@ -55,7 +62,17 @@ body {
             padding: 10px;
         }
     }
-
+    &--open .icon {
+        top: 50%;
+        width: 50px;
+        left: 0;
+        transform: translate(0, -50%);
+        text-align: center;
+        cursor: pointer;
+    }
+    &--open &__menu {
+        left: 80%;
+    }
     .c-navbar {
         margin-top: 20px;
         width: 100%;
@@ -91,7 +108,7 @@ body {
             }
 
             .arrow {
-                display: none;
+                opacity: 0;
             }
         }
 
@@ -140,8 +157,8 @@ body {
             }
         }
         &__links-name {
-            // opacity: 0;
-            display: none; //aparecer no open
+            opacity: 0;
+            display: none;
         }
         &__sub-menu {
             display: none;
@@ -166,11 +183,60 @@ body {
             display: none;
         }
     }
-}
-.l-header--open.l-header {
-    width: 250px;
-    &__image {
-        // display: block !important; //Aparecer no open
-        opacity: 1 !important;
+    &--open .c-navbar {
+        &__menu-item {
+            &:hover .c-navbar__tooltip {
+                opacity: 0;
+            }
+
+            .arrow {
+                opacity: 1;
+            }
+
+            a {
+                width: 100%;
+            }
+        }
+        &__links-name {
+            opacity: 1;
+            display: flex;
+        }
+
+        &__search {
+            width: 50px;
+            left: 0;
+            transform: translateX(0);
+            border-radius: 12px 0 0 12px;
+            &:hover {
+                background-color: #1d1b31;
+                .icon {
+                    fill: #fff;
+                }
+            }
+        }
+        .sc {
+            display: flex;
+            width: 100%;
+        }
+        &__input-search {
+            width: 100%;
+            border-radius: 0 12px 12px 0;
+            display: block;
+        }
+        .space {
+            width: 50px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 50px;
+            border-radius: 12px;
+
+            &:hover {
+                background-color: #fff;
+                .icon {
+                    fill: #11101d;
+                }
+            }
+        }
     }
 }
