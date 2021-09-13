@@ -2,7 +2,7 @@ import React, { useState, Fragment, useRef, useEffect } from "react";
 import axios from 'axios';
 import { Input, Button, Select, MenuItem } from '../Form';
 import { FaUser, FaImages, FaFont } from 'react-icons/fa';
-import { AlertSuccess } from '../Alert/Modal';
+import { AlertError, AlertSuccess } from '../Alert/Modal';
 
 export default function FormularioQuestao() {
 
@@ -95,7 +95,7 @@ export default function FormularioQuestao() {
         else setErroAdministrador(null);
 
         // Verificação geral
-        if (inputs.every(ipt => ipt.length > 4) && selectUniversidade !== 0 && selectAssuntoMateria !== 0 && selectDificuldade !== 0 && selectAdministrador !== 0) {
+        if (inputs.every(ipt => ipt.trim().length > 4) && selectUniversidade !== 0 && selectAssuntoMateria !== 0 && selectDificuldade !== 0 && selectAdministrador !== 0) {
             axios.post(`${process.env.REACT_APP_API}/questao/create/`, formData)
                     
                     .then(function(parametro){
@@ -106,9 +106,12 @@ export default function FormularioQuestao() {
                         setselectDificuldade(0);
                         setselectAssuntoMateria(0);
                         setselectAdministrador(0);
+                        AlertSuccess({ text: "Questão inserida com sucesso", title: 'Sucesso...' });
+                    })
+                    .catch(function(err){
+                        AlertError({})
                     });
         console.log('Pode passar!');
-        AlertSuccess({ text: "Questão inserida com sucesso", title: 'Sucesso...' });
     } else console.log('Não pode passar!');
     };
 

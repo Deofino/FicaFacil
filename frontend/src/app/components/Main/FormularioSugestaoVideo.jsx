@@ -52,7 +52,7 @@ export default function FormularioSugestaoVideo() {
         else setErroUrlVideo(null);
 
             // Verificação geral
-            if (inputs.every(ipt => ipt.length > 4) && selectedQuestao !== 0) {
+            if (inputs.every(ipt => ipt.trim().length > 4) && selectedQuestao !== 0) {
                 
                     axios.post(`${process.env.REACT_APP_API}/sugestaoVideo/create/`,
                             JSON.stringify({

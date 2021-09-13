@@ -14,7 +14,7 @@ export default function FormularioUniversidade() {
                     e.preventDefault();
 
                     if (refUniversidade !== null) {
-                        if (refUniversidade.current.value !== '' && refUniversidade.current.value.length > 3) {
+                        if (refUniversidade.current.value.trim() !== '' && refUniversidade.current.value.trim().length > 3) {
                             setErroUniversidade(null);
                             axios.post(process.env.REACT_APP_API + '/universidade/create/',
                                 JSON.stringify({
