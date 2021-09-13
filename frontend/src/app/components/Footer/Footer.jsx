@@ -10,21 +10,21 @@ export default function Footer() {
                         <ul>
                             <li><a href="#inicio" >início</a></li>
                             <li><a href="#perfil">meu perfil</a></li>
-                            <li><a href="#a">alguma coisa</a></li>
-                            <li><a href="#a">outra coisa</a></li>
+                            <li><a href="#a">simulado</a></li>
+                            <li><a href="#a">dashboard</a></li>
                         </ul>
                     </div>
                     <div className="c-footer__col">
                         <h4>empresa</h4>
                         <ul>
-                            <li><a href="#aura">aura</a></li>
+                            <li><a href="https://deofino.github.io/Aura/">aura</a></li>
                             <li><a href="#sobre">sobre</a></li>
                         </ul>
                     </div>
                     <div className="c-footer__col">
                         <h4>dúvidas?</h4>
                         <ul>
-                            <li><a href="#email">e-mail</a></li>
+                            <li><a href="mailto:auracompany.guaianases@gmail.com">e-mail</a></li>
                             <li><a href="#whatsapp">whatsapp</a></li>
                             <li><a href="#fale-conosco">fale conosco</a></li>
                         </ul>
@@ -32,16 +32,16 @@ export default function Footer() {
                     <div className="c-footer__col">
                         <h4>redes sociais</h4>
                         <div className="c-footer__social-links">
-                            <a href="#d" target="_blank">
+                            <a href="https://www.facebook.com/Aura-co-109146718177587" target="_blank">
                                 <FaFacebook />
                             </a>
-                            <a href="#d" target="_blank">
+                            <a href="https://twitter.com/AuraCo11" target="_blank">
                                 <FaTwitter />
                             </a>
-                            <a href="#d" target="_blank">
+                            <a href="https://instagram.com/aura_companhia?utm_medium=copy_link" target="_blank">
                                 <FaInstagram />
                             </a>
-                            <a href="#d" target="_blank">
+                            <a href="https://www.youtube.com/channel/UCTYitIhZqcHCgoxMmpZH5qQ" target="_blank">
                                 <FaYoutube />
                             </a>
                         </div>
