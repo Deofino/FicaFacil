@@ -34,7 +34,7 @@ export default function FormularioMateria() {
         if (refMateria.current.value.length < 4) setErroMateria(errorMsg);
         else setErroMateria(null);
 
-            if (inputs.every(ipt => ipt.length > 4) && selectedAreaMateria !== 0) {
+            if (inputs.every(ipt => ipt.trim().length > 4) && selectedAreaMateria !== 0) {
                 axios.post(`${process.env.REACT_APP_API}/materia/create/`,
                 JSON.stringify({
                          materia: refMateria.current.value || null,

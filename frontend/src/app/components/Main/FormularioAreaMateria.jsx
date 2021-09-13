@@ -14,7 +14,7 @@ export default function FormularioAreaMateria() {
                     e.preventDefault();
 
                     if (refAreaMateria !== null) {
-                        if (refAreaMateria.current.value !== '' && refAreaMateria.current.value.length >= 4) {
+                        if (refAreaMateria.current.value.trim() !== '' && refAreaMateria.current.value.trim().length >= 4) {
                             setErroAreaMateria(null);
                             axios.post(process.env.REACT_APP_API + '/areaMateria/create/',
                                 JSON.stringify({

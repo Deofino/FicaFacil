@@ -14,7 +14,7 @@ export default function FormularioDificuldade() {
                     e.preventDefault();
 
                     if (refDificuldade !== null) {
-                        if (refDificuldade.current.value !== '' && refDificuldade.current.value.length > 4) {
+                        if (refDificuldade.current.value.trim() !== '' && refDificuldade.current.value.trim().length > 4) {
                             setErroDificuldade(null);
                             axios.post(process.env.REACT_APP_API + '/dificuldade/create/',
                                 JSON.stringify({

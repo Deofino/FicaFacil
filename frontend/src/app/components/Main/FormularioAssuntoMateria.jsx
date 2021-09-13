@@ -35,7 +35,7 @@ export default function FormularioAssuntoMateria() {
         if (refAssuntoMateria.current.value.length < 4) setErroAssuntoMateria(errorMsg);
         else setErroAssuntoMateria(null);
 
-            if (inputs.every(ipt => ipt.length > 4) && selectedMateria !== 0) {
+            if (inputs.every(ipt => ipt.trim().length > 4) && selectedMateria !== 0) {
                 axios.post(`${process.env.REACT_APP_API}/assuntoMateria/create/`,
                 JSON.stringify({
                          assuntoMateria: refAssuntoMateria.current.value || null,
