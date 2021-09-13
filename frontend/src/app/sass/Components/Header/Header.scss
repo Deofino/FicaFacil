@@ -1,5 +1,8 @@
 body {
     padding-left: rem(75);
+    @include breakpoint(small) {
+        padding-left: rem(40);
+    }
 }
 .l-header {
     position: fixed;
@@ -9,6 +12,10 @@ body {
     top: 0;
     width: rem(80);
     padding: rem(6) rem(14);
+    @include breakpoint(small) {
+        padding: rem(4) rem(6);
+        width: rem(50);
+    }
     z-index: $z-dropdown;
     transition: 0.5s ease;
     background: linear-gradient(120deg, darken($primary, 5%), $primary);
@@ -28,6 +35,11 @@ body {
         display: flex;
         align-items: center;
         position: relative;
+        @include breakpoint(small) {
+            padding: rem(4) rem(6);
+            height: rem(40);
+            margin-bottom: rem(-10);
+        }
     }
 
     &__image {
@@ -55,7 +67,7 @@ body {
         fill: $white;
         position: absolute;
         top: 50%;
-        width: rem(50);
+        // width: rem(50);
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
@@ -63,6 +75,13 @@ body {
 
         path {
             padding: rem(10);
+            @include breakpoint(small) {
+                padding: rem(4);
+            }
+        }
+
+        @include breakpoint(small) {
+            font-size: rem(12);
         }
     }
     &--open .icon {
@@ -97,6 +116,11 @@ body {
             opacity: 0;
             white-space: nowrap;
             pointer-events: none;
+
+            @include breakpoint(small) {
+                padding: rem(4) rem(8);
+                font-size: rem(12);
+            }
         }
         &__menu-item {
             position: relative;
@@ -120,6 +144,10 @@ body {
             left: 50%;
             transform: translateX(-50%);
             height: rem(50);
+            @include breakpoint(small) {
+                height: rem(30);
+                width: rem(30);
+            }
             border-radius: rem(12);
 
             background: $primary;
@@ -142,26 +170,34 @@ body {
             color: $white;
             font-weight: 400;
             outline: none;
-            height: rem(50);
             width: 100%;
+            height: rem(50);
             width: rem(50);
             border: none;
             border-radius: rem(12);
             display: none;
 
+            @include breakpoint(small) {
+                font-size: $global-font-size-sm;
+                height: rem(30);
+                width: rem(30);
+            }
             background: $primary;
             @include darkMode {
                 background: $accent-dark;
             }
         }
         .space {
-            width: rem(50);
             position: relative;
             left: 50%;
             transform: translateX(-50%);
+            width: rem(50);
             height: rem(50);
             border-radius: rem(12);
-
+            @include breakpoint(small) {
+                width: rem(35);
+                height: rem(35);
+            }
             &:hover {
                 background-color: $white;
                 .icon {
@@ -177,6 +213,9 @@ body {
             font-size: $global-font-size-sm;
             opacity: 0;
             display: none;
+            @include breakpoint(small) {
+                font-size: rem(12);
+            }
         }
         &__sub-menu {
             display: none;
@@ -185,6 +224,7 @@ body {
             position: fixed;
             height: rem(80);
             width: rem(80);
+
             left: 0;
             bottom: rem(-8);
             padding: rem(10) rem(14);
@@ -194,6 +234,10 @@ body {
             }
             display: flex;
             overflow: hidden;
+            @include breakpoint(small) {
+                height: rem(60);
+                width: rem(50);
+            }
         }
         &__image-profile {
             display: none;
@@ -240,10 +284,16 @@ body {
         &__search {
             width: rem(50);
             left: 0;
+            @include breakpoint(small) {
+                height: rem(35);
+            }
             transform: translateX(0);
             border-radius: rem(12) 0 0 rem(12);
             &:hover {
                 background-color: $primary;
+                @include darkMode {
+                    background-color: $accent-dark;
+                }
                 .icon {
                     fill: $white;
                 }
@@ -257,6 +307,9 @@ body {
             width: 100%;
             border-radius: 0 rem(12) rem(12) 0;
             display: block;
+            @include breakpoint(small) {
+                height: rem(35);
+            }
         }
         .space {
             width: 100%;
@@ -267,6 +320,9 @@ body {
             height: rem(50);
             border-radius: rem(12);
 
+            @include breakpoint(small) {
+                height: rem(35);
+            }
             &:hover {
                 background-color: $white;
                 .icon {
@@ -291,6 +347,10 @@ body {
             }
             .arrow {
                 font-size: rem(12);
+
+                @include breakpoint(small) {
+                    font-size: rem(10);
+                }
             }
         }
         &__sub-menu {
@@ -311,12 +371,19 @@ body {
                 color: $white;
                 background-color: transparent;
                 font-weight: 400;
+                @include breakpoint(small) {
+                    font-size: rem(12);
+                }
             }
 
             li {
                 width: 100%;
                 margin: rem(2) 0;
                 padding: rem(6) rem(12);
+                @include breakpoint(small) {
+                    margin: 0;
+                    padding: rem(2) rem(6);
+                }
                 border-radius: rem(12);
                 color: $accent-dark;
                 &:hover {
@@ -335,6 +402,9 @@ body {
             margin-top: rem(8);
             visibility: visible;
             padding: rem(8) rem(4);
+            @include breakpoint(small) {
+                padding: rem(4) rem(2);
+            }
             opacity: 1;
             box-shadow: 0 0 rem(4) var(--color-shadow);
             display: flex;
@@ -342,6 +412,10 @@ body {
             justify-content: space-around;
             align-items: center;
             height: rem(320);
+
+            @include breakpoint(small) {
+                height: rem(250);
+            }
         }
         &__dropdown {
             margin-bottom: rem(-8);
@@ -360,6 +434,11 @@ body {
             display: block;
             border-radius: rem(8);
             margin-right: rem(8);
+
+            @include breakpoint(small) {
+                height: rem(30);
+                width: rem(30);
+            }
         }
         &__name-job {
             display: block;
