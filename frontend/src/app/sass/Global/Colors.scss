@@ -35,7 +35,7 @@ $colors: (
   "instagram": #e4405f,
   "github": #333,
   // ? Project Colors
-  "accent": #806ba6
+  "accent": #513487
 );
 
 // ? SASS variables for personalization
@@ -54,6 +54,5 @@ $gray-light: #d1d1d1;
 $gray-dark: #343a40;
 $dark: #212529;
 
-$accent: #806ba6;
-$accent-dark: darken($accent, 5%);
-$accent-light: lighten($accent, 5%);
+$accent: #513487;
+$accent-dark: #1d1b31;

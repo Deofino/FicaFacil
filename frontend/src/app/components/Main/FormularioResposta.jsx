@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Input, Select, MenuItem, Button, RadioGroup, Radio } from '../Form/';
 import { AlertSuccess, AlertError } from '../Alert/Modal';
@@ -11,9 +11,6 @@ export default function FormularioResposta() {
 
     const [ ErroResposta, setErroResposta ] = useState(null);
     const [ ErroQuestaoSelecionada, setErroQuestaoSelecionada ] = useState(null);
-
-    const refSelectAlternativas = useRef(null);
-
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/questao/index/`)

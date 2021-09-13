@@ -1,37 +1,41 @@
 body {
-    padding-left: 75px;
+    padding-left: rem(75);
 }
 .l-header {
     position: fixed;
     height: 100%;
+    box-shadow: 0 rem(8) rem(14) var(--color-shadow);
     left: 0;
     top: 0;
-    width: 80px;
-    background: #11101d;
-    padding: 6px 14px;
-    z-index: 99;
-    transition: 0.4s ease;
+    width: rem(80);
+    padding: rem(6) rem(14);
+    z-index: $z-dropdown;
+    transition: 0.5s ease;
+    background: linear-gradient(120deg, darken($primary, 5%), $primary);
+
+    @include darkMode {
+        background: #11101d;
+    }
     &--open {
-        width: 250px;
+        width: rem(250);
     }
     // overflow: auto;
     * {
         transition: all 0.5s ease;
     }
     &__logo {
-        height: 60px;
+        height: rem(60);
         display: flex;
         align-items: center;
         position: relative;
     }
 
     &__image {
-        color: #fff;
-        font-size: 20px;
+        color: $white;
         font-weight: 600;
         opacity: 0;
         z-index: -5;
-        max-width: 120px;
+        max-width: rem(120);
         // display: none; //Aparecer no open
     }
     &--open &__image {
@@ -43,28 +47,27 @@ body {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 18px;
         text-align: center;
         cursor: pointer;
     }
 
     .icon {
-        fill: #fff;
+        fill: $white;
         position: absolute;
         top: 50%;
-        width: 50px;
+        width: rem(50);
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
         cursor: pointer;
 
         path {
-            padding: 10px;
+            padding: rem(10);
         }
     }
     &--open .icon {
         top: 50%;
-        width: 50px;
+        width: rem(50);
         left: 0;
         transform: translate(0, -50%);
         text-align: center;
@@ -74,31 +77,30 @@ body {
         left: 80%;
     }
     .c-navbar {
-        margin-top: 20px;
+        margin-top: rem(20);
         width: 100%;
         height: 100%;
         position: relative;
 
         &__tooltip {
             position: absolute;
-            top: -20px;
+            top: rem(-20);
             left: calc(100% + 15px);
-            z-index: 3;
-            background: #fff;
-            color: black;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 15px;
+            z-index: $z-dropdown;
+            background: $white;
+            color: $black;
+            box-shadow: 0 rem(5) rem(10) rgba(0, 0, 0, 0.3);
+            padding: rem(6) rem(12);
+            border-radius: rem(4);
+            font-size: $global-font-size-sm;
             font-weight: 400;
             opacity: 0;
-            z-index: 1010;
             white-space: nowrap;
             pointer-events: none;
         }
         &__menu-item {
             position: relative;
-            margin: 8px 0;
+            margin: rem(8) 0;
 
             &:hover .c-navbar__tooltip {
                 opacity: 1;
@@ -113,50 +115,66 @@ body {
         }
 
         &__search {
-            width: 50px;
+            width: rem(50);
             position: relative;
             left: 50%;
             transform: translateX(-50%);
-            height: 50px;
-            border-radius: 12px;
-            background: #1d1b31;
+            height: rem(50);
+            border-radius: rem(12);
+
+            background: $primary;
+            @include darkMode {
+                background: $accent-dark;
+            }
 
             &:hover {
-                background-color: #fff;
+                background-color: $white;
                 .icon {
-                    fill: #11101d;
+                    fill: $accent;
+                    @include darkMode {
+                        fill: $accent-dark;
+                    }
                 }
             }
         }
         &__input-search {
-            font-size: 15px;
-            color: #fff;
+            font-size: $global-font-size;
+            color: $white;
             font-weight: 400;
             outline: none;
-            height: 50px;
+            height: rem(50);
             width: 100%;
-            width: 50px;
+            width: rem(50);
             border: none;
-            border-radius: 12px;
+            border-radius: rem(12);
             display: none;
-            background: #1d1b31;
+
+            background: $primary;
+            @include darkMode {
+                background: $accent-dark;
+            }
         }
         .space {
-            width: 50px;
+            width: rem(50);
             position: relative;
             left: 50%;
             transform: translateX(-50%);
-            height: 50px;
-            border-radius: 12px;
+            height: rem(50);
+            border-radius: rem(12);
 
             &:hover {
-                background-color: #fff;
+                background-color: $white;
                 .icon {
-                    fill: #11101d;
+                    fill: $accent;
+
+                    @include darkMode {
+                        fill: #11101d;
+                    }
                 }
             }
         }
         &__links-name {
+            font-size: $global-font-size-sm;
             opacity: 0;
             display: none;
         }
@@ -165,12 +183,15 @@ body {
         }
         &__profile {
             position: fixed;
-            height: 80px;
-            width: 80px;
+            height: rem(80);
+            width: rem(80);
             left: 0;
-            bottom: -8px;
-            padding: 10px 14px;
-            background: #1d1b31;
+            bottom: rem(-8);
+            padding: rem(10) rem(14);
+            background: darken($primary, 10%);
+            @include darkMode {
+                background: $accent-dark;
+            }
             display: flex;
             overflow: hidden;
         }
@@ -179,6 +200,13 @@ body {
         }
         &__name-job {
             display: none;
+            color: $white;
+            @include darkMode {
+                color: $white;
+            }
+            .name {
+                font-size: $global-font-size-sm;
+            }
         }
     }
     &--open .c-navbar {
@@ -196,11 +224,12 @@ body {
             }
         }
         &__links-name {
+            color: $white;
             opacity: 1;
             display: flex;
             position: relative;
             top: 50%;
-            width: 50px;
+            width: rem(50);
             font-weight: 400;
             left: 0;
             flex-grow: 1;
@@ -209,14 +238,14 @@ body {
         }
 
         &__search {
-            width: 50px;
+            width: rem(50);
             left: 0;
             transform: translateX(0);
-            border-radius: 12px 0 0 12px;
+            border-radius: rem(12) 0 0 rem(12);
             &:hover {
-                background-color: #1d1b31;
+                background-color: $primary;
                 .icon {
-                    fill: #fff;
+                    fill: $white;
                 }
             }
         }
@@ -226,7 +255,7 @@ body {
         }
         &__input-search {
             width: 100%;
-            border-radius: 0 12px 12px 0;
+            border-radius: 0 rem(12) rem(12) 0;
             display: block;
         }
         .space {
@@ -235,90 +264,106 @@ body {
             display: flex;
             left: 50%;
             transform: translateX(-50%);
-            height: 50px;
-            border-radius: 12px;
+            height: rem(50);
+            border-radius: rem(12);
 
             &:hover {
-                background-color: #fff;
+                background-color: $white;
                 .icon {
-                    fill: #11101d;
+                    fill: $accent;
+                    @include darkMode {
+                        fill: #11101d;
+                    }
                 }
                 span {
-                    color: #11101d;
+                    color: $accent;
+                    @include darkMode {
+                        color: #11101d;
+                    }
                 }
             }
             .icon {
                 position: relative;
                 top: 50%;
-                width: 50px;
+                width: rem(50);
                 left: 0;
                 transform: translate(0, -50%);
             }
             .arrow {
-                font-size: 12px;
+                font-size: rem(12);
             }
         }
         &__sub-menu {
             display: block;
-            background-color: #1d1b31;
+            background: darken($primary, 5%);
+            @include darkMode {
+                background: $accent-dark;
+            }
             width: 100%;
             height: 0;
-            border-radius: 8px;
+            border-radius: rem(8);
             opacity: 0;
             visibility: hidden;
 
             a {
-                font-size: 14px;
-                color: white;
+                font-size: $global-font-size-sm;
+
+                color: $white;
                 background-color: transparent;
                 font-weight: 400;
             }
 
             li {
                 width: 100%;
-                margin: 2px 0;
-                padding: 6px 12px;
-                border-radius: 12px;
-                color: #1d1b31;
+                margin: rem(2) 0;
+                padding: rem(6) rem(12);
+                border-radius: rem(12);
+                color: $accent-dark;
                 &:hover {
-                    background-color: white;
+                    background-color: $white;
                 }
                 &:hover a {
-                    color: #1d1b31;
+                    color: $accent;
+
+                    @include darkMode {
+                        color: $accent-dark;
+                    }
                 }
             }
         }
         &__dropdown:hover .c-navbar__sub-menu {
-            margin-top: 8px;
+            margin-top: rem(8);
             visibility: visible;
-            padding: 8px 4px;
+            padding: rem(8) rem(4);
             opacity: 1;
+            box-shadow: 0 0 rem(4) var(--color-shadow);
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
-            height: 170px;
+            height: rem(320);
         }
         &__dropdown {
-            margin-bottom: -8px;
+            margin-bottom: rem(-8);
         }
         &__profile {
-            width: 250px;
+            width: rem(250);
         }
         &__profile-details {
             @include flex(center);
         }
         &__image-profile {
-            width: 60px;
-            height: 50px;
-            background-color: #777;
+            width: rem(60);
+            height: rem(50);
+            // background-color: #777;
             overflow: hidden;
             display: block;
-            border-radius: 8px;
-            margin-right: 8px;
+            border-radius: rem(8);
+            margin-right: rem(8);
         }
         &__name-job {
             display: block;
+            font-size: $global-font-size-sm;
         }
         &__log-out {
             left: 80%;
