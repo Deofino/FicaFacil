@@ -18,7 +18,7 @@ export default function Routes() {
     return (
         <>
             <Route exact path='/'>
-                <h1>ola mundo</h1>
+                <h1 style={ { color: 'white', fontSize: 22, margin: 20 } }>Pagina inicial</h1>
             </Route>
             <Route path='/questao'>
                 <Main>
@@ -60,7 +60,7 @@ export default function Routes() {
                     <FormularioSugestaoVideo />
                 </Main>
             </Route>
-           
+
         </>
     );
 }

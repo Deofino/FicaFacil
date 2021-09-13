@@ -1,7 +1,7 @@
 body {
-    padding-left: rem(75);
+    padding-left: rem(80);
     @include breakpoint(small) {
-        padding-left: rem(40);
+        padding-left: rem(50);
     }
 }
 .l-header {

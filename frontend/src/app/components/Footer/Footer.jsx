@@ -32,16 +32,16 @@ export default function Footer() {
                     <div className="c-footer__col">
                         <h4>redes sociais</h4>
                         <div className="c-footer__social-links">
-                            <a href="https://www.facebook.com/Aura-co-109146718177587" target="_blank">
+                            <a href="https://www.facebook.com/Aura-co-109146718177587" target="_blank" rel='noreferrer'>
                                 <FaFacebook />
                             </a>
-                            <a href="https://twitter.com/AuraCo11" target="_blank">
+                            <a href="https://twitter.com/AuraCo11" target="_blank" rel='noreferrer'>
                                 <FaTwitter />
                             </a>
-                            <a href="https://instagram.com/aura_companhia?utm_medium=copy_link" target="_blank">
+                            <a href="https://instagram.com/aura_companhia?utm_medium=copy_link" target="_blank" rel='noreferrer'>
                                 <FaInstagram />
                             </a>
-                            <a href="https://www.youtube.com/channel/UCTYitIhZqcHCgoxMmpZH5qQ" target="_blank">
+                            <a href="https://www.youtube.com/channel/UCTYitIhZqcHCgoxMmpZH5qQ" target="_blank" rel='noreferrer'>
                                 <FaYoutube />
                             </a>
                         </div>
