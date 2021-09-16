@@ -4,6 +4,7 @@ import Checkbox from './Checkbox';
 import Select from './Select';
 import Form from './Form';
 import Radio from './Radio';
+import Table from './Table';
 import { MenuItem, RadioGroup, } from '@material-ui/core/';
 export {
 
@@ -14,6 +15,7 @@ export {
     Select,
     MenuItem,
     RadioGroup,
-    Radio
+    Radio,
+    Table
 
 }

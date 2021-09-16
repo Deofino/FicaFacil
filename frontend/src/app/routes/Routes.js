@@ -2,6 +2,7 @@ import React from 'react';
 
 // Components 
 import Main from '../components/Main/Main';
+import { Table } from '../components/Form/';
 import FormularioQuestao from '../components/Main/FormularioQuestao';
 import FormularioAreaMateria from '../components/Main/FormularioAreaMateria';
 import FormularioMateria from '../components/Main/FormularioMateria';
@@ -58,6 +59,11 @@ export default function Routes() {
             <Route path='/sugestaoVideo'>
                 <Main>
                     <FormularioSugestaoVideo />
+                </Main>
+            </Route>
+            <Route path='/table'>
+                <Main>
+                    <Table />
                 </Main>
             </Route>
 

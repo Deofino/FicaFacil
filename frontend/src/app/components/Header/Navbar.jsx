@@ -1,7 +1,9 @@
 import React from "react";
 import image from '../../../img/project/192.png';
 import { Link } from 'react-router-dom';
+import { Tooltip, IconButton, Zoom } from '@material-ui/core';
 import { FaSearch, FaChartLine, FaChartPie, FaGraduationCap, FaUserAlt, FaCog, FaSignOutAlt, FaArrowDown } from 'react-icons/fa';
+
 export default function Navbar() {
 
 
@@ -82,7 +84,11 @@ export default function Navbar() {
                             <div className="name">Vitor Oliveira</div>
                         </div>
                     </div>
-                    <FaSignOutAlt className='c-navbar__log-out icon' />
+                    <Tooltip title='Sair' TransitionComponent={ Zoom } className='c-navbar__log-out icon'>
+                        <IconButton style={ { background: 'transparent' } } >
+                            <FaSignOutAlt className='icon' />
+                        </IconButton>
+                    </Tooltip>
                 </li>
             </ul>
         </nav>
