@@ -1,10 +1,12 @@
 <?php
 
 namespace Model;
+
 use Helper\Connection;
 use Helper\Response;
 use Model\AreaMateriaModel;
 use PDO;
+
 class MateriaModel
 {
 
@@ -46,7 +48,7 @@ class MateriaModel
     }
     public function setArea(int $areaMateria): void
     {
-        if($areaMateria > 0 && $areaMateria!==null){
+        if ($areaMateria > 0 && $areaMateria !== null) {
             $modelArea = new AreaMateriaModel();
             $data = json_decode($modelArea->get());
             if ($data->status_code === 200) {
@@ -68,7 +70,7 @@ class MateriaModel
     }
 
 
-    public function get($params=null)
+    public function get($params = null)
     {
         try {
             $con = Connection::getConn();
@@ -107,7 +109,24 @@ class MateriaModel
     public function put($params)
     {
     }
-    public function delete($params)
+    public function delete($id = -1)
     {
+        try {
+            if ($id !== -1 && $id !== null) {
+                $con = Connection::getConn();
+                $data = json_decode($this->get(array('id' => $id)));
+                if ($data->status_code === 200) {
+                    $stmt = $con->prepare("DELETE FROM tb_materia WHERE idMateria = ?");
+                    $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
+                    if ($stmt->execute()) {
+                        return Response::success("Materia id=`$id` deletada com sucesso");
+                    }
+                    return Response::warning("Erro ao deletar Materia", 404);
+                };
+            }
+            return Response::warning("Materia id=$id nao encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
 }

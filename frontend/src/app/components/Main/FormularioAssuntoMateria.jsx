@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
-import { Input, Select, MenuItem, Button } from '../Form/';
+import { Input, Select, MenuItem, Button, Table } from '../Form/';
 import { AlertSuccess } from '../Alert/Modal';
 export default function FormularioAssuntoMateria() {
 
     const [ materias, setMaterias ] = useState([]);
     const [ selectedMateria, setSelectedMateria ] = useState(0);
+
+    const [ AssuntoMateria, setAssuntoMateria ] = useState([]);
+
 
     const refAssuntoMateria = useRef(null);
 
@@ -15,6 +18,10 @@ export default function FormularioAssuntoMateria() {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/materia/index/`)
             .then(value => setMaterias(value.data.data))
+            .catch(error => console.error(error));
+
+        axios.get(`${process.env.REACT_APP_API}/assuntoMateria/index/`)
+            .then(value => setAssuntoMateria(value.data.data))
             .catch(error => console.error(error));
     }, []);
 
@@ -26,7 +33,7 @@ export default function FormularioAssuntoMateria() {
         ];
 
         let errorMsg = 'O campo precisa ter mais de 4 caracteres';
-        
+
         // Seta erro nos input's contidos no Assunto Materia
         if (selectedMateria === 0) setErroMateria('Selecione uma Matéria');
         else setErroMateria(null);
@@ -35,24 +42,50 @@ export default function FormularioAssuntoMateria() {
         if (refAssuntoMateria.current.value.length < 4) setErroAssuntoMateria(errorMsg);
         else setErroAssuntoMateria(null);
 
-            if (inputs.every(ipt => ipt.trim().length > 4) && selectedMateria !== 0) {
-                axios.post(`${process.env.REACT_APP_API}/assuntoMateria/create/`,
+        if (inputs.every(ipt => ipt.trim().length > 4) && selectedMateria !== 0) {
+            axios.post(`${process.env.REACT_APP_API}/assuntoMateria/create/`,
                 JSON.stringify({
-                         assuntoMateria: refAssuntoMateria.current.value || null,
-                         materia: selectedMateria,
-                    }))
-                     /*  .then(data => {
-                                    console.log(data.data.status_code);
-                                }); */
-                                .then(function(parametro){
-                                    refAssuntoMateria.current.value = '';
-                                    setSelectedMateria(0);
-                                });
-                                console.log('Pode passar!');
-                                AlertSuccess({ text: "Assunto Matéria inserida com sucesso", title: 'Sucesso...' });
-                    /* .catch(error => console.log(error)); */
-                }else console.log('Não pode passar!');
+                    assuntoMateria: refAssuntoMateria.current.value || null,
+                    materia: selectedMateria,
+                }))
+                /*  .then(data => {
+                               console.log(data.data.status_code);
+                           }); */
+                .then(function (parametro) {
+                    refAssuntoMateria.current.value = '';
+                    setSelectedMateria(0);
+                });
+            console.log('Pode passar!');
+            AlertSuccess({ text: "Assunto Matéria inserida com sucesso", title: 'Sucesso...' });
+            /* .catch(error => console.log(error)); */
+        } else console.log('Não pode passar!');
     };
+
+    const colunas = [
+        {
+            field: "id",
+            headerName: "ID",
+            width: 90,
+        },
+        {
+            field: "assunto",
+            headerName: "Assunto",
+            width: 200,
+        },
+        {
+            field: "materia",
+            headerName: "Materia",
+            width: 200,
+        }
+    ];
+
+    const linhas = AssuntoMateria.map(materia => {
+        return {
+            id: materia.idAssuntoMateria,
+            assunto: materia.nomeAssuntoMateria,
+            materia: materia.idMateria,
+        };
+    });
 
     return (
         <React.Fragment>
@@ -67,6 +100,7 @@ export default function FormularioAssuntoMateria() {
                 </Select>
                 <Button className='c-formAssuntoMateria__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>
             </form>
+            <Table colunas={ colunas } linhas={ linhas } tabela='assuntoMateria' />
         </React.Fragment>
     );
 }

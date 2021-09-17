@@ -1,6 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import Table from '@material-ui/core/Table';
+import axios from 'axios';
+import { AlertWarning } from '../Alert/Modal';
+import { ToastSuccess, ToastError } from '../Alert/Toast';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -8,57 +10,60 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable({ colunas = [], linhas = [], tabela }) {
 
-    const [ questoes, setQuestoes ] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API}/questao/index/`)
-            .then(value => { setQuestoes(value.data.data); })
-            .catch(error => console.error(error));
-    }, []);
+    const functionDelete = (id = -1, tabela) => {
+        let conf = AlertWarning({
+            title: "Cuidado...",
+            text: 'Deseja Mesmo deletar essa ' + tabela + '?', textButton1: "Sim!", textButton2: 'Nao'
+        })
+            ;
+        conf.then(v => {
+            if (v.isConfirmed) {
+                axios.post(`${process.env.REACT_APP_API}/${tabela}/delete/${id}/`)
+                    .then(value => console.log(value.data.data))
+                    .catch(error => ToastError({ text: "Nao pode excluir por causa da Foreign Key" }));
 
-    const colunas = [
-        {
-            field: 'id',
-            headerName: 'ID',
-            width: 100,
-            onClick: () => { }
-        },
-        {
-            field: 'tituloQuestao',
-            headerName: 'Titulo',
-            width: 200,
-            onClick: () => { }
-        },
-        {
-            field: 'textoQuestao',
-            headerName: 'Texto',
-            width: 200,
-            onClick: () => { }
-        }, {
-            field: 'imagemQuestao',
-            headerName: 'Imagem',
-            width: 200,
-            onClick: () => { }
-        },
-        {
-            field: 'delete',
-            headerName: 'Apagar',
-            width: 150,
-            className: 'button delete',
-            onClick: (ev, id) => console.log(id)
-        },
-        {
-            field: 'update',
-            headerName: 'Atualizar',
-            className: 'button update',
-            width: 150,
-            onClick: (ev, id) => console.log(id)
-        },
-    ];
-    const linhas = questoes.map(el => {
-        return { id: el.idQuestao, tituloQuestao: el.tituloQuestao, textoQuestao: el.textoQuestao, imagemQuestao: el.imagensQuestao, delete: 'Apagar', update: 'Atualizar' };
+                ToastSuccess({ text: "Materia deletada com sucesso" });
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 4000);
+            } else {
+                ToastError({ text: "Nao pode excluir por causa da Foreign Key" });
+            }
+        });
+    };
+
+    colunas = colunas.map(el => {
+        el.onClick = () => { };
+        return el;
     });
+
+    if (colunas[ colunas.length - 1 ] !== 'update') {
+        colunas.push(
+            {
+                field: 'delete',
+                headerName: 'Apagar',
+                width: 150,
+                className: 'button delete',
+                onClick: (ev, id) => functionDelete(id, tabela)
+            },
+            {
+                field: 'update',
+                headerName: 'Modificar',
+                className: 'button update',
+                width: 150,
+                onClick: (ev, id) => console.log(id)
+            });
+    }
+
+    linhas = linhas.map(el => {
+        el.delete = 'Excluir';
+        el.update = 'Atualizar';
+        return el;
+    });
+
     const [ page, setPage ] = React.useState(0);
     const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
 
@@ -94,11 +99,14 @@ export default function StickyHeadTable() {
                                 <TableRow hover role="checkbox" tabIndex={ -1 } key={ i } className='c-table__row'>
                                     { colunas.map((column, i) => {
                                         const value = row[ column.field ];
-                                        return (
-                                            <TableCell key={ i } align={ 'center' } className={ column.className || null } onClick={ (e) => column.onClick(e.target, row.id) }>
-                                                { value }
-                                            </TableCell>
-                                        );
+                                        if (value !== 'Excluir' || value !== 'Atualizar') {
+                                            return (
+                                                <TableCell key={ i } align={ 'center' } className={ column.className || null } onClick={ (e) => column.onClick(e.target, row.id) }>
+                                                    { value }
+                                                </TableCell>
+                                            );
+                                        }
+                                        return null;
                                     }) }
                                 </TableRow>
                             );

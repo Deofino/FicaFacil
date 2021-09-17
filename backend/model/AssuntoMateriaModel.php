@@ -109,7 +109,24 @@ class AssuntoMateriaModel
     public function put($params)
     {
     }
-    public function delete($params)
+    public function delete($id=-1)
     {
+        try {
+            if ($id !== -1 && $id !== null) {
+                $con = Connection::getConn();
+                $data = json_decode($this->get(array('id' => $id)));
+                if ($data->status_code === 200) {
+                    $stmt = $con->prepare("DELETE FROM tb_assunto_materia WHERE idAssuntoMateria = ?");
+                    $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
+                    if ($stmt->execute()) {
+                        return Response::success("Assunto Materia id=`$id` deletada com sucesso");
+                    }
+                    return Response::warning("Erro ao deletar Assunto Materia", 404);
+                };
+            }
+            return Response::warning("Assunto Materia id=$id nao encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
 }

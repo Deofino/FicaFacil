@@ -1,43 +1,70 @@
 import React, { useState, Fragment, useRef } from "react";
 import axios from 'axios';
-import { AlertSuccess } from '../Alert/Modal'; 
-import { Input, Button, } from '../Form';
+import { AlertSuccess } from '../Alert/Modal';
+import { Input, Button, Table } from '../Form';
 import { FaBookOpen } from 'react-icons/fa';
 
 export default function FormularioDificuldade() {
     const [ ErroDificuldade, setErroDificuldade ] = useState(null);
     const refDificuldade = useRef(null);
 
+
+
+    const [ questoes, setQuestoes ] = React.useState([]);
+    React.useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API}/dificuldade/index/`)
+            .then(value => { setQuestoes(value.data.data); })
+            .catch(error => console.error(error));
+    }, []);
+
+    const columns = [
+        {
+            field: 'id',
+            headerName: 'ID',
+            width: 80,
+        },
+        {
+            field: 'nivelDificuldade',
+            headerName: 'Dificuldade',
+            width: 200,
+        },
+    ];
+    const linhas = questoes.map(el => {
+        return { id: el.idDificuldade, nivelDificuldade: el.nivelDificuldade };
+    });
+
+
+
     return (
         <Fragment>
-                <form method="post" id='formU' onSubmit={ (e) => {
-                    e.preventDefault();
+            <form method="post" id='formU' onSubmit={ (e) => {
+                e.preventDefault();
 
-                    if (refDificuldade !== null) {
-                        if (refDificuldade.current.value.trim() !== '' && refDificuldade.current.value.trim().length > 4) {
-                            setErroDificuldade(null);
-                            axios.post(process.env.REACT_APP_API + '/dificuldade/create/',
-                                JSON.stringify({
-                                    dificuldade: refDificuldade.current.value
-                                }))
-                                /* .then(data => console.log(data)); */
-                                .then(refDificuldade.current.value ='');
-                               
-                                AlertSuccess({ text: "Dificuldade inserida com sucesso", title: 'Sucesso...' });
-                                                                 
-                        }else{
-                            setErroDificuldade('O campo tem que ser maior que 4');
-                        }
+                if (refDificuldade !== null) {
+                    if (refDificuldade.current.value.trim() !== '' && refDificuldade.current.value.trim().length > 4) {
+                        setErroDificuldade(null);
+                        axios.post(process.env.REACT_APP_API + '/dificuldade/create/',
+                            JSON.stringify({
+                                dificuldade: refDificuldade.current.value
+                            }))
+                            /* .then(data => console.log(data)); */
+                            .then(refDificuldade.current.value = '');
+
+                        AlertSuccess({ text: "Dificuldade inserida com sucesso", title: 'Sucesso...' });
+
                     } else {
-                        setErroDificuldade('O campo não pode estar vazio');
+                        setErroDificuldade('O campo tem que ser maior que 4');
                     }
-                } }>
-                    <Input title='Dificuldade:' ref={ refDificuldade } error={ ErroDificuldade } id='dificuldade' name='dificuldade' type='text' icon={ <FaBookOpen /> } inputMode='text' />
-                    <Button type='submit' styleButton={ { marginTop: 20 } } onClick={ () => {
+                } else {
+                    setErroDificuldade('O campo não pode estar vazio');
+                }
+            } }>
+                <Input title='Dificuldade:' ref={ refDificuldade } error={ ErroDificuldade } id='dificuldade' name='dificuldade' type='text' icon={ <FaBookOpen /> } inputMode='text' />
+                <Button type='submit' styleButton={ { marginTop: 20 } } onClick={ () => {
 
-                    } }>Adicionar Dificuldade</Button>
-                </form>
-
+                } }>Adicionar Dificuldade</Button>
+            </form>
+            <Table colunas={ columns } linhas={ linhas } />
         </Fragment >
     );
 }
