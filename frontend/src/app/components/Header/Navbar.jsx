@@ -50,11 +50,7 @@ export default function Navbar() {
                         <li className='c-navbar__menu-item'><Link className="c-navbar__link-name" to="/questao">Questão</Link></li>
                         <li className='c-navbar__menu-item'><Link to="/materia">Matérias</Link></li>
                         <li className='c-navbar__menu-item'><Link to="/dificuldade">Dificuldade</Link></li>
-                        <li className='c-navbar__menu-item'><Link to="/sugestaoVideo">Vídeos</Link></li>
                         <li className='c-navbar__menu-item'><Link to="/universidade">Universidade</Link></li>
-                        <li className='c-navbar__menu-item'><Link to="/areaMateria">Área Matéria</Link></li>
-                        <li className='c-navbar__menu-item'><Link to="/assuntoMateria">Assunto Matéria</Link></li>
-                        <li className='c-navbar__menu-item'><Link to="/resposta">Resposta</Link></li>
                     </ul>
                 </li>
                 <li className='c-navbar__menu-item'>
