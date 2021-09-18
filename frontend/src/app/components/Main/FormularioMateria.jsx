@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Input, Select, MenuItem, Button, Table } from '../Form/';
 import { AlertSuccess } from '../Alert/Modal';
 
-export default function FormularioMateria() {
+export default function FormularioMateria () {
 
     const [ areasMaterias, setAreasMaterias ] = useState([]);
     const [ selectedAreaMateria, setSelectedAreaMateria ] = useState(0);
@@ -40,7 +40,8 @@ export default function FormularioMateria() {
         if (refMateria.current.value.length < 4) setErroMateria(errorMsg);
         else setErroMateria(null);
 
-        if (inputs.every(ipt => ipt.trim().length > 4) && selectedAreaMateria !== 0) {
+        if (inputs.every(ipt => ipt.trim().length > 4) && selectedAreaMateria !== 0)
+        {
             axios.post(`${process.env.REACT_APP_API}/materia/create/`,
                 JSON.stringify({
                     materia: refMateria.current.value || null,
@@ -77,13 +78,16 @@ export default function FormularioMateria() {
             width: 200,
         }
     ];
-    const linhas = materias.map(materia => {
+
+    const linhas = materias.materia ? materias.materia.map(materia => {
         return {
             id: materia.idMateria,
             materia: materia.nomeMateria,
-            area: materia.idAreaMateria,
+            area: materias.area[ materia.idMateria ].nomeAreaMateria,
         };
-    });
+    }) : null;
+
+    console.log(linhas);
 
     return (
         <React.Fragment>
@@ -98,7 +102,7 @@ export default function FormularioMateria() {
                 </Select>
                 <Button className='c-formMateria__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>
             </form>
-            <Table colunas={ colunas } linhas={ linhas } tabela='materia' />
+            <Table colunas={ colunas } linhas={ linhas || [] } tabela='materia' />
         </React.Fragment>
     );
 }
