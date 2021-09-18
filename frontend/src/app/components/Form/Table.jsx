@@ -29,9 +29,7 @@ export default function StickyHeadTable({ colunas = [], linhas = [], tabela }) {
                 setTimeout(() => {
                     window.location.reload();
                 }, 4000);
-            } else {
-                ToastError({ text: "Nao pode excluir por causa da Foreign Key" });
-            }
+            } 
         });
     };
 

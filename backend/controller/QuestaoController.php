@@ -4,10 +4,6 @@ namespace Controller;
 
 use Helper\Response;
 use Model\QuestaoModel;
-use Model\AdministradorModel;
-use Model\AssuntoMateriaModel;
-use Model\UniversidadeModel;
-
 
 class QuestaoController
 {
@@ -20,9 +16,6 @@ class QuestaoController
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
-        /* var_dump($_FILES['images']);
-        
-        var_dump($_POST); */
     }
     public function create() // POST INSERIR
     {
