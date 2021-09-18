@@ -83,7 +83,7 @@ export default function FormularioMateria () {
         return {
             id: materia.idMateria,
             materia: materia.nomeMateria,
-            area: materias.area[ materia.idMateria ].nomeAreaMateria,
+            area: materias.area.filter(e => e.idAreaMateria === materia.idAreaMateria)[ 0 ].nomeAreaMateria,
         };
     }) : null;
 
