@@ -79,13 +79,13 @@ export default function FormularioAssuntoMateria() {
         }
     ];
 
-    const linhas = AssuntoMateria.map(materia => {
+    const linhas = AssuntoMateria.assuntoMateria ? AssuntoMateria.assuntoMateria.map(assunto => {
         return {
-            id: materia.idAssuntoMateria,
-            assunto: materia.nomeAssuntoMateria,
-            materia: materia.idMateria,
+            id: assunto.idAssuntoMateria,
+            assunto: assunto.nomeAssuntoMateria,
+            materia: AssuntoMateria.materia.materia.filter(e => e.idMateria === assunto.idMateria)[ 0 ].nomeMateria,
         };
-    });
+    }) : [];
 
     return (
         <React.Fragment>
@@ -95,7 +95,7 @@ export default function FormularioAssuntoMateria() {
                 <Select className='c-formAssuntoMateria__select' name='materia' id='materia'
                     value={ selectedMateria } error={ ErroMateria } onChange={ ({ target }) => setSelectedMateria(target.value) }>
                     <MenuItem value='0'>Selecione</MenuItem>
-                    { materias !== [] && materias.map(item =>
+                    { materias.materia !== undefined && materias.materia.map(item =>
                         <MenuItem value={ item.idMateria } key={ item.idMateria }>{ item.nomeMateria }</MenuItem>) }
                 </Select>
                 <Button className='c-formAssuntoMateria__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>

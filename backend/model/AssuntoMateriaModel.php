@@ -82,9 +82,24 @@ class AssuntoMateriaModel
             }
 
             if ($stmt->execute()) {
-                return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhum assunto materia encontrada...", 404) :
-                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+                $materia = (new MateriaModel)->get();
+                if ($stmt->rowCount() === 0) {
+                    return Response::warning("Nenhuma materia encontrada...", 404);
+                }
+                if ($stmt->rowCount() === 1) {
+                    $assuntoMateria = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    $materia = (new MateriaModel)->get(['id' => $assuntoMateria[0]['idMateria']]);
+                    return Response::success([
+                        "assuntoMateria" => $assuntoMateria,
+                        "materia" => json_decode($materia)->data
+                    ]);
+                }
+                if ($stmt->rowCount() > 1) {
+                    return Response::success([
+                        "assuntoMateria" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
+                        "materia" => json_decode($materia)->data
+                    ]);
+                }
             }
             return Response::error("Erro ao selecionar assunto materia");
         } catch (\Throwable $th) {

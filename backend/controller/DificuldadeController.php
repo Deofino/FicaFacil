@@ -38,7 +38,7 @@ class DificuldadeController
     }
     public function delete($params) // parametro na url
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $model = new DificuldadeModel();
             echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
             return;

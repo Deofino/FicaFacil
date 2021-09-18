@@ -21,7 +21,7 @@ class UniversidadeModel
             if ($data->status_code === 200) {
                 foreach ($data->data as $el) {
                     if (trim(strtoupper($el->nomeUniversidade)) === trim(strtoupper(($universidade)))) {
-                        throw new \Exception("nome de Universidade `" . $universidade . "` ja cadastrada", 400);
+                        throw new \Exception("Nome da Universidade `" . $universidade . "` ja cadastrada", 400);
                         return;
                     };
                 }
@@ -74,7 +74,22 @@ class UniversidadeModel
     public function put($params)
     {
     }
-    public function delete($params)
+    public function delete(int $id)
     {
+        try {
+            $con = Connection::getConn();
+            $data = json_decode($this->get(array('id' => $id)));
+            if ($data->status_code === 200) {
+                $stmt = $con->prepare("DELETE FROM tb_universidade WHERE idUniversidade = ?");
+                $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
+                if ($stmt->execute()) {
+                    return Response::success("Universidade id=`$id` deletada com sucesso");
+                }
+                return Response::warning("Erro ao deletar universidade", 404);
+            };
+            return Response::warning("Universidade id=$id nao encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
 }

@@ -64,7 +64,7 @@ export default function FormularioDificuldade() {
 
                 } }>Adicionar Dificuldade</Button>
             </form>
-            <Table colunas={ columns } linhas={ linhas } />
+            <Table colunas={ columns } linhas={ linhas } tabela={ "dificuldade" } />
         </Fragment >
     );
 }

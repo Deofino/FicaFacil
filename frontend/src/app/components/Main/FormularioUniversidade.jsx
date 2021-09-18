@@ -1,12 +1,35 @@
 import React, { useState, Fragment, useRef } from "react";
 import axios from 'axios';
 import { AlertSuccess } from '../Alert/Modal'; 
-import { Input, Button, } from '../Form';
+import { Input, Button, Table } from '../Form';
 import { FaBookOpen } from 'react-icons/fa';
 
 export default function FormularioUniversidade() {
     const [ ErroUniversidade, setErroUniversidade ] = useState(null);
     const refUniversidade = useRef(null);
+
+    const [ universidades, setUniversidades ] = React.useState([]);
+    React.useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API}/universidade/index/`)
+            .then(value => { setUniversidades(value.data.data); })
+            .catch(error => console.error(error));
+    }, []);
+
+    const columns = [
+        {
+            field: 'id',
+            headerName: 'ID',
+            width: 80,
+        },
+        {
+            field: 'nomeUniversidade',
+            headerName: 'Universidade',
+            width: 200,
+        },
+    ];
+    const linhas = universidades.map(el => {
+        return { id: el.idUniversidade, nomeUniversidade: el.nomeUniversidade };
+    });
 
     return (
         <Fragment>
@@ -36,7 +59,7 @@ export default function FormularioUniversidade() {
 
                     } }>Adicionar Universidade</Button>
                 </form>
-
+                <Table colunas={ columns } linhas={ linhas } tabela={ "universidade" } />
         </Fragment >
     );
 }

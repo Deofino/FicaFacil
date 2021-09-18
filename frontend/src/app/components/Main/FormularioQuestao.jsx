@@ -65,11 +65,6 @@ export default function FormularioQuestao () {
         let formulario = document.getElementById('form');
         let formData = new FormData(formulario);
 
-        axios.post(`${process.env.REACT_APP_API}/questao/create/`, formData)
-            .then(val => {
-                console.log(val.data);
-            });
-
         let inputs = [
             refTitulo.current.value,
             refTexto.current.value,
