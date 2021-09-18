@@ -39,6 +39,8 @@
             background-color: lighten($dark, 8%);
             td,
             th {
+                max-width: rem(300);
+                overflow: hidden;
                 color: $white;
             }
             &:hover {

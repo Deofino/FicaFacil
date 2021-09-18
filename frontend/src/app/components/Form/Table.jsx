@@ -10,7 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
-export default function StickyHeadTable({ colunas = [], linhas = [], tabela }) {
+export default function StickyHeadTable ({ colunas = [], linhas = [], tabela }) {
 
     const functionDelete = (id = -1, tabela) => {
         let conf = AlertWarning({
@@ -19,7 +19,8 @@ export default function StickyHeadTable({ colunas = [], linhas = [], tabela }) {
         })
             ;
         conf.then(v => {
-            if (v.isConfirmed) {
+            if (v.isConfirmed)
+            {
                 axios.post(`${process.env.REACT_APP_API}/${tabela}/delete/${id}/`)
                     .then(value => console.log(value.data.data))
                     .catch(error => ToastError({ text: "Nao pode excluir por causa da Foreign Key" }));
@@ -29,7 +30,7 @@ export default function StickyHeadTable({ colunas = [], linhas = [], tabela }) {
                 setTimeout(() => {
                     window.location.reload();
                 }, 4000);
-            } 
+            }
         });
     };
 
@@ -38,7 +39,8 @@ export default function StickyHeadTable({ colunas = [], linhas = [], tabela }) {
         return el;
     });
 
-    if (colunas[ colunas.length - 1 ] !== 'update') {
+    if (colunas[ colunas.length - 1 ] !== 'update')
+    {
         colunas.push(
             {
                 field: 'delete',
@@ -84,7 +86,7 @@ export default function StickyHeadTable({ colunas = [], linhas = [], tabela }) {
                                 <TableCell
                                     key={ i }
                                     align={ 'center' }
-                                    style={ { width: column.width || 100, } }
+                                    style={ { width: column.width || 100 } }
                                 >
                                     { column.headerName }
                                 </TableCell>
@@ -97,9 +99,11 @@ export default function StickyHeadTable({ colunas = [], linhas = [], tabela }) {
                                 <TableRow hover role="checkbox" tabIndex={ -1 } key={ i } className='c-table__row'>
                                     { colunas.map((column, i) => {
                                         const value = row[ column.field ];
-                                        if (value !== 'Excluir' || value !== 'Atualizar') {
+                                        if (value !== 'Excluir' || value !== 'Atualizar')
+                                        {
                                             return (
-                                                <TableCell key={ i } align={ 'center' } className={ column.className || null } onClick={ (e) => column.onClick(e.target, row.id) }>
+                                                <TableCell key={ i } align={ 'center' } style={ { width: column.width || 100 } }
+                                                className={ column.className || null } onClick={ (e) => column.onClick(e.target, row.id) }>
                                                     { value }
                                                 </TableCell>
                                             );

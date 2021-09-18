@@ -20,17 +20,23 @@ class QuestaoController
     public function create() // POST INSERIR
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            // var_dump($_POST);
-            // return;
+            $namesImages = [];
+            for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+                $ext = pathinfo($_FILES['images']['name'][$i], PATHINFO_EXTENSION);
+                $name = md5(time() . $_FILES['images']['name'][$i]) . '.' . $ext;
+                $variavel = ($_FILES['images']['tmp_name'][$i]);
+                $url = 'http://' . $_SERVER['HTTP_HOST'] . explode('index.php', $_SERVER['PHP_SELF'])[0] . 'images/' . $name;
+                $path = './images/';
+                file_exists($path) or mkdir($path);
+                move_uploaded_file($variavel, $path . $name);
+                array_push($namesImages, $url);
+            }
+            $namesImages = json_encode($namesImages);
             $model = new QuestaoModel();
-            if (
-                isset($_POST['titulo']) && isset($_POST['administrador']) && isset($_POST['universidade'])
-                && isset($_POST['dificuldade']) && isset($_POST['assuntoMateria'])
-            ) {
+            if (isset($_POST['titulo']) && isset($_POST['administrador']) && isset($_POST['universidade']) && isset($_POST['dificuldade']) && isset($_POST['assuntoMateria'])) {
                 $model->setTitulo(trim($_POST['titulo']));
                 $model->setTexto(trim($_POST['texto']));
-                $model->setImagem(trim($_POST['titulo']));
+                $model->setImagem($namesImages);
                 $model->setIdAdmistrador($_POST['administrador']);
                 $model->setIdUniversidade($_POST['universidade']);
                 $model->setIdAssuntoMateria($_POST['assuntoMateria']);

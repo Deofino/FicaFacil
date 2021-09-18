@@ -66,23 +66,12 @@ class QuestaoModel
 
     public function setImagem(string $imagemQuestao): void
     {
-        // if (isset($tituloQuestao) && trim($imagemQuestao) !== '' && strlen(trim($imagemQuestao)) !== 0 && trim($imagemQuestao) !== null) {
-        //     $data = json_decode($this->get());
-        //     if ($data->status_code === 200) {
-        //         foreach ($data->data as $el) {
-        //             if (trim(strtoupper($el->imagemQuestao)) === trim(strtoupper(($imagemQuestao)))) {
-        //                 throw new \Exception("imagem `" . $imagemQuestao . "` ja cadastrada", 400);
-        //                 return;
-        //             };
-        //         }
-        //         $this->nome = ucfirst($imagemQuestao);
-        //     } else {
-        //         $this->nome = ucfirst($imagemQuestao);
-        //     };
-        //     return;
-        // }
-        // throw new \Exception("Essa imagem não pode ser aceito", 400);
-        $this->imagem = $imagemQuestao;
+        $imagens = json_decode($imagemQuestao);
+        if ($imagens !== [] && $imagens !== null && isset($imagens) && !empty($imagens) && count($imagens) > 0) {
+            $this->imagem = $imagemQuestao;
+            return;
+        }
+        throw new \Exception("Essa(s) imagem(s) não pode(m) ser aceita(s)", 400);
         return;
     }
 
