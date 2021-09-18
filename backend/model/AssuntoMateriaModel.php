@@ -31,7 +31,7 @@ class AssuntoMateriaModel
         if (isset($nomeAssuntoMateria) && trim($nomeAssuntoMateria) !== '' && strlen(trim($nomeAssuntoMateria)) !== 0 && trim($nomeAssuntoMateria) !== null) {
             $data = json_decode($this->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->assuntoMateria as $el) {
                     if (trim(strtoupper($el->nomeAssuntoMateria)) === trim(strtoupper(($nomeAssuntoMateria)))) {
                         throw new \Exception("materia `" . $nomeAssuntoMateria . "` ja cadastrada", 400);
                         return;
@@ -52,7 +52,7 @@ class AssuntoMateriaModel
             $modelMateria = new MateriaModel();
             $data = json_decode($modelMateria->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->materia as $el) {
                     if ($el->idMateria == $materia) {
                         $this->materia = $materia;
                         return;
@@ -124,7 +124,7 @@ class AssuntoMateriaModel
     public function put($params)
     {
     }
-    public function delete($id=-1)
+    public function delete($id = -1)
     {
         try {
             if ($id !== -1 && $id !== null) {

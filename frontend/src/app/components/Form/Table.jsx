@@ -25,7 +25,7 @@ export default function StickyHeadTable ({ colunas = [], linhas = [], tabela }) 
                     .then(value => console.log(value.data.data))
                     .catch(error => ToastError({ text: "Nao pode excluir por causa da Foreign Key" }));
 
-                ToastSuccess({ text: "Materia deletada com sucesso" });
+                ToastSuccess({ text: tabela+" deletada com sucesso" });
 
                 setTimeout(() => {
                     window.location.reload();

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import { Input, Select, MenuItem, Button, Table } from '../Form/';
 import { AlertSuccess } from '../Alert/Modal';
-export default function FormularioAssuntoMateria() {
+export default function FormularioAssuntoMateria () {
 
     const [ materias, setMaterias ] = useState([]);
     const [ selectedMateria, setSelectedMateria ] = useState(0);
@@ -42,16 +42,15 @@ export default function FormularioAssuntoMateria() {
         if (refAssuntoMateria.current.value.length < 4) setErroAssuntoMateria(errorMsg);
         else setErroAssuntoMateria(null);
 
-        if (inputs.every(ipt => ipt.trim().length > 4) && selectedMateria !== 0) {
+        if (inputs.every(ipt => ipt.trim().length > 4) && selectedMateria !== 0)
+        {
             axios.post(`${process.env.REACT_APP_API}/assuntoMateria/create/`,
                 JSON.stringify({
                     assuntoMateria: refAssuntoMateria.current.value || null,
                     materia: selectedMateria,
                 }))
-                /*  .then(data => {
-                               console.log(data.data.status_code);
-                           }); */
                 .then(function (parametro) {
+                    console.log(parametro.data);
                     refAssuntoMateria.current.value = '';
                     setSelectedMateria(0);
                 });

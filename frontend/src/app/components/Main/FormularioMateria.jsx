@@ -87,7 +87,6 @@ export default function FormularioMateria () {
         };
     }) : null;
 
-    console.log(linhas);
 
     return (
         <React.Fragment>

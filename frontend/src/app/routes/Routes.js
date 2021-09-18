@@ -11,13 +11,13 @@ import FormularioUniversidade from '../components/Main/FormularioUniversidade';
 import FormularioDificuldade from '../components/Main/FormularioDificuldade';
 import FormularioResposta from '../components/Main/FormularioResposta';
 import FormularioSugestaoVideo from '../components/Main/FormularioSugestaoVideo';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 
-export default function Routes() {
+export default function Routes () {
 
     return (
-        <>
+        <Switch>
             <Route exact path='/'>
                 <h1 style={ { color: 'white', fontSize: 22, margin: 20 } }>Pagina inicial</h1>
             </Route>
@@ -66,7 +66,12 @@ export default function Routes() {
                     <Table />
                 </Main>
             </Route>
+            <Route path='*'>
+                <Main>
+                    <h1>Pagina nao encontrada</h1>
+                </Main>
+            </Route>
 
-        </>
+        </Switch>
     );
 }

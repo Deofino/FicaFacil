@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Input, Select, MenuItem, Button, RadioGroup, Radio } from '../Form/';
 import { AlertSuccess, AlertError } from '../Alert/Modal';
-import { FaListAlt } from 'react-icons/fa';
-export default function FormularioResposta() {
+import { Tooltip, IconButton } from "@material-ui/core";
+import { FaListAlt, FaImages, FaFont } from 'react-icons/fa';
+export default function FormularioResposta () {
 
     const [ respostas, setRespostas ] = useState([]);
     const [ selectedQuestao, setSelectedQuestao ] = useState(0);
     const [ certaResposta, setCertaResposta ] = useState(null);
+    const [ TypeInputAlternativa, setTypeInputAlternativa ] = useState('text');
 
     const [ ErroResposta, setErroResposta ] = useState(null);
     const [ ErroQuestaoSelecionada, setErroQuestaoSelecionada ] = useState(null);
@@ -22,13 +24,17 @@ export default function FormularioResposta() {
     const submitForm = (e) => {
         e.preventDefault();
 
-        if (selectedQuestao === 0) {
+        if (selectedQuestao === 0)
+        {
             setErroQuestaoSelecionada('Selecione uma questao');
         } else setErroQuestaoSelecionada(null);
 
-        if (alternativas !== null) {
-            if (alternativas !== [] && alternativas.length === 5) {
-                if (certaResposta !== null) {
+        if (alternativas !== null)
+        {
+            if (alternativas !== [] && alternativas.length === 5)
+            {
+                if (certaResposta !== null)
+                {
                     setErroResposta(null);
                     axios.post(`${process.env.REACT_APP_API}/resposta/create/`,
                         JSON.stringify({
@@ -48,11 +54,13 @@ export default function FormularioResposta() {
                         .catch(error => AlertError({ text: "Ocorreu algum erro ao adicionar a resposta " + error, title: 'Ops...' }));
                 } else setErroResposta('Marque uma alternativa correta');
 
-            } else {
+            } else
+            {
                 setErroResposta('Adicione 5 alternativas');
                 /*    AlertError({ text: "Campo deve conter mais do que 4 caracteres", title: 'Atenção...' }); */
             }
-        } else {
+        } else
+        {
             setErroResposta('O campo não pode estar vazio');
         }
 
@@ -61,7 +69,7 @@ export default function FormularioResposta() {
     return (
         <React.Fragment>
 
-            <form method="post" id="formRS" className="c-formResposta" onSubmit={ submitForm }>
+            <form method="post" id="formRS" className="c-formResposta" onSubmit={ submitForm } encType='encType="multipart/form-data"'>
                 <h2 className='c-formResposta__headline'>Resposta</h2>
                 <Select label='Questao' className='c-formResposta__select' name='questao' id='questao' error={ ErroQuestaoSelecionada }
                     value={ selectedQuestao } onChange={ ({ target }) => setSelectedQuestao(target.value) }>
@@ -69,11 +77,18 @@ export default function FormularioResposta() {
                     { respostas !== [] && respostas.map(item =>
                         <MenuItem value={ item.idQuestao } key={ item.idQuestao }>{ item.tituloQuestao }</MenuItem>) }
                 </Select>
-                <Input title='Alternativas' error={ ErroResposta } value={ inputAlternativa } icon={ <FaListAlt /> } onChange={ ({ target }) => {
+                <Input title='Alternativas' type={ TypeInputAlternativa } multiple={ true } name={ 'alternativas[]' } error={ ErroResposta } iconEnd={
+                    <Tooltip title='Mudar para imagem/texto' placement='left'>
+                        <IconButton onClick={ () => { setTypeInputAlternativa(TypeInputAlternativa === 'text' ? 'file' : 'text'); } }>
+                            { TypeInputAlternativa === 'text' ? <FaImages /> : <FaFont /> }
+                        </IconButton>
+                    </Tooltip>
+                } value={ inputAlternativa } icon={ <FaListAlt /> } onChange={ ({ target }) => {
                     setInputAlternativa(target.value);
                 } } />
                 <Button type='button' styleButton={ { marginTop: 20 } } onClick={ () => {
-                    if (!alternativas.includes(inputAlternativa) && inputAlternativa !== '' && alternativas.length < 5) {
+                    if (!alternativas.includes(inputAlternativa) && inputAlternativa !== '' && alternativas.length < 5)
+                    {
                         setAlternativas([ ...alternativas, inputAlternativa ]);
                         setInputAlternativa('');
                     }
@@ -82,7 +97,7 @@ export default function FormularioResposta() {
                     alternativas !== [] &&
                     alternativas.map(el => (
                         <RadioGroup key={ el } onChange={ (e) => { setCertaResposta(e.target.value); } } value={ certaResposta } >
-                            <Radio value={ el } label={ `${el} é a resposta dessa questao!` } />
+                            <Radio value={ el } label={ `"${el}" é a resposta dessa questao?` } />
                         </RadioGroup>
                     ))
                 }

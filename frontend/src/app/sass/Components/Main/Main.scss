@@ -1,13 +1,12 @@
 .l-main {
-    max-width: $w-extra-large;
-    width: 100%;
+    max-width: $w-large;
+    width: 100% !important;
     margin: rem(60) auto;
     flex-wrap: wrap;
     overflow: visible;
     color: var(--font-color);
-    @include flex(center);
-    flex-direction: row;
-    // justify-content: flex-end;
-
     padding: 0 rem(20);
+    @include breakpoint(small) {
+        padding: 0 rem(10);
+    }
 }

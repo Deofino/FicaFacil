@@ -1,6 +1,6 @@
 .c-input {
-    width: 100%;
     background: inherit;
+    width: 100% !important;
     margin-top: $global-margin;
 
     &__icon {
@@ -71,6 +71,7 @@
             }
         }
     }
+
     & > .MuiFilledInput-root {
         padding: 0 !important;
     }
