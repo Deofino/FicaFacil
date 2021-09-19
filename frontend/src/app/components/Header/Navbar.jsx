@@ -5,7 +5,7 @@ import { Tooltip, IconButton, Zoom } from '@material-ui/core';
 import { FaSearch, FaChartLine, FaChartPie, FaGraduationCap, FaUserAlt, FaCog, FaSignOutAlt, FaArrowDown } from 'react-icons/fa';
 
 export default function Navbar() {
-
+    
 
     return (
         <nav className='c-navbar' >

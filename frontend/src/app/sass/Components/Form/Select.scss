@@ -4,7 +4,7 @@
     margin-top: $global-margin !important;
     font-family: $font-family-sans-serif;
     label {
-        color: var(--font-color) !important;
+        color: inherit !important;
         font-family: inherit;
         font-size: $global-font-size;
         padding-bottom: $global-padding;
@@ -14,15 +14,15 @@
         }
     }
     div {
-        color: var(--font-color);
+        color: inherit;
         font-family: inherit;
     }
 
     *::after,
     *::before,
     input {
-        caret-color: var(--font-color);
-        color: var(--font-color) !important;
+        caret-color: inherit;
+        color: inherit !important;
         border-color: var(--color-primary) !important;
         font-family: $font-family-sans-serif;
         font-size: $global-font-size;
@@ -34,7 +34,7 @@
     > div {
         border: rem(1) solid rgba($color: $primary, $alpha: 0.4);
         border-bottom: none;
-        color: var(--font-color);
+        color: inherit;
         background-color: rgba($color: $primary, $alpha: 0.01);
         @include darkMode {
             background-color: rgba($color: $black, $alpha: 0.075);
@@ -60,6 +60,10 @@
         font-size: rem(28) !important;
         top: 50%;
         transform: translateY(-50%);
+        fill: $dark;
+        @include darkMode {
+            fill: $white;
+        }
     }
 
     .MuiFilledInput-input {
@@ -71,7 +75,6 @@
         }
     }
 }
-
 
 .MuiPaper-root {
     @include darkMode {

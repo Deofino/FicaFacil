@@ -29,13 +29,7 @@
         --color-#{$name}: #{$color};
     }
 
-    --color-background: var(--color-light);
-    --font-color: var(--color-dark);
-
-    @include darkMode {
-        --color-background: var(--color-dark);
-        --font-color: var(--color-white);
-    }
+    
 }
 
 //? IMPORT LAYOUTS BASE

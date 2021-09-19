@@ -76,8 +76,10 @@
 }
 
 @mixin darkMode {
-  @media (prefers-color-scheme: dark) {
-    // Dark mode
+  html.dark &,
+  html.dark,
+  html.dark body,
+  html.dark :root {
     @content;
   }
 }

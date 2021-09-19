@@ -7,11 +7,14 @@
         padding: 0 rem(8);
         font-weight: bold;
         cursor: pointer;
-        font-size: $global-font-size-sm;
 
         &:hover,
         svg {
-            transition: 0.3s ease;
+            transition: all 0.3s ease;
+            fill: $accent-dark;
+            @include darkMode {
+                fill: $white;
+            }
             &:hover {
                 opacity: 1;
             }

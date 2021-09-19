@@ -1,7 +1,6 @@
 :root {
   scroll-behavior: smooth;
 }
-
 html,
 body,
 div,
@@ -79,7 +78,7 @@ button {
   // vertical-align: middle;
   z-index: $z-default;
   font-weight: 300;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
   background: transparent;
 }
 html {
@@ -127,7 +126,6 @@ label {
     transition: all 0.3s ease;
     border: none;
     outline: none;
-    transition-duration: 0.3s !important;
   }
 }
 
@@ -188,10 +186,16 @@ body {
   line-height: $global-line-height;
   font-family: "Poppins", -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica,
     Ubuntu, roboto, noto, arial, sans-serif;
-  background-color: var(--color-background);
   min-height: 100vh;
   height: 100%;
   padding-right: 0 !important;
+
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  @include darkMode {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+  }
 }
 a {
   text-decoration: none;
@@ -211,13 +215,14 @@ textarea {
 
 body::-webkit-scrollbar {
   width: rem(16px); /* width of the entire scrollbar */
+  scrollbar-color: var(--color-primary) var(--color-background);
 }
-* {
+html {
   scrollbar-width: rem(16px);
-  scrollbar-color: darken($primary, 5%) var(--color-background);
-  @include darkMode {
-    scrollbar-color: var(--color-primary) var(--color-background);
-  }
+  scrollbar-color: darken($primary, 5%) lighten($primary, 30%);
+}
+html.dark {
+  scrollbar-color: darken($primary, 5%) darken($dark, 2%);
 }
 body::-webkit-scrollbar-thumb {
   background-color: $primary; /* color of the scroll thumb */

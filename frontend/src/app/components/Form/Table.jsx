@@ -10,7 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
-export default function StickyHeadTable ({ colunas = [], linhas = [], tabela }) {
+export default function StickyHeadTable ({ colunas = [], linhas = [], tabela, className = '' }) {
 
     const functionDelete = (id = -1, tabela) => {
         let conf = AlertWarning({
@@ -25,7 +25,7 @@ export default function StickyHeadTable ({ colunas = [], linhas = [], tabela }) 
                     .then(value => console.log(value.data.data))
                     .catch(error => ToastError({ text: "Nao pode excluir por causa da Foreign Key" }));
 
-                ToastSuccess({ text: tabela+" deletada com sucesso" });
+                ToastSuccess({ text: tabela + " deletada com sucesso" });
 
                 setTimeout(() => {
                     window.location.reload();
@@ -77,8 +77,8 @@ export default function StickyHeadTable ({ colunas = [], linhas = [], tabela }) 
     };
 
     return (
-        <section className="c-table">
-            <TableContainer className='c-table__container'>
+        <section className={ "c-table" + className }>
+            <TableContainer className={ 'c-table__container ' }>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead className='c-table__head'>
                         <TableRow>
@@ -103,7 +103,7 @@ export default function StickyHeadTable ({ colunas = [], linhas = [], tabela }) 
                                         {
                                             return (
                                                 <TableCell key={ i } align={ 'center' } style={ { width: column.width || 100 } }
-                                                className={ column.className || null } onClick={ (e) => column.onClick(e.target, row.id) }>
+                                                    className={ column.className || null } onClick={ (e) => column.onClick(e.target, row.id) }>
                                                     { value }
                                                 </TableCell>
                                             );

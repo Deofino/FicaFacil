@@ -4,7 +4,7 @@
     margin: rem(60) auto;
     flex-wrap: wrap;
     overflow: visible;
-    color: var(--font-color);
+    color: inherit;
     padding: 0 rem(20);
     @include breakpoint(small) {
         padding: 0 rem(10);

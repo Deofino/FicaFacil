@@ -3,6 +3,9 @@
     overflow: hidden;
     box-shadow: 0 rem(2) rem(4) var(--color-shadow);
     border-radius: $global-radius;
+    th {
+        line-height: rem(14);
+    }
     td,
     tr,
     th,
