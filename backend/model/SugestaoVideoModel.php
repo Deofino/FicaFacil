@@ -62,7 +62,7 @@ class SugestaoVideoModel
         if (isset($thumbnailVideo) && trim($thumbnailVideo) !== '' && strlen(trim($thumbnailVideo)) !== 0 && trim($thumbnailVideo) !== null) {
             $data = json_decode($this->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->sugestaoVideo as $el) {
                     if (trim(strtoupper($el->thumbnailVideo)) === trim(strtoupper(($thumbnailVideo)))) {
                         throw new \Exception("Thumbnail Vídeo `" . $thumbnailVideo . "` já cadastrada", 400);
                         return;
@@ -83,7 +83,7 @@ class SugestaoVideoModel
         if (isset($urlVideo) && trim($urlVideo) !== '' && strlen(trim($urlVideo)) !== 0 && trim($urlVideo) !== null) {
             $data = json_decode($this->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->sugestaoVideo as $el) {
                     if (trim(strtoupper($el->urlVideo)) === trim(strtoupper(($urlVideo)))) {
                         throw new \Exception("URL do vídeo`" . $urlVideo . "` ja cadastrada", 400);
                         return;
@@ -104,7 +104,7 @@ class SugestaoVideoModel
             $questaoModel = new QuestaoModel();
             $data = json_decode($questaoModel->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->questao as $el) {
                     if ($el->idQuestao == $questao) {
                         $this->questao = $questao;
                         return;
@@ -117,7 +117,7 @@ class SugestaoVideoModel
                 return;
             };
         }
-        throw new \Exception("Esse questão não pode ser aceito", 400);
+        throw new \Exception("Essa questão não pode ser aceita", 400);
         return;
     }
 
@@ -134,17 +134,32 @@ class SugestaoVideoModel
             }
 
             if ($stmt->execute()) {
-                return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhuma sugestão de vídeo encontrada...", 404) :
-                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+                $questao = (new QuestaoModel)->get();
+                if ($stmt->rowCount() === 0) {
+                    return Response::warning("Nenhuma materia encontrada...", 404);
+                }
+                if ($stmt->rowCount() === 1) {
+                    $sugestaoVideo = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    $questao = (new QuestaoModel)->get(['id' => $sugestaoVideo[0]['idQuestao']]);
+                    return Response::success([
+                        "sugestaoVideo" => $sugestaoVideo,
+                        "questao" => json_decode($questao)->data
+                    ]);
+                }
+                if ($stmt->rowCount() > 1) {
+                    return Response::success([
+                        "sugestaoVideo" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
+                        "questao" => json_decode($questao)->data
+                    ]);
+                }
             }
             return Response::error("Erro ao selecionar sugestão de vídeo");
         } catch (\Throwable $th) {
             return Response::error("Error: $th");
-    }
+        }
 
     }
-    public function post($params)
+    public function post()
     {
         try {
             $con = Connection::getConn();

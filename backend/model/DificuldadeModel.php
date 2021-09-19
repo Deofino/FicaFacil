@@ -21,7 +21,7 @@ class DificuldadeModel
             $model = new DificuldadeModel();
             $data = json_decode($model->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->dificuldade as $el) {
                     if (trim(strtoupper($el->nivelDificuldade)) === trim(strtoupper(($nivel)))) {
                         throw new \Exception("Nivel de dificuldade `" . $nivel . "` ja cadastrada", 400);
                         return;

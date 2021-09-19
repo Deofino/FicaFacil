@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
-import { Input, Select, MenuItem, Button } from '../Form/';
+import { Input, Select, MenuItem, Button, Table } from '../Form/';
 import { AlertSuccess } from '../Alert/Modal';
 
 export default function FormularioSugestaoVideo() {
@@ -12,6 +12,8 @@ export default function FormularioSugestaoVideo() {
     const refThumbVideo = useRef(null);
     const refUrlVideo = useRef(null);
 
+    const [ SugestaoVideo, setSugestaoVideo ] = useState([]);
+
     const [ ErroSugestaoVideo, setErroSugestaoVideo ] = useState(null);
     const [ ErroThumbVideo, setErroThumbVideo ] = useState(null);
     const [ ErroUrlVideo, setErroUrlVideo ] = useState(null);
@@ -21,6 +23,10 @@ export default function FormularioSugestaoVideo() {
         axios.get(`${process.env.REACT_APP_API}/questao/index/`)
             .then(value => setQuestao(value.data.data))
             .catch(error => console.error(error));
+
+            axios.get(`${process.env.REACT_APP_API}/sugestaoVideo/index/`)
+            .then(value => setSugestaoVideo(value.data.data))
+            .catch(error => console.error(error));    
     }, []);
 
 
@@ -89,6 +95,32 @@ export default function FormularioSugestaoVideo() {
         } */
     };
 
+    const colunas = [
+        {
+            field: "id",
+            headerName: "ID",
+            width: 90,
+        },
+        {
+            field: "titulo",
+            headerName: "Titulo",
+            width: 200,
+        },
+        {
+            field: "questao",
+            headerName: "Questao",
+            width: 200,
+        }
+    ];
+
+    const linhas = SugestaoVideo.sugestaoVideo ? SugestaoVideo.sugestaoVideo.map(sugestao => {
+        return {
+            id: sugestao.idSugestaoVideo,
+            titulo: sugestao.tituloSugestaoVideo,
+            questao: SugestaoVideo.questao.questao.filter(e => e.idQuestao === sugestao.idQuestao)[ 0 ].tituloQuestao,
+        };
+    }) : [];
+
     return (
         <React.Fragment>
             <form method="post" id="formSV" className="c-formSV" onSubmit={ submitForm }>
@@ -104,6 +136,7 @@ export default function FormularioSugestaoVideo() {
                 </Select>
                 <Button className='c-formSVideo__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>
             </form>
+            <Table colunas={ colunas } linhas={ linhas } tabela='sugestaoVideo' />
         </React.Fragment>
     );
 }

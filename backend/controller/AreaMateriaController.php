@@ -36,8 +36,13 @@ class AreaMateriaController
     {
         echo Response::json('JSON update');
     }
-    public function delete() // parametro do file_get_contents
+    public function delete($params) // parametro do file_get_contents
     {
-        echo Response::json('JSON delete');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $model = new AreaMateriaModel();
+            echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
     }
 }

@@ -1,12 +1,35 @@
     import React, { useState, Fragment, useRef } from "react";
 import axios from 'axios';
 import { AlertSuccess } from '../Alert/Modal'; 
-import { Input, Button, } from '../Form';
+import { Input, Button, Table } from '../Form';
 import { FaBookOpen } from 'react-icons/fa';
 
 export default function FormularioAreaMateria() {
     const [ ErroAreaMateria, setErroAreaMateria ] = useState(null);
     const refAreaMateria = useRef(null);
+
+    const [ areaMaterias, setareaMaterias ] = React.useState([]);
+    React.useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API}/areaMateria/index/`)
+            .then(value => { setareaMaterias(value.data.data); })
+            .catch(error => console.error(error));
+    }, []);
+
+    const columns = [
+        {
+            field: 'id',
+            headerName: 'ID',
+            width: 80,
+        },
+        {
+            field: 'nomeAreaMateria',
+            headerName: 'Area Materia',
+            width: 200,
+        },
+    ];
+    const linhas = areaMaterias.map(el => {
+        return { id: el.idAreaMateria, nomeAreaMateria: el.nomeAreaMateria };
+    });
     
     return (
         <Fragment>
@@ -39,8 +62,7 @@ export default function FormularioAreaMateria() {
 
                     } }>Adicionar Area Matéria</Button>
                 </form>
-          
-                
+                <Table colunas={ columns } linhas={ linhas } tabela={ "areaMateria" } />
             </Fragment>
 
     );
