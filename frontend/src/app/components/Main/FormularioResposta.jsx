@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Input, Select, MenuItem, Button, RadioGroup, Radio } from "../Form/";
+import { Input, Select, MenuItem, Button, RadioGroup, Radio, Table } from "../Form/";
 import { AlertSuccess, AlertError } from "../Alert/Modal";
 import { ToastInformation } from "../Alert/Toast";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { FaListAlt, FaImages, FaFont } from "react-icons/fa";
 export default function FormularioResposta() {
+
   const [respostas, setRespostas] = useState([]);
   const [selectedQuestao, setSelectedQuestao] = useState(0);
   const [certaResposta, setCertaResposta] = useState(null);
+
   const [TypeInputAlternativa, setTypeInputAlternativa] = useState("text");
+
+  const [ Resposta, setResposta ] = useState([]);
 
   const [ErroResposta, setErroResposta] = useState(null);
   const [ErroQuestaoSelecionada, setErroQuestaoSelecionada] = useState(null);
@@ -19,6 +23,10 @@ export default function FormularioResposta() {
       .get(`${process.env.REACT_APP_API}/questao/index/`)
       .then((value) => setRespostas(value.data.data))
       .catch((error) => console.error(error));
+
+      axios.get(`${process.env.REACT_APP_API}/resposta/index/`)
+      .then(value => setResposta(value.data.data))
+      .catch(error => console.error(error));
   }, []);
   const [inputAlternativa, setInputAlternativa] = useState("");
   const [alternativas, setAlternativas] = useState([]);
@@ -94,6 +102,37 @@ export default function FormularioResposta() {
       }
     }
   };
+
+  const colunas = [
+    {
+        field: "id",
+        headerName: "ID",
+        width: 90,
+    },
+    {
+        field: "resposta",
+        headerName: "Resposta",
+        width: 200,
+    },
+    {
+        field: "questao",
+        headerName: "Questao",
+        width: 200,
+    },
+    {
+      field: "questao",
+      headerName: "Questao",
+      width: 200,
+  }
+];
+
+const linhas = Resposta.resposta ? Resposta.resposta.map(resposta => {
+    return {
+        id: resposta.idResposta,
+        resposta: resposta.certaResposta,
+        questao: Resposta.questao.questao.filter(e => e.idQuestao === resposta.idQuestao)[ 0 ].tituloQuestao,
+    };
+}) : [];
 
   return (
     <React.Fragment>
@@ -253,6 +292,7 @@ export default function FormularioResposta() {
           Cadastrar
         </Button>
       </form>
+      <Table colunas={ colunas } linhas={ linhas } tabela='resposta' />
     </React.Fragment>
   );
 }

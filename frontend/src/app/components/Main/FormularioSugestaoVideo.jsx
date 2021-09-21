@@ -188,7 +188,7 @@ export default function FormularioSugestaoVideo() {
           Cadastrar
         </Button>
       </form>
-      <Table colunas={colunas} linhas={linhas || []} tabela="sugestaoVideo" />
+      <Table colunas={colunas} linhas={linhas || []} tabela='sugestaoVideo' />
     </React.Fragment>
   );
 }

@@ -38,7 +38,12 @@ class RespostaModel
     }
     public function setCertaResposta(int $certaResposta): void
     {
-        $this->certaResposta = $certaResposta;
+        if (isset($certaResposta) && trim($certaResposta) !== '' && strlen(trim($certaResposta)) !== 0 && trim($certaResposta) !== null) {
+            $this->certaResposta = ucfirst($certaResposta);
+            return;
+        }
+        throw new \Exception("Esse texto não pode ser aceito", 400);
+        return;
     }
     public function getIdQuestao(): int
     {
@@ -50,7 +55,7 @@ class RespostaModel
             $modelQuestao = new QuestaoModel();
             $data = json_decode($modelQuestao->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->resposta as $el) {
                     if ($el->idQuestao == $questao) {
                         $this->idQuestao = $questao;
                         return;
@@ -79,9 +84,24 @@ class RespostaModel
             }
 
             if ($stmt->execute()) {
-                return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhuma resposta encontrada...", 404) :
-                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+                $questao = (new QuestaoModel)->get();
+                if ($stmt->rowCount() === 0) {
+                    return Response::warning("Nenhuma questao encontrada...", 404);
+                }
+                if ($stmt->rowCount() === 1) {
+                    $resposta = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    $questao = (new MateriaModel)->get(['id' => $resposta[0]['idQuestao']]);
+                    return Response::success([
+                        "resposta" => $resposta,
+                        "questao" => json_decode($questao)->data
+                    ]);
+                }
+                if ($stmt->rowCount() > 1) {
+                    return Response::success([
+                        "resposta" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
+                        "questao" => json_decode($questao)->data
+                    ]);
+                }
             }
             return Response::error("Erro ao selecionar resposta");
         } catch (\Throwable $th) {
@@ -107,7 +127,24 @@ class RespostaModel
     public function put($params)
     {
     }
-    public function delete($params)
+    public function delete($id = -1)
     {
+        try {
+            if ($id !== -1 && $id !== null) {
+                $con = Connection::getConn();
+                $data = json_decode($this->get(array('id' => $id)));
+                if ($data->status_code === 200) {
+                    $stmt = $con->prepare("DELETE FROM tb_resposta WHERE idResposta = ?");
+                    $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
+                    if ($stmt->execute()) {
+                        return Response::success("Resposta id=`$id` deletada com sucesso");
+                    }
+                    return Response::warning("Erro ao deletar Resposta", 404);
+                };
+            }
+            return Response::warning("Resposta id=$id nao encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
 }
