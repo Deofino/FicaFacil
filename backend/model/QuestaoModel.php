@@ -90,7 +90,7 @@ class QuestaoModel
             $modelDificuldade = new DificuldadeModel();
             $data = json_decode($modelDificuldade->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->dificuldade as $el) {
                     if ($el->idDificuldade == $dificuldade) {
                         $this->idDificuldade = $dificuldade;
                         return;
@@ -113,7 +113,7 @@ class QuestaoModel
             $modelUniversidade = new UniversidadeModel();
             $data = json_decode($modelUniversidade->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->universidade as $el) {
                     if ($el->idUniversidade == $universidade) {
                         $this->idUniversidade = $universidade;
                         return;
@@ -136,7 +136,7 @@ class QuestaoModel
             $modelAssuntoMateria = new AssuntoMateriaModel();
             $data = json_decode($modelAssuntoMateria->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->assuntoMateria as $el) {
                     if ($el->idAssuntoMateria == $assuntoMateria) {
                         $this->idAssuntoMateria = $assuntoMateria;
                         return;
@@ -158,7 +158,7 @@ class QuestaoModel
             $modelAdministrador = new AdministradorModel(null, null, null);
             $data = json_decode($modelAdministrador->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->administrador as $el) {
                     if ($el->idAdministrador == $administrador) {
                         $this->idAdministrador = $administrador;
                         return;
@@ -185,11 +185,37 @@ class QuestaoModel
                 $stmt = $con->prepare("SELECT * FROM tb_questao WHERE idQuestao = ?");
                 $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
-
             if ($stmt->execute()) {
-                return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhuma questão encontrada...", 404) :
-                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+                $universidade = (new UniversidadeModel)->get();
+                $dificuldade = (new DificuldadeModel)->get();
+                $assuntoMateria = (new AssuntoMateriaModel)->get();
+                $administrador = (new AdministradorModel)->get();
+                if ($stmt->rowCount() === 0) {
+                    return Response::warning("Nenhuma universidade, dificuldade, assunto ou adm encontrado...", 404);
+                }
+                if ($stmt->rowCount() === 1) {
+                    $questao = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    $universidade = (new UniversidadeModel)->get(['id' => $questao[0]['idUniversidade']]);
+                    $dificuldade = (new DificuldadeModel)->get(['id' => $questao[0]['idDificuldade']]);
+                    $assuntoMateria = (new AssuntoMateriaModel)->get(['id' => $questao[0]['idAssuntoMateria']]);
+                    $administrador = (new AdministradorModel)->get(['id' => $questao[0]['idAdministrador']]);
+                    return Response::success([
+                        "questao" => $questao,
+                        "universidade" => json_decode($universidade)->data,
+                        "dificuldade" => json_decode($dificuldade)->data,
+                        "assuntoMateria" => json_decode($assuntoMateria)->data,
+                        "administrador" => json_decode($administrador)->data
+                    ]);
+                }
+                if ($stmt->rowCount() > 1) {
+                    return Response::success([
+                        "questao" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
+                        "universidade" => json_decode($universidade)->data,
+                        "dificuldade" => json_decode($dificuldade)->data,
+                        "assuntoMateria" => json_decode($assuntoMateria)->data,
+                        "administrador" => json_decode($administrador)->data
+                    ]);
+                }
             }
             return Response::error("Erro ao selecionar questão");
         } catch (\Throwable $th) {
@@ -219,7 +245,24 @@ class QuestaoModel
     public function put($params)
     {
     }
-    public function delete($params)
+    public function delete($id = -1)
     {
+        try {
+            if ($id !== -1 && $id !== null) {
+                $con = Connection::getConn();
+                $data = json_decode($this->get(array('id' => $id)));
+                if ($data->status_code === 200) {
+                    $stmt = $con->prepare("DELETE FROM tb_questao WHERE idQuestao = ?");
+                    $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
+                    if ($stmt->execute()) {
+                        return Response::success("Questao id=`$id` deletada com sucesso");
+                    }
+                    return Response::warning("Erro ao deletar Questao", 404);
+                };
+            }
+            return Response::warning("Questao id=$id nao encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
 }

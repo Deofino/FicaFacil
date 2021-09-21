@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FaFont, FaImages, FaUser } from 'react-icons/fa';
 import { AlertError, AlertSuccess } from '../Alert/Modal';
 import { ToastWarning } from '../Alert/Toast';
-import { Button, Input, MenuItem, Select } from '../Form';
+import { Button, Input, MenuItem, Select, Table } from '../Form';
 
 
 export default function FormularioQuestao () {
@@ -25,6 +25,7 @@ export default function FormularioQuestao () {
     const [ dificuldades, setDificuldades ] = useState(null);
     const [ adms, setAdms ] = useState(null);
     const [ Questoes, setQuestoes ] = useState([]);
+    const [ questoes, setQuestao ] = useState([]);
 
     const [ ErroTitulo, setErroTitulo ] = useState(null);
     const [ ErroTexto, setErroTexto ] = useState(null);
@@ -35,19 +36,23 @@ export default function FormularioQuestao () {
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API + '/universidade/index/')
-            .then(data => setUniversidades(data.data))
+            .then(value => setUniversidades(value.data.data))
             .catch(error => console.error(error));
 
         axios.get(process.env.REACT_APP_API + '/dificuldade/index/')
-            .then(data => setDificuldades(data.data))
+            .then(value => setDificuldades(value.data.data))
             .catch(error => console.error(error));
 
         axios.get(process.env.REACT_APP_API + '/assuntoMateria/index/')
-            .then(data => setAssuntoMaterias(data.data))
+            .then(value => setAssuntoMaterias(value.data.data))
             .catch(error => console.error(error));
 
         axios.get(process.env.REACT_APP_API + '/administrador/index/')
-            .then(data => setAdms(data.data))
+            .then(value => setAdms(value.data.data))
+            .catch(error => console.error(error));
+
+        axios.get(process.env.REACT_APP_API + '/questao/index/')
+            .then(value => setQuestao(value.data.data))
             .catch(error => console.error(error));
 
         axios.get(process.env.REACT_APP_API + '/questao/index/8/')
@@ -123,6 +128,67 @@ export default function FormularioQuestao () {
         } else ToastWarning({ text: 'Preencha todos os campos' });
     };
 
+    const colunas = [
+        {
+            field: "id",
+            headerName: "ID",
+            width: 90,
+        },
+        {
+            field: "questao",
+            headerName: "Questão",
+            width: 200,
+        },
+        {
+            field: "titulo",
+            headerName: "Titulo Questão",
+            width: 200,
+        },
+        {
+            field: "texto",
+            headerName: "Texto Questão",
+            width: 200,
+        },
+        {
+            field: "imagem",
+            headerName: "Imagem Questão",
+            width: 200,
+        },
+        {
+            field: "universidade",
+            headerName: "Universidade",
+            width: 200,
+        },
+        {
+            field: "dificuldade",
+            headerName: "Dificuldade",
+            width: 200,
+        },
+        {
+            field: "assuntoMateria",
+            headerName: "Assunto Matéria",
+            width: 200,
+        },
+        {
+            field: "administrador",
+            headerName: "Administrador",
+            width: 200,
+        }
+    ];
+
+    const linhas = questoes.questao ? questoes.questao.map(questao => {
+        return {
+            id: questao.idQuestao,
+            titulo: questao.tituloQuestao,
+            texto: questao.textoQuestao,
+            imagem: questao.imagemQuestao,
+            universidade: questao.universidade.filter(e => e.idUniversidade === questao.idUniversidade)[ 0 ].nomeUniversidade,
+            dificuldade: questao.dificuldade.filter(e => e.idDificuldade === questao.idDificuldade)[ 0 ].nivelDificuldade,
+            assuntoMateria: questao.assuntoMateria.filter(e => e.idAssuntoMateria === questao.idAssuntoMateria)[ 0 ].nomeAssuntoMateria,
+            administrador: questao.administrador.filter(e => e.idAdministrador === questao.idAdministrador)[ 0 ].nomeAdministrador,
+        };
+    }) : null;
+
     return (
         <Fragment>
             <form method="post" id='form' onSubmit={ (e) => submitForm(e) } encType="multipart/form-data">
@@ -176,6 +242,7 @@ export default function FormularioQuestao () {
                 </Select>
                 <Button type='submit' styleButton={ { marginTop: 30 } }>Enviar</Button>
             </form>
+            <Table colunas={ colunas } linhas={ linhas || [] } tabela='questao' />
             <img src={ Questoes } alt='Imagem' />
 
         </Fragment >
