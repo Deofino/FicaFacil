@@ -119,11 +119,6 @@ export default function FormularioResposta() {
         headerName: "Questao",
         width: 200,
     },
-    {
-      field: "questao",
-      headerName: "Questao",
-      width: 200,
-  }
 ];
 
 const linhas = Resposta.resposta ? Resposta.resposta.map(resposta => {
