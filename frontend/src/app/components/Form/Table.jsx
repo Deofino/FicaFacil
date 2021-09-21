@@ -9,23 +9,34 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+/**
+ * @description Ira gerar automaticamente de acordo com os parametros uma tabela dinamica que podera excluir
+ * @param {colunas}{ colunas = [
+            field: 'id',
+            headerName: 'ID',
+            width: 80,
+        ], linhas = [{refField='id}], tabela='nome da api chamada (controller)', className = '', nome='Nome do campo' }, style
+ * @returns MaterialUI Table  
+ */
+export default function StickyHeadTable ({ colunas = [], linhas = [], tabela, className = '', nome, style }) {
 
-export default function StickyHeadTable ({ colunas = [], linhas = [], tabela, className = '' }) {
+    const functionDelete = (id = -1, tabela, nome) => {
 
-    const functionDelete = (id = -1, tabela) => {
         let conf = AlertWarning({
             title: "Cuidado...",
-            text: 'Deseja Mesmo deletar essa ' + tabela + '?', textButton1: "Sim!", textButton2: 'Nao'
+            text: 'Deseja Mesmo deletar essa ' + nome + '?', textButton1: "Sim!", textButton2: 'Nao'
         })
             ;
         conf.then(v => {
             if (v.isConfirmed)
             {
                 axios.post(`${process.env.REACT_APP_API}/${tabela}/delete/${id}/`)
-                    .then(value => console.log(value.data.data))
+                    .then(value => {
+                        ToastSuccess({ text: nome + " deletada com sucesso" });
+                    })
                     .catch(error => ToastError({ text: "Nao pode excluir por causa da Foreign Key" }));
 
-                ToastSuccess({ text: tabela + " deletada com sucesso" });
+
 
                 setTimeout(() => {
                     window.location.reload();
@@ -47,7 +58,7 @@ export default function StickyHeadTable ({ colunas = [], linhas = [], tabela, cl
                 headerName: 'Apagar',
                 width: 150,
                 className: 'button delete',
-                onClick: (ev, id) => functionDelete(id, tabela)
+                onClick: (ev, id) => functionDelete(id, tabela, nome)
             },
             {
                 field: 'update',
@@ -77,7 +88,7 @@ export default function StickyHeadTable ({ colunas = [], linhas = [], tabela, cl
     };
 
     return (
-        <section className={ "c-table" + className }>
+        <section className={ "c-table " + className } style={ style || null }>
             <TableContainer className={ 'c-table__container ' }>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead className='c-table__head'>

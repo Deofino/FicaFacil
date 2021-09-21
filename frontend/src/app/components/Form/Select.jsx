@@ -1,5 +1,5 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import React from "react";
+import TextField from "@material-ui/core/TextField";
 
 /**
  * @function SelectComponent
@@ -9,22 +9,23 @@ import TextField from '@material-ui/core/TextField';
  * @param children: JSX MENUITEM ou Value -- children Menu Items do select
  */
 const CustomSelect = React.forwardRef((props, ref) => (
-    <TextField
-        select
-        helperText={ props.error || null }
-        error={ props.error ? true : false }
-        id={ props.id || null }
-        name={ props.name || null }
-        innerRef={ ref }
-        value={ props.value || '' }
-        label={ props.label || 'Selecione:' }
-        variant='filled'
-        className={ props.className + ' c-select' || 'c-select' }
-        onChange={ props.onChange || null }
-    >
-        { props.children }
-    </TextField>
+  <TextField
+    select
+    helperText={props.error || null}
+    error={props.error ? true : false}
+    id={props.id || null}
+    name={props.name || null}
+    innerRef={ref}
+    value={props.value || ""}
+    label={props.label || "Selecione:"}
+    variant="filled"
+    className={`c-select ${props.class || ""} ${
+      props.error && " c-select--error"
+    }`}
+    onChange={props.onChange || null}
+  >
+    {props.children}
+  </TextField>
 ));
 
 export default CustomSelect;
-

@@ -1,11 +1,12 @@
-import React, { useState, Fragment, useRef, useEffect } from "react";
 import axios from 'axios';
-import { Input, Button, Select, MenuItem, Table } from '../Form';
-import { FaUser, FaImages, FaFont } from 'react-icons/fa';
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { FaFont, FaImages, FaUser } from 'react-icons/fa';
 import { AlertError, AlertSuccess } from '../Alert/Modal';
+import { ToastWarning } from '../Alert/Toast';
+import { Button, Input, MenuItem, Select } from '../Form';
+
 
 export default function FormularioQuestao () {
-
     const [ selectUniversidade, setselectUniversidade ] = useState(0);
     const [ selectAssuntoMateria, setselectAssuntoMateria ] = useState(0);
     const [ selectDificuldade, setselectDificuldade ] = useState(0);
@@ -62,6 +63,7 @@ export default function FormularioQuestao () {
     const submitForm = (e) => {
         e.preventDefault();
 
+        /** */
         let formulario = document.getElementById('form');
         let formData = new FormData(formulario);
 
@@ -70,7 +72,6 @@ export default function FormularioQuestao () {
             refTexto.current.value,
             refImage.current.value
         ];
-
         let errorMsg = 'O campo precisa ter mais de 4 caracteres';
 
         // Seta erro nos input's contidos na questão
@@ -83,6 +84,7 @@ export default function FormularioQuestao () {
         // Seta erro nos select's contidos na questão
         if (selectUniversidade === 0) setErroUniversidade('Selecione uma Universidade');
         else setErroUniversidade(null);
+
 
 
         if (selectDificuldade === 0) setErroDificuldade('Selecione uma Dificuldade');
@@ -100,7 +102,8 @@ export default function FormularioQuestao () {
             axios.post(`${process.env.REACT_APP_API}/questao/create/`, formData)
 
                 .then(function (parametro) {
-                    refTitulo.current.value = '';
+                    if (parametro.data)
+                        refTitulo.current.value = '';
                     refTexto.current.value = '';
                     refImage.current.value = '';
                     setselectUniversidade(0);
@@ -108,12 +111,16 @@ export default function FormularioQuestao () {
                     setselectAssuntoMateria(0);
                     setselectAdministrador(0);
                     AlertSuccess({ text: "Questão inserida com sucesso", title: 'Sucesso...' });
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 4000);
+
                 })
-                .catch(function (err) {
-                    AlertError({});
+                .catch(function () {
+                    AlertError({ text: "Ocorreram alguns erros...", title: 'Ops...' });
                 });
-            console.log('Pode passar!');
-        } else console.log('Não pode passar!');
+        } else ToastWarning({ text: 'Preencha todos os campos' });
     };
 
     return (
@@ -124,7 +131,6 @@ export default function FormularioQuestao () {
                 <Input title='Imagens:' id='image' accept='image/*' name='images[]' multiple={ true } ref={ refImage } type='file' icon={ <FaImages /> } />
                 <Select label='Universidades: *' id='universidade' name='universidade' error={ ErroUniversidade } ref={ refSelectUniversidade }
                     onChange={ e => {
-                        // console.log(e.target);
                         setselectUniversidade(e.target.value);
                     } }
                     value={ selectUniversidade }
@@ -136,7 +142,6 @@ export default function FormularioQuestao () {
                 </Select>
                 <Select label='Dificuldades: *' id='dificuldades' name='dificuldade' error={ ErroDificuldade } ref={ refSelectDificuldade }
                     onChange={ e => {
-                        // console.log(e.target);
                         setselectDificuldade(e.target.value);
                     } }
                     value={ selectDificuldade }
@@ -149,13 +154,12 @@ export default function FormularioQuestao () {
 
                 <Select label='Assunto Matéria: *' id='assuntoMateria' name='assuntoMateria' error={ ErroAssuntoMateria } ref={ refSelectAssuntoMateria }
                     onChange={ e => {
-                        // console.log(e.target);
                         setselectAssuntoMateria(e.target.value);
                     } }
                     value={ selectAssuntoMateria }
                 >
                     <MenuItem value={ 0 }>Selecione</MenuItem>
-                    { assuntoMaterias && assuntoMaterias.data.map((el, i) =>
+                    { assuntoMaterias && assuntoMaterias.data.assuntoMateria && assuntoMaterias.data.assuntoMateria.map((el, i) =>
                         <MenuItem key={ i } value={ el[ 'idAssuntoMateria' ] }>{ el[ 'nomeAssuntoMateria' ] }</MenuItem>
                     ) }
                 </Select>
@@ -172,7 +176,7 @@ export default function FormularioQuestao () {
                 </Select>
                 <Button type='submit' styleButton={ { marginTop: 30 } }>Enviar</Button>
             </form>
-            <img src={ Questoes } />
+            <img src={ Questoes } alt='Imagem' />
 
         </Fragment >
     );

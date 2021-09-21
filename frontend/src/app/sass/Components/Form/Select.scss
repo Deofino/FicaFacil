@@ -74,6 +74,30 @@
             font-size: $global-font-size-sm;
         }
     }
+
+    &--error {
+        label,
+        *::after,
+        *::before,
+        input {
+            color: var(--color-danger) !important;
+            caret-color: var(--font-danger);
+            border-color: var(--color-danger) !important;
+        }
+        & > div {
+            color: var(--color-danger) !important;
+            caret-color: var(--font-danger);
+            border-color: var(--color-danger) !important;
+            border: rem(1) solid rgba($color: $danger, $alpha: 0.4);
+            background-color: rgba($color: $danger, $alpha: 0.05);
+            &:hover {
+                background-color: rgba($color: $danger, $alpha: 0.075);
+            }
+            &:focus-within {
+                background-color: rgba($color: $danger, $alpha: 0.1);
+            }
+        }
+    }
 }
 
 .MuiPaper-root {

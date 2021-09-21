@@ -1,9 +1,13 @@
 .swal2-shown.swal2-height-auto {
     .swal2-popup {
-        background-color: var(--color-background) !important;
+        background-color: var(--color-light) !important;
         box-shadow: rem(2) rem(4) rem(8) var(--color-shadow);
         @include darkMode {
-            color: var(--font-color) !important;
+            color: var(--color-white) !important;
+            background-color: var(--color-dark) !important;
+        }
+        .swal2-icon.swal2-success div {
+            background-color: transparent !important;
         }
 
         .swal2-title,
@@ -54,6 +58,7 @@
         }
         //SUCCESS
         .swal2-icon.swal2-success {
+            transform: scale(1.2) translateX(-0.5em);
             @include darkMode {
                 border-color: var(--color-success) !important;
                 color: var(--color-success) !important;
