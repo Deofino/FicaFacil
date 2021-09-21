@@ -184,8 +184,8 @@ sub {
 
 body {
   line-height: $global-line-height;
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica,
-    Ubuntu, roboto, noto, arial, sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, avenir next, avenir,
+    segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
   min-height: 100vh;
   height: 100%;
   padding-right: 0 !important;
@@ -225,7 +225,6 @@ html.dark {
   scrollbar-color: darken($primary, 5%) darken($dark, 2%);
 }
 body::-webkit-scrollbar-thumb {
-  background-color: $primary; /* color of the scroll thumb */
   border-radius: 8px; /* roundness of the scroll thumb */
   border: 2px solid var(--color-background);
 }

@@ -1,0 +1,135 @@
+body {
+  margin-left: rem(-80);
+}
+.login-main {
+  width: 100% !important;
+  background-image: linear-gradient(
+    40deg,
+    var(--color-accent),var(--color-primary),
+    var(--color-twitter)
+  );
+  min-height: 100vh;
+  height: 100%;
+  @include flex(center);
+  overflow: hidden;
+}
+.login_field {
+  background-color: $white;
+  max-width: $w-min;
+  width: 78%;
+  color: $black;
+  border-radius: $global-radius;
+  margin: 0 auto;
+
+  &__title {
+    font-weight: 300;
+    color: $gray;
+    text-align: center;
+  }
+  &__link {
+    color: $white;
+    margin: 10px;
+    padding: rem(12);
+    // text-align: center;
+    @include flex(center);
+    svg {
+      //background: yellow;
+      width: rem(50);
+      font-size: 25px;
+      margin-right: rem(5);
+      margin-bottom: rem(-3);
+    }
+    span {
+      //background: green;
+      align-self: flex-start;
+      width: rem(200);
+    }
+  }
+  &.google {
+    background: linear-gradient(to left, #c83241, #dc3535);
+  }
+  &.facebook {
+    background: linear-gradient(to left, #56a7f2, #468aca);
+  }
+  &.email {
+    background: $accent;
+  }
+  &.conta {
+    background: $primary;
+  }
+  &__line {
+    text-align: center;
+    font-weight: 200;
+    color: $gray-light;
+    margin: rem(20);
+
+    &::before {
+      right: 0.5rem;
+      margin-left: -50%;
+      background-color: $gray-light;
+      content: "";
+      display: inline-block;
+      height: 1px;
+      position: static;
+      vertical-align: middle;
+      width: 30%;
+      margin-right: rem(8);
+    }
+    &::after {
+      right: 0.5rem;
+      margin-right: -50%;
+      background-color: $gray-light;
+      content: "";
+      display: inline-block;
+      height: 1px;
+      position: static;
+      vertical-align: middle;
+      width: 30%;
+      margin-left: rem(8);
+    }
+  }
+  &__terms {
+    color: var(--color-linkedin);
+    font-size: rem(12);
+    text-align: center;
+    margin-top: rem(20);
+    padding-bottom: rem(18);
+    text-decoration: underline;
+  }
+  &__logo {
+    background: #468aca;
+    position: relative;
+    top: 0;
+    transform: translateY(-53%);
+    width: 55%;
+    overflow: hidden;
+    height: rem(65);
+    @include flex(center);
+    margin: 0 auto rem(-20);
+    border-radius: $global-radius;
+    padding: 0 rem(55);
+
+    @include breakpoint(small){/* 
+        background: #dc3535; */
+        min-width: rem(230);
+        @include flex(center);
+    }
+  }
+}
+.wave {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  z-index: 0;
+  svg {
+    fill: #f3f4f5;
+    fill-opacity: 0.4;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
