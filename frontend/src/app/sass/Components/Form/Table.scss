@@ -52,7 +52,7 @@
         }
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: clip;
+        text-overflow: ellipsis;
         &:nth-child(even) {
             background-color: darken($light, 6%);
             &:hover {
