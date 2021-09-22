@@ -9,6 +9,9 @@ export default function FormularioUniversidade() {
   const [ErroUniversidade, setErroUniversidade] = useState(null);
   const refUniversidade = useRef(null);
 
+  const [attUniversidade, setAttUniversidade] = React.useState(""); // State para atualizar o campo 
+
+
   const [universidades, setUniversidades] = React.useState([]);
   React.useEffect(() => {
     axios
@@ -47,19 +50,13 @@ export default function FormularioUniversidade() {
    * @param {Array} colunas  []
    */
   const update = (id, tabela, nome, linhas, colunas) => {
-    let div = document.querySelector("#backdrop");
-    if (div) {
-    } else {
-      let backdrop = document.createElement("div");
-      backdrop.id = "backdrop";
-      document.querySelector("#l-universidade").appendChild(backdrop);
-    }
-
     let data = linhas.filter((el) => el.id === id)[0]; //
     delete data.update;
     delete data.delete;
-    let titles = colunas.splice(0, colunas.length - 2);
+    let titles = colunas;
     data = Object.values(data);
+
+
 
     const Back = ({ titles, data }) => {
       return (
@@ -69,27 +66,30 @@ export default function FormularioUniversidade() {
             encType="multipart/form-data"
             id="formUpdate"
           >
-            {titles.map((val, i) => (
-              <Input
-                key={i}
-                title={val.headerName || "Input"}
-                id={val.field || null}
-                name={val.field || null}
-                type={val.type || "text"}
-                value={data[i]}
-                inputMode="text"
-              />
-            ))}
-            <Button type="submit">Atualizar</Button>
+            <Input
+              title={titles[1].headerName || "Input"}
+              id={titles[1].field || null}
+              name={titles[1].field || null}
+              type={titles[1].type || "text"}
+              value={data[1]}
+              onChange={(e) => {
+                console.log(e);
+              }}
+              inputMode="text"
+            />
+            )<Button type="submit">Atualizar</Button>
           </form>
         </section>
       );
     };
 
-    ReactDOM.render(
-      <Back data={data} titles={titles} />,
-      document.querySelector("#backdrop")
-    );
+    let div = document.querySelector("#backdrop");
+    if (div.hasChildNodes) {
+      // div.removeChild(div.firstChild);
+      console.log(div);
+    }
+
+    ReactDOM.render(<Back data={data} titles={titles} />, div);
   };
 
   return (
@@ -152,6 +152,7 @@ export default function FormularioUniversidade() {
         }}
         functionUpdate={update}
       />
+      <div id="backdrop"></div>
     </section>
   );
 }
