@@ -31,7 +31,7 @@ class MateriaModel
         if (isset($nomeMateria) && trim($nomeMateria) !== '' && strlen(trim($nomeMateria)) !== 0 && trim($nomeMateria) !== null) {
             $data = json_decode($this->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
+                foreach ($data->data->materia as $el) {
                     if (trim(strtoupper($el->nomeMateria)) === trim(strtoupper(($nomeMateria)))) {
                         throw new \Exception("materia `" . $nomeMateria . "` ja cadastrada", 400);
                         return;
@@ -114,15 +114,32 @@ class MateriaModel
             $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getArea()), PDO::PARAM_INT);
             if ($stmt->execute()) {
-                return Response::success("Materia `{$this->getNome()}` inserida com sucesso, id=" . $con->lastInsertId());
+                return Response::success("Matéria `{$this->getNome()}` inserida com sucesso, id=" . $con->lastInsertId());
             }
-            return Response::error("Erro ao inserir Materia");
+            return Response::error("Erro ao inserir Matéria");
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_materia SET nomeMateria = ? , idAreaMateria = ? WHERE idMateria = ?");
+            $stmt->bindValue(
+                1,
+                trim($this->getNome()),
+                PDO::PARAM_STR
+            );
+            $stmt->bindValue(2, $this->getArea(), PDO::PARAM_INT);
+            $stmt->bindValue(3, $id, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Matéria `{$this->getNome()}` atualizada com sucesso");
+            }
+            return Response::error("Erro ao atualizar Matéria");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function delete($id = -1)
     {
@@ -134,12 +151,12 @@ class MateriaModel
                     $stmt = $con->prepare("DELETE FROM tb_materia WHERE idMateria = ?");
                     $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
                     if ($stmt->execute()) {
-                        return Response::success("Materia id=`$id` deletada com sucesso");
+                        return Response::success("Matéria id=`$id` deletada com sucesso");
                     }
-                    return Response::warning("Erro ao deletar Materia", 404);
+                    return Response::warning("Erro ao deletar Matéria", 404);
                 };
             }
-            return Response::warning("Materia id=$id nao encontrada", 404);
+            return Response::warning("Matéria id=$id nao encontrada", 404);
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }

@@ -178,10 +178,47 @@ class SugestaoVideoModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_sugestao_video SET tituloSugestaoVideo = ? , thumbnailSugestaoVideo = ? , urlSugestaoVideo = ? , idQuestao = ? WHERE idSugestaoVideo = ?");
+            $stmt->bindValue(
+                1,
+                trim($this->getTitulo()),
+                PDO::PARAM_STR
+            );
+            $stmt->bindValue(2, $this->getThumbnailVideo(), PDO::PARAM_STR);
+            $stmt->bindValue(3, $this->getUrlVideo(), PDO::PARAM_STR);
+            $stmt->bindValue(4, $this->getQuestao(), PDO::PARAM_STR);
+            $stmt->bindValue(5, $id, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Sugestão Video `{$this->getTitulo()}` atualizada com sucesso");
+            }
+            return Response::error("Erro ao atualizar Sugestão Video");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
-    public function delete($params)
+    public function delete($id = -1)
     {
+        try {
+            if ($id !== -1 && $id !== null) {
+                $con = Connection::getConn();
+                $data = json_decode($this->get(array('id' => $id)));
+                if ($data->status_code === 200) {
+                    $stmt = $con->prepare("DELETE FROM tb_sugestao_video WHERE idSugestaoVideo = ?");
+                    $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
+                    if ($stmt->execute()) {
+                        return Response::success("Sugestão Video id=`$id` deletada com sucesso");
+                    }
+                    return Response::warning("Erro ao deletar Sugestão Video", 404);
+                };
+            }
+            return Response::warning("Sugestão Video id=$id nao encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
+
     }
 }

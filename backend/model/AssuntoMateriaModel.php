@@ -121,8 +121,25 @@ class AssuntoMateriaModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_assunto_materia SET nomeAssuntoMateria = ? , idMateria = ? WHERE idAssuntoMateria = ?");
+            $stmt->bindValue(
+                1,
+                trim($this->getNome()),
+                PDO::PARAM_STR
+            );
+            $stmt->bindValue(2, $this->getMateria(), PDO::PARAM_INT);
+            $stmt->bindValue(3, $id, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Assunto Matéria `{$this->getNome()}` atualizada com sucesso");
+            }
+            return Response::error("Erro ao atualizar Assunto Matéria");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function delete($id = -1)
     {

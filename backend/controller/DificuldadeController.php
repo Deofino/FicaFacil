@@ -34,7 +34,33 @@ class DificuldadeController
 
     public function update() // parametro do file_get_contents
     {
-        echo Response::json('JSON update');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+            $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
+            if (isset($req->dificuldade) && isset($req->id)) { // verifica se o id e a dificuldade existem
+                if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
+                    $model = new DificuldadeModel();
+                    $data = json_decode($model->get()); // requisicao para verificar se bate com alguma dificuldade existente
+                    if ($data->status_code === 200) { // se houver erro na requisicao na dificuldade 
+                        foreach ($data->data as $el) { // foreach pra verificar cada elemento
+                            if ($el->idDificuldade == $req->id) { // se for igual pode atualizar
+                                $model->setNivel(trim($req->dificuldade)); // insere aqui pra passar pelas verificacoes de dados
+                                echo $model->put($req->id);
+                                return;
+                            };
+                        }
+                        echo Response::warning("Dificuldade com id `" .$req->id . "` nao encontrada", 404);
+                        return; // senao puder ele ira gerar erro daqui pra baixo
+                    } else {
+                        echo Response::error("Erro ao pegar dificuldade", 404);
+                        return;
+                    };
+                }
+                echo Response::warning("id da dificuldade invalida", 400);
+                return;
+            } else echo Response::warning('Parametro `dificuldade/id` não encontrado ou vazio/nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
     }
     public function delete($params) // parametro na url
     {

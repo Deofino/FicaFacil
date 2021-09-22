@@ -9,10 +9,12 @@ class UniversidadeModel
 {
 
     private string $universidade;
+    
     public function getUniversidade(): string
     {
         return $this->universidade;
     }
+  
     public function setNome(string $universidade): void
     {
         if (isset($universidade) && trim($universidade) !== '' && strlen(trim($universidade)) !== 0 && trim($universidade) !== null) {
@@ -71,8 +73,24 @@ class UniversidadeModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_universidade SET nomeUniversidade = ? WHERE idUniversidade = ?");
+            $stmt->bindValue(
+                1,
+                trim($this->getUniversidade()),
+                PDO::PARAM_STR
+            );
+            $stmt->bindValue(2, $id, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Universidade `{$this->getUniversidade()}` atualizada com sucesso");
+            }
+            return Response::error("Erro ao atualizar universidade");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function delete(int $id)
     {

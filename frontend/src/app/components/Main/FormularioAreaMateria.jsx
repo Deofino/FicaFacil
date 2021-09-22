@@ -62,7 +62,7 @@ export default function FormularioAreaMateria() {
 
                     } }>Adicionar Area Matéria</Button>
                 </form>
-                <Table colunas={ columns } linhas={ linhas } tabela={ "areaMateria" } />
+                <Table colunas={ columns } linhas={ linhas } tabela={ "areaMateria" } nome="Área Matéria" />
             </Fragment>
 
     );

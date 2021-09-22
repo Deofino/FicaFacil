@@ -21,7 +21,7 @@ class DificuldadeModel
             $model = new DificuldadeModel();
             $data = json_decode($model->get());
             if ($data->status_code === 200) {
-                foreach ($data->data->dificuldade as $el) {
+                foreach ($data->data as $el) {
                     if (trim(strtoupper($el->nivelDificuldade)) === trim(strtoupper(($nivel)))) {
                         throw new \Exception("Nivel de dificuldade `" . $nivel . "` ja cadastrada", 400);
                         return;
@@ -74,8 +74,25 @@ class DificuldadeModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
+
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_dificuldade SET nivelDificuldade = ? WHERE idDificuldade = ?");
+            $stmt->bindValue(
+                1,
+                trim($this->getNivel()),
+                PDO::PARAM_STR
+            );
+            $stmt->bindValue(2, $id, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Dificuldade `{$this->getNivel()}` atualizada com sucesso");
+            }
+            return Response::error("Erro ao atualizar dificuldade");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function delete(int $id)
     {

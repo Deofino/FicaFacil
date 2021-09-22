@@ -5,7 +5,6 @@ import Footer from '../components/Footer/Footer';
 
 // Components 
 import Main from '../components/Main/Main';
-import { Table } from '../components/Form/';
 import FormularioQuestao from '../components/Main/FormularioQuestao';
 import FormularioAreaMateria from '../components/Main/FormularioAreaMateria';
 import FormularioMateria from '../components/Main/FormularioMateria';
@@ -27,69 +26,69 @@ export default function Routes () {
             <Route exact path='/'>
                 <Header />
                 <h1 style={ { color: 'white', fontSize: 22, margin: 20 } }>Pagina inicial</h1>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/questao'>
                 <Header />
                 <Main>
                     <FormularioQuestao />
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/areamateria'>
                 <Header />
                 <Main>
                     <FormularioAreaMateria />
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/materia'>
                 <Header />
                 <Main>
                     <FormularioMateria />
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/assuntomateria'>
                 <Header />
                 <Main>
                     <FormularioAssuntoMateria />
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/universidade'>
                 <Header />
                 <Main>
                     <FormularioUniversidade />
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/dificuldade'>
                 <Header />
                 <Main>
                     <FormularioDificuldade />
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/resposta'>
                 <Header />
                 <Main>
                     <FormularioResposta />
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/sugestaoVideo'>
                 <Header />
                 <Main>
                     <FormularioSugestaoVideo />
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
             <Route path='/loginEmail'>
-                    <FormularioLoginEmail />
+                <FormularioLoginEmail />
             </Route>
             <Route path='/loginSocial'>
-                    <FormularioLoginSocial />
+                <FormularioLoginSocial />
             </Route>
             <Route path='/criarConta'>
                 <FormularioCriarConta />
@@ -99,9 +98,9 @@ export default function Routes () {
                 <Main>
                     <h1>Pagina nao encontrada</h1>
                 </Main>
-            <Footer />
+                <Footer />
             </Route>
-          
+
 
         </Switch>
     );
