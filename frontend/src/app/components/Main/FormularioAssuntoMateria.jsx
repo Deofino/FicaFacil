@@ -99,7 +99,7 @@ export default function FormularioAssuntoMateria () {
                 </Select>
                 <Button className='c-formAssuntoMateria__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>
             </form>
-            <Table colunas={ colunas } linhas={ linhas } tabela='assuntoMateria' />
+            <Table colunas={ colunas } linhas={ linhas } tabela='assuntoMateria' nome="Assunto Matéria" />
         </React.Fragment>
     );
 }

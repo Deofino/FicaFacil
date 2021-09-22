@@ -73,8 +73,24 @@ class AreaMateriaModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_area_materia SET nomeAreaMateria = ? WHERE idAreaMateria = ?");
+            $stmt->bindValue(
+                1,
+                trim($this->getNome()),
+                PDO::PARAM_STR
+            );
+            $stmt->bindValue(2, $id, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Area Matéria `{$this->getNome()}` atualizada com sucesso");
+            }
+            return Response::error("Erro ao atualizar area matéria");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function delete(int $id)
     {

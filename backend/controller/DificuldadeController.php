@@ -48,7 +48,7 @@ class DificuldadeController
                                 return;
                             };
                         }
-                        echo Response::warning("dificuldade com id `" .$req->id . "` nao encontrada", 404);
+                        echo Response::warning("Dificuldade com id `" .$req->id . "` nao encontrada", 404);
                         return; // senao puder ele ira gerar erro daqui pra baixo
                     } else {
                         echo Response::error("Erro ao pegar dificuldade", 404);

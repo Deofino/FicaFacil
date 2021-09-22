@@ -299,7 +299,7 @@ export default function FormularioResposta() {
           Cadastrar
         </Button>
       </form>
-      <Table colunas={colunas} linhas={linhas} tabela="resposta" />
+      <Table colunas={colunas} linhas={linhas} tabela="resposta" nome="Resposta" />
     </React.Fragment>
   );
 }

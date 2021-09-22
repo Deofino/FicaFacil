@@ -101,7 +101,7 @@ export default function FormularioMateria () {
                 </Select>
                 <Button className='c-formMateria__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>
             </form>
-            <Table colunas={ colunas } linhas={ linhas || [] } tabela='materia' />
+            <Table colunas={ colunas } linhas={ linhas || [] } tabela='materia' nome="Matéria" />
         </React.Fragment>
     );
 }
