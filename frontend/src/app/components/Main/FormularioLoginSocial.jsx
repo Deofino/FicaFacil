@@ -2,7 +2,6 @@ import React, {Fragment,  } from "react";
 import { FaFacebook, FaGoogle, } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import Logo from "../../../img/project/logo-branca.png";
-import Wave from "../../../img/project/wave_login.svg";
 
 export default function FormularioLoginSocial() {
     return(
