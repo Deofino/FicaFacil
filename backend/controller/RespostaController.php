@@ -79,7 +79,35 @@ class RespostaController
 
     public function update() // parametro do file_get_contents
     {
-        echo Response::json('JSON update');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+            $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
+            if (isset($req->resposta) && isset($req->id) && isset($req->questao)) { // verifica se o id e a materia existem
+                if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
+                    $model = new RespostaModel();
+                    $data = json_decode($model->get()); // requisicao para verificar se bate com alguma materia existente
+                    if ($data->status_code === 200) { // se houver erro na requisicao na materia 
+                        foreach ($data->data->resposta as $el) { // foreach pra verificar cada elemento
+                            if ($el->idResposta == $req->id) { // se for igual pode atualizar
+                                $model->setTextoResposta(trim($req->resposta)); // insere aqui pra passar pelas verificacoes de dados
+                                $model->setCertaResposta(trim($req->resposta));
+                                $model->setIdQuestao($req->questao);
+                                echo $model->put($req->id);
+                                return;
+                            };
+                        }
+                        echo Response::warning("Resposta com id `" . $req->id . "` não encontrada", 404);
+                        return; // senao puder ele ira gerar erro daqui pra baixo
+                    } else {
+                        echo Response::error("Erro ao pegar resposta", 404);
+                        return;
+                    };
+                }
+                echo Response::warning("id da resposta inválida", 400);
+                return;
+            } else echo Response::warning('Parametro `resposta/id` não encontrado ou vazio/nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
     }
     public function delete($params) // parametro do file_get_contents
     {
