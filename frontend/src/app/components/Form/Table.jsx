@@ -9,14 +9,21 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-/**
- * @description Ira gerar automaticamente de acordo com os parametros uma tabela dinamica que podera excluir
- * @param {colunas}{ colunas = [
-            field: 'id',
-            headerName: 'ID',
-            width: 80,
-        ], linhas = [{refField='id}], tabela='nome da api chamada (controller)', className = '', nome='Nome do campo' }, style
- * @returns MaterialUI Table  
+/*
+ * @description
+ * @author Guilherme Delfino
+ * @export
+ * @param {*} {
+ *   colunas = [],
+ *   linhas = [],
+ *   tabela='areaMateria',
+ *   className = "",
+ *   nome='Ex: Area da materia',
+ *   style // style jsx personalizado inline para tabela,
+ *   functionUpdate = (id = -1, nome = "Ex: Area Materia", tabela = "Ex:areaMateria") =>
+ *     console.log("Update"), //O que ira fazer quando clicar no botao de update
+ * }
+ * @returns {Table Component}
  */
 export default function StickyHeadTable({
   colunas = [],
@@ -25,6 +32,7 @@ export default function StickyHeadTable({
   className = "",
   nome,
   style,
+  functionUpdate = (id, nome, tabela, linhas, colunas) => console.log("Update"),
 }) {
   const functionDelete = (id = -1, tabela, nome) => {
     let conf = AlertWarning({
@@ -70,7 +78,7 @@ export default function StickyHeadTable({
         headerName: "Modificar",
         className: "button update",
         width: 150,
-        onClick: (ev, id) => console.log(id),
+        onClick: (ev, id) => functionUpdate(id, tabela, nome, linhas, colunas),
       }
     );
   }
