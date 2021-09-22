@@ -1,15 +1,14 @@
 .login-main {
   width: 100% !important;
-<<<<<<< HEAD
+
   background-image: linear-gradient(
     40deg,
     var(--color-accent),
     var(--color-primary),
     var(--color-twitter)
   );
-=======
   background-image: linear-gradient(40deg, var(--color-accent), var(--color-primary), var(--color-twitter));
->>>>>>> c36fc4b5d266e63287f6efac1a8b06aefc7d1e18
+
   min-height: 100vh;
   height: 100%;
   @include flex(center);
@@ -165,11 +164,8 @@
       /* 
         background: #dc3535; */
       min-width: rem(230);
-<<<<<<< HEAD
       width: rem(200);
-=======
       @include flex(center);
->>>>>>> c36fc4b5d266e63287f6efac1a8b06aefc7d1e18
     }
   }
  
