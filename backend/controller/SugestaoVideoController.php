@@ -39,16 +39,17 @@ class SugestaoVideoController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
             $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
-            if (isset($req->sugestaoVideo) && isset($req->id) && isset($req->questao)) { // verifica se o id e a materia existem
+            if (isset($req->titulosugestaoVideo) && isset($req->thumbnailsugestaoVideo) && isset($req->urlsugestaoVideo) && isset($req->id) && isset($req->questao)) { // verifica se o id e a materia existem
                 if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
                     $model = new SugestaoVideoModel();
                     $data = json_decode($model->get()); // requisicao para verificar se bate com alguma materia existente
                     if ($data->status_code === 200) { // se houver erro na requisicao na materia 
                         foreach ($data->data->sugestaoVideo as $el) { // foreach pra verificar cada elemento
                             if ($el->idSugestaoVideo == $req->id) { // se for igual pode atualizar
-                                $model->setTitulo(trim($req->sugestaoVideo)); // insere aqui pra passar pelas verificacoes de dados
-                                $model->setThumbnailVideo(trim($req->sugestaoVideo));
-                                $model->setUrlVideo(trim($req->sugestaoVideo));
+                                $model->setTitulo(trim($req->titulosugestaoVideo)); // insere aqui pra passar pelas verificacoes de dados
+                                $model->setThumbnailVideo(trim($req->thumbnailsugestaoVideo));
+                                var_dump($req);
+                                $model->setUrlVideo(trim($req->urlsugestaoVideo));
                                 $model->setQuestao($req->questao);
                                 echo $model->put($req->id);
                                 return;

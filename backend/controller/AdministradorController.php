@@ -36,10 +36,43 @@ class AdministradorController
 
     public function update() // parametro do file_get_contents
     {
-        echo Response::json('JSON update');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+            $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
+            if (isset($req->nomeAdministrador) && isset($req->emailAdministrador) && isset($req->senhaAdministrador) && isset($req->id)) { // verifica se o id e a dificuldade existem
+                if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
+                    $model = new AdministradorModel();
+                    $data = json_decode($model->get()); // requisicao para verificar se bate com alguma dificuldade existente
+                    if ($data->status_code === 200) { // se houver erro na requisicao na dificuldade 
+                        foreach ($data->data as $el) { // foreach pra verificar cada elemento
+                            if ($el->idAdministrador == $req->id) { // se for igual pode atualizar
+                                $model->setNome(trim($req->nomeAdministrador)); // insere aqui pra passar pelas verificacoes de dados
+                                $model->setEmail(trim($req->emailAdministrador));
+                                $model->setSenha(trim($req->senhaAdministrador));  
+                                echo $model->put($req->id);
+                                return;
+                            };
+                        }
+                        echo Response::warning("Administrador com id `" .$req->id . "` não encontrada", 404);
+                        return; // senao puder ele ira gerar erro daqui pra baixo
+                    } else {
+                        echo Response::error("Erro ao pegar administrador", 404);
+                        return;
+                    };
+                }
+                echo Response::warning("id da administrador invalida", 400);
+                return;
+            } else echo Response::warning('Parametro `administrador/id` não encontrado ou vazio/nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
     }
-    public function delete() // parametro do file_get_contents
+    public function delete($params) // parametro do file_get_contents
     {
-        echo Response::json('JSON delete');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $model = new AdministradorModel();
+            echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
     }
 }

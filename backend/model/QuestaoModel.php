@@ -90,7 +90,7 @@ class QuestaoModel
             $modelDificuldade = new DificuldadeModel();
             $data = json_decode($modelDificuldade->get());
             if ($data->status_code === 200) {
-                foreach ($data->data->dificuldade as $el) {
+                foreach ($data->data as $el) {
                     if ($el->idDificuldade == $dificuldade) {
                         $this->idDificuldade = $dificuldade;
                         return;
@@ -113,7 +113,7 @@ class QuestaoModel
             $modelUniversidade = new UniversidadeModel();
             $data = json_decode($modelUniversidade->get());
             if ($data->status_code === 200) {
-                foreach ($data->data->universidade as $el) {
+                foreach ($data->data as $el) {
                     if ($el->idUniversidade == $universidade) {
                         $this->idUniversidade = $universidade;
                         return;
@@ -158,7 +158,7 @@ class QuestaoModel
             $modelAdministrador = new AdministradorModel(null, null, null);
             $data = json_decode($modelAdministrador->get());
             if ($data->status_code === 200) {
-                foreach ($data->data->administrador as $el) {
+                foreach ($data->data as $el) {
                     if ($el->idAdministrador == $administrador) {
                         $this->idAdministrador = $administrador;
                         return;
@@ -242,8 +242,29 @@ class QuestaoModel
             return Response::error("Error: " . $th);
         }
     }
-    public function put($params)
+    public function put($id)
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_questao SET tituloQuestao = ? , textoQuestao = ? , idUniversidade = ? , idDificuldade = ? , idAssuntoMateria = ? , idAdministrador = ? WHERE idQuestao = ?");
+            $stmt->bindValue(
+                1,
+                trim($this->getTitulo()),
+                PDO::PARAM_STR
+            );
+            $stmt->bindValue(2, $this->getTexto(), PDO::PARAM_STR);
+            $stmt->bindValue(3, $this->getIdUniversidade(), PDO::PARAM_STR);
+            $stmt->bindValue(4, $this->getIdDificuldade(), PDO::PARAM_STR);
+            $stmt->bindValue(5, $this->getIdAssuntoMateria(), PDO::PARAM_STR);
+            $stmt->bindValue(6, $this->getIdAdministrador(), PDO::PARAM_STR);
+            $stmt->bindValue(7, $id, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Questão `{$this->getTitulo()}` atualizada com sucesso");
+            }
+            return Response::error("Erro ao atualizar Questão");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function delete($id = -1)
     {

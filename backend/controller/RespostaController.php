@@ -81,7 +81,7 @@ class RespostaController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
             $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
-            if (isset($req->resposta) && isset($req->id) && isset($req->questao)) { // verifica se o id e a materia existem
+            if (isset($req->resposta) && isset($req->certaResposta) && isset($req->id) && isset($req->questao)) { // verifica se o id e a materia existem
                 if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
                     $model = new RespostaModel();
                     $data = json_decode($model->get()); // requisicao para verificar se bate com alguma materia existente
@@ -89,7 +89,7 @@ class RespostaController
                         foreach ($data->data->resposta as $el) { // foreach pra verificar cada elemento
                             if ($el->idResposta == $req->id) { // se for igual pode atualizar
                                 $model->setTextoResposta(trim($req->resposta)); // insere aqui pra passar pelas verificacoes de dados
-                                $model->setCertaResposta(trim($req->resposta));
+                                $model->setCertaResposta(trim($req->certaResposta));
                                 $model->setIdQuestao($req->questao);
                                 echo $model->put($req->id);
                                 return;

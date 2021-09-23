@@ -41,8 +41,8 @@ class SugestaoVideoModel
         if (isset($tituloSugestao) && trim($tituloSugestao) !== '' && strlen(trim($tituloSugestao)) !== 0 && trim($tituloSugestao) !== null) {
             $data = json_decode($this->get());
             if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
-                    if (trim(strtoupper($el->tituloSugestao)) === trim(strtoupper(($tituloSugestao)))) {
+                foreach ($data->data->sugestaoVideo as $el) {
+                    if (trim(strtoupper($el->tituloSujestaoVideo)) === trim(strtoupper(($tituloSugestao)))) {
                         throw new \Exception("sugestão de vídeo `" . $tituloSugestao . "` já cadastrada", 400);
                         return;
                     };
@@ -63,7 +63,7 @@ class SugestaoVideoModel
             $data = json_decode($this->get());
             if ($data->status_code === 200) {
                 foreach ($data->data->sugestaoVideo as $el) {
-                    if (trim(strtoupper($el->thumbnailVideo)) === trim(strtoupper(($thumbnailVideo)))) {
+                    if (trim(strtoupper($el->thumbnailSujestaoVideo)) === trim(strtoupper(($thumbnailVideo)))) {
                         throw new \Exception("Thumbnail Vídeo `" . $thumbnailVideo . "` já cadastrada", 400);
                         return;
                     };
@@ -84,7 +84,7 @@ class SugestaoVideoModel
             $data = json_decode($this->get());
             if ($data->status_code === 200) {
                 foreach ($data->data->sugestaoVideo as $el) {
-                    if (trim(strtoupper($el->urlVideo)) === trim(strtoupper(($urlVideo)))) {
+                    if (trim(strtoupper($el->urlSujestaoVideo)) === trim(strtoupper(($urlVideo)))) {
                         throw new \Exception("URL do vídeo`" . $urlVideo . "` ja cadastrada", 400);
                         return;
                     };
@@ -182,7 +182,7 @@ class SugestaoVideoModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("UPDATE tb_sugestao_video SET tituloSugestaoVideo = ? , thumbnailSugestaoVideo = ? , urlSugestaoVideo = ? , idQuestao = ? WHERE idSugestaoVideo = ?");
+            $stmt = $con->prepare("UPDATE tb_sugestao_video SET tituloSujestaoVideo = ? , thumbnailSujestaoVideo = ? , urlSujestaoVideo = ? , idQuestao = ? WHERE idSugestaoVideo = ?");
             $stmt->bindValue(
                 1,
                 trim($this->getTitulo()),

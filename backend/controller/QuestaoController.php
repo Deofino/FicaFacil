@@ -47,9 +47,41 @@ class QuestaoController
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
-    public function update()
+    public function update() // parametro do file_get_contents
     {
-        echo Response::json('JSON update');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+            $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
+            if (isset($req->tituloQuestao) && isset($req->textoQuestao) && isset($req->universidade)  && isset($req->dificuldade) && isset($req->assuntoMateria) && isset($req->administrador) && isset($req->id)) { // verifica se o id e a materia existem
+                if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
+                    $model = new QuestaoModel();
+                    $data = json_decode($model->get()); // requisicao para verificar se bate com alguma materia existente
+                    if ($data->status_code === 200) { // se houver erro na requisicao na materia 
+                        foreach ($data->data->questao as $el) { // foreach pra verificar cada elemento
+                            if ($el->idQuestao == $req->id) { // se for igual pode atualizar
+                                $model->setTitulo(trim($req->tituloQuestao)); // insere aqui pra passar pelas verificacoes de dados
+                                $model->setTexto(trim($req->textoQuestao));
+                                var_dump($req);
+                                $model->setIdUniversidade($req->universidade);
+                                $model->setIdDificuldade($req->dificuldade);
+                                $model->setIdAssuntoMateria($req->assuntoMateria);
+                                $model->setIdAdmistrador($req->administrador);
+                                echo $model->put($req->id);
+                                return;
+                            };
+                        }
+                        echo Response::warning("Questão com id `" . $req->id . "` não encontrada", 404);
+                        return; // senao puder ele ira gerar erro daqui pra baixo
+                    } else {
+                        echo Response::error("Erro ao pegar questão", 404);
+                        return;
+                    };
+                }
+                echo Response::warning("id da questão inválida", 400);
+                return;
+            } else echo Response::warning('Parametro `questao/id` não encontrado ou vazio/nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
     }
     public function delete($params)
     {

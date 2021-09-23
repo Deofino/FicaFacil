@@ -124,7 +124,7 @@ export default function FormularioSugestaoVideo() {
         return {
           id: sugestao.idSugestaoVideo,
           titulo: sugestao.tituloSujestaoVideo,
-          questao: SugestaoVideo.questao.filter(
+          questao: SugestaoVideo.questao.questao.filter(
             (e) => e.idQuestao === sugestao.idQuestao
           )[0].tituloQuestao,
         };
@@ -173,8 +173,8 @@ export default function FormularioSugestaoVideo() {
           onChange={({ target }) => setSelectedQuestao(target.value)}
         >
           {<MenuItem value="0">Questão</MenuItem>}
-          {questao !== [] &&
-            questao.map((item) => (
+          {questao.questao !== undefined &&
+            questao.questao.map((item) => (
               <MenuItem value={item.idQuestao} key={item.idQuestao}>
                 {item.tituloQuestao}
               </MenuItem>

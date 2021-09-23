@@ -107,7 +107,7 @@ class DificuldadeModel
                 }
                 return Response::warning("Erro ao deletar dificuldade", 404);
             };
-            return Response::warning("Dificuldade id=$id nao encontrada", 404);
+            return Response::warning("Dificuldade id=$id não encontrada", 404);
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }
