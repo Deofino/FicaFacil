@@ -1,5 +1,5 @@
 import React, { Fragment, } from "react";
-import { Input, Button, } from '../Form';
+import { Input, } from '../Form';
 import { FaAt, FaLock, FaArrowLeft } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import Logo from "../../../img/project/logo-branca.png";

@@ -36,6 +36,11 @@
       // 500px
       @content;
     }
+  }  @if $point == smallmin {
+    @media (max-width: 23.125em) {
+      // 370px
+      @content;
+    }
   }@else if $point == medium {
     @media (max-width: 56.25em) {
       // 900px
