@@ -15,7 +15,7 @@ const Backdrop = (props) => {
       if (
         attAreaMateria !== null &&
         attAreaMateria !== "" &&
-        attAreaMateria.length > 4
+        attAreaMateria.length > 4 
       ) { // verificacao dos campos
         axios
           .post(
