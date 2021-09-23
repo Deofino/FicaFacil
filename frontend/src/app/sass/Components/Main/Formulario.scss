@@ -1,0 +1,90 @@
+.c-form {
+    position: relative;
+
+    & ~ #backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin-left: -110%;
+        width: 100%;
+        opacity: 0.4;
+        height: 100%;
+        min-height: 100vh;
+        z-index: $z-above;
+        background: linear-gradient(160deg, lighten($primary, 20%) + ee, lighten($accent, 20%) + ee);
+        background-size: 300%;
+
+        @include flex(center);
+
+        transition: 0.4s $t-elastic;
+
+        @include darkMode {
+            background: linear-gradient(160deg, $dark + ee, lighten($dark, 10%) + ee);
+        }
+
+        section {
+            background-color: $light;
+
+            @include darkMode {
+                background-color: $dark;
+            }
+            width: 100%;
+            min-height: 60vh;
+            max-width: $w-medium;
+            border-radius: $global-radius;
+            padding: rem(40);
+            box-shadow: 0 rem(4) rem(8) var(--color-shadow);
+            @include breakpoint(small) {
+                margin: 0 $global-margin;
+                padding: rem(20);
+            }
+            .c-formularioUpdate {
+                &__form {
+                    margin: 0 auto;
+                    max-width: 70%;
+                    @include breakpoint(medium) {
+                        max-width: 100%;
+                    }
+                }
+                &__headline {
+                    font-size: rem(28);
+                    @include breakpoint(medium) {
+                        font-size: $global-font-size-lg;
+                    }
+                    @include breakpoint(small) {
+                        font-size: $global-font-size;
+                    }
+                }
+                &__item {
+                    margin: 20px 0;
+                }
+                &__close {
+                    position: absolute;
+                    width: rem(40);
+                    height: rem(40);
+                    right: rem(10);
+                    top: rem(10);
+                    border-radius: 50%;
+                    background-color: darken($primary, 7%);
+                    transition: all 0.6 ease;
+                    padding: rem(8);
+                    @include flex(center);
+                    opacity: 0.9;
+                    box-shadow: 0 rem(2) rem(4) var(--color-shadow);
+                    &:hover {
+                        transform: scale(1);
+                        opacity: 1;
+                        box-shadow: 0 rem(2) rem(8) var(--color-shadow);
+                    }
+                    svg {
+                        fill: $white;
+                    }
+                }
+            }
+        }
+    }
+    & ~ #backdrop.open {
+        opacity: 1;
+        margin-left: 0;
+    }
+}
