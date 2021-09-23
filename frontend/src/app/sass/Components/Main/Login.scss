@@ -27,8 +27,11 @@
   box-shadow: $global-shadow;
  
   &__volt{
-    margin-left: rem(-50);
+    margin-left: rem(-55);
     font-weight: 600;
+     @include breakpoint(smallmin) {
+      margin-left: rem(-38);
+    } 
   }
   &__btn{
     font-weight: 600;
@@ -67,7 +70,7 @@
       align-self: flex-start;
       width: rem(200);
       @include breakpoint(smallin) {
-        font-size: rem(12);
+        font-size: rem(11);
       }
     }
   
@@ -186,8 +189,5 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    @include breakpoint(small) { 
-      right: rem(-14px); 
-    }
   }
 }
