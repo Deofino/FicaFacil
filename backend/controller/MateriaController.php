@@ -50,14 +50,14 @@ class MateriaController
                                 return;
                             };
                         }
-                        echo Response::warning("materia com id `" . $req->id . "` nao encontrada", 404);
+                        echo Response::warning("Matéria com id `" . $req->id . "` não encontrada", 404);
                         return; // senao puder ele ira gerar erro daqui pra baixo
                     } else {
-                        echo Response::error("Erro ao pegar materia", 404);
+                        echo Response::error("Erro ao pegar matéria", 404);
                         return;
                     };
                 }
-                echo Response::warning("id da materia invalida", 400);
+                echo Response::warning("id da materia inválida", 400);
                 return;
             } else echo Response::warning('Parametro `materia/id` não encontrado ou vazio/nulo', 404);
             return;

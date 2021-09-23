@@ -124,8 +124,26 @@ class RespostaModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_resposta SET textoResposta = ? , certaResposta = ? , idQuestao = ? WHERE idResposta = ?");
+            $stmt->bindValue(
+                1,
+                trim($this->getTextoResposta()),
+                PDO::PARAM_STR
+            );
+            $stmt->bindValue(2, $this->getCertaResposta(), PDO::PARAM_INT);
+            $stmt->bindValue(3, $this->getIdQuestao(), PDO::PARAM_INT);
+            $stmt->bindValue(4, $id, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return Response::success("Resposta `{$this->getTextoResposta()}` atualizada com sucesso");
+            }
+            return Response::error("Erro ao atualizar Resposta");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
     public function delete($id = -1)
     {

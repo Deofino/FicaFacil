@@ -54,7 +54,7 @@ export default function Navbar() {
                     </ul>
                 </li>
                 <li className='c-navbar__menu-item'>
-                    <Link to="/perfil">
+                    <Link to="/loginSocial">
                         <div className="space">
                             <FaUserAlt className='icon' />
                             <span className="c-navbar__links-name">Perfil</span>

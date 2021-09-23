@@ -1,6 +1,14 @@
 .login-main {
   width: 100% !important;
+
+  background-image: linear-gradient(
+    40deg,
+    var(--color-accent),
+    var(--color-primary),
+    var(--color-twitter)
+  );
   background-image: linear-gradient(40deg, var(--color-accent), var(--color-primary), var(--color-twitter));
+
   min-height: 100vh;
   height: 100%;
   @include flex(center);
@@ -16,30 +24,64 @@
   color: $black;
   border-radius: $global-radius;
   margin: 0 auto;
-
+  box-shadow: $global-shadow;
+ 
+  &__volt{
+    margin-left: rem(-50);
+    font-weight: 600;
+  }
+  &__btn{
+    font-weight: 600;
+  }
+  &__form{
+    margin-left: rem(20);
+    margin-right: rem(20);
+    padding: rem(18);
+   }
   &__title {
     font-weight: 300;
     color: $gray;
     text-align: center;
+    @include breakpoint(smallin) {
+      font-size: rem(12);
+    }
   }
   &__link {
     color: $white;
-    margin: 10px;
+    margin: rem(10);
     padding: rem(12);
+    @include breakpoint(smallin) {
+      font-size: rem(12);
+    }
     // text-align: center;
     @include flex(center);
     svg {
-      //background: yellow;
       width: rem(50);
-      font-size: 25px;
+      font-size: rem(25);
       margin-right: rem(5);
-      margin-bottom: rem(-3);
-    }
+      @include breakpoint(smallin) {
+        font-size: rem(20);
+      }
+    }  
     span {
-      //background: green;
       align-self: flex-start;
       width: rem(200);
+      @include breakpoint(smallin) {
+        font-size: rem(12);
+      }
     }
+  
+  }
+  &.btn {
+    background: $accent;
+    width: 100%;
+    text-align: center;
+  }
+  &.voltar {
+    background: $primary;
+    text-align: center;
+    width: 100%;
+    height: 10%;
   }
   &.google {
     background: linear-gradient(to left, #c83241, #dc3535);
@@ -91,6 +133,19 @@
     margin-top: rem(20);
     padding-bottom: rem(18);
     text-decoration: underline;
+    @include breakpoint(smallin) {
+      font-size: rem(11);
+    }
+  }
+  &__esenha {
+    color: $danger;
+    font-size: rem(12);
+    text-align: left;
+    margin-top: rem(5);
+    padding-bottom: rem(15);
+    @include breakpoint(smallin) {
+      font-size: rem(11);
+    }
   }
   &__logo {
     background: #468aca;
@@ -109,10 +164,14 @@
       /* 
         background: #dc3535; */
       min-width: rem(230);
+      width: rem(200);
       @include flex(center);
     }
   }
+ 
+ 
 }
+
 .wave {
   position: absolute;
   bottom: 0;
@@ -127,5 +186,8 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+    @include breakpoint(small) { 
+      right: rem(-14px); 
+    }
   }
 }

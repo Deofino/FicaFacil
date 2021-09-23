@@ -114,9 +114,9 @@ class MateriaModel
             $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getArea()), PDO::PARAM_INT);
             if ($stmt->execute()) {
-                return Response::success("Materia `{$this->getNome()}` inserida com sucesso, id=" . $con->lastInsertId());
+                return Response::success("Matéria `{$this->getNome()}` inserida com sucesso, id=" . $con->lastInsertId());
             }
-            return Response::error("Erro ao inserir Materia");
+            return Response::error("Erro ao inserir Matéria");
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }
@@ -134,9 +134,9 @@ class MateriaModel
             $stmt->bindValue(2, $this->getArea(), PDO::PARAM_INT);
             $stmt->bindValue(3, $id, PDO::PARAM_INT);
             if ($stmt->execute()) {
-                return Response::success("Materia `{$this->getNome()}` atualizada com sucesso");
+                return Response::success("Matéria `{$this->getNome()}` atualizada com sucesso");
             }
-            return Response::error("Erro ao atualizar Materia");
+            return Response::error("Erro ao atualizar Matéria");
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }
@@ -151,12 +151,12 @@ class MateriaModel
                     $stmt = $con->prepare("DELETE FROM tb_materia WHERE idMateria = ?");
                     $stmt->bindValue(1, trim($id), PDO::PARAM_INT);
                     if ($stmt->execute()) {
-                        return Response::success("Materia id=`$id` deletada com sucesso");
+                        return Response::success("Matéria id=`$id` deletada com sucesso");
                     }
-                    return Response::warning("Erro ao deletar Materia", 404);
+                    return Response::warning("Erro ao deletar Matéria", 404);
                 };
             }
-            return Response::warning("Materia id=$id nao encontrada", 404);
+            return Response::warning("Matéria id=$id nao encontrada", 404);
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }
