@@ -113,6 +113,16 @@ export default function FormularioSugestaoVideo() {
       width: 200,
     },
     {
+      field: "thumbnail",
+      headerName: "Thumbnail",
+      width: 200,
+    },
+    {
+      field: "url",
+      headerName: "Url",
+      width: 200,
+    },
+    {
       field: "questao",
       headerName: "Questao",
       width: 200,
@@ -124,6 +134,8 @@ export default function FormularioSugestaoVideo() {
         return {
           id: sugestao.idSugestaoVideo,
           titulo: sugestao.tituloSujestaoVideo,
+          thumbnail: sugestao.thumbnailSujestaoVideo,
+          url: sugestao.urlSujestaoVideo,
           questao: SugestaoVideo.questao.questao.filter(
             (e) => e.idQuestao === sugestao.idQuestao
           )[0].tituloQuestao,
