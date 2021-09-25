@@ -21,7 +21,7 @@ class AreaMateriaModel
             $model = new AreaMateriaModel();
             $data = json_decode($model->get());
             if ($data->status_code === 200) {
-                foreach ($data->data->areaMateria as $el) {
+                foreach ($data->data as $el) {
                     if (trim(strtoupper($el->nomeAreaMateria)) === trim(strtoupper(($nome)))) {
                         throw new \Exception("nome de Area da materia `" . $nome . "` ja cadastrada", 400);
                         return;
@@ -38,7 +38,7 @@ class AreaMateriaModel
     }
 
 
-    public function get($params=null)
+    public function get($params = null)
     {
         try {
             $con = Connection::getConn();

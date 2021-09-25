@@ -161,6 +161,7 @@ export default function StickyHeadTable({
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
         count={linhas.length}
+        labelRowsPerPage="Linhas por página"
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

@@ -118,7 +118,7 @@ export default function FormularioSugestaoVideo() {
       width: 200,
     },
   ];
-//   console.log(SugestaoVideo);
+  //   console.log(SugestaoVideo);
   const linhas = SugestaoVideo.sugestaoVideo
     ? SugestaoVideo.sugestaoVideo.map((sugestao) => {
         return {
@@ -136,7 +136,7 @@ export default function FormularioSugestaoVideo() {
       <form
         method="post"
         id="formSV"
-        className="c-formSV"
+        className="c-formSV c-form"
         onSubmit={submitForm}
       >
         <h2 className="c-formSVideo__headline">Sugestão de Vídeo</h2>
@@ -172,7 +172,7 @@ export default function FormularioSugestaoVideo() {
           value={selectedQuestao}
           onChange={({ target }) => setSelectedQuestao(target.value)}
         >
-          {<MenuItem value="0">Questão</MenuItem>}
+          {<MenuItem value={-1}>Questão</MenuItem>}
           {questao.questao !== undefined &&
             questao.questao.map((item) => (
               <MenuItem value={item.idQuestao} key={item.idQuestao}>
@@ -188,7 +188,12 @@ export default function FormularioSugestaoVideo() {
           Cadastrar
         </Button>
       </form>
-      <Table colunas={colunas} linhas={linhas || []} tabela='sugestaoVideo' nome="Sugestão Vídeo" />
+      <Table
+        colunas={colunas}
+        linhas={linhas || []}
+        tabela="sugestaoVideo"
+        nome="Sugestão Vídeo"
+      />
     </React.Fragment>
   );
 }

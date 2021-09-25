@@ -10,32 +10,42 @@ import { ToastError, ToastSuccess } from "../Alert/Toast";
 const Backdrop = (props) => {
   const [attUniversidade, setAttUniversidade] = useState(props.data[1] || ""); // State para atualizar o campo
   const [errAttUniversidade, seterrAttUniversidade] = useState(null); // State para atualizar o campo
-  const updateEvent = (e) => { // na hora que clica no botao de atualizar
+  console.log(props.data);
+  const updateEvent = (e) => {
+    // na hora que clica no botao de atualizar
     e.preventDefault();
     if (
       attUniversidade !== null &&
       attUniversidade !== "" &&
       attUniversidade.length > 3
-    ) { // verificacao dos campos
+    ) {
+      // verificacao dos campos
       axios
         .post(
-          `${process.env.REACT_APP_API}/universidade/update/`, // requisicao post backend/api/campo/update METHOD POST
-          JSON.stringify({ // faz um json com 
+          `${process.env.REACT_APP_API}/${props.tabela}/update/`, // requisicao post backend/api/campo/update METHOD POST
+          JSON.stringify({
+            // faz um json com
             universidade: attUniversidade, // o campo que deve ser atualizado
             id: props.data[0], // o id da universidade que deve ser atualizado no WHERE
           })
         )
         .then((value) => {
-          if (value.data.status_code) { // verifica se status code retorna 200 = OK
+          if (value.data.status_code === 200) {
+            // verifica se status code retorna 200 = OK
             ToastSuccess({ text: value.data.data }); // mensagem de sucesso
-            close() // fecha o backdrop
+            close(); // fecha o backdrop
             setTimeout(() => {
               window.location.reload(); // atualiza a pagina dps de 4 segundos
             }, 4000);
+          } else {
+            ToastError({
+              text: `Ops... Ocorreu algum erro: ${value.data.data}`,
+            });
           }
         })
-        .catch((error) => ToastError({text: error})); // caso backend retorne erro aparece aqui
-    } else { // previne e coloca os erros 
+        .catch((error) => ToastError({ text: error })); // caso backend retorne erro aparece aqui
+    } else {
+      // previne e coloca os erros
       seterrAttUniversidade("O campo tem que ter no minimo 3 caracteres");
     }
   };
@@ -135,7 +145,10 @@ export default function FormularioUniversidade() {
     let div = document.querySelector("#backdrop");
     div.classList.toggle("open");
 
-    ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
+    ReactDOM.render(
+      <Backdrop data={data} titles={titles} tabela={tabela} nome={nome} />,
+      div
+    );
   };
 
   return (

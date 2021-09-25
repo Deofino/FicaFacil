@@ -164,8 +164,8 @@ export default function FormularioResposta() {
           }}
         >
           <MenuItem value={-1}>Selecione</MenuItem>
-          {respostas.resposta !== undefined &&
-            respostas.resposta.map((item) => (
+          {respostas.questao !== undefined &&
+            respostas.questao.map((item) => (
               <MenuItem value={item.idQuestao} key={item.idQuestao}>
                 {item.tituloQuestao}
               </MenuItem>
@@ -299,7 +299,12 @@ export default function FormularioResposta() {
           Cadastrar
         </Button>
       </form>
-      <Table colunas={colunas} linhas={linhas} tabela="resposta" nome="Resposta" />
+      <Table
+        colunas={colunas}
+        linhas={linhas}
+        tabela="resposta"
+        nome="Resposta"
+      />
     </React.Fragment>
   );
 }
