@@ -4,22 +4,33 @@ import axios from "axios";
 import { Input, Select, MenuItem, Button, Table } from "../Form/";
 import { AlertSuccess } from "../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastError, ToastSuccess } from "../Alert/Toast";
-import { FaBookOpen, FaTimes } from "react-icons/fa";
+import { ToastSuccess } from "../Alert/Toast";
+import { FaTimes } from "react-icons/fa";
 
 const Backdrop = (props) => {
   const [attMateria, setAttMateria] = useState(props.data[1] || ""); // State para atualizar o campo
   const [errAttMateria, seterrAttMateria] = useState(null); // State para atualizar o campo
-  const [attAreaMateria, setAttAreaMateria] = useState(props.data[2] || ""); // State para atualizar o campo
+  const [attAreaMateria, setAttAreaMateria] = useState(null); // State para atualizar o campo
+  const [attReqMateria, setattReqMateria] = useState([]); // State para atualizar o campo
   const [errAttAreaMateria, seterrAreaAttMateria] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API}/materia/index/`)
+      .then((value) => {
+        setattReqMateria(value.data.data);
+        setAttAreaMateria(
+          value.data.data.area.find(
+            (el) => el.nomeAreaMateria === props.data[2]
+          ).idAreaMateria
+        );
+      })
+      .catch((error) => console.error(error));
+  }, [props.data]);
   const updateEvent = (e) => {
     // na hora que clica no botao de atualizar
     e.preventDefault();
-    if (
-      attMateria !== null &&
-      attMateria !== "" &&
-      attMateria.length > 4
-    ) {
+    if (attMateria !== null && attMateria !== "" && attMateria.length > 4) {
       // verificacao dos campos
       axios
         .post(
@@ -28,15 +39,7 @@ const Backdrop = (props) => {
             // faz um json com
             materia: attMateria, // o campo que deve ser atualizado
             id: props.data[0], // o id da universidade que deve ser atualizado no WHERE
-          })
-        )
-        axios
-        .post(
-          `${process.env.REACT_APP_API}/areaMateria/update/`, // requisicao post backend/api/campo/update METHOD POST
-          JSON.stringify({
-            // faz um json com
-            areaMateria: attAreaMateria, // o campo que deve ser atualizado
-            id: props.data[1], // o id da universidade que deve ser atualizado no WHERE
+            area: attAreaMateria, // o id da universidade que deve ser atualizado no WHERE
           })
         )
         .then((value) => {
@@ -47,9 +50,10 @@ const Backdrop = (props) => {
             setTimeout(() => {
               window.location.reload(); // atualiza a pagina dps de 4 segundos
             }, 4000);
+          } else {
+            console.log(value.data);
           }
-        })
-        .catch((error) => ToastError({ text: error })); // caso backend retorne erro aparece aqui
+        });
     } else {
       // previne e coloca os erros
       seterrAttMateria("O campo tem que ter no minimo 4 caracteres");
@@ -76,11 +80,6 @@ const Backdrop = (props) => {
       <h1 className="c-formularioUpdate__headline">
         Atualizar Matéria: {props.data[1]}
       </h1>
-      
-      <h1 className="c-formularioUpdate__headline">
-        Atualizar Area Matéria: {props.data[2]}
-      </h1>
-      
       <form
         onSubmit={(e) => updateEvent(e)}
         encType="multipart/form-data"
@@ -100,7 +99,26 @@ const Backdrop = (props) => {
           }}
           inputMode="text"
         />
-        <Input
+
+        <Select
+          className="c-formMateria__select"
+          name="areaMateria"
+          title={props.titles[2].headerName || "Input"}
+          id="areaMateria"
+          value={attAreaMateria}
+          error={errAttAreaMateria}
+          onChange={({ target }) => setAttAreaMateria(target.value)}
+        >
+          <MenuItem value={-1}>Selecione</MenuItem>
+          {attReqMateria.area !== undefined &&
+            attReqMateria.area.map((item) => (
+              <MenuItem value={item.idAreaMateria} key={item.idAreaMateria}>
+                {item.nomeAreaMateria}
+              </MenuItem>
+            ))}
+        </Select>
+
+        {/* <Input
           title={props.titles[2].headerName || "Input"}
           id={props.titles[2].field || null}
           className="c-formularioUpdate__item"
@@ -112,7 +130,7 @@ const Backdrop = (props) => {
             setAttAreaMateria(e.target.value);
           }}
           inputMode="text"
-        />
+        /> */}
         <Button type="submit">Atualizar</Button>
       </form>
     </section>
@@ -216,27 +234,22 @@ export default function FormularioMateria() {
       })
     : null;
 
-    const update = (id, tabela, nome, linhas, colunas) => {
-      let data = linhas.filter((el) => el.id === id)[0]; //
-      delete data.update;
-      delete data.delete;
-      let titles = colunas;
-      data = Object.values(data);
-  
-      let div = document.querySelector("#backdrop");
-      div.classList.toggle("open");
-  
-      ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
-    };
+  const update = (id, tabela, nome, linhas, colunas) => {
+    let data = linhas.filter((el) => el.id === id)[0]; //
+    delete data.update;
+    delete data.delete;
+    let titles = colunas;
+    data = Object.values(data);
+
+    let div = document.querySelector("#backdrop");
+    div.classList.toggle("open");
+
+    ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
+  };
 
   return (
     <section>
-      <form
-        method="post"
-        id="formM"
-        className="c-form"
-        onSubmit={submitForm}
-      >
+      <form method="post" id="formM" className="c-form" onSubmit={submitForm}>
         <h2 className="c-formMateria__headline">Materia</h2>
         <Input
           title="Materia"

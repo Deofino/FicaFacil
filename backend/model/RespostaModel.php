@@ -55,7 +55,7 @@ class RespostaModel
             $modelQuestao = new QuestaoModel();
             $data = json_decode($modelQuestao->get());
             if ($data->status_code === 200) {
-                foreach ($data->data->resposta as $el) {
+                foreach ($data->data->questao as $el) {
                     if ($el->idQuestao == $questao) {
                         $this->idQuestao = $questao;
                         return;
@@ -90,7 +90,7 @@ class RespostaModel
                 }
                 if ($stmt->rowCount() === 1) {
                     $resposta = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    $questao = (new MateriaModel)->get(['id' => $resposta[0]['idQuestao']]);
+                    $questao = (new QuestaoModel)->get(['id' => $resposta[0]['idQuestao']]);
                     return Response::success([
                         "resposta" => $resposta,
                         "questao" => json_decode($questao)->data
@@ -161,6 +161,21 @@ class RespostaModel
                 };
             }
             return Response::warning("Resposta id=$id nao encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
+    }
+
+    public function countRespostas(int $idQuestao)
+    {
+        try {
+            $conn = Connection::getConn();
+            $stmt = $conn->prepare('SELECT count(idResposta) as qtde FROM tb_resposta WHERE idQuestao = ?');
+            $stmt->bindValue(1, $idQuestao, PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return (int) $stmt->fetch(PDO::FETCH_ASSOC)['qtde'];
+            } else Response::warning("Erro ao contar respostas", 500);
+            return Response::warning("Questao id=$idQuestao nao encontrada", 404);
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }

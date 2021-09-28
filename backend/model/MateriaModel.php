@@ -26,21 +26,25 @@ class MateriaModel
     {
         return $this->area;
     }
-    public function setNome(string $nomeMateria): void
+    public function setNome(string $nomeMateria, bool $igual = true): void
     {
         if (isset($nomeMateria) && trim($nomeMateria) !== '' && strlen(trim($nomeMateria)) !== 0 && trim($nomeMateria) !== null) {
-            $data = json_decode($this->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data->materia as $el) {
-                    if (trim(strtoupper($el->nomeMateria)) === trim(strtoupper(($nomeMateria)))) {
-                        throw new \Exception("materia `" . $nomeMateria . "` ja cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->nome = ucfirst($nomeMateria);
-            } else {
-                $this->nome = ucfirst($nomeMateria);
-            };
+            if ($igual) {
+                $data = json_decode($this->get());
+                if ($data->status_code === 200) {
+                    foreach ($data->data->materia as $el) {
+                        if (trim(strtoupper($el->nomeMateria)) === trim(strtoupper(($nomeMateria)))) {
+                            throw new \Exception("materia `" . $nomeMateria . "` ja cadastrada", 400);
+                            return;
+                        };
+                    }
+                    $this->nome = ucfirst($nomeMateria);
+                } else {
+                    $this->nome = ucfirst($nomeMateria);
+                };
+                return;
+            }
+            $this->nome = ucfirst($nomeMateria);
             return;
         }
         throw new \Exception("Essa materia não pode ser aceito", 400);

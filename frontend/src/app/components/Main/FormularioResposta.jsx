@@ -10,7 +10,7 @@ import {
   Table,
 } from "../Form/";
 import { AlertSuccess, AlertError } from "../Alert/Modal";
-import { ToastInformation } from "../Alert/Toast";
+import { ToastError, ToastInformation } from "../Alert/Toast";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { FaListAlt, FaImages, FaFont } from "react-icons/fa";
 export default function FormularioResposta() {
@@ -34,7 +34,7 @@ export default function FormularioResposta() {
     axios
       .get(`${process.env.REACT_APP_API}/resposta/index/`)
       .then((value) => setResposta(value.data.data))
-      .catch((error) => console.error(error));
+      .catch((error) => ToastError("Nenhuma resposta encontrada"));
   }, []);
   const [inputAlternativa, setInputAlternativa] = useState("");
   const [alternativas, setAlternativas] = useState([]);
@@ -89,9 +89,8 @@ export default function FormularioResposta() {
                 }
               })
               .catch((error) => {
-                console.error(error);
                 AlertError({
-                  text: "Ocorreu algum erro ao adicionar a resposta " + error,
+                  text: "Parece que esta questao ja tem respostas...",
                   title: "Ops...",
                 });
               });
@@ -123,6 +122,11 @@ export default function FormularioResposta() {
       width: 200,
     },
     {
+      field: "certa",
+      headerName: "Certa?",
+      width: 100,
+    },
+    {
       field: "questao",
       headerName: "Questao",
       width: 200,
@@ -133,10 +137,13 @@ export default function FormularioResposta() {
     ? Resposta.resposta.map((resposta) => {
         return {
           id: resposta.idResposta,
-          resposta: resposta.certaResposta,
-          questao: Resposta.questao.questao.filter(
-            (e) => e.idQuestao === resposta.idQuestao
-          )[0].tituloQuestao,
+          resposta: resposta.textoResposta,
+          certa: +resposta.certaResposta === 0 ? "Não" : "Sim",
+          questao:
+            Resposta.questao.questao !== undefined &&
+            Resposta.questao.questao.filter(
+              (e) => e.idQuestao === resposta.idQuestao
+            )[0].tituloQuestao,
         };
       })
     : [];

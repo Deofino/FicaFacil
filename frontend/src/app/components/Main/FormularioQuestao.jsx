@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FaFont, FaImages, FaUser } from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../Alert/Modal";
-import { ToastWarning } from "../Alert/Toast";
+import { ToastError, ToastWarning } from "../Alert/Toast";
 import { Button, Input, MenuItem, Select, Table } from "../Form";
 
 export default function FormularioQuestao() {
@@ -34,7 +34,9 @@ export default function FormularioQuestao() {
       .then((value) => {
         setQuestao(value.data.data);
       })
-      .catch((error) => console.error(error));
+      .catch((error) =>
+        ToastError({ text: `Ligue o XAMPP : ${error}` })
+      );
   }, []);
 
   const submitForm = (e) => {
