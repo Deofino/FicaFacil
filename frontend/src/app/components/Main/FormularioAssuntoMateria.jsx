@@ -1,14 +1,134 @@
 import React, { useEffect, useState, useRef } from "react";
+import ReactDOM from "react-dom";
 import axios from 'axios';
 import { Input, Select, MenuItem, Button, Table } from '../Form/';
 import { AlertSuccess } from '../Alert/Modal';
+import { Tooltip, IconButton } from "@material-ui/core";
+import { ToastSuccess } from "../Alert/Toast";
+import { FaTimes } from "react-icons/fa";
+
+const Backdrop = (props) => {
+    const [attAssuntoMateria, setAttAssuntoMateria] = useState(props.data[1] || ""); // State para atualizar o campo
+    const [errAttAssuntoMateria, seterrAttAssuntoMateria] = useState(null); // State para atualizar o campo
+    const [attMateria, setAttMateria] = useState(null); // State para atualizar o campo
+    const [attReqAssuntoMateria, setattReqAssuntoMateria] = useState([]); // State para atualizar o campo
+    const [errAttMateria, seterrAttMateria] = useState(null);
+  
+    useEffect(() => {
+      axios
+        .get(`${process.env.REACT_APP_API}/assuntoMateria/index/`)
+        .then((value) => {
+          setattReqAssuntoMateria(value.data.data);
+          setAttMateria(
+            value.data.data.materia.find(
+              (el) => el.nomeMateria === props.data[2]
+            ).idMateria
+          );
+        })
+        .catch((error) => console.error(error));
+    }, [props.data]);
+    const updateEvent = (e) => {
+      // na hora que clica no botao de atualizar
+      e.preventDefault();
+      if (attAssuntoMateria !== null && attAssuntoMateria !== "" && attAssuntoMateria.length > 4) {
+        // verificacao dos campos
+        axios
+          .post(
+            `${process.env.REACT_APP_API}/assuntoMateria/update/`, // requisicao post backend/api/campo/update METHOD POST
+            JSON.stringify({
+              // faz um json com
+              assuntoMateria: attAssuntoMateria, // o campo que deve ser atualizado
+              id: props.data[0], // o id dao assunto materia que deve ser atualizado no WHERE
+              materia: attMateria, // o id da materia que deve ser atualizado no WHERE
+            })
+          )
+          .then((value) => {
+            if (value.data.status_code) {
+              // verifica se status code retorna 200 = OK
+              ToastSuccess({ text: value.data.data }); // mensagem de sucesso
+              close(); // fecha o backdrop
+              setTimeout(() => {
+                window.location.reload(); // atualiza a pagina dps de 4 segundos
+              }, 4000);
+            } else {
+              console.log(value.data);
+            }
+          });
+      } else {
+        // previne e coloca os erros
+        seterrAttAssuntoMateria("O campo tem que ter no minimo 4 caracteres");
+        seterrAttMateria("O campo tem que ter no minimo 4 caracteres");
+      }
+    };
+    const close = () => {
+      let backdrop = document.querySelector("#backdrop");
+      backdrop.classList.toggle("open");
+      ReactDOM.unmountComponentAtNode(backdrop);
+    };
+    return (
+      <section className="c-formularioUpdate" id="c-formularioUpdateD">
+        <Tooltip
+          className="c-formularioUpdate__close"
+          title="Fechar"
+          enterDelay={400}
+          enterNextDelay={200}
+        >
+          <IconButton onClick={() => close()}>
+            <FaTimes />
+          </IconButton>
+        </Tooltip>
+        <h1 className="c-formularioUpdate__headline">
+          Atualizar Assunto Matéria: {props.data[1]}
+        </h1>
+        <form
+          onSubmit={(e) => updateEvent(e)}
+          encType="multipart/form-data"
+          className="c-formularioUpdate__form"
+          id="formUpdate"
+        >
+          <Input
+            title={props.titles[1].headerName || "Input"}
+            id={props.titles[1].field || null}
+            className="c-formularioUpdate__item"
+            name={props.titles[1].field || null}
+            type={props.titles[1].type || "text"}
+            value={attAssuntoMateria}
+            error={errAttAssuntoMateria}
+            onChange={(e) => {
+              setAttAssuntoMateria(e.target.value);
+            }}
+            inputMode="text"
+          />
+  
+          <Select
+            className="c-formMateria__select"
+            name="materia"
+            title={props.titles[2].headerName || "Input"}
+            id="materia"
+            value={attMateria}
+            error={errAttMateria}
+            onChange={({ target }) => setAttMateria(target.value)}
+          >
+            <MenuItem value={-1}>Selecione</MenuItem>
+            {attReqAssuntoMateria.materia !== undefined &&
+              attReqAssuntoMateria.materia.map((item) => (
+                <MenuItem value={item.idMateria} key={item.idMateria}>
+                  {item.nomeMateria}
+                </MenuItem>
+              ))}
+          </Select>
+          <Button type="submit">Atualizar</Button>
+        </form>
+      </section>
+    );
+  };
+
 export default function FormularioAssuntoMateria () {
 
     const [ materias, setMaterias ] = useState([]);
     const [ selectedMateria, setSelectedMateria ] = useState(0);
 
     const [ AssuntoMateria, setAssuntoMateria ] = useState([]);
-
 
     const refAssuntoMateria = useRef(null);
 
@@ -73,7 +193,7 @@ export default function FormularioAssuntoMateria () {
         },
         {
             field: "materia",
-            headerName: "Materia",
+            headerName: "Matéria",
             width: 200,
         }
     ];
@@ -86,8 +206,21 @@ export default function FormularioAssuntoMateria () {
         };
     }) : [];
 
+    const update = (id, tabela, nome, linhas, colunas) => {
+        let data = linhas.filter((el) => el.id === id)[0]; //
+        delete data.update;
+        delete data.delete;
+        let titles = colunas;
+        data = Object.values(data);
+    
+        let div = document.querySelector("#backdrop");
+        div.classList.toggle("open");
+    
+        ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
+      };
+
     return (
-        <React.Fragment>
+        <section>
             <form method="post" id="formAS" className="c-formAssuntoMateria" onSubmit={ submitForm }>
                 <h2 className='c-formAssuntoMateria__headline'>Assunto Matéria</h2>
                 <Input title="Assunto Matéria" id="assuntomateria" error={ ErroAssuntoMateria } className="c-formAssuntoMateria__input" ref={ refAssuntoMateria } name="assuntomateria" />
@@ -99,7 +232,11 @@ export default function FormularioAssuntoMateria () {
                 </Select>
                 <Button className='c-formAssuntoMateria__submit' styleButton={ { marginTop: 20 } } type='submit'>Cadastrar</Button>
             </form>
-            <Table colunas={ colunas } linhas={ linhas } tabela='assuntoMateria' nome="Assunto Matéria" />
-        </React.Fragment>
+            <Table colunas={ colunas } linhas={ linhas } tabela='assuntoMateria' nome="Assunto Matéria" style={{
+          marginTop: 20,
+        }}
+        functionUpdate={update}/>
+        <div id="backdrop"></div>
+        </section>
     );
 }

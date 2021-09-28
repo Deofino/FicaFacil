@@ -26,24 +26,28 @@ class AssuntoMateriaModel
     {
         return $this->materia;
     }
-    public function setNome(string $nomeAssuntoMateria): void
+    public function setNome(string $nomeAssuntoMateria, bool $igual = true): void
     {
         if (isset($nomeAssuntoMateria) && trim($nomeAssuntoMateria) !== '' && strlen(trim($nomeAssuntoMateria)) !== 0 && trim($nomeAssuntoMateria) !== null) {
-            $data = json_decode($this->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data->assuntoMateria as $el) {
-                    if (trim(strtoupper($el->nomeAssuntoMateria)) === trim(strtoupper(($nomeAssuntoMateria)))) {
-                        throw new \Exception("materia `" . $nomeAssuntoMateria . "` ja cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->nome = ucfirst($nomeAssuntoMateria);
-            } else {
-                $this->nome = ucfirst($nomeAssuntoMateria);
-            };
+            if ($igual) {
+                $data = json_decode($this->get());
+                if ($data->status_code === 200) {
+                    foreach ($data->data->assuntoMateria as $el) {
+                        if (trim(strtoupper($el->nomeAssuntoMateria)) === trim(strtoupper(($nomeAssuntoMateria)))) {
+                            throw new \Exception("Assunto matéria `" . $nomeAssuntoMateria . "` ja cadastrada", 400);
+                            return;
+                        };
+                    }
+                    $this->nome = ucfirst($nomeAssuntoMateria);
+                } else {
+                    $this->nome = ucfirst($nomeAssuntoMateria);
+                };
+                return;
+            }
+            $this->nome = ucfirst($nomeAssuntoMateria);
             return;
-        }
-        throw new \Exception("Essa materia não pode ser aceito", 400);
+        }    
+        throw new \Exception("Essa Area matéria não pode ser aceita", 400);
         return;
     }
     public function setMateria(int $materia): void

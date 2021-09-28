@@ -44,7 +44,7 @@ class AssuntoMateriaController
                     if ($data->status_code === 200) { // se houver erro na requisicao na materia 
                         foreach ($data->data->assuntoMateria as $el) { // foreach pra verificar cada elemento
                             if ($el->idAssuntoMateria == $req->id) { // se for igual pode atualizar
-                                $model->setNome(trim($req->assuntoMateria)); // insere aqui pra passar pelas verificacoes de dados
+                                $model->setNome(trim($req->assuntoMateria), false); // insere aqui pra passar pelas verificacoes de dados
                                 $model->setMateria($req->materia);
                                 echo $model->put($req->id);
                                 return;

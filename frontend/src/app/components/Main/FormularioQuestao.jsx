@@ -303,6 +303,9 @@ export default function FormularioQuestao() {
         linhas={linhas || []}
         tabela="questao"
         nome="Questão"
+        style={{
+          marginTop: 20,
+        }}
       />
     </Fragment>
   );

@@ -38,8 +38,8 @@ const Backdrop = (props) => {
           JSON.stringify({
             // faz um json com
             materia: attMateria, // o campo que deve ser atualizado
-            id: props.data[0], // o id da universidade que deve ser atualizado no WHERE
-            area: attAreaMateria, // o id da universidade que deve ser atualizado no WHERE
+            id: props.data[0], // o id da materia que deve ser atualizado no WHERE
+            area: attAreaMateria, // o id da area materia que deve ser atualizado no WHERE
           })
         )
         .then((value) => {
@@ -117,20 +117,6 @@ const Backdrop = (props) => {
               </MenuItem>
             ))}
         </Select>
-
-        {/* <Input
-          title={props.titles[2].headerName || "Input"}
-          id={props.titles[2].field || null}
-          className="c-formularioUpdate__item"
-          name={props.titles[2].field || null}
-          type={props.titles[2].type || "text"}
-          value={attAreaMateria}
-          error={errAttAreaMateria}
-          onChange={(e) => {
-            setAttAreaMateria(e.target.value);
-          }}
-          inputMode="text"
-        /> */}
         <Button type="submit">Atualizar</Button>
       </form>
     </section>

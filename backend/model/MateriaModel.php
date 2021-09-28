@@ -47,7 +47,7 @@ class MateriaModel
             $this->nome = ucfirst($nomeMateria);
             return;
         }
-        throw new \Exception("Essa materia não pode ser aceito", 400);
+        throw new \Exception("Essa materia não pode ser aceita", 400);
         return;
     }
     public function setArea(int $areaMateria): void
