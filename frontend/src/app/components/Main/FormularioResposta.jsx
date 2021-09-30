@@ -133,20 +133,21 @@ export default function FormularioResposta() {
     },
   ];
 
-  const linhas = Resposta.resposta
-    ? Resposta.resposta.map((resposta) => {
-        return {
-          id: resposta.idResposta,
-          resposta: resposta.textoResposta,
-          certa: +resposta.certaResposta === 0 ? "Não" : "Sim",
-          questao:
-            Resposta.questao.questao !== undefined &&
-            Resposta.questao.questao.filter(
-              (e) => e.idQuestao === resposta.idQuestao
-            )[0].tituloQuestao,
-        };
-      })
-    : [];
+  const linhas =
+    Resposta !== undefined && Resposta.resposta !== undefined
+      ? Resposta.resposta.map((resposta) => {
+          return {
+            id: resposta.idResposta,
+            resposta: resposta.textoResposta,
+            certa: +resposta.certaResposta === 0 ? "Não" : "Sim",
+            questao:
+              Resposta.questao.questao !== undefined &&
+              Resposta.questao.questao.filter(
+                (e) => e.idQuestao === resposta.idQuestao
+              )[0].tituloQuestao,
+          };
+        })
+      : [];
 
   return (
     <React.Fragment>

@@ -79,7 +79,7 @@ class RespostaModel
             if ($params === null) {
                 $stmt = $con->prepare("SELECT * FROM tb_resposta");
             } else {
-                $stmt = $con->prepare("SELECT * FROM tb_resposta WHERE idResposta = ?");
+                $stmt = $con->prepare("SELECT * FROM tb_resposta WHERE idQuestao = ?");
                 $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
 
@@ -99,7 +99,7 @@ class RespostaModel
                 if ($stmt->rowCount() > 1) {
                     return Response::success([
                         "resposta" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
-                        "questao" => json_decode($questao)->data
+                        "questao" => $params ? json_decode((new QuestaoModel)->get(['id' => $params['id']])) :  json_decode($questao)->data,
                     ]);
                 }
             }

@@ -3,8 +3,15 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FaFont, FaImages, FaPlusCircle, FaListAlt } from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../Alert/Modal";
 import { ToastError, ToastWarning, ToastInformation } from "../Alert/Toast";
-import { Button, Input, MenuItem, Select, Table, RadioGroup,
-  Radio } from "../Form";
+import {
+  Button,
+  Input,
+  MenuItem,
+  Select,
+  Table,
+  RadioGroup,
+  Radio,
+} from "../Form";
 import { Tooltip, IconButton } from "@material-ui/core";
 
 export default function FormularioQuestao() {
@@ -16,7 +23,6 @@ export default function FormularioQuestao() {
   const [QtdeImgsSelect, setQtdeImgsSelect] = useState(0);
   const [ImgsSelect, setImgsSelect] = useState(null);
 
-
   const refTitulo = useRef(null);
   const refTexto = useRef(null);
   const refImage = useRef(null);
@@ -26,6 +32,8 @@ export default function FormularioQuestao() {
   const refSelectAdministrador = useRef(null);
 
   const [questoes, setQuestao] = useState([]);
+  const [respostas, setRespostas] = useState([]);
+  const [sugestao, setSugestao] = useState([]);
 
   const [ErroTitulo, setErroTitulo] = useState(null);
   const [ErroTexto, setErroTexto] = useState(null);
@@ -33,7 +41,7 @@ export default function FormularioQuestao() {
   const [ErroAssuntoMateria, setErroAssuntoMateria] = useState(null);
   const [ErroDificuldade, setErroDificuldade] = useState(null);
   const [ErroAdministrador, setErroAdministrador] = useState(null);
-/* 
+  /* 
   const [respostas, setRespostas] = useState([]);
   const [selectedQuestao, setSelectedQuestao] = useState(0);
   const [certaResposta, setCertaResposta] = useState(null);
@@ -49,9 +57,35 @@ export default function FormularioQuestao() {
     axios
       .get(process.env.REACT_APP_API + "/questao/index/")
       .then((value) => {
+        // console.log(value.data.data);
         setQuestao(value.data.data);
       })
-      .catch((error) => ToastError({ text: `Ligue o XAMPP : ${error}` }));
+      .catch((error) =>
+        ToastError({
+          text: `Sem questoes... : ${error}. Lembre-se de ligar o XAMPP`,
+        })
+      );
+
+    axios
+      .get(process.env.REACT_APP_API + "/resposta/index/")
+      .then((value) => {
+        setRespostas(value.data.data);
+      })
+      .catch((error) =>
+        ToastError({
+          text: `Sem respostas...: ${error}. Lembre-se de ligar o XAMPP`,
+        })
+      );
+    axios
+      .get(process.env.REACT_APP_API + "/sugestaoVideo/index/")
+      .then((value) => {
+        setSugestao(value.data.data);
+      })
+      .catch((error) =>
+        ToastError({
+          text: `Sem sugestao video: ${error}. Lembre-se de ligar o XAMPP`,
+        })
+      );
   }, []);
   const [inputAlternativa, setInputAlternativa] = useState("");
   const [alternativas, setAlternativas] = useState([]);
@@ -145,11 +179,6 @@ export default function FormularioQuestao() {
       width: 200,
     },
     {
-      field: "imagem",
-      headerName: "Imagem Questão",
-      width: 200,
-    },
-    {
       field: "certaResposta",
       headerName: "Resposta",
       width: 100,
@@ -180,6 +209,17 @@ export default function FormularioQuestao() {
 
   linhas = questoes.questao
     ? questoes.questao.map((questao) => {
+        let respostaQuestao =
+          respostas.resposta !== undefined
+            ? respostas.resposta.map(
+                (el) => el.idQuestao === questao.idQuestao && el
+              )
+            : [];
+        respostaQuestao = respostaQuestao.filter((el) => el !== false);
+        let certaResposta =
+          respostaQuestao !== [] &&
+          respostaQuestao.filter((el) => +el.certaResposta === 1 && el)[0];
+
         return {
           id: questao.idQuestao,
           titulo: questao.tituloQuestao,
@@ -197,8 +237,11 @@ export default function FormularioQuestao() {
           administrador: questoes.administrador.filter(
             (e) => e.idAdministrador === questao.idAdministrador
           )[0].nomeAdministrador,
-          certaResposta: 10,
-          respostas: [1, 2, 3],
+          certaResposta:
+            certaResposta !== undefined
+              ? certaResposta.textoResposta
+              : "Sem resposta",
+          respostas: respostaQuestao,
           sugestao: [],
         };
       })
@@ -210,11 +253,15 @@ export default function FormularioQuestao() {
         <div className="formquestion__title">
           <h2 className="formquestion__question">Questão</h2>
         </div>
-        <div className="formquestion__quite">
-        </div>
-        <form method="post" id="form" onSubmit={(e) => submitForm(e)} encType="multipart/form-data">
-
-          <Input className="formquestion__input"
+        <div className="formquestion__quite"></div>
+        <form
+          method="post"
+          id="form"
+          onSubmit={(e) => submitForm(e)}
+          encType="multipart/form-data"
+        >
+          <Input
+            className="formquestion__input"
             title="Titulo: *"
             id="titulo"
             name="titulo"
@@ -224,7 +271,8 @@ export default function FormularioQuestao() {
             icon={<FaFont />}
             inputMode="text"
           />
-          <Input className="formquestion__input"
+          <Input
+            className="formquestion__input"
             title="Texto: *"
             id="texto"
             name="texto"
@@ -235,63 +283,53 @@ export default function FormularioQuestao() {
             inputMode="text"
           />
 
-      <section className="formquestion__preview">
+          <section className="formquestion__preview">
+            <label htmlFor="image" className="formquestion__img inputFile">
+              <FaPlusCircle />
+              <span>3 Imagens selecionadas</span>
+            </label>
 
-          <label htmlFor='image' className="formquestion__img inputFile">
-            <FaPlusCircle  />
-            <span>
-              3 Imagens selecionadas
-            </span>
-          </label>
+            {ImgsSelect === null ? (
+              <React.Fragment>
+                <div className="formquestion__img"></div>
 
-          {ImgsSelect === null ? (
-          <React.Fragment>
-              <div className="formquestion__img">
+                <div className="formquestion__img"></div>
 
-              </div>
+                <div className="formquestion__img"></div>
+              </React.Fragment>
+            ) : (
+              ImgsSelect.map((val, i) => {
+                let img = URL.createObjectURL(val);
 
-              <div className="formquestion__img">
+                return (
+                  <div className="formquestion__img" key={i}>
+                    <img src={img} alt={val.name} />
+                  </div>
+                );
+              })
+            )}
+          </section>
 
-              </div>
-
-              <div className="formquestion__img">
-
-              </div>
-            </React.Fragment>
-              
-          ) : ImgsSelect.map((val,i)=>{
-            
-            let img = URL.createObjectURL(val);
-
-            return(
-              <div className="formquestion__img" key={i}>
-                <img src={img} alt={val.name} />
-              </div>
-            );
-          }) }
-
-      </section>
-          
-            <Input
-              className="formquestion__input formquestion__input--invisible"
-              title="Imagens:"
-              id="image"
-              accept="image/*"
-              name="images[]"
-              multiple={true}
-              ref={refImage}
-              type="file"
-              onChange={(e)=>{
-                setQtdeImgsSelect(e.target.files.length);
-                let arr = [];
-                for(let i = 0; i < e.target.files.length; i++){
-                  arr.push(e.target.files[i]);
-                }
-                setImgsSelect(arr);
-              }}
-              icon={<FaImages />}
-            />
-            <section className="formquestion__fks">
+          <Input
+            className="formquestion__input formquestion__input--invisible"
+            title="Imagens:"
+            id="image"
+            accept="image/*"
+            name="images[]"
+            multiple={true}
+            ref={refImage}
+            type="file"
+            onChange={(e) => {
+              setQtdeImgsSelect(e.target.files.length);
+              let arr = [];
+              for (let i = 0; i < e.target.files.length; i++) {
+                arr.push(e.target.files[i]);
+              }
+              setImgsSelect(arr);
+            }}
+            icon={<FaImages />}
+          />
+          <section className="formquestion__fks">
             <div className="formquestion__fks__top">
               <Select
                 label="Universidades: *"
@@ -331,8 +369,8 @@ export default function FormularioQuestao() {
                     </MenuItem>
                   ))}
               </Select>
-              </div>
-              <div className="formquestion__fks__bottom">
+            </div>
+            <div className="formquestion__fks__bottom">
               <Select
                 label="Assunto Matéria: *"
                 id="assuntoMateria"
@@ -372,7 +410,6 @@ export default function FormularioQuestao() {
                   ))}
               </Select>
             </div>
-            
           </section>
           <Button type="submit" styleButton={{ marginTop: 30 }}>
             Enviar
@@ -387,7 +424,7 @@ export default function FormularioQuestao() {
             marginTop: 20,
           }}
         />
-      {/* 
+        {/* 
 
       <form
         method="post"
@@ -397,7 +434,7 @@ export default function FormularioQuestao() {
         encType='encType="multipart/form-data"'
       >
         <h2 className="c-formResposta__headline">Resposta</h2> */}
-       {/*  <Select
+        {/*  <Select
           label="Questao"
           className="c-formResposta__select"
           name="questao"
@@ -417,7 +454,7 @@ export default function FormularioQuestao() {
               </MenuItem>
             ))}
         </Select> */}
-      {/*   <Input
+        {/*   <Input
           title="Alternativas"
           type={TypeInputAlternativa}
           multiple={true}

@@ -1,8 +1,11 @@
 .formquestion {
-  max-width: rem(900);
+  max-width: 100%;
   margin: 0 auto;
   padding: rem(38);
-  box-shadow: $global-shadow;
+  box-shadow: 0 rem(1) rem(8) var(--color-shadow);
+  @include darkMode {
+    box-shadow: 0 rem(1) rem(20) var(--color-shadow);
+  }
   border-radius: rem(8);
 
   &__input {
@@ -18,20 +21,20 @@
     margin-top: rem(15);
     margin-bottom: rem(15);
     @include breakpoint(medium) {
-        justify-content: center;
+      justify-content: center;
     }
   }
-  &__fks{
+  &__fks {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
 
     @include breakpoint(small) {
       display: block;
-  }
-    &__top{
-     width: 48%;
-     margin-right: rem(10);
+    }
+    &__top {
+      width: 48%;
+      margin-right: rem(10);
       @include breakpoint(small) {
         width: 100%;
         margin: 0 auto;
@@ -41,9 +44,9 @@
         margin: 0 auto;
       }
     }
-    &__bottom{
-     width: 48%;
-     margin-left: rem(10);
+    &__bottom {
+      width: 48%;
+      margin-left: rem(10);
       @include breakpoint(small) {
         width: 100%;
         margin: 0 auto;
@@ -122,11 +125,11 @@
 
     &.inputFile {
       // Label pra mudar
-      border-color:var(--color-primary);
+      border-color: var(--color-primary);
       padding: $global-padding rem(16);
       @include flex(center);
       svg {
-        font-size: rem(28);
+        font-size: rem(40);
         fill: var(--color-primary);
         margin-right: rem(8);
       }
@@ -137,5 +140,4 @@
       }
     }
   }
-
 }
