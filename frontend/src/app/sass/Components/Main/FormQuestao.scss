@@ -1,0 +1,141 @@
+.formquestion {
+  max-width: rem(900);
+  margin: 0 auto;
+  padding: rem(38);
+  box-shadow: $global-shadow;
+  border-radius: rem(8);
+
+  &__input {
+    &--invisible {
+      display: none !important;
+    }
+  }
+
+  &__preview {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: rem(15);
+    margin-bottom: rem(15);
+    @include breakpoint(medium) {
+        justify-content: center;
+    }
+  }
+  &__fks{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+
+    @include breakpoint(small) {
+      display: block;
+  }
+    &__top{
+     width: 48%;
+     margin-right: rem(10);
+      @include breakpoint(small) {
+        width: 100%;
+        margin: 0 auto;
+      }
+      @include breakpoint(medium) {
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+    &__bottom{
+     width: 48%;
+     margin-left: rem(10);
+      @include breakpoint(small) {
+        width: 100%;
+        margin: 0 auto;
+      }
+      @include breakpoint(medium) {
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  &__title {
+    &::before {
+      right: 0;
+      background-color: #6f42c1;
+      content: "";
+      display: inline-block;
+      height: rem(10);
+      border-radius: rem(20);
+      position: static;
+      vertical-align: middle;
+      width: rem(10);
+    }
+    &::after {
+      margin-left: rem(20);
+      background-color: #6f42c1;
+      content: "";
+      display: inline-block;
+      height: rem(10);
+      border-radius: rem(20);
+      position: static;
+      vertical-align: middle;
+      width: rem(10);
+      margin-top: rem(-40);
+    }
+  }
+  &__quite {
+    &::before {
+      margin-left: rem(40);
+      background-color: #6f42c1;
+      content: "";
+      display: inline-block;
+      height: rem(10);
+      border-radius: rem(20);
+      position: static;
+      vertical-align: middle;
+      width: rem(10);
+      margin-top: rem(-88);
+    }
+  }
+  &__question {
+    font-size: $global-font-size-xlg;
+    font-weight: bold;
+    margin-bottom: -40px;
+    letter-spacing: $global-font-letter-spacing;
+  }
+
+  &__inserir-img {
+    display: flex;
+    flex-direction: column;
+  }
+  &__img {
+    width: rem(150);
+    height: rem(130);
+    border: rem(2);
+    margin-top: rem(8);
+    margin-right: rem(16);
+    border-style: dashed;
+    border-color: var(--color-primary);
+    border-radius: rem(5);
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    &.inputFile {
+      // Label pra mudar
+      border-color:var(--color-primary);
+      padding: $global-padding rem(16);
+      @include flex(center);
+      svg {
+        font-size: rem(28);
+        fill: var(--color-primary);
+        margin-right: rem(8);
+      }
+      span {
+        font-size: rem(14);
+        font-weight: bolder;
+        line-height: rem(16);
+      }
+    }
+  }
+
+}
