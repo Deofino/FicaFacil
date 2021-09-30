@@ -34,9 +34,7 @@ export default function FormularioQuestao() {
       .then((value) => {
         setQuestao(value.data.data);
       })
-      .catch((error) =>
-        ToastError({ text: `Ligue o XAMPP : ${error}` })
-      );
+      .catch((error) => ToastError({ text: `Ligue o XAMPP : ${error}` }));
   }, []);
 
   const submitForm = (e) => {
@@ -133,6 +131,11 @@ export default function FormularioQuestao() {
       width: 200,
     },
     {
+      field: "certaResposta",
+      headerName: "Resposta",
+      width: 100,
+    },
+    {
       field: "universidade",
       headerName: "Universidade",
       width: 150,
@@ -175,6 +178,9 @@ export default function FormularioQuestao() {
           administrador: questoes.administrador.filter(
             (e) => e.idAdministrador === questao.idAdministrador
           )[0].nomeAdministrador,
+          certaResposta: 10,
+          respostas: [1, 2, 3],
+          sugestao: [],
         };
       })
     : [];

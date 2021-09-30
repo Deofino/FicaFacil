@@ -73,33 +73,26 @@
         .button {
             cursor: pointer;
             // border: 2px solid $white;
-            border-radius: $global-radius;
-            transform: scale(0.8);
             opacity: 0.9;
             font-size: 105%;
             font-weight: 600;
-            box-shadow: 0 rem(2) rem(4) var(--color-shadow);
+            transform: scale(0.8);
+            border: 0;
+            box-shadow: $global-shadow;
+            border-radius: 4px;
+            svg {
+                font-size: 100%;
+                fill: $dark;
+            }
             &:hover {
                 opacity: 1;
             }
             &.delete {
-                background-color: $danger;
-                color: $white;
-                border: rem(1) solid darken($danger, 10%);
-                @include darkMode {
-                    background-color: darken($danger, 5%);
-                    border: rem(1) solid darken($danger, 20%);
-                }
+                background: lighten($danger, 5%);
             }
             &.update {
-                border: rem(1) solid darken($warning, 10%);
-                background-color: $warning;
-                color: darken($warning, 35%);
-                @include darkMode {
-                    background-color: darken($warning, 5%);
-                    border: rem(1) solid darken($warning, 20%);
-                    color: darken($warning, 40%);
-                }
+                background: lighten($warning, 10%);
+                fill: $dark;
             }
         }
     }

@@ -3,6 +3,7 @@ import Table from "@material-ui/core/Table";
 import axios from "axios";
 import { AlertWarning } from "../Alert/Modal";
 import { ToastSuccess, ToastError } from "../Alert/Toast";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -69,7 +70,7 @@ export default function StickyHeadTable({
       {
         field: "delete",
         headerName: "Apagar",
-        width: 150,
+        width: 100,
         className: "button delete",
         onClick: (ev, id) => functionDelete(id, tabela, nome),
       },
@@ -77,15 +78,15 @@ export default function StickyHeadTable({
         field: "update",
         headerName: "Modificar",
         className: "button update",
-        width: 150,
+        width: 100,
         onClick: (ev, id) => functionUpdate(id, tabela, nome, linhas, colunas),
       }
     );
   }
 
   linhas = linhas.map((el) => {
-    el.delete = "Excluir";
-    el.update = "Atualizar";
+    el.delete = <FaTrash />;
+    el.update = <FaPencilAlt />;
     return el;
   });
 
