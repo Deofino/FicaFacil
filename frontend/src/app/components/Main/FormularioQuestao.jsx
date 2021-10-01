@@ -573,7 +573,7 @@ export default function FormularioQuestao() {
           colunas={colunas}
           linhas={linhas}
           tabela="resposta"
-          nome="Resposta"
+          nome="Questão"
         />
       </div>
     </Fragment>
