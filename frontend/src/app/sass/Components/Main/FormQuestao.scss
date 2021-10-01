@@ -1,4 +1,5 @@
-.formquestion {
+/* PARTE DA QUESTÃO */
+.c-formQuestion {
   max-width: 100%;
   margin: 0 auto;
   padding: rem(38);
@@ -57,7 +58,6 @@
       }
     }
   }
-
   &__title {
     &::before {
       right: 0;
@@ -140,4 +140,49 @@
       }
     }
   }
+}
+/* PARTE DA RESPOSTA */
+.c-formResposta{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+
+  &__inpL{
+    flex-basis: 80%;
+    @include breakpoint(large){
+      flex-basis: 70%;
+    }
+    @include breakpoint(medium) {
+      flex-basis: 69%;
+    }
+    @include breakpoint(small) {
+      flex-basis: 100%;
+    }
+  }
+  &__inpR{
+    flex-basis: 19%;
+    align-self: flex-end;
+    margin-left: rem(8);
+    @include breakpoint(large){
+      flex-basis: 28%;
+    }
+    @include breakpoint(medium) {
+      flex-basis: 29%;
+    }
+    @include breakpoint(small) {
+      flex-basis: 100%;
+      margin-left: rem(0);
+      margin-top: rem(8);
+    }
+  }
+  &__title{
+    margin-top: rem(30);
+  }
+}
+
+.c-formSVideo{
+  &__title{
+    margin-top: rem(30);
+  }
+  
 }

@@ -15,6 +15,7 @@ import {
 import { Tooltip, IconButton } from "@material-ui/core";
 
 export default function FormularioQuestao() {
+  /* -----------------VARIÁVEIS DA QUESTÃO ----------------*/
   const [selectUniversidade, setselectUniversidade] = useState(0);
   const [selectAssuntoMateria, setselectAssuntoMateria] = useState(0);
   const [selectDificuldade, setselectDificuldade] = useState(0);
@@ -32,8 +33,6 @@ export default function FormularioQuestao() {
   const refSelectAdministrador = useRef(null);
 
   const [questoes, setQuestao] = useState([]);
-  const [respostas, setRespostas] = useState([]);
-  const [sugestao, setSugestao] = useState([]);
 
   const [ErroTitulo, setErroTitulo] = useState(null);
   const [ErroTexto, setErroTexto] = useState(null);
@@ -41,7 +40,8 @@ export default function FormularioQuestao() {
   const [ErroAssuntoMateria, setErroAssuntoMateria] = useState(null);
   const [ErroDificuldade, setErroDificuldade] = useState(null);
   const [ErroAdministrador, setErroAdministrador] = useState(null);
-  /* 
+
+  /*----------------- VARIÁVEIS DA RESPOSTA---------------- */
   const [respostas, setRespostas] = useState([]);
   const [selectedQuestao, setSelectedQuestao] = useState(0);
   const [certaResposta, setCertaResposta] = useState(null);
@@ -51,41 +51,27 @@ export default function FormularioQuestao() {
   const [Resposta, setResposta] = useState([]);
 
   const [ErroResposta, setErroResposta] = useState(null);
-  const [ErroQuestaoSelecionada, setErroQuestaoSelecionada] = useState(null); */
+  const [ErroQuestaoSelecionada, setErroQuestaoSelecionada] = useState(null);
+
+  /*----------------- VARIÁVEIS DA SUGESTÃO VÍDEO ---------------- */
+  const [ErroSugestaoVideo, setErroSugestaoVideo] = useState(null);
+  const [ErroThumbVideo, setErroThumbVideo] = useState(null);
+  const [ErroUrlVideo, setErroUrlVideo] = useState(null);
+  const [ErroQuestao, setErroQuestao] = useState(null);
+
+  const refSugestaoVideo = useRef(null);
+  const refThumbVideo = useRef(null);
+  const refUrlVideo = useRef(null);
 
   useEffect(() => {
+    axios.get(process.env.REACT_APP_API + "/questao/index/").then((value) => {
+      setQuestao(value.data.data);
+    });
     axios
-      .get(process.env.REACT_APP_API + "/questao/index/")
-      .then((value) => {
-        // console.log(value.data.data);
-        setQuestao(value.data.data);
-      })
-      .catch((error) =>
-        ToastError({
-          text: `Sem questoes... : ${error}. Lembre-se de ligar o XAMPP`,
-        })
-      );
-
-    axios
-      .get(process.env.REACT_APP_API + "/resposta/index/")
-      .then((value) => {
-        setRespostas(value.data.data);
-      })
-      .catch((error) =>
-        ToastError({
-          text: `Sem respostas...: ${error}. Lembre-se de ligar o XAMPP`,
-        })
-      );
-    axios
-      .get(process.env.REACT_APP_API + "/sugestaoVideo/index/")
-      .then((value) => {
-        setSugestao(value.data.data);
-      })
-      .catch((error) =>
-        ToastError({
-          text: `Sem sugestao video: ${error}. Lembre-se de ligar o XAMPP`,
-        })
-      );
+      .get(`${process.env.REACT_APP_API}/resposta/index/`)
+      .then((value) => setResposta(value.data.data))
+      .catch((error) => ToastError("Nenhuma resposta encontrada"))
+      .catch((error) => ToastError({ text: `Ligue o XAMPP : ${error}` }));
   }, []);
   const [inputAlternativa, setInputAlternativa] = useState("");
   const [alternativas, setAlternativas] = useState([]);
@@ -93,7 +79,6 @@ export default function FormularioQuestao() {
   const submitForm = (e) => {
     e.preventDefault();
 
-    /** */
     let formulario = document.getElementById("form");
     let formData = new FormData(formulario);
 
@@ -179,9 +164,9 @@ export default function FormularioQuestao() {
       width: 200,
     },
     {
-      field: "certaResposta",
-      headerName: "Resposta",
-      width: 100,
+      field: "imagem",
+      headerName: "Imagem Questão",
+      width: 200,
     },
     {
       field: "universidade",
@@ -209,51 +194,35 @@ export default function FormularioQuestao() {
 
   linhas = questoes.questao
     ? questoes.questao.map((questao) => {
-        let respostaQuestao =
-          respostas.resposta !== undefined
-            ? respostas.resposta.map(
-                (el) => el.idQuestao === questao.idQuestao && el
-              )
-            : [];
-        respostaQuestao = respostaQuestao.filter((el) => el !== false);
-        let certaResposta =
-          respostaQuestao !== [] &&
-          respostaQuestao.filter((el) => +el.certaResposta === 1 && el)[0];
-
-        return {
-          id: questao.idQuestao,
-          titulo: questao.tituloQuestao,
-          texto: questao.textoQuestao,
-          imagem: questao.imagensQuestao,
-          universidade: questoes.universidade.filter(
-            (e) => e.idUniversidade === questao.idUniversidade
-          )[0].nomeUniversidade,
-          dificuldade: questoes.dificuldade.filter(
-            (e) => e.idDificuldade === questao.idDificuldade
-          )[0].nivelDificuldade,
-          assuntoMateria: questoes.assuntoMateria.assuntoMateria.filter(
-            (e) => e.idAssuntoMateria === questao.idAssuntoMateria
-          )[0].nomeAssuntoMateria,
-          administrador: questoes.administrador.filter(
-            (e) => e.idAdministrador === questao.idAdministrador
-          )[0].nomeAdministrador,
-          certaResposta:
-            certaResposta !== undefined
-              ? certaResposta.textoResposta
-              : "Sem resposta",
-          respostas: respostaQuestao,
-          sugestao: [],
-        };
-      })
+      return {
+        id: questao.idQuestao,
+        titulo: questao.tituloQuestao,
+        texto: questao.textoQuestao,
+        imagem: questao.imagensQuestao,
+        universidade: questoes.universidade.filter(
+          (e) => e.idUniversidade === questao.idUniversidade
+        )[0].nomeUniversidade,
+        dificuldade: questoes.dificuldade.filter(
+          (e) => e.idDificuldade === questao.idDificuldade
+        )[0].nivelDificuldade,
+        assuntoMateria: questoes.assuntoMateria.assuntoMateria.filter(
+          (e) => e.idAssuntoMateria === questao.idAssuntoMateria
+        )[0].nomeAssuntoMateria,
+        administrador: questoes.administrador.filter(
+          (e) => e.idAdministrador === questao.idAdministrador
+        )[0].nomeAdministrador,
+      };
+    })
     : [];
 
   return (
     <Fragment>
-      <div className="formquestion">
-        <div className="formquestion__title">
-          <h2 className="formquestion__question">Questão</h2>
+      {/* ------------------ FORMULÁRIO QUESTÃO ----------------------- */}
+      <div className="c-formQuestion">
+        <div className="c-formQuestion__title">
+          <h2 className="c-formQuestion__question">Questão</h2>
         </div>
-        <div className="formquestion__quite"></div>
+        <div className="c-formQuestion__quite"></div>
         <form
           method="post"
           id="form"
@@ -261,7 +230,6 @@ export default function FormularioQuestao() {
           encType="multipart/form-data"
         >
           <Input
-            className="formquestion__input"
             title="Titulo: *"
             id="titulo"
             name="titulo"
@@ -272,7 +240,6 @@ export default function FormularioQuestao() {
             inputMode="text"
           />
           <Input
-            className="formquestion__input"
             title="Texto: *"
             id="texto"
             name="texto"
@@ -282,27 +249,26 @@ export default function FormularioQuestao() {
             icon={<FaFont />}
             inputMode="text"
           />
-
-          <section className="formquestion__preview">
-            <label htmlFor="image" className="formquestion__img inputFile">
+          <section className="c-formQuestion__preview">
+            <label htmlFor="image" className="c-formQuestion__img inputFile">
               <FaPlusCircle />
               <span>3 Imagens selecionadas</span>
             </label>
 
             {ImgsSelect === null ? (
               <React.Fragment>
-                <div className="formquestion__img"></div>
+                <div className="c-formQuestion__img"></div>
 
-                <div className="formquestion__img"></div>
+                <div className="c-formQuestion__img"></div>
 
-                <div className="formquestion__img"></div>
+                <div className="c-formQuestion__img"></div>
               </React.Fragment>
             ) : (
               ImgsSelect.map((val, i) => {
                 let img = URL.createObjectURL(val);
 
                 return (
-                  <div className="formquestion__img" key={i}>
+                  <div className="c-formQuestion__img" key={i}>
                     <img src={img} alt={val.name} />
                   </div>
                 );
@@ -311,7 +277,7 @@ export default function FormularioQuestao() {
           </section>
 
           <Input
-            className="formquestion__input formquestion__input--invisible"
+            className="c-formQuestion__input c-formQuestion__input--invisible"
             title="Imagens:"
             id="image"
             accept="image/*"
@@ -329,8 +295,8 @@ export default function FormularioQuestao() {
             }}
             icon={<FaImages />}
           />
-          <section className="formquestion__fks">
-            <div className="formquestion__fks__top">
+          <section className="c-formQuestion__fks">
+            <div className="c-formQuestion__fks__top">
               <Select
                 label="Universidades: *"
                 id="universidade"
@@ -350,6 +316,7 @@ export default function FormularioQuestao() {
                     </MenuItem>
                   ))}
               </Select>
+
               <Select
                 label="Dificuldades: *"
                 id="dificuldades"
@@ -370,7 +337,7 @@ export default function FormularioQuestao() {
                   ))}
               </Select>
             </div>
-            <div className="formquestion__fks__bottom">
+            <div className="c-formQuestion__fks__bottom">
               <Select
                 label="Assunto Matéria: *"
                 id="assuntoMateria"
@@ -411,183 +378,201 @@ export default function FormularioQuestao() {
               </Select>
             </div>
           </section>
-          <Button type="submit" styleButton={{ marginTop: 30 }}>
-            Enviar
-          </Button>
         </form>
-        <Table
-          colunas={colunas}
-          linhas={linhas || []}
-          tabela="questao"
-          nome="Questão"
-          style={{
-            marginTop: 20,
-          }}
-        />
-        {/* 
+        {/* ------------------ FORMULÁRIO RESPOSTA ----------------------- */}
+        <section className="c-formResposta">
+          <form
+            method="post"
+            id="formResposta"
+            className="c-formResposta"
+            onSubmit={submitForm}
+            encType='encType="multipart/form-data"'
+          >
+            <div className="c-formResposta__inpL">
+              <h2 className="c-formResposta__title">Adicionar resposta</h2>
 
-      <form
-        method="post"
-        id="formResposta"
-        className="c-formResposta"
-        onSubmit={submitForm}
-        encType='encType="multipart/form-data"'
-      >
-        <h2 className="c-formResposta__headline">Resposta</h2> */}
-        {/*  <Select
-          label="Questao"
-          className="c-formResposta__select"
-          name="questao"
-          id="questao"
-          error={ErroQuestaoSelecionada}
-          value={selectedQuestao}
-          onChange={({ target }) => {
-            setSelectedQuestao(target.value);
-            console.log(target.value);
-          }}
-        >
-          <MenuItem value={-1}>Selecione</MenuItem>
-          {respostas.questao !== undefined &&
-            respostas.questao.map((item) => (
-              <MenuItem value={item.idQuestao} key={item.idQuestao}>
-                {item.tituloQuestao}
-              </MenuItem>
-            ))}
-        </Select> */}
-        {/*   <Input
-          title="Alternativas"
-          type={TypeInputAlternativa}
-          multiple={true}
-          id="alternativas"
-          name={"alternativas[]"}
-          error={ErroResposta}
-          iconEnd={
-            <Tooltip title="Mudar para imagem/texto" placement="left">
-              <IconButton
+              <Input
+                title="Alternativas"
+                type={TypeInputAlternativa}
+                multiple={true}
+                id="alternativas"
+                name={"alternativas[]"}
+                error={ErroResposta}
+                iconEnd={
+                  <Tooltip title="Mudar para imagem/texto" placement="left">
+                    <IconButton
+                      onClick={() => {
+                        setTypeInputAlternativa(
+                          TypeInputAlternativa === "text" ? "file" : "text"
+                        );
+                        ToastInformation({
+                          text: "Selecione as 5 imagens de uma vez.",
+                        });
+                        setAlternativas([]);
+                        setInputAlternativa("");
+                      }}
+                    >
+                      {TypeInputAlternativa === "text" ? (
+                        <FaImages />
+                      ) : (
+                        <FaFont />
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                }
+                value={inputAlternativa}
+                icon={<FaListAlt />}
+                onChange={({ target }) => {
+                  setInputAlternativa(target.value);
+                }}
+              />
+            </div>
+            <div className="c-formResposta__inpR">
+              <Button
+                type="button"
+                styleButton={{ padding: 25 }}
                 onClick={() => {
-                  setTypeInputAlternativa(
-                    TypeInputAlternativa === "text" ? "file" : "text"
-                  );
-                  ToastInformation({
-                    text: "Selecione as 5 imagens de uma vez.",
-                  });
-                  setAlternativas([]);
-                  setInputAlternativa("");
+                  let input = document.querySelector("#alternativas");
+                  if (
+                    inputAlternativa !== "" &&
+                    alternativas !== null &&
+                    alternativas.length < 5
+                  ) {
+                    if (input.type === "text") {
+                      if (
+                        !alternativas.includes(inputAlternativa) &&
+                        inputAlternativa.length >= 3
+                      ) {
+                        setErroResposta(null);
+                        setAlternativas([...alternativas, inputAlternativa]);
+                        setInputAlternativa("");
+                      } else
+                        setErroResposta(
+                          "O campo deve ter no minimo 3 caracteres e não deve ser igual a alguma outra"
+                        );
+                    } else {
+                      if (input.files.length === 5) {
+                        setErroResposta(null);
+                        let images = [];
+                        for (let i = 0; i < input.files.length; i++) {
+                          let image = {
+                            img: URL.createObjectURL(input.files[i]),
+                            title: input.files[i].name,
+                          };
+                          images.push(image);
+                        }
+                        setAlternativas(images);
+                      } else {
+                        setErroResposta(
+                          "Selecione somente as 5 alternativas, nem mais nem menos."
+                        );
+                      }
+                    }
+                  } else {
+                    setErroResposta(
+                      "Você tem que ter somente 5 alternativas, seja imagem ou texto"
+                    );
+                  }
                 }}
               >
-                {TypeInputAlternativa === "text" ? <FaImages /> : <FaFont />}
-              </IconButton>
-            </Tooltip>
-          }
-          value={inputAlternativa}
-          icon={<FaListAlt />}
-          onChange={({ target }) => {
-            setInputAlternativa(target.value);
-          }}
-        />
-        <Button
-          type="button"
-          styleButton={{ marginTop: 20 }}
-          onClick={() => {
-            let input = document.querySelector("#alternativas");
-            if (
-              inputAlternativa !== "" &&
-              alternativas !== null &&
-              alternativas.length < 5
-            ) {
-              if (input.type === "text") {
-                if (
-                  !alternativas.includes(inputAlternativa) &&
-                  inputAlternativa.length >= 3
-                ) {
-                  setErroResposta(null);
-                  setAlternativas([...alternativas, inputAlternativa]);
-                  setInputAlternativa("");
-                } else
-                  setErroResposta(
-                    "O campo deve ter no minimo 3 caracteres e não deve ser igual a alguma outra"
-                  );
-              } else {
-                if (input.files.length === 5) {
-                  setErroResposta(null);
-                  let images = [];
-                  for (let i = 0; i < input.files.length; i++) {
-                    let image = {
-                      img: URL.createObjectURL(input.files[i]),
-                      title: input.files[i].name,
-                    };
-                    images.push(image);
-                  }
-                  setAlternativas(images);
-                } else {
-                  setErroResposta(
-                    "Selecione somente as 5 alternativas, nem mais nem menos."
-                  );
-                }
-              }
-            } else {
-              setErroResposta(
-                "Você tem que ter somente 5 alternativas, seja imagem ou texto"
-              );
-            }
-          }}
-        >
-          Adicionar alternativa
-        </Button>
-        {alternativas !== [] &&
-          alternativas.map((el, i) => (
-            <RadioGroup
-              key={i}
-              onChange={(e) => {
-                setCertaResposta(e.target.value);
-              }}
-              value={certaResposta}
-            >
-              {document.querySelector("#alternativas").type === "text" ? (
-                <Radio
-                  value={el}
-                  label={`"${el}" é a resposta dessa questao?`}
-                />
-              ) : (
-                <div
-                  className="c-alternativa"
-                  style={{
-                    background: "#333",
-                    padding: 8,
-                    borderRadius: 8,
-                    display: "flex",
+                Adicionar
+              </Button>
+            </div>
+
+            {alternativas !== [] &&
+              alternativas.map((el, i) => (
+                <RadioGroup
+                  key={i}
+                  onChange={(e) => {
+                    setCertaResposta(e.target.value);
                   }}
+                  value={certaResposta}
                 >
-                  <img
-                    src={`${el.img}`}
-                    alt={el.title}
-                    style={{
-                      width: 100,
-                      height: 100,
-                    }}
-                  />
-                  <Radio
-                    value={el.title}
-                    label={` é a resposta dessa questao?`}
-                  />
-                </div>
-              )}
-            </RadioGroup>
-          ))}
+                  {document.querySelector("#alternativas").type === "text" ? (
+                    <Radio
+                      value={el}
+                      label={`"${el}" é a resposta dessa questao?`}
+                    />
+                  ) : (
+                    <div
+                      className="c-alternativa"
+                      style={{
+                        background: "#333",
+                        padding: 8,
+                        borderRadius: 8,
+                        display: "flex",
+                      }}
+                    >
+                      <img
+                        src={`${el.img}`}
+                        alt={el.title}
+                        style={{
+                          width: 100,
+                          height: 100,
+                        }}
+                      />
+                      <Radio
+                        value={el.title}
+                        label={` é a resposta dessa questao?`}
+                      />
+                    </div>
+                  )}
+                </RadioGroup>
+              ))}
+          </form>
+        </section>
+        {/* -------------------- FORMULÁRIO SUGESTÃO VÍDEO ----------------------- */}
+
+        <section className="c-formSVideo">
+          <form
+            method="post"
+            id="formSV"
+            className="c-formSV c-form"
+            onSubmit={submitForm}
+          >
+            <h2 className="c-formSVideo__title">Sugestão de Vídeo</h2>
+            <Input
+              title="Titulo Sugestao de Video"
+              id="sugestaoVideo"
+              error={ErroSugestaoVideo}
+              className="c-formSVideo__input"
+              ref={refSugestaoVideo}
+              name="sugestaoVideo"
+            />
+            <Input
+              title="Thumbnail"
+              id="thumbnailSugestaoVideo"
+              error={ErroThumbVideo}
+              className="c-formSVideo__input"
+              ref={refThumbVideo}
+              name="thumbnailSugestaoVideo"
+            />
+            <Input
+              title="URL"
+              id="urlSugestaoVideo"
+              error={ErroUrlVideo}
+              className="c-formSVideo__input"
+              ref={refUrlVideo}
+              name="urlSugestaoVideo"
+            />
+          </form>
+        </section>
         <Button
-          className="c-formResposta__submit"
+          className="c-formQuestion__submit"
           styleButton={{ marginTop: 20 }}
           type="submit"
         >
           Cadastrar
         </Button>
-      </form>
-      <Table
-        colunas={colunas}
-        linhas={linhas}
-        tabela="resposta"
-        nome="Resposta"
-      /> */}
+
+        {/* ------------------ TABELA DE DADOS (SELECT) ----------------------- */}
+        <Table
+          style={{ marginTop: 25 }}
+          colunas={colunas}
+          linhas={linhas}
+          tabela="resposta"
+          nome="Resposta"
+        />
       </div>
     </Fragment>
   );
