@@ -77,7 +77,7 @@ class SugestaoVideoModel
         throw new \Exception("Essa Thumbnail Video de vídeo não pode ser aceita", 400);
         return;
     }
-    
+
     public function setUrlVideo(string $urlVideo): void
     {
         if (isset($urlVideo) && trim($urlVideo) !== '' && strlen(trim($urlVideo)) !== 0 && trim($urlVideo) !== null) {
@@ -100,7 +100,7 @@ class SugestaoVideoModel
     }
     public function setQuestao(int $questao): void
     {
-        if($questao > 0 && $questao!==null){
+        if ($questao > 0 && $questao !== null) {
             $questaoModel = new QuestaoModel();
             $data = json_decode($questaoModel->get());
             if ($data->status_code === 200) {
@@ -122,7 +122,7 @@ class SugestaoVideoModel
     }
 
 
-    public function get($params=null)
+    public function get($params = null)
     {
         try {
             $con = Connection::getConn();
@@ -138,15 +138,14 @@ class SugestaoVideoModel
                 if ($stmt->rowCount() === 0) {
                     return Response::warning("Nenhuma materia encontrada...", 404);
                 }
-                if ($stmt->rowCount() === 1) {
+                if (isset($params['id'])) {
                     $sugestaoVideo = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     $questao = (new QuestaoModel)->get(['id' => $sugestaoVideo[0]['idQuestao']]);
                     return Response::success([
                         "sugestaoVideo" => $sugestaoVideo,
                         "questao" => json_decode($questao)->data
                     ]);
-                }
-                if ($stmt->rowCount() > 1) {
+                } else {
                     return Response::success([
                         "sugestaoVideo" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
                         "questao" => json_decode($questao)->data
@@ -157,7 +156,6 @@ class SugestaoVideoModel
         } catch (\Throwable $th) {
             return Response::error("Error: $th");
         }
-
     }
     public function post()
     {
@@ -168,8 +166,8 @@ class SugestaoVideoModel
             $stmt->bindValue(2, trim($this->getThumbnailVideo()), PDO::PARAM_STR);
             $stmt->bindValue(3, trim($this->getUrlVideo()), PDO::PARAM_STR);
             $stmt->bindValue(4, trim($this->getQuestao()), PDO::PARAM_INT);
-            
-            
+
+
             if ($stmt->execute()) {
                 return Response::success("Sugestão Vídeo `{$this->getTitulo()}` inserida com sucesso, id=" . $con->lastInsertId());
             }
@@ -219,6 +217,5 @@ class SugestaoVideoModel
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }
-
     }
 }

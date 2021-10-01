@@ -4,6 +4,7 @@ namespace Controller;
 
 use Helper\Response;
 use Model\AdministradorModel;
+use Helper\JWT;
 
 class AdministradorController
 {
@@ -26,7 +27,7 @@ class AdministradorController
             if (isset($data->email) && isset($data->nome) && isset($data->senha)) {
                 $model->setNome(trim($data->nome));
                 $model->setEmail(trim($data->email));
-                $model->setSenha(trim($data->senha)); // insere aqui pra passar pelas verificacoes de dados
+                $model->setSenha(trim(password_hash($data->senha, PASSWORD_DEFAULT))); // insere aqui pra passar pelas verificacoes de dados
                 echo $model->post();
             } else echo Response::warning('Parametro `email/nome/senha` não encontrado ou vazio/nulo', 404);
             return;
@@ -47,12 +48,12 @@ class AdministradorController
                             if ($el->idAdministrador == $req->id) { // se for igual pode atualizar
                                 $model->setNome(trim($req->nomeAdministrador)); // insere aqui pra passar pelas verificacoes de dados
                                 $model->setEmail(trim($req->emailAdministrador));
-                                $model->setSenha(trim($req->senhaAdministrador));  
+                                $model->setSenha(trim($req->senhaAdministrador));
                                 echo $model->put($req->id);
                                 return;
                             };
                         }
-                        echo Response::warning("Administrador com id `" .$req->id . "` não encontrada", 404);
+                        echo Response::warning("Administrador com id `" . $req->id . "` não encontrada", 404);
                         return; // senao puder ele ira gerar erro daqui pra baixo
                     } else {
                         echo Response::error("Erro ao pegar administrador", 404);
@@ -74,5 +75,38 @@ class AdministradorController
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
+    }
+    public function login()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'));
+            $model = new AdministradorModel();
+            $req = json_decode($model->login($data->email, $data->senha));
+
+            if ($req->status_code === 200) {
+                unset($_SESSION['auth']);
+                $admin = (array) json_decode($req->data->admin);
+                $jwt = JWT::createJWT($admin);
+
+                $_SESSION['auth'] = $jwt;
+                echo Response::success(['token' => $jwt]);
+                return;
+            } else {
+                echo Response::error("E-mail ou senha incorretos.", 404);
+                return;
+            }
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+
+    public function logout()
+    {
+        if (isset($_SESSION['auth'])) {
+
+            unset($_SESSION['auth']);
+            session_destroy();
+        }else{
+            Response::error("Sem user logado");
+        }
     }
 }

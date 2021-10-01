@@ -240,7 +240,7 @@ export default function FormularioAssuntoMateria() {
       <form
         method="post"
         id="formAS"
-        className="c-formAssuntoMateria"
+        className="c-formAssuntoMateria c-form"
         onSubmit={submitForm}
       >
         <h2 className="c-formAssuntoMateria__headline">Assunto Matéria</h2>

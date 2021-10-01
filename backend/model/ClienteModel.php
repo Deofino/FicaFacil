@@ -3,6 +3,9 @@
 namespace Model;
 
 use Model\UserModel;
+use PDO;
+use Helper\Response;
+use Helper\Connection;
 
 class ClienteModel extends UserModel
 {
@@ -16,21 +19,6 @@ class ClienteModel extends UserModel
     private int $erros;
     private int $videosAssistidos;
     private int $comentariosFeitos;
-
-
-    public function __construct($nome, $email, $senha, $dataAniversario, $foto, $simuladosFeitos, $simuladosRefeitos, $acertos, $erros, $videosAssistidos, $comentariosFeitos)
-    {
-        parent::__construct($nome, $email, $senha);
-
-        $this->dataAniversario = $dataAniversario;
-        $this->foto = $foto;
-        $this->simuladosFeitos = $simuladosFeitos;
-        $this->simuladosRefeitos = $simuladosRefeitos;
-        $this->acertos = $acertos;
-        $this->erros = $erros;
-        $this->videosAssistidos = $videosAssistidos;
-        $this->comentariosFeitos = $comentariosFeitos;
-    }
 
     public function getId(): int
     {
@@ -102,8 +90,25 @@ class ClienteModel extends UserModel
     }
 
 
-    public function get($params)
+    public function get($params = null)
     {
+        try {
+            $con = Connection::getConn();
+            if ($params === null) {
+                $stmt = $con->prepare("SELECT * FROM tb_cliente");
+            } else {
+                $stmt = $con->prepare("SELECT * FROM tb_cliente WHERE idCliente = ?");
+                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
+            }
+            if ($stmt->execute()) {
+                return $stmt->rowCount() == 0 ?
+                    Response::warning("Nenhuma cliente encontrada...", 404) :
+                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+            }
+            return Response::error("Erro ao selecionar cliente");
+        } catch (\Throwable $th) {
+            return Response::error("Error: $th");
+        }
     }
     public function post($params)
     {

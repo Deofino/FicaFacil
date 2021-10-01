@@ -9,15 +9,23 @@
   }
   border-radius: rem(8);
 
+  @include breakpoint(small) {
+    padding: rem(16) rem(4);
+  }
+  .c-input {
+    margin-top: rem(12);
+  }
   &__input {
     &--invisible {
       display: none !important;
     }
   }
+  &__submit {
+    padding: rem(26) !important;
+  }
 
   &__preview {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
     margin-top: rem(15);
     margin-bottom: rem(15);
@@ -115,8 +123,15 @@
     margin-top: rem(8);
     margin-right: rem(16);
     border-style: dashed;
+    overflow: hidden;
     border-color: var(--color-primary);
     border-radius: rem(5);
+
+    @include breakpoint(small) {
+      width: 100%;
+      max-width: rem(220);
+      height: rem(160);
+    }
 
     img {
       width: 100%;
@@ -128,61 +143,57 @@
       border-color: var(--color-primary);
       padding: $global-padding rem(16);
       @include flex(center);
+      flex-direction: column;
       svg {
-        font-size: rem(40);
+        font-size: rem(28);
         fill: var(--color-primary);
-        margin-right: rem(8);
       }
       span {
         font-size: rem(14);
         font-weight: bolder;
+        margin-top: rem(6);
+        text-align: center;
         line-height: rem(16);
       }
     }
   }
 }
 /* PARTE DA RESPOSTA */
-.c-formResposta{
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-
-  &__inpL{
-    flex-basis: 80%;
-    @include breakpoint(large){
-      flex-basis: 70%;
-    }
-    @include breakpoint(medium) {
-      flex-basis: 69%;
-    }
-    @include breakpoint(small) {
-      flex-basis: 100%;
-    }
+.c-formResposta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  &__inpL {
+    flex-grow: 1;
   }
-  &__inpR{
-    flex-basis: 19%;
-    align-self: flex-end;
+  &__inpR {
+    flex-grow: 1;
     margin-left: rem(8);
-    @include breakpoint(large){
-      flex-basis: 28%;
-    }
-    @include breakpoint(medium) {
-      flex-basis: 29%;
+    min-width: rem(200);
+    align-self: flex-end;
+    span {
+      font-size: $global-font-size-sm !important;
     }
     @include breakpoint(small) {
-      flex-basis: 100%;
-      margin-left: rem(0);
+      margin-left: 0;
       margin-top: rem(8);
+      span {
+        font-size: rem(12) !important;
+      }
+      button {
+        padding: rem(8) !important;
+      }
     }
   }
-  &__title{
+
+  &__title {
     margin-top: rem(30);
   }
 }
 
-.c-formSVideo{
-  &__title{
+.c-formSVideo {
+  &__title {
     margin-top: rem(30);
   }
-  
 }

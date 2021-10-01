@@ -1,6 +1,13 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import { FaFont, FaImages, FaPlusCircle, FaListAlt } from "react-icons/fa";
+import {
+  FaFont,
+  FaImages,
+  FaPlusCircle,
+  FaListAlt,
+  FaImage,
+  FaLink,
+} from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../Alert/Modal";
 import { ToastError, ToastWarning, ToastInformation } from "../Alert/Toast";
 import {
@@ -43,7 +50,6 @@ export default function FormularioQuestao() {
 
   /*----------------- VARIÁVEIS DA RESPOSTA---------------- */
   const [respostas, setRespostas] = useState([]);
-  const [selectedQuestao, setSelectedQuestao] = useState(0);
   const [certaResposta, setCertaResposta] = useState(null);
 
   const [TypeInputAlternativa, setTypeInputAlternativa] = useState("text");
@@ -51,13 +57,11 @@ export default function FormularioQuestao() {
   const [Resposta, setResposta] = useState([]);
 
   const [ErroResposta, setErroResposta] = useState(null);
-  const [ErroQuestaoSelecionada, setErroQuestaoSelecionada] = useState(null);
 
   /*----------------- VARIÁVEIS DA SUGESTÃO VÍDEO ---------------- */
   const [ErroSugestaoVideo, setErroSugestaoVideo] = useState(null);
   const [ErroThumbVideo, setErroThumbVideo] = useState(null);
   const [ErroUrlVideo, setErroUrlVideo] = useState(null);
-  const [ErroQuestao, setErroQuestao] = useState(null);
 
   const refSugestaoVideo = useRef(null);
   const refThumbVideo = useRef(null);
@@ -164,11 +168,6 @@ export default function FormularioQuestao() {
       width: 200,
     },
     {
-      field: "imagem",
-      headerName: "Imagem Questão",
-      width: 200,
-    },
-    {
       field: "universidade",
       headerName: "Universidade",
       width: 150,
@@ -194,25 +193,25 @@ export default function FormularioQuestao() {
 
   linhas = questoes.questao
     ? questoes.questao.map((questao) => {
-      return {
-        id: questao.idQuestao,
-        titulo: questao.tituloQuestao,
-        texto: questao.textoQuestao,
-        imagem: questao.imagensQuestao,
-        universidade: questoes.universidade.filter(
-          (e) => e.idUniversidade === questao.idUniversidade
-        )[0].nomeUniversidade,
-        dificuldade: questoes.dificuldade.filter(
-          (e) => e.idDificuldade === questao.idDificuldade
-        )[0].nivelDificuldade,
-        assuntoMateria: questoes.assuntoMateria.assuntoMateria.filter(
-          (e) => e.idAssuntoMateria === questao.idAssuntoMateria
-        )[0].nomeAssuntoMateria,
-        administrador: questoes.administrador.filter(
-          (e) => e.idAdministrador === questao.idAdministrador
-        )[0].nomeAdministrador,
-      };
-    })
+        return {
+          id: questao.idQuestao,
+          titulo: questao.tituloQuestao,
+          texto: questao.textoQuestao,
+          imagem: questao.imagensQuestao,
+          universidade: questoes.universidade.filter(
+            (e) => e.idUniversidade === questao.idUniversidade
+          )[0].nomeUniversidade,
+          dificuldade: questoes.dificuldade.filter(
+            (e) => e.idDificuldade === questao.idDificuldade
+          )[0].nivelDificuldade,
+          assuntoMateria: questoes.assuntoMateria.assuntoMateria.filter(
+            (e) => e.idAssuntoMateria === questao.idAssuntoMateria
+          )[0].nomeAssuntoMateria,
+          administrador: questoes.administrador.filter(
+            (e) => e.idAdministrador === questao.idAdministrador
+          )[0].nomeAdministrador,
+        };
+      })
     : [];
 
   return (
@@ -252,15 +251,15 @@ export default function FormularioQuestao() {
           <section className="c-formQuestion__preview">
             <label htmlFor="image" className="c-formQuestion__img inputFile">
               <FaPlusCircle />
-              <span>3 Imagens selecionadas</span>
+              {QtdeImgsSelect === 0 ? (
+                <span>Procurar Imagens...</span>
+              ) : (
+                <span>{QtdeImgsSelect} imagem(s) selecionada(s)</span>
+              )}
             </label>
 
             {ImgsSelect === null ? (
               <React.Fragment>
-                <div className="c-formQuestion__img"></div>
-
-                <div className="c-formQuestion__img"></div>
-
                 <div className="c-formQuestion__img"></div>
               </React.Fragment>
             ) : (
@@ -380,6 +379,7 @@ export default function FormularioQuestao() {
           </section>
         </form>
         {/* ------------------ FORMULÁRIO RESPOSTA ----------------------- */}
+        <h2 className="c-formResposta__title">Adicionar resposta</h2>
         <section className="c-formResposta">
           <form
             method="post"
@@ -389,8 +389,6 @@ export default function FormularioQuestao() {
             encType='encType="multipart/form-data"'
           >
             <div className="c-formResposta__inpL">
-              <h2 className="c-formResposta__title">Adicionar resposta</h2>
-
               <Input
                 title="Alternativas"
                 type={TypeInputAlternativa}
@@ -478,47 +476,48 @@ export default function FormularioQuestao() {
                 Adicionar
               </Button>
             </div>
-
-            {alternativas !== [] &&
-              alternativas.map((el, i) => (
-                <RadioGroup
-                  key={i}
-                  onChange={(e) => {
-                    setCertaResposta(e.target.value);
-                  }}
-                  value={certaResposta}
-                >
-                  {document.querySelector("#alternativas").type === "text" ? (
-                    <Radio
-                      value={el}
-                      label={`"${el}" é a resposta dessa questao?`}
-                    />
-                  ) : (
-                    <div
-                      className="c-alternativa"
-                      style={{
-                        background: "#333",
-                        padding: 8,
-                        borderRadius: 8,
-                        display: "flex",
-                      }}
-                    >
-                      <img
-                        src={`${el.img}`}
-                        alt={el.title}
-                        style={{
-                          width: 100,
-                          height: 100,
-                        }}
-                      />
+            <section className="formResposta__alternativas">
+              {alternativas !== [] &&
+                alternativas.map((el, i) => (
+                  <RadioGroup
+                    key={i}
+                    onChange={(e) => {
+                      setCertaResposta(e.target.value);
+                    }}
+                    value={certaResposta}
+                  >
+                    {document.querySelector("#alternativas").type === "text" ? (
                       <Radio
-                        value={el.title}
-                        label={` é a resposta dessa questao?`}
+                        value={el}
+                        label={`"${el}" é a resposta dessa questao?`}
                       />
-                    </div>
-                  )}
-                </RadioGroup>
-              ))}
+                    ) : (
+                      <div
+                        className="c-alternativa"
+                        style={{
+                          background: "#333",
+                          padding: 8,
+                          borderRadius: 8,
+                          display: "flex",
+                        }}
+                      >
+                        <img
+                          src={`${el.img}`}
+                          alt={el.title}
+                          style={{
+                            width: 100,
+                            height: 100,
+                          }}
+                        />
+                        <Radio
+                          value={el.title}
+                          label={` é a resposta dessa questao?`}
+                        />
+                      </div>
+                    )}
+                  </RadioGroup>
+                ))}
+            </section>
           </form>
         </section>
         {/* -------------------- FORMULÁRIO SUGESTÃO VÍDEO ----------------------- */}
@@ -533,6 +532,7 @@ export default function FormularioQuestao() {
             <h2 className="c-formSVideo__title">Sugestão de Vídeo</h2>
             <Input
               title="Titulo Sugestao de Video"
+              icon="T"
               id="sugestaoVideo"
               error={ErroSugestaoVideo}
               className="c-formSVideo__input"
@@ -541,6 +541,7 @@ export default function FormularioQuestao() {
             />
             <Input
               title="Thumbnail"
+              icon={<FaImage />}
               id="thumbnailSugestaoVideo"
               error={ErroThumbVideo}
               className="c-formSVideo__input"
@@ -549,6 +550,7 @@ export default function FormularioQuestao() {
             />
             <Input
               title="URL"
+              icon={<FaLink />}
               id="urlSugestaoVideo"
               error={ErroUrlVideo}
               className="c-formSVideo__input"
@@ -562,7 +564,7 @@ export default function FormularioQuestao() {
           styleButton={{ marginTop: 20 }}
           type="submit"
         >
-          Cadastrar
+          Cadastrar Questão
         </Button>
 
         {/* ------------------ TABELA DE DADOS (SELECT) ----------------------- */}

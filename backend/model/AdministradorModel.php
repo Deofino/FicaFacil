@@ -9,7 +9,13 @@ use PDO;
 
 class AdministradorModel extends UserModel
 {
-    public function get($params=null)
+    // public function setEmail(string $email): void
+    // {
+    //     // Verificar se adm tem email igual, se sim nao pode deixar entrar
+    //     $this->email = $email;
+    // }
+
+    public function get($params = null)
     {
         try {
             $con = Connection::getConn();
@@ -22,7 +28,7 @@ class AdministradorModel extends UserModel
 
             if ($stmt->execute()) {
                 return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhum administrador encontrado...", 404) :
+                    Response::warning("Nenhuma administrador encontrada...", 404) :
                     Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
             return Response::error("Erro ao selecionar administrador");
@@ -56,8 +62,8 @@ class AdministradorModel extends UserModel
                 trim($this->getNome()),
                 PDO::PARAM_STR
             );
-            $stmt->bindValue(2,trim($this->getEmail()),PDO::PARAM_STR);
-            $stmt->bindValue(3,trim($this->getSenha()),PDO::PARAM_STR);
+            $stmt->bindValue(2, trim($this->getEmail()), PDO::PARAM_STR);
+            $stmt->bindValue(3, trim($this->getSenha()), PDO::PARAM_STR);
             $stmt->bindValue(4, $id, PDO::PARAM_INT);
             if ($stmt->execute()) {
                 return Response::success("Administrador `{$this->getNome()}` atualizada com sucesso");
@@ -81,6 +87,34 @@ class AdministradorModel extends UserModel
                 return Response::warning("Erro ao deletar o administrador", 404);
             };
             return Response::warning("Administrador id=$id não encontrada", 404);
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
+    }
+
+    public function login($email, $senha)
+    {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("SELECT idAdministrador, nomeAdministrador, senhaAdministrador AS senha FROM tb_administrador WHERE emailAdministrador = ?");
+            $stmt->bindValue(1, $email);
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() > 0) {
+                    $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+                    if ((password_verify($senha, $user['senha']))) {
+                        return Response::success([
+                            "admin" => json_encode([
+                                'idAdministrador' => $user['idAdministrador'],
+                                'nomeAdministrador' => $user['nomeAdministrador'],
+                            ])
+                        ]);
+                    }
+                    return Response::error("E-mail ou senha incorretos.", 404);
+                } else {
+                    return Response::error("E-mail ou senha incorretos.", 404);
+                }
+            }
+            return Response::error("Erro Login admin");
         } catch (\Throwable $th) {
             return Response::error("Error: " . $th->getMessage());
         }

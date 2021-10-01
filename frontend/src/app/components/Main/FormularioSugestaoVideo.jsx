@@ -8,27 +8,22 @@ import { ToastSuccess } from "../Alert/Toast";
 import { FaTimes } from "react-icons/fa";
 
 const Backdrop = (props) => {
-  const [attSugestaoVideo, setattSugestaoVideo] = useState(
-    props.data[1] || ""
-  ); // State para atualizar o campo
+  console.log(props.data);
   const [attTituloSugestaoVideo, setattTituloSugestaoVideo] = useState(
-    props.data[2] || ""
+    props.data[1] || ""
   ); // State para atualizar campo
   const [attThumbnailSugestaoVideo, setattThumbnailSugestaoVideo] = useState(
-    props.data[3] || ""
+    props.data[2] || ""
   ); // State para atualizar campo
   const [attUrlSugestaoVideo, setattUrlSugestaoVideo] = useState(
-    props.data[4] || ""
+    props.data[3] || ""
   ); // State para atualizar campo
-  const [errAttSugestoVideo, setAttSugestaoVideo] = useState(null); // State para atualizar o campo
-  const [errAttTituloSugestoVideo, setAttTituloSugestaoVideo] = useState(null); // State para atualizar o campo
-  const [errAttThumbnailSugestoVideo, setAttThumbnailSugestaoVideo] = useState(null); // State para atualizar o campo
-  const [errAttUrlSugestoVideo, setAttUrlSugestaoVideo] = useState(null); // State para atualizar o campo
+  const [errAttTituloSugestoVideo, setErrTituloSugestaoVideo] = useState(null); // State para atualizar o campo
+  const [errAttUrlSugestoVideo, setErrUrlSugestaoVideo] = useState(null); // State para atualizar o campo
+  const [errAttThumbnailSugestoVideo, setErrThumbnailSugestaoVideo] =
+    useState(null); // State para atualizar o campo
   const [attQuestao, setAttQuestao] = useState(null); // State para atualizar o campo
   const [attReqSugestaoVideo, setattReqSugestaoVideo] = useState([]); // State para atualizar o campo
-  const [attReqTituloSugestaoVideo, setattReqTituloSugestaoVideo] = useState([]); // State para atualizar o campo
-  const [attReqThumbnailSugestaoVideo, setattReqThumbnailSugestaoVideo] = useState([]); // State para atualizar o campo
-  const [attReqUrlSugestaoVideo, setattReqUrlSugestaoVideo] = useState([]); // State para atualizar o campo
   const [errAttQuestao, seterrAttQuestao] = useState(null);
 
   useEffect(() => {
@@ -36,10 +31,7 @@ const Backdrop = (props) => {
       .get(`${process.env.REACT_APP_API}/sugestaoVideo/index/`)
       .then((value) => {
         setattReqSugestaoVideo(value.data.data);
-        setattReqTituloSugestaoVideo(value.data.data);
-        setattReqThumbnailSugestaoVideo(value.data.data);
-        setattReqUrlSugestaoVideo(value.data.data);
-        console.log(value.data.data);
+        console.log(value.data.data.questao.questao);
         setAttQuestao(
           value.data.data.questao.questao.find(
             (el) => el.tituloQuestao === props.data[4]
@@ -52,9 +44,9 @@ const Backdrop = (props) => {
     // na hora que clica no botao de atualizar
     e.preventDefault();
     if (
-      attSugestaoVideo !== null &&
-      attSugestaoVideo !== "" &&
-      attSugestaoVideo.length > 4
+      attTituloSugestaoVideo !== null &&
+      attTituloSugestaoVideo !== "" &&
+      attTituloSugestaoVideo.length > 4
     ) {
       // verificacao dos campos
       axios
@@ -62,10 +54,9 @@ const Backdrop = (props) => {
           `${process.env.REACT_APP_API}/sugestaoVideo/update/`, // requisicao post backend/api/campo/update METHOD POST
           JSON.stringify({
             // faz um json com
-            sugestaoVideo: attSugestaoVideo, // o campo que deve ser atualizado
-            tituloSujestaoVideo: attTituloSugestaoVideo,
-            thumbnailSujestaoVideo: attThumbnailSugestaoVideo,
-            urlSujestaoVideo: attUrlSugestaoVideo,
+            titulosugestaoVideo: attTituloSugestaoVideo,
+            thumbnailsugestaoVideo: attThumbnailSugestaoVideo,
+            urlsugestaoVideo: attUrlSugestaoVideo,
             id: props.data[0], // o id dao sugestão video que deve ser atualizado no WHERE
             questao: attQuestao, // o id da questão que deve ser atualizado no WHERE
           })
@@ -84,9 +75,10 @@ const Backdrop = (props) => {
         });
     } else {
       // previne e coloca os erros
-      setattSugestaoVideo("O campo tem que ter no minimo 4 caracteres");
-      setattTituloSugestaoVideo("O campo tem que ter no minimo 4 caracteres");
-      setattThumbnailSugestaoVideo("O campo tem que ter no minimo 4 caracteres");
+      setErrTituloSugestaoVideo("O campo tem que ter no minimo 4 caracteres");
+      setErrThumbnailSugestaoVideo(
+        "O campo tem que ter no minimo 4 caracteres"
+      );
       setattUrlSugestaoVideo("O campo tem que ter no minimo 4 caracteres");
       seterrAttQuestao("O campo tem que ter no minimo 4 caracteres");
     }
@@ -123,10 +115,10 @@ const Backdrop = (props) => {
           className="c-formularioUpdate__item"
           name={props.titles[1].field || null}
           type={props.titles[1].type || "text"}
-          value={attSugestaoVideo}
-          error={errAttSugestoVideo}
+          value={attTituloSugestaoVideo}
+          error={errAttTituloSugestoVideo}
           onChange={(e) => {
-            setAttSugestaoVideo(e.target.value);
+            setattTituloSugestaoVideo(e.target.value);
           }}
           inputMode="text"
         />
@@ -137,38 +129,24 @@ const Backdrop = (props) => {
           className="c-formularioUpdate__item"
           name={props.titles[2].field || null}
           type={props.titles[2].type || "text"}
-          value={attTituloSugestaoVideo}
-          error={errAttTituloSugestoVideo}
+          value={attThumbnailSugestaoVideo}
+          error={errAttThumbnailSugestoVideo}
           onChange={(e) => {
-            setAttTituloSugestaoVideo(e.target.value);
+            setattThumbnailSugestaoVideo(e.target.value);
           }}
           inputMode="text"
         />
-        
+
         <Input
           title={props.titles[3].headerName || "Input"}
           id={props.titles[3].field || null}
           className="c-formularioUpdate__item"
           name={props.titles[3].field || null}
           type={props.titles[3].type || "text"}
-          value={attThumbnailSugestaoVideo}
-          error={errAttThumbnailSugestoVideo}
-          onChange={(e) => {
-            setAttThumbnailSugestaoVideo(e.target.value);
-          }}
-          inputMode="text"
-        />
-
-        <Input
-          title={props.titles[4].headerName || "Input"}
-          id={props.titles[4].field || null}
-          className="c-formularioUpdate__item"
-          name={props.titles[4].field || null}
-          type={props.titles[4].type || "text"}
           value={attUrlSugestaoVideo}
           error={errAttUrlSugestoVideo}
           onChange={(e) => {
-            setAttUrlSugestaoVideo(e.target.value);
+            setattThumbnailSugestaoVideo(e.target.value);
           }}
           inputMode="text"
         />
@@ -176,7 +154,7 @@ const Backdrop = (props) => {
         <Select
           className="c-formQuestao__select"
           name="questao"
-          title={props.titles[5].headerName || "Input"}
+          title={props.titles[4].headerName || "Input"}
           id="questao"
           value={attQuestao}
           error={errAttQuestao}
@@ -184,9 +162,6 @@ const Backdrop = (props) => {
         >
           <MenuItem value={-1}>Selecione</MenuItem>
           {attReqSugestaoVideo.questao !== undefined &&
-          attReqTituloSugestaoVideo.questao !== undefined &&
-          attReqThumbnailSugestaoVideo.questao !== undefined &&
-          attReqUrlSugestaoVideo.questao !== undefined &&
             attReqSugestaoVideo.questao.questao.map((item) => (
               <MenuItem value={item.idQuestao} key={item.idQuestao}>
                 {item.tituloQuestao}
@@ -198,7 +173,6 @@ const Backdrop = (props) => {
     </section>
   );
 };
-
 
 export default function FormularioSugestaoVideo() {
   const [questao, setQuestao] = useState([]);
@@ -340,18 +314,18 @@ export default function FormularioSugestaoVideo() {
       })
     : [];
 
-    const update = (id, tabela, nome, linhas, colunas) => {
-      let data = linhas.filter((el) => el.id === id)[0]; //
-      delete data.update;
-      delete data.delete;
-      let titles = colunas;
-      data = Object.values(data);
-  
-      let div = document.querySelector("#backdrop");
-      div.classList.toggle("open");
-  
-      ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
-    };
+  const update = (id, tabela, nome, linhas, colunas) => {
+    let data = linhas.filter((el) => el.id === id)[0]; //
+    delete data.update;
+    delete data.delete;
+    let titles = colunas;
+    data = Object.values(data);
+
+    let div = document.querySelector("#backdrop");
+    div.classList.toggle("open");
+
+    ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
+  };
 
   return (
     <section>

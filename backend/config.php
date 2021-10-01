@@ -48,3 +48,29 @@ define(
     "EMAIL_PASSWORD",
     "senhacriptografada123"
 );
+
+define(
+    "PASSWORD_JWT",
+    "fica_facil_123"
+);
+
+function dd($data, $die = true)
+{
+    echo "<hr><br>";
+    var_dump($data);
+    echo "<hr><br>";
+    if ($die) die();
+}
+function auth($redirect = EMAIL_HOST): bool
+{
+    if (isset($_SESSION['auth'])) {
+        return true;
+    }
+    try {
+        header("Location: $redirect");
+        return false;
+    } catch (\Throwable $th) {
+        dd('Falha no redirect');
+        return false;
+    }
+}
