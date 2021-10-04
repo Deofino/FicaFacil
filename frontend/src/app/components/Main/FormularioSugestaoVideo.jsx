@@ -47,7 +47,18 @@ export const BackdropSugestao = (props) => {
       attTituloSugestaoVideo !== null &&
       attTituloSugestaoVideo !== "" &&
       attTituloSugestaoVideo.length > 4
-    ) {
+    ) 
+    if (
+      attThumbnailSugestaoVideo !== null &&
+      attThumbnailSugestaoVideo !== "" &&
+      attThumbnailSugestaoVideo.length > 4
+    )
+    if (
+      attUrlSugestaoVideo !== null &&
+      attUrlSugestaoVideo !== "" &&
+      attUrlSugestaoVideo.length > 4
+    )
+    {
       // verificacao dos campos
       axios
         .post(
