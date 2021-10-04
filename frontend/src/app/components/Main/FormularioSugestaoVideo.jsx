@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { Input, Select, MenuItem, Button, Table } from "../Form/";
+import { Input, Select, MenuItem, Button,} from "../Form/";
 import { AlertSuccess } from "../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastSuccess } from "../Alert/Toast";
@@ -203,7 +203,6 @@ export default function FormularioSugestaoVideo() {
   const [ErroSugestaoVideo, setErroSugestaoVideo] = useState(null);
   const [ErroThumbVideo, setErroThumbVideo] = useState(null);
   const [ErroUrlVideo, setErroUrlVideo] = useState(null);
-  const [ErroQuestao, setErroQuestao] = useState(null);
 
   useEffect(() => {
     axios
@@ -221,11 +220,7 @@ export default function FormularioSugestaoVideo() {
       refUrlVideo.current.value,
     ];
 
-    let errorMsg = "O campo precisa ter mais de 4 caracteres";
-
-    // Seta erro no select questão
-    if (selectedQuestao === 0) setErroQuestao("Selecione uma questao");
-    else setErroQuestao(null);
+    let errorMsg = "O campo precisa ter mais de 4 caracteres";  
 
     // Seta erro no input sugestão video
     if (refSugestaoVideo.current.value.length < 4)
