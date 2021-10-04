@@ -8,13 +8,16 @@ Descricao
 
 ## Autores
 
+- [Delfino](https://github.com/...)
+- [vritora](https://github.com/...)
+- [@...](https://github.com/...)
 - [@...](https://github.com/...)
 
 
 
 ## Tecnologias
 
-**Front-end:** ReactJS, Sass.
+**Front-end:** ReactJS, Sass, glidejs,react-router-dom, material ui.
 
 ## Novidades
 <!-- Features -->

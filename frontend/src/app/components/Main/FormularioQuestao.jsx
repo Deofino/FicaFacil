@@ -1,13 +1,6 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import {
-  FaFont,
-  FaImages,
-  FaPlusCircle,
-  FaListAlt,
-  FaImage,
-  FaLink,
-} from "react-icons/fa";
+import { FaFont, FaImages, FaPlusCircle, FaListAlt } from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../Alert/Modal";
 import { ToastError, ToastWarning, ToastInformation } from "../Alert/Toast";
 import {
@@ -20,6 +13,7 @@ import {
   Radio,
 } from "../Form";
 import { Tooltip, IconButton } from "@material-ui/core";
+import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
 
 export default function FormularioQuestao() {
   /* -----------------VARIÁVEIS DA QUESTÃO ----------------*/
@@ -57,15 +51,6 @@ export default function FormularioQuestao() {
   const [Resposta, setResposta] = useState([]);
 
   const [ErroResposta, setErroResposta] = useState(null);
-
-  /*----------------- VARIÁVEIS DA SUGESTÃO VÍDEO ---------------- */
-  const [ErroSugestaoVideo, setErroSugestaoVideo] = useState(null);
-  const [ErroThumbVideo, setErroThumbVideo] = useState(null);
-  const [ErroUrlVideo, setErroUrlVideo] = useState(null);
-
-  const refSugestaoVideo = useRef(null);
-  const refThumbVideo = useRef(null);
-  const refUrlVideo = useRef(null);
 
   useEffect(() => {
     axios.get(process.env.REACT_APP_API + "/questao/index/").then((value) => {
@@ -521,6 +506,8 @@ export default function FormularioQuestao() {
           </form>
         </section>
         {/* -------------------- FORMULÁRIO SUGESTÃO VÍDEO ----------------------- */}
+
+        <FormularioSugestaoVideo />
 
         <Button
           className="c-formQuestion__submit"

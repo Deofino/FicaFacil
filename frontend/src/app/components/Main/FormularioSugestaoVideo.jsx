@@ -43,56 +43,63 @@ export const BackdropSugestao = (props) => {
   const updateEvent = (e) => {
     // na hora que clica no botao de atualizar
     e.preventDefault();
+
+    const inputs = [
+      attTituloSugestaoVideo,
+      attThumbnailSugestaoVideo,
+      attUrlSugestaoVideo,
+    ];
     if (
       attTituloSugestaoVideo !== null &&
       attTituloSugestaoVideo !== "" &&
       attTituloSugestaoVideo.length > 4
-    ) 
-    if (
-      attThumbnailSugestaoVideo !== null &&
-      attThumbnailSugestaoVideo !== "" &&
-      attThumbnailSugestaoVideo.length > 4
     )
-    if (
-      attUrlSugestaoVideo !== null &&
-      attUrlSugestaoVideo !== "" &&
-      attUrlSugestaoVideo.length > 4
-    )
-    {
-      // verificacao dos campos
-      axios
-        .post(
-          `${process.env.REACT_APP_API}/sugestaoVideo/update/`, // requisicao post backend/api/campo/update METHOD POST
-          JSON.stringify({
-            // faz um json com
-            titulosugestaoVideo: attTituloSugestaoVideo,
-            thumbnailsugestaoVideo: attThumbnailSugestaoVideo,
-            urlsugestaoVideo: attUrlSugestaoVideo,
-            id: props.data[0], // o id dao sugestão video que deve ser atualizado no WHERE
-            questao: attQuestao, // o id da questão que deve ser atualizado no WHERE
-          })
-        )
-        .then((value) => {
-          if (value.data.status_code) {
-            // verifica se status code retorna 200 = OK
-            ToastSuccess({ text: value.data.data }); // mensagem de sucesso
-            close(); // fecha o backdrop
-            setTimeout(() => {
-              window.location.reload(); // atualiza a pagina dps de 4 segundos
-            }, 4000);
-          } else {
-            console.log(value.data);
-          }
-        });
-    } else {
-      // previne e coloca os erros
-      setErrTituloSugestaoVideo("O campo tem que ter no minimo 4 caracteres");
-      setErrThumbnailSugestaoVideo(
-        "O campo tem que ter no minimo 4 caracteres"
-      );
-      setattUrlSugestaoVideo("O campo tem que ter no minimo 4 caracteres");
-      seterrAttQuestao("O campo tem que ter no minimo 4 caracteres");
-    }
+      if (
+        attThumbnailSugestaoVideo !== null &&
+        attThumbnailSugestaoVideo !== "" &&
+        attThumbnailSugestaoVideo.length > 4
+      )
+        if (
+          attUrlSugestaoVideo !== null &&
+          attUrlSugestaoVideo !== "" &&
+          attUrlSugestaoVideo.length > 4
+        ) {
+          // verificacao dos campos
+          axios
+            .post(
+              `${process.env.REACT_APP_API}/sugestaoVideo/update/`, // requisicao post backend/api/campo/update METHOD POST
+              JSON.stringify({
+                // faz um json com
+                titulosugestaoVideo: attTituloSugestaoVideo,
+                thumbnailsugestaoVideo: attThumbnailSugestaoVideo,
+                urlsugestaoVideo: attUrlSugestaoVideo,
+                id: props.data[0], // o id dao sugestão video que deve ser atualizado no WHERE
+                questao: attQuestao, // o id da questão que deve ser atualizado no WHERE
+              })
+            )
+            .then((value) => {
+              if (value.data.status_code) {
+                // verifica se status code retorna 200 = OK
+                ToastSuccess({ text: value.data.data }); // mensagem de sucesso
+                close(); // fecha o backdrop
+                setTimeout(() => {
+                  window.location.reload(); // atualiza a pagina dps de 4 segundos
+                }, 4000);
+              } else {
+                console.log(value.data);
+              }
+            });
+        } else {
+          // previne e coloca os erros
+          setErrTituloSugestaoVideo(
+            "O campo tem que ter no minimo 4 caracteres"
+          );
+          setErrThumbnailSugestaoVideo(
+            "O campo tem que ter no minimo 4 caracteres"
+          );
+          setattUrlSugestaoVideo("O campo tem que ter no minimo 4 caracteres");
+          seterrAttQuestao("O campo tem que ter no minimo 4 caracteres");
+        }
   };
   const close = () => {
     let backdrop = document.querySelector("#backdrop");
