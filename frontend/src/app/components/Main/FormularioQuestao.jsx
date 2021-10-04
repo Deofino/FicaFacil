@@ -522,43 +522,6 @@ export default function FormularioQuestao() {
         </section>
         {/* -------------------- FORMULÁRIO SUGESTÃO VÍDEO ----------------------- */}
 
-        <section className="c-formSVideo">
-          <form
-            method="post"
-            id="formSV"
-            className="c-formSV c-form"
-            onSubmit={submitForm}
-          >
-            <h2 className="c-formSVideo__title">Sugestão de Vídeo</h2>
-            <Input
-              title="Titulo Sugestao de Video"
-              icon="T"
-              id="sugestaoVideo"
-              error={ErroSugestaoVideo}
-              className="c-formSVideo__input"
-              ref={refSugestaoVideo}
-              name="sugestaoVideo"
-            />
-            <Input
-              title="Thumbnail"
-              icon={<FaImage />}
-              id="thumbnailSugestaoVideo"
-              error={ErroThumbVideo}
-              className="c-formSVideo__input"
-              ref={refThumbVideo}
-              name="thumbnailSugestaoVideo"
-            />
-            <Input
-              title="URL"
-              icon={<FaLink />}
-              id="urlSugestaoVideo"
-              error={ErroUrlVideo}
-              className="c-formSVideo__input"
-              ref={refUrlVideo}
-              name="urlSugestaoVideo"
-            />
-          </form>
-        </section>
         <Button
           className="c-formQuestion__submit"
           styleButton={{ marginTop: 20 }}
