@@ -1,5 +1,8 @@
 <?php
 
+use Helper\Response;
+use Helper\JWT;
+
 define(
     "PROJECT_NAME",
     "FICA FACIL"
@@ -61,16 +64,15 @@ function dd($data, $die = true)
     echo "<hr><br>";
     if ($die) die();
 }
-function auth($redirect = EMAIL_HOST): bool
+function auth()
 {
-    if (isset($_SESSION['auth'])) {
-        return true;
+    if (isset(apache_request_headers()['authorization'])) {
+        $bearer = apache_request_headers()['authorization'];
+        $token = (str_replace('Bearer ', '', $bearer));
+        if(JWT::validateJWT($token)){
+            return true;
+        }
     }
-    try {
-        header("Location: $redirect");
-        return false;
-    } catch (\Throwable $th) {
-        dd('Falha no redirect');
-        return false;
-    }
+    echo Response::error("Requisicao negada, sem autorizacao", 405);
+    die;
 }
