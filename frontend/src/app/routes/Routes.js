@@ -16,6 +16,7 @@ import FormularioSugestaoVideo from '../components/Main/FormularioSugestaoVideo'
 import FormularioLoginEmail from '../components/Main/FormularioLoginEmail';
 import FormularioLoginSocial from '../components/Main/FormularioLoginSocial';
 import FormularioCriarConta from '../components/Main/FormularioCriarConta';
+import ComponentCookie from '../components/Main/ComponentCookie';
 import { Route, Switch } from 'react-router-dom';
 
 
@@ -92,6 +93,9 @@ export default function Routes () {
             </Route>
             <Route path='/criarConta'>
                 <FormularioCriarConta />
+            </Route>
+            <Route path='/cookie'>
+                <ComponentCookie />
             </Route>
             <Route path='*'>
                 <Header />
