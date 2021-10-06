@@ -49,15 +49,18 @@ class JWT
      */
     public static function validateJWT(string $jwt): bool
     {
+        try {
+            $part = explode(".", $jwt);
+            $header = isset($part[0]) ? $part[0] : '';
+            $payload = isset($part[1]) ? $part[1] : '';
+            $signature = isset($part[2]) ? $part[2] : '';
 
-        $part = explode(".", $jwt);
-        $header = $part[0];
-        $payload = $part[1];
-        $signature = $part[2];
+            $valid = hash_hmac('sha256', "$header.$payload", PASSWORD_JWT, true);
+            $valid = base64_encode($valid);
 
-        $valid = hash_hmac('sha256', "$header.$payload", PASSWORD_JWT, true);
-        $valid = base64_encode($valid);
-
-        return $signature == $valid ? true : false;
+            return $signature == $valid ? true : false;
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 }

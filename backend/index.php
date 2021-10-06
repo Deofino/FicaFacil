@@ -22,4 +22,5 @@ if (isset($_GET['url'])) {
     $core->init();
 }
 
+
 //administrador/login/

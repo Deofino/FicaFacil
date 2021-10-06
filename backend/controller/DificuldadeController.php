@@ -48,7 +48,7 @@ class DificuldadeController
                                 return;
                             };
                         }
-                        echo Response::warning("Dificuldade com id `" .$req->id . "` nao encontrada", 404);
+                        echo Response::warning("Dificuldade com id `" . $req->id . "` nao encontrada", 404);
                         return; // senao puder ele ira gerar erro daqui pra baixo
                     } else {
                         echo Response::error("Erro ao pegar dificuldade", 404);
@@ -64,11 +64,13 @@ class DificuldadeController
     }
     public function delete($params) // parametro na url
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
             $model = new DificuldadeModel();
             echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
+
+   
 }

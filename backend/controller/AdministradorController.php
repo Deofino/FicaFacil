@@ -88,25 +88,14 @@ class AdministradorController
                 $admin = (array) json_decode($req->data->admin);
                 $jwt = JWT::createJWT($admin);
 
-                $_SESSION['auth'] = $jwt;
                 echo Response::success(['token' => $jwt]);
                 return;
             } else {
-                echo Response::error("E-mail ou senha incorretos.", 404);
+                echo Response::success("E-mail ou senha incorretos.");
                 return;
             }
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
 
-    public function logout()
-    {
-        if (isset($_SESSION['auth'])) {
-
-            unset($_SESSION['auth']);
-            session_destroy();
-        }else{
-            Response::error("Sem user logado");
-        }
-    }
 }
