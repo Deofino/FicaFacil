@@ -81,21 +81,24 @@ class AdministradorController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input'));
             $model = new AdministradorModel();
-            $req = json_decode($model->login($data->email, $data->senha));
+            if (isset($data->email) && isset($data->senha)) {
+                $req = json_decode($model->login($data->email, $data->senha));
 
-            if ($req->status_code === 200) {
-                unset($_SESSION['auth']);
-                $admin = (array) json_decode($req->data->admin);
-                $jwt = JWT::createJWT($admin);
+                if ($req->status_code === 200) {
+                    $admin = (array) json_decode($req->data->admin);
+                    $jwt = JWT::createJWT($admin);
 
-                echo Response::success(['token' => $jwt]);
-                return;
+                    echo Response::success(['token' => $jwt]);
+                    return;
+                } else {
+                    echo Response::success("E-mail ou senha incorretos.");
+                    return;
+                }
             } else {
-                echo Response::success("E-mail ou senha incorretos.");
+                echo Response::warning('Parametro `email/senha` não encontrado ou vazio/nulo', 404);
                 return;
             }
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
-
 }

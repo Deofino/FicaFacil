@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState } from 'react';
 
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import axios from 'axios';
+import { QuestaoProvider } from "../components/Context/QuestaoContext";
 
 // Components 
 import Main from '../components/Main/Main';
@@ -12,27 +14,25 @@ import FormularioDificuldade from '../components/Main/FormularioDificuldade';
 import FormularioLoginEmail from '../components/Main/FormularioLoginEmail';
 import FormularioLoginSocial from '../components/Main/FormularioLoginSocial';
 import FormularioCriarConta from '../components/Main/FormularioCriarConta';
-import ComponentCookie from '../components/Main/ComponentCookie';git
+import ComponentCookie from '../components/Main/ComponentCookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 
-const tryLogin = async (e, emial) => {
+const tryLogin = async (e) => {
     e.preventDefault();
-    let req = await fetch(`${process.env.REACT_APP_API}/administrador/login/`,
+    let [ email, senha ] = document.querySelector('#loginadm');
+    console.log(email, senha);
+    let req = await axios.post(`${process.env.REACT_APP_API}/administrador/login/`,
+        JSON.stringify(
+            {
+                email: email.value || null,
+                senha: senha.value || null
+            }),
         {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'default',
-            body: JSON.stringify({
-                email: 'GuilhermeDelfino@gmail.com',
-                senha: '12345678',
-            })
-            ,
-            headers: { 'authorization': `Bearer ${localStorage.getItem('auth')}` }
-        }
-    );
-    let res = await req.json();
-    console.log(res);
+            headers: { "Authorization": `Bearer ${localStorage.getItem('auth') || ''}` }
+        });
+
+    let res = await req.data;
     if (res.data.token === null)
     {
         alert(res.data);
@@ -48,12 +48,18 @@ const authContext = createContext();
 function ProvideAuth ({ children }) {
     const [ auth, setAuth ] = useState(null);
     React.useEffect(() => {
-        let auth = (localStorage.getItem("auth"));
+        let auth = (localStorage.getItem("auth")) || null;
         setAuth(auth);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ localStorage.getItem("auth") ]);
+    const [ user, setUser ] = useState(null);
+    React.useEffect(() => {
+        let user = (localStorage.getItem("user")) || null;
+        setUser(user);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ localStorage.getItem("user") ]);
     return (
-        <authContext.Provider value={ auth }>
+        <authContext.Provider value={ { auth, user } }>
             { children }
         </authContext.Provider>
     );
@@ -71,13 +77,54 @@ function PrivateRoute ({ children, ...rest }) {
             { ...rest }
             render={ ({ location }) =>
 
-                auth !== null ? (
+                auth.auth === null ? (
+                    <Redirect
+                        to={ {
+                            pathname: "/entrar/administrador",
+                            state: { from: location }
+                        } }
+                    />
+                ) : (
+                    children
+                )
+            }
+        />
+    );
+}
+function UserRoute ({ children, ...rest }) {
+    let auth = useAuth();
+    return (
+        <Route
+            { ...rest }
+            render={ ({ location }) =>
+
+                auth.user !== null ? (
                     children
                 ) : (
                     <Redirect
 
                         to={ {
-                            pathname: "/login/adm",
+                            pathname: "/entrar",
+                            state: { from: location }
+                        } }
+                    />
+                )
+            }
+        />
+    );
+}
+function GuestRoute ({ children, ...rest }) {
+    let auth = useAuth();
+    return (
+        <Route
+            { ...rest }
+            render={ ({ location }) =>
+                auth.user === null && auth.auth === null ? (
+                    children
+                ) : (
+                    <Redirect
+                        to={ {
+                            pathname: location.state !== undefined ? location.state.from.pathname : '/',
                             state: { from: location }
                         } }
                     />
@@ -94,14 +141,17 @@ export default function Routes () {
 
             <Switch>
                 <Route exact path='/'>
-                    <Header />
+                    { localStorage.getItem('auth') !== null ? <Header /> : <h1>Menu user</h1> }
+
                     <h1 style={ { color: 'white', fontSize: 22, margin: 20 } }>Pagina inicial</h1>
                     <Footer />
                 </Route>
                 <PrivateRoute path='/questao'>
                     <Header />
                     <Main>
-                        <FormularioQuestao />
+                        <QuestaoProvider>
+                            <FormularioQuestao />
+                        </QuestaoProvider>
                     </Main>
                     <Footer />
                 </PrivateRoute>
@@ -126,22 +176,21 @@ export default function Routes () {
                     </Main>
                     <Footer />
                 </PrivateRoute>
-                <Route path='/loginEmail'>
+                <GuestRoute path='/entrar/email'>
                     <FormularioLoginEmail />
-                </Route>
-                <Route path='/loginSocial'>
+                </GuestRoute>
+                <GuestRoute exact path='/entrar'>
                     <FormularioLoginSocial />
-                </Route>
-                <Route path='/criarConta'>
+                </GuestRoute>
+                <GuestRoute exact path='/criar'>
                     <FormularioCriarConta />
-                </Route>
-                <Route path='/login/adm'>
-
+                </GuestRoute>
+                <GuestRoute path='/entrar/administrador'>
                     <Header />
                     <Main>
-                        <form onSubmit={ (e) => tryLogin(e) } style={ { padding: '15px 25px', background: '#777' } }>
-                            <input type='text' placeholder='E-mail' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } } />
-                            <input type='password' placeholder='Senha' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } } />
+                        <form id='loginadm' onSubmit={ (e) => tryLogin(e) } style={ { padding: '15px 25px', background: '#777' } }>
+                            <input type='text' placeholder='E-mail' name='email' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } } />
+                            <input type='password' placeholder='Senha' name='senha' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } } />
                             <button type='submit' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } } >Entrar</button>
                         </form>
                         <br />
@@ -152,11 +201,10 @@ export default function Routes () {
 
                             } }
                         >Sair da conta</button>
-
                     </Main>
                     <Footer />
+                </GuestRoute>
 
-                </Route>
                 <Route path='*'>
                     <Header />
                     <Main>
@@ -164,8 +212,6 @@ export default function Routes () {
                     </Main>
                     <Footer />
                 </Route>
-
-
             </Switch>
         </ProvideAuth >
     );

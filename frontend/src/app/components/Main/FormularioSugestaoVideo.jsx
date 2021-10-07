@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { Input, Select, MenuItem, Button, Table } from "../Form/";
+import { Input, Button } from "../Form/";
 import { AlertSuccess } from "../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastSuccess } from "../Alert/Toast";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaLink, FaImage } from "react-icons/fa";
 
-const Backdrop = (props) => {
+const BackdropSugestao = (props) => {
   console.log(props.data);
   const [attTituloSugestaoVideo, setattTituloSugestaoVideo] = useState(
     props.data[1] || ""
@@ -29,14 +29,12 @@ const Backdrop = (props) => {
     useState(null); // State para atualizar o campo
   const [attQuestao, setAttQuestao] = useState(null); // State para atualizar o campo
   const [attReqSugestaoVideo, setattReqSugestaoVideo] = useState([]); // State para atualizar o campo
-  const [errAttQuestao, seterrAttQuestao] = useState(null);
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API}/sugestaoVideo/index/`)
       .then((value) => {
         setattReqSugestaoVideo(value.data.data);
-        console.log(value.data.data.questao.questao);
         setAttQuestao(
           value.data.data.questao.questao.find(
             (el) => el.tituloQuestao === props.data[4]
@@ -56,19 +54,19 @@ const Backdrop = (props) => {
     let errorMsg = "O campo precisa ter mais de 4 caracteres";
 
     // Seta erro nos input's contidos na questão
-    if (attTituloSugestaoVideo.current.value.length < 4) setErrTituloSugestaoVideo(errorMsg);
+    if (attTituloSugestaoVideo.current.value.length < 4)
+      setErrTituloSugestaoVideo(errorMsg);
     else setErrTituloSugestaoVideo(null);
 
-    if (attThumbnailSugestaoVideo.current.value.length < 4) setErrThumbnailSugestaoVideo(errorMsg);
+    if (attThumbnailSugestaoVideo.current.value.length < 4)
+      setErrThumbnailSugestaoVideo(errorMsg);
     else setErrThumbnailSugestaoVideo(null);
 
-    if (attUrlSugestaoVideo.current.value.length < 4) setErrUrlSugestaoVideo(errorMsg);
+    if (attUrlSugestaoVideo.current.value.length < 4)
+      setErrUrlSugestaoVideo(errorMsg);
     else setErrUrlSugestaoVideo(null);
 
-    if (
-      inputs.every((ipt) => ipt.trim().length > 4)
-      )
-    {
+    if (inputs.every((ipt) => ipt.trim().length > 4)) {
       // verificacao dos campos
       axios
         .post(
@@ -94,7 +92,7 @@ const Backdrop = (props) => {
             console.log(value.data);
           }
         });
-    } 
+    }
   };
   const close = () => {
     let backdrop = document.querySelector("#backdrop");
@@ -163,54 +161,26 @@ const Backdrop = (props) => {
           }}
           inputMode="text"
         />
-
-        <Select
-          className="c-formQuestao__select"
-          name="questao"
-          title={props.titles[4].headerName || "Input"}
-          id="questao"
-          value={attQuestao}
-          error={errAttQuestao}
-          onChange={({ target }) => setAttQuestao(target.value)}
-        >
-          <MenuItem value={-1}>Selecione</MenuItem>
-          {attReqSugestaoVideo.questao !== undefined &&
-            attReqSugestaoVideo.questao.questao.map((item) => (
-              <MenuItem value={item.idQuestao} key={item.idQuestao}>
-                {item.tituloQuestao}
-              </MenuItem>
-            ))}
-        </Select>
         <Button type="submit">Atualizar</Button>
       </form>
     </section>
   );
 };
 
-export default function FormularioSugestaoVideo() {
-  const [questao, setQuestao] = useState([]);
-
+export default function FormularioSugestaoVideo(props) {
   const [selectedQuestao, setSelectedQuestao] = useState(0);
   const refSugestaoVideo = useRef(null);
   const refThumbVideo = useRef(null);
   const refUrlVideo = useRef(null);
 
-  const [SugestaoVideo, setSugestaoVideo] = useState([]);
-
   const [ErroSugestaoVideo, setErroSugestaoVideo] = useState(null);
   const [ErroThumbVideo, setErroThumbVideo] = useState(null);
   const [ErroUrlVideo, setErroUrlVideo] = useState(null);
-  const [ErroQuestao, setErroQuestao] = useState(null);
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/questao/index/`)
-      .then((value) => setQuestao(value.data.data))
-      .catch((error) => console.error(error));
-
-    axios
       .get(`${process.env.REACT_APP_API}/sugestaoVideo/index/`)
-      .then((value) => setSugestaoVideo(value.data.data))
+      .then((value) => {})
       .catch((error) => console.error(error));
   }, []);
 
@@ -224,10 +194,6 @@ export default function FormularioSugestaoVideo() {
     ];
 
     let errorMsg = "O campo precisa ter mais de 4 caracteres";
-
-    // Seta erro no select questão
-    if (selectedQuestao === 0) setErroQuestao("Selecione uma questao");
-    else setErroQuestao(null);
 
     // Seta erro no input sugestão video
     if (refSugestaoVideo.current.value.length < 4)
@@ -285,64 +251,9 @@ export default function FormularioSugestaoVideo() {
         } */
   };
 
-  const colunas = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 90,
-    },
-    {
-      field: "titulo",
-      headerName: "Titulo",
-      width: 200,
-    },
-    {
-      field: "thumbnail",
-      headerName: "Thumbnail",
-      width: 200,
-    },
-    {
-      field: "url",
-      headerName: "Url",
-      width: 200,
-    },
-    {
-      field: "questao",
-      headerName: "Questao",
-      width: 200,
-    },
-  ];
-  //   console.log(SugestaoVideo);
-  const linhas = SugestaoVideo.sugestaoVideo
-    ? SugestaoVideo.sugestaoVideo.map((sugestao) => {
-        return {
-          id: sugestao.idSugestaoVideo,
-          titulo: sugestao.tituloSujestaoVideo,
-          thumbnail: sugestao.thumbnailSujestaoVideo,
-          url: sugestao.urlSujestaoVideo,
-          questao: SugestaoVideo.questao.questao.filter(
-            (e) => e.idQuestao === sugestao.idQuestao
-          )[0].tituloQuestao,
-        };
-      })
-    : [];
-
-  const update = (id, tabela, nome, linhas, colunas) => {
-    let data = linhas.filter((el) => el.id === id)[0]; //
-    delete data.update;
-    delete data.delete;
-    let titles = colunas;
-    data = Object.values(data);
-
-    let div = document.querySelector("#backdrop");
-    div.classList.toggle("open");
-
-    ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
-  };
-
   return (
-    <section>
-      <form
+    <section className={props.className || ""}>
+      <div
         method="post"
         id="formSV"
         className="c-formSV c-form"
@@ -352,6 +263,7 @@ export default function FormularioSugestaoVideo() {
         <Input
           title="Titulo Sugestao de Video"
           id="sugestaoVideo"
+          icon="T"
           error={ErroSugestaoVideo}
           className="c-formSVideo__input"
           ref={refSugestaoVideo}
@@ -359,6 +271,7 @@ export default function FormularioSugestaoVideo() {
         />
         <Input
           title="Thumbnail"
+          icon={<FaImage />}
           id="thumbnailSugestaoVideo"
           error={ErroThumbVideo}
           className="c-formSVideo__input"
@@ -368,46 +281,13 @@ export default function FormularioSugestaoVideo() {
         <Input
           title="URL"
           id="urlSugestaoVideo"
+          icon={<FaLink />}
           error={ErroUrlVideo}
           className="c-formSVideo__input"
           ref={refUrlVideo}
           name="urlSugestaoVideo"
         />
-        <Select
-          className="c-formSVideo__select"
-          name="questao"
-          id="questao"
-          error={ErroQuestao}
-          value={selectedQuestao}
-          onChange={({ target }) => setSelectedQuestao(target.value)}
-        >
-          {<MenuItem value={-1}>Questão</MenuItem>}
-          {questao.questao !== undefined &&
-            questao.questao.map((item) => (
-              <MenuItem value={item.idQuestao} key={item.idQuestao}>
-                {item.tituloQuestao}
-              </MenuItem>
-            ))}
-        </Select>
-        <Button
-          className="c-formSVideo__submit"
-          styleButton={{ marginTop: 20 }}
-          type="submit"
-        >
-          Cadastrar
-        </Button>
-      </form>
-      <Table
-        colunas={colunas}
-        linhas={linhas || []}
-        tabela="sugestaoVideo"
-        nome="Sugestão Vídeo"
-        style={{
-          marginTop: 20,
-        }}
-        functionUpdate={update}
-      />
-      <div id="backdrop"></div>
+      </div>
     </section>
   );
 }

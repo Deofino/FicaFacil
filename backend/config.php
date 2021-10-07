@@ -66,10 +66,10 @@ function dd($data, $die = true)
 }
 function auth()
 {
-    if (isset(apache_request_headers()['authorization'])) {
-        $bearer = apache_request_headers()['authorization'];
+    if (isset(apache_request_headers()['Authorization'])) {
+        $bearer = apache_request_headers()['Authorization'];
         $token = (str_replace('Bearer ', '', $bearer));
-        if(JWT::validateJWT($token)){
+        if (JWT::validateJWT($token)) {
             return true;
         }
     }

@@ -1,20 +1,14 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import { FaFont, FaImages, FaPlusCircle, } from "react-icons/fa";
+import { FaAlignJustify, FaFont, FaImages, FaPlusCircle } from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../Alert/Modal";
-import { ToastWarning, } from "../Alert/Toast";
-import {
-  Button,
-  Input,
-  MenuItem,
-  Select,
-  Table,
-} from "../Form";
+import { ToastWarning } from "../Alert/Toast";
+import { Button, Input, MenuItem, Select, Table } from "../Form";
 import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
 import FormularioResposta from "./FormularioResposta";
+import { UseQuestion } from "../Context/QuestaoContext";
 
 export default function FormularioQuestao() {
-
   const [selectUniversidade, setselectUniversidade] = useState(0);
   const [selectAssuntoMateria, setselectAssuntoMateria] = useState(0);
   const [selectDificuldade, setselectDificuldade] = useState(0);
@@ -26,10 +20,6 @@ export default function FormularioQuestao() {
   const refTitulo = useRef(null);
   const refTexto = useRef(null);
   const refImage = useRef(null);
-  const refSelectUniversidade = useRef(null);
-  const refSelectAssuntoMateria = useRef(null);
-  const refSelectDificuldade = useRef(null);
-  const refSelectAdministrador = useRef(null);
 
   const [questoes, setQuestao] = useState([]);
 
@@ -40,81 +30,65 @@ export default function FormularioQuestao() {
   const [ErroDificuldade, setErroDificuldade] = useState(null);
   const [ErroAdministrador, setErroAdministrador] = useState(null);
 
+  const errorMsg = "O campo precisa ter mais de 4 caracteres";
+  const clean = (inputs, selects) => {
+    inputs.forEach((val) => (val[0] = ""));
+    selects.forEach((val) => val[2](0));
+  };
   useEffect(() => {
     axios.get(process.env.REACT_APP_API + "/questao/index/").then((value) => {
       setQuestao(value.data.data);
     });
-   
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
 
+    const inputs = [
+      [refTitulo.current.value.trim(), setErroTitulo],
+      [refTexto.current.value.trim(), setErroTexto],
+    ];
+    const selects = [
+      [selectUniversidade, setErroUniversidade, setselectUniversidade],
+      [selectDificuldade, setErroDificuldade, setselectDificuldade],
+      [selectAssuntoMateria, setErroAssuntoMateria, setselectAssuntoMateria],
+      [selectAdministrador, setErroAdministrador, setselectAdministrador],
+    ];
+
     let formulario = document.getElementById("form");
     let formData = new FormData(formulario);
-
-    let inputs = [
-      refTitulo.current.value,
-      refTexto.current.value,
-      refImage.current.value,
-    ];
-    let errorMsg = "O campo precisa ter mais de 4 caracteres";
-
-    // Seta erro nos input's contidos na questão
-    if (refTitulo.current.value.length < 4) setErroTitulo(errorMsg);
-    else setErroTitulo(null);
-
-    if (refTexto.current.value.length < 4) setErroTexto(errorMsg);
-    else setErroTexto(null);
-
-    // Seta erro nos select's contidos na questão
-    if (selectUniversidade === 0)
-      setErroUniversidade("Selecione uma Universidade");
-    else setErroUniversidade(null);
-
-    if (selectDificuldade === 0)
-      setErroDificuldade("Selecione uma Dificuldade");
-    else setErroDificuldade(null);
-
-    if (selectAssuntoMateria === 0)
-      setErroAssuntoMateria("Selecione um Assunto Matéria");
-    else setErroAssuntoMateria(null);
-
-    if (selectAdministrador === 0)
-      setErroAdministrador("Selecione um Administrador");
-    else setErroAdministrador(null);
+    inputs.forEach((val) =>
+      val[0].length <= 4 ? val[1](errorMsg) : val[1](null)
+    );
+    selects.forEach((val) =>
+      val[0] === 0 && val[0] === -1 ? val[1]("Campo obrigatorio") : val[1](null)
+    );
 
     // Verificação geral
     if (
-      inputs.every((ipt) => ipt.trim().length > 4) &&
+      inputs.every((ipt) => ipt[0].length > 4) &&
       selectUniversidade !== 0 &&
       selectAssuntoMateria !== 0 &&
       selectDificuldade !== 0 &&
       selectAdministrador !== 0
     ) {
-      axios
-        .post(`${process.env.REACT_APP_API}/questao/create/`, formData)
-
-        .then(function (parametro) {
-          if (parametro.data) refTitulo.current.value = "";
-          refTexto.current.value = "";
-          refImage.current.value = "";
-          setselectUniversidade(0);
-          setselectDificuldade(0);
-          setselectAssuntoMateria(0);
-          setselectAdministrador(0);
-          AlertSuccess({
-            text: "Questão inserida com sucesso",
-            title: "Sucesso...",
-          });
-
-          setTimeout(() => {
-            window.location.reload();
-          }, 4000);
-        })
-        .catch(function () {
-          AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
-        });
+      // axios
+      //   .post(`${process.env.REACT_APP_API}/questao/create/`, formData)
+      //   .then(function (parametro) {
+      //     if (parametro.data) {
+      //       clean(inputs, selects);
+      //       AlertSuccess({
+      //         text: "Questão inserida com sucesso",
+      //         title: "Sucesso...",
+      //       });
+      //       setTimeout(() => {
+      //         window.location.reload();
+      //       }, 4000);
+      //     }
+      //   })
+      //   .catch(function () {
+      //     AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
+      //   });
     } else ToastWarning({ text: "Preencha todos os campos" });
   };
 
@@ -156,9 +130,7 @@ export default function FormularioQuestao() {
     },
   ];
 
-  let linhas = [];
-
-  linhas = questoes.questao
+  let linhas = questoes.questao
     ? questoes.questao.map((questao) => {
         return {
           id: questao.idQuestao,
@@ -181,9 +153,11 @@ export default function FormularioQuestao() {
       })
     : [];
 
+  let { alternativa, sugestao } = UseQuestion();
+
+  console.log(alternativa.alternativas[0].file);
   return (
     <Fragment>
-      
       <div className="c-formQuestion">
         <div className="c-formQuestion__title">
           <h2 className="c-formQuestion__question">Questão</h2>
@@ -212,7 +186,7 @@ export default function FormularioQuestao() {
             type="text"
             error={ErroTexto}
             ref={refTexto}
-            icon={<FaFont />}
+            icon={<FaAlignJustify />}
             inputMode="text"
           />
           <section className="c-formQuestion__preview">
@@ -268,7 +242,6 @@ export default function FormularioQuestao() {
                 id="universidade"
                 name="universidade"
                 error={ErroUniversidade}
-                ref={refSelectUniversidade}
                 onChange={(e) => {
                   setselectUniversidade(e.target.value);
                 }}
@@ -288,7 +261,6 @@ export default function FormularioQuestao() {
                 id="dificuldades"
                 name="dificuldade"
                 error={ErroDificuldade}
-                ref={refSelectDificuldade}
                 onChange={(e) => {
                   setselectDificuldade(e.target.value);
                 }}
@@ -309,7 +281,6 @@ export default function FormularioQuestao() {
                 id="assuntoMateria"
                 name="assuntoMateria"
                 error={ErroAssuntoMateria}
-                ref={refSelectAssuntoMateria}
                 onChange={(e) => {
                   setselectAssuntoMateria(e.target.value);
                 }}
@@ -328,7 +299,6 @@ export default function FormularioQuestao() {
                 id="administrador"
                 name="administrador"
                 error={ErroAdministrador}
-                ref={refSelectAdministrador}
                 onChange={(e) => {
                   setselectAdministrador(e.target.value);
                 }}
@@ -344,21 +314,18 @@ export default function FormularioQuestao() {
               </Select>
             </div>
           </section>
+
+          <FormularioResposta alternativa={alternativa} />
+          <FormularioSugestaoVideo className="mt" />
+
+          <Button
+            className="c-formQuestion__submit"
+            styleButton={{ marginTop: 20 }}
+            type="submit"
+          >
+            Cadastrar Questão
+          </Button>
         </form>
-        {/* ------------------ FORMULÁRIO RESPOSTA ----------------------- */}
-        <FormularioResposta />
-        
-        {/* -------------------- FORMULÁRIO SUGESTÃO VÍDEO ----------------------- */}
-        <FormularioSugestaoVideo />
-
-        {/* -------------------- BOTÃO PARA INSERIR ----------------------- */}
-
-        <Button
-          className="c-formQuestion__submit"
-          styleButton={{ marginTop: 20 }}
-          type="submit" >
-          Cadastrar Questão
-        </Button>
 
         {/* ------------------ TABELA DE DADOS (SELECT) ----------------------- */}
         <Table
@@ -366,7 +333,8 @@ export default function FormularioQuestao() {
           colunas={colunas}
           linhas={linhas}
           tabela="questao"
-          nome="Questão" />
+          nome="Questão"
+        />
       </div>
     </Fragment>
   );

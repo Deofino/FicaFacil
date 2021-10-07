@@ -5,7 +5,7 @@ import Select from "./Select";
 import Form from "./Form";
 import Radio from "./Radio";
 import Table from "./Table";
-import { MenuItem, RadioGroup } from "@material-ui/core/";
+import { MenuItem, RadioGroup, Collapse } from "@material-ui/core/";
 export {
   Button,
   Input,
@@ -16,4 +16,5 @@ export {
   RadioGroup,
   Radio,
   Table,
+  Collapse,
 };
