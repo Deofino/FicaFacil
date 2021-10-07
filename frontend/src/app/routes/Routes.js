@@ -11,9 +11,11 @@ import FormularioQuestao from '../components/Main/FormularioQuestao';
 import FormularioMateria from '../components/Main/FormularioMateria';
 import FormularioUniversidade from '../components/Main/FormularioUniversidade';
 import FormularioDificuldade from '../components/Main/FormularioDificuldade';
+import FormularioMaterias from '../components/Main/FormularioMaterias';
 import FormularioLoginEmail from '../components/Main/FormularioLoginEmail';
 import FormularioLoginSocial from '../components/Main/FormularioLoginSocial';
 import FormularioCriarConta from '../components/Main/FormularioCriarConta';
+import FormularioLoginAdm from '../components/Main/FormularioLoginAdm';
 import ComponentCookie from '../components/Main/ComponentCookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -176,6 +178,13 @@ export default function Routes () {
                     </Main>
                     <Footer />
                 </PrivateRoute>
+                <PrivateRoute path='/materias'>
+                    <Header />
+                    <Main>
+                        <FormularioMaterias />
+                    </Main>
+                    <Footer />
+                </PrivateRoute>
                 <GuestRoute path='/entrar/email'>
                     <FormularioLoginEmail />
                 </GuestRoute>
@@ -184,6 +193,9 @@ export default function Routes () {
                 </GuestRoute>
                 <GuestRoute exact path='/criar'>
                     <FormularioCriarConta />
+                </GuestRoute>
+                <GuestRoute exact path='/entrar/adm'>
+                    <FormularioLoginAdm />
                 </GuestRoute>
                 <GuestRoute path='/entrar/administrador'>
                     <Header />

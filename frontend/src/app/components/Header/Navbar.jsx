@@ -64,7 +64,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li className="c-navbar__menu-item">
-              <Link to="/materia">Matérias</Link>
+              <Link to="/materias">Matérias</Link>
             </li>
             <li className="c-navbar__menu-item">
               <Link to="/dificuldade">Dificuldade</Link>

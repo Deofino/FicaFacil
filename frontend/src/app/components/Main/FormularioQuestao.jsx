@@ -155,14 +155,13 @@ export default function FormularioQuestao() {
 
   let { alternativa, sugestao } = UseQuestion();
 
-  console.log(alternativa.alternativas[0].file);
   return (
     <Fragment>
-      <div className="c-formQuestion">
-        <div className="c-formQuestion__title">
-          <h2 className="c-formQuestion__question">Questão</h2>
+      <div className="c-forms">
+        <div className="c-forms__title">
+          <h2 className="c-forms__question">Questão</h2>
         </div>
-        <div className="c-formQuestion__quite"></div>
+        <div className="c-forms__quite"></div>
         <form
           method="post"
           id="form"
@@ -189,8 +188,8 @@ export default function FormularioQuestao() {
             icon={<FaAlignJustify />}
             inputMode="text"
           />
-          <section className="c-formQuestion__preview">
-            <label htmlFor="image" className="c-formQuestion__img inputFile">
+          <section className="c-forms__preview">
+            <label htmlFor="image" className="c-forms__img inputFile">
               <FaPlusCircle />
               {QtdeImgsSelect === 0 ? (
                 <span>Procurar Imagens...</span>
@@ -201,14 +200,14 @@ export default function FormularioQuestao() {
 
             {ImgsSelect === null ? (
               <React.Fragment>
-                <div className="c-formQuestion__img"></div>
+                <div className="c-forms__img"></div>
               </React.Fragment>
             ) : (
               ImgsSelect.map((val, i) => {
                 let img = URL.createObjectURL(val);
 
                 return (
-                  <div className="c-formQuestion__img" key={i}>
+                  <div className="c-forms__img" key={i}>
                     <img src={img} alt={val.name} />
                   </div>
                 );
@@ -217,7 +216,7 @@ export default function FormularioQuestao() {
           </section>
 
           <Input
-            className="c-formQuestion__input c-formQuestion__input--invisible"
+            className="c-forms__input c-forms__input--invisible"
             title="Imagens:"
             id="image"
             accept="image/*"
@@ -235,8 +234,8 @@ export default function FormularioQuestao() {
             }}
             icon={<FaImages />}
           />
-          <section className="c-formQuestion__fks">
-            <div className="c-formQuestion__fks__top">
+          <section className="c-forms__fks">
+            <div className="c-forms__fks__top">
               <Select
                 label="Universidades: *"
                 id="universidade"
@@ -275,7 +274,7 @@ export default function FormularioQuestao() {
                   ))}
               </Select>
             </div>
-            <div className="c-formQuestion__fks__bottom">
+            <div className="c-forms__fks__bottom">
               <Select
                 label="Assunto Matéria: *"
                 id="assuntoMateria"
@@ -319,7 +318,7 @@ export default function FormularioQuestao() {
           <FormularioSugestaoVideo className="mt" />
 
           <Button
-            className="c-formQuestion__submit"
+            className="c-forms__submit"
             styleButton={{ marginTop: 20 }}
             type="submit"
           >
