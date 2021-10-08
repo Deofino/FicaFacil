@@ -4,6 +4,8 @@ namespace Controller;
 
 use Helper\Response;
 use Model\QuestaoModel;
+use Model\RespostaModel;
+use Model\SugestaoVideoModel;
 
 class QuestaoController
 {
@@ -20,16 +22,20 @@ class QuestaoController
     public function create() // POST INSERIR
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            // inserir questao
             $namesImages = [];
-            for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
-                $ext = pathinfo($_FILES['images']['name'][$i], PATHINFO_EXTENSION);
-                $name = md5(time() . $_FILES['images']['name'][$i]) . '.' . $ext;
-                $variavel = ($_FILES['images']['tmp_name'][$i]);
-                $url = 'http://' . $_SERVER['HTTP_HOST'] . explode('index.php', $_SERVER['PHP_SELF'])[0] . 'images/' . $name;
-                $path = './images/';
-                file_exists($path) or mkdir($path);
-                move_uploaded_file($variavel, $path . $name);
-                array_push($namesImages, $url);
+            if (isset($_FILES['images']) && strlen($_FILES['images']['name'][0]) > 0) {
+                for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+                    $ext = pathinfo($_FILES['images']['name'][$i], PATHINFO_EXTENSION);
+                    $name = md5(time() . $_FILES['images']['name'][$i]) . '.' . $ext;
+                    $variavel = ($_FILES['images']['tmp_name'][$i]);
+                    $url = 'http://' . $_SERVER['HTTP_HOST'] . explode('index.php', $_SERVER['PHP_SELF'])[0] . 'images/' . $name;
+                    $path = './images/';
+                    file_exists($path) or mkdir($path);
+                    move_uploaded_file($variavel, $path . $name);
+                    array_push($namesImages, $url);
+                }
             }
             $namesImages = json_encode($namesImages);
             $model = new QuestaoModel();
@@ -41,7 +47,77 @@ class QuestaoController
                 $model->setIdUniversidade($_POST['universidade']);
                 $model->setIdAssuntoMateria($_POST['assuntoMateria']);
                 $model->setIdDificuldade($_POST['dificuldade']);
-                echo $model->post();
+                $idInserted = (int)json_decode($model->post())->data[1];
+
+                // resposta
+                if (isset($_FILES['alternativas'])) {
+                    if ((new RespostaModel)->countRespostas($idInserted) < 5) {
+                        $path = './images/respostas/';
+                        file_exists($path) or mkdir($path);
+                        for (
+                            $i = 0;
+                            $i < count($_FILES['alternativas']['name']);
+                            $i++
+                        ) {
+                            $ext = pathinfo($_FILES['alternativas']['name'][$i], PATHINFO_EXTENSION);
+                            $name = md5(time() . $_FILES['alternativas']['name'][$i]) . '.' . $ext;
+                            $variavel = ($_FILES['alternativas']['tmp_name'][$i]);
+                            $url = 'http://' . $_SERVER['HTTP_HOST'] . explode('index.php', $_SERVER['PHP_SELF'])[0] . 'images/respostas/' . $name;
+                            $model = new RespostaModel();
+                            $model->setCertaResposta(0);
+                            if (strtoupper(trim($_FILES['alternativas']['name'][$i])) === strtoupper(trim($_POST['correta']))) {
+                                $model->setCertaResposta(1);
+                            }
+                            $model->setTextoResposta(trim($url));
+                            $model->setIdQuestao($idInserted);
+                            $model->post();
+                            move_uploaded_file($variavel, $path . $name);
+                        }
+                        echo Response::success("Respostas cadastradas com sucesso");
+                        return;
+                    } else {
+                        echo Response::warning('Essa questao ja contem respostas', 400);
+                        return;
+                    }
+                } else if (isset($_POST['alternativas']) && isset($_POST['correta'])) {
+                    $alternativas = (explode(',', $_POST['alternativas']));
+                    foreach ($alternativas as $al) {
+                        $model = new RespostaModel();
+                        if ($model->countRespostas($idInserted) < 5) {
+                            if (isset($al)) {
+                                $model->setCertaResposta(0);
+                                if (strtoupper(trim($al)) === strtoupper(trim($_POST['correta']))) {
+                                    $model->setCertaResposta(1);
+                                }
+                                $model->setTextoResposta(trim($al));
+                                $model->setIdQuestao($idInserted);
+                                $model->post();
+                            } else {
+                                echo Response::warning('Alternativa com valor vazio', 404);
+                                return;
+                            };
+                        } else {
+                            echo Response::warning('Essa questao ja contem respostas', 400);
+                            return;
+                        };
+                    }
+                    echo Response::success("Respostas cadastradas com sucesso");
+                    return;
+                } else {
+                    $model->delete($idInserted);
+                    echo Response::warning('Alternativas nao encontradas, impossivel cadastrar questao', 404);
+                    return;
+                }
+
+                // Sugestao
+                if (isset($_POST['tituloSugestao']) && isset($_POST['thumbnail']) && isset($_POST['url'])) {
+                    $sugestao = new SugestaoVideoModel();
+                    $sugestao->setTitulo(trim($_POST['tituloSugestao']));
+                    $sugestao->setThumbnailVideo(trim($_POST['thumbnail']));
+                    $sugestao->setUrlVideo(trim($_POST['url']));
+                    $sugestao->setQuestao($idInserted);
+                    $sugestao->post();
+                }
             } else echo Response::warning('Parametros não encontrado ou vazio/nulo', 404);
             return;
         }
@@ -87,7 +163,27 @@ class QuestaoController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $model = new QuestaoModel();
-            echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
+            if (count($params) !== 0) {
+                $data = json_decode(json_decode($model->get(array('id' => $params[0])))->data->questao[0]->imagensQuestao);
+                if (count($data) > 0) {
+                    foreach ($data as $photo) {
+                        $photo = explode('backend/', $photo);
+                        $photo = './' . $photo[1];
+                        unlink($photo);
+                    }
+                }
+                echo $model->delete($params[0]);
+                return;
+            }
+            echo Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+    public function view($params)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            echo json_encode([$_POST, $_FILES]);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);

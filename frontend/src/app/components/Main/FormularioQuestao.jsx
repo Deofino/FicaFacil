@@ -9,6 +9,7 @@ import FormularioResposta from "./FormularioResposta";
 import { UseQuestion } from "../Context/QuestaoContext";
 
 export default function FormularioQuestao() {
+  const { alternativa, sugestao } = UseQuestion();
   const [selectUniversidade, setselectUniversidade] = useState(0);
   const [selectAssuntoMateria, setselectAssuntoMateria] = useState(0);
   const [selectDificuldade, setselectDificuldade] = useState(0);
@@ -55,15 +56,23 @@ export default function FormularioQuestao() {
       [selectAdministrador, setErroAdministrador, setselectAdministrador],
     ];
 
-    let formulario = document.getElementById("form");
-    let formData = new FormData(formulario);
     inputs.forEach((val) =>
       val[0].length <= 4 ? val[1](errorMsg) : val[1](null)
     );
     selects.forEach((val) =>
-      val[0] === 0 && val[0] === -1 ? val[1]("Campo obrigatorio") : val[1](null)
+      val[0] === 0 || val[0] === -1 ? val[1]("Campo obrigatorio") : val[1](null)
     );
 
+    let formulario = document.getElementById("form");
+
+    let formData = new FormData(formulario);
+    formData.append("correta", alternativa.correta);
+    alternativa.alternativas.length > 0 &&
+      formData.append("alternativas", alternativa.alternativas);
+
+    axios
+      .post(`${process.env.REACT_APP_API}/questao/create/`, formData)
+      .then((val) => console.log(val.data));
     // Verificação geral
     if (
       inputs.every((ipt) => ipt[0].length > 4) &&
@@ -153,9 +162,6 @@ export default function FormularioQuestao() {
       })
     : [];
 
-  let { alternativa, sugestao } = UseQuestion();
-
-  console.log(alternativa.alternativas[0].file);
   return (
     <Fragment>
       <div className="c-formQuestion">

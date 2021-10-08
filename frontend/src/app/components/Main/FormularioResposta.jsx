@@ -174,7 +174,6 @@ export default function FormularioResposta() {
               styleButton={{ padding: 25 }}
               onClick={() => {
                 let input = document.querySelector("#alternativas");
-                console.log(alternativas);
                 if (
                   inputAlternativa !== "" &&
                   alternativas !== null &&

@@ -67,11 +67,7 @@ class QuestaoModel
     public function setImagem(string $imagemQuestao): void
     {
         $imagens = json_decode($imagemQuestao);
-        if ($imagens !== [] && $imagens !== null && isset($imagens) && !empty($imagens) && count($imagens) > 0) {
-            $this->imagem = $imagemQuestao;
-            return;
-        }
-        throw new \Exception("Essa(s) imagem(s) não pode(m) ser aceita(s)", 400);
+        $this->imagem = $imagemQuestao;
         return;
     }
 
@@ -191,7 +187,13 @@ class QuestaoModel
                 $assuntoMateria = (new AssuntoMateriaModel)->get();
                 $administrador = (new AdministradorModel)->get();
                 if ($stmt->rowCount() === 0) {
-                    return Response::warning("Nenhuma universidade, dificuldade, assunto ou adm encontrado...", 404);
+                    return Response::warning([
+                        "Nenhuma universidade, dificuldade, assunto ou adm encontrado...",
+                        "universidade" => json_decode($universidade)->data,
+                        "dificuldade" => json_decode($dificuldade)->data,
+                        "assuntoMateria" => json_decode($assuntoMateria)->data,
+                        "administrador" => json_decode($administrador)->data
+                    ], 404);
                 }
                 if ($stmt->rowCount() === 1) {
                     $questao = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -235,7 +237,7 @@ class QuestaoModel
             $stmt->bindValue(6, trim($this->getIdAssuntoMateria()), PDO::PARAM_INT);
             $stmt->bindValue(7, trim($this->getIdUniversidade()), PDO::PARAM_INT);
             if ($stmt->execute()) {
-                return Response::success("Questão `{$this->getTitulo()}` inserida com sucesso, id=" . $con->lastInsertId());
+                return Response::success(["Questão `{$this->getTitulo()}` inserida com sucesso, id=" . (int)$con->lastInsertId(), $con->lastInsertId()]);
             }
             return Response::error("Erro ao inserir Assunto Materia");
         } catch (\Throwable $th) {

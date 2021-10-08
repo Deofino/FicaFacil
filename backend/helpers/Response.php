@@ -24,7 +24,6 @@ class Response
 
     public static function error($message, int $status_code = 500)
     {
-        http_response_code($status_code);
         return json_encode([
             "data" => $message,
             "status_code" => $status_code
@@ -33,7 +32,6 @@ class Response
 
     public static function warning($message, int $status_code = 400)
     {
-        http_response_code($status_code);
         return json_encode([
             "data" => $message,
             "status_code" => $status_code

@@ -20,9 +20,9 @@ export const QuestaoProvider = ({ children }) => {
   const [alternativas, setAlternativas] = useState([]);
   const [correta, setCorreta] = useState(null);
 
-  const [url, setUrl] = useState(null);
-  const [titulo, setTitulo] = useState(null);
-  const [thumbnail, setThumbnail] = useState(null);
+  const [url, setUrl] = useState("");
+  const [titulo, setTitulo] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
   return (
     <contextQuestion.Provider
       value={{

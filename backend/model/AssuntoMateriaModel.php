@@ -46,7 +46,7 @@ class AssuntoMateriaModel
             }
             $this->nome = ucfirst($nomeAssuntoMateria);
             return;
-        }    
+        }
         throw new \Exception("Essa Area matéria não pode ser aceita", 400);
         return;
     }
