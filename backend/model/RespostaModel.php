@@ -86,7 +86,10 @@ class RespostaModel
             if ($stmt->execute()) {
                 $questao = (new QuestaoModel)->get();
                 if ($stmt->rowCount() === 0) {
-                    return Response::warning("Nenhuma questao encontrada...", 404);
+                    return Response::warning([
+                        "Nenhuma questao encontrada...",
+                        "questao" => json_decode($questao)->data
+                ], 404);
                 }
                 if ($stmt->rowCount() === 1) {
                     $resposta = $stmt->fetchAll(\PDO::FETCH_ASSOC);

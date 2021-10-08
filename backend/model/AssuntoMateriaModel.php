@@ -88,7 +88,10 @@ class AssuntoMateriaModel
             if ($stmt->execute()) {
                 $materia = (new MateriaModel)->get();
                 if ($stmt->rowCount() === 0) {
-                    return Response::warning("Nenhuma materia encontrada...", 404);
+                    return Response::warning([
+                        "Nenhuma materia encontrada...",
+                        "materia"=> json_decode($materia)->data
+                    ], 404);
                 }
                 if ($stmt->rowCount() === 1) {
                     $assuntoMateria = $stmt->fetchAll(\PDO::FETCH_ASSOC);
