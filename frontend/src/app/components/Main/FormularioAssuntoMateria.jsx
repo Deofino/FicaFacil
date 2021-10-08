@@ -5,7 +5,7 @@ import { Input, Select, MenuItem, Button, Table } from "../Form/";
 import { AlertSuccess } from "../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastSuccess } from "../Alert/Toast";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaBookOpen } from "react-icons/fa";
 
 const Backdrop = (props) => {
   const [attAssuntoMateria, setAttAssuntoMateria] = useState(
@@ -243,7 +243,6 @@ export default function FormularioAssuntoMateria() {
         className="c-formAssuntoMateria c-form"
         onSubmit={submitForm}
       >
-        <h2 className="c-formAssuntoMateria__headline">Assunto Matéria</h2>
         <Input
           title="Assunto Matéria"
           id="assuntomateria"
@@ -251,6 +250,7 @@ export default function FormularioAssuntoMateria() {
           className="c-formAssuntoMateria__input"
           ref={refAssuntoMateria}
           name="assuntomateria"
+          icon={<FaBookOpen />}
         />
         <Select
           className="c-formAssuntoMateria__select"

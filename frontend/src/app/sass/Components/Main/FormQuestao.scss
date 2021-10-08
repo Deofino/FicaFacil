@@ -1,5 +1,5 @@
 /* PARTE DA QUESTÃO */
-.c-formQuestion {
+.c-forms {
   max-width: 100%;
   margin: 0 auto;
   padding: rem(38);
@@ -20,6 +20,9 @@
       display: none !important;
     }
   }
+   .PrivateTabIndicator-colorSecondary-7{
+     background-color: #6f42c1 !important;
+   }
   &__submit {
     padding: rem(26) !important;
   }
@@ -104,6 +107,12 @@
       width: rem(10);
       margin-top: rem(-88);
     }
+  }
+  .l-tabs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: rem(15) rem(0);
   }
   &__question {
     font-size: $global-font-size-xlg;
@@ -191,7 +200,6 @@
     margin-top: rem(30);
   }
 }
-
 .c-formSVideo {
   &__title {
     margin-top: rem(30);

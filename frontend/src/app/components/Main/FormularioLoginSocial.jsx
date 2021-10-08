@@ -30,12 +30,12 @@ export default function FormularioLoginSocial() {
           <h5 className="login_field__line">ou</h5>
 
           <div className="login_field email">
-            <Link className="login_field__link" to="/LoginEmail">
+            <Link className="login_field__link" to="/entrar/email">
               Entrar com o E-mail
             </Link>
           </div>
           <div className="login_field conta">
-            <Link className="login_field__link" to="/criarConta">
+            <Link className="login_field__link" to="/criar">
               Criar uma nova conta
             </Link>
           </div>

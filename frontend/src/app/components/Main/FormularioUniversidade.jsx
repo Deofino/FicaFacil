@@ -152,68 +152,74 @@ export default function FormularioUniversidade() {
   };
 
   return (
-    <section id="l-universidade">
-      <form
-        method="post"
-        id="formU"
-        className="c-form"
-        onSubmit={(e) => {
-          e.preventDefault();
+    <section>
+       <div className="c-forms">
+        <div className="c-forms__title">
+          <h2 className="c-forms__question">Universidade</h2>
+        </div>
+        <div className="c-forms__quite"></div>
+          <form
+            method="post"
+            id="formU"
+            className="c-form"
+            onSubmit={(e) => {
+              e.preventDefault();
 
-          if (refUniversidade !== null) {
-            if (
-              refUniversidade.current.value.trim() !== "" &&
-              refUniversidade.current.value.trim().length > 3
-            ) {
-              setErroUniversidade(null);
-              axios
-                .post(
-                  process.env.REACT_APP_API + "/universidade/create/",
-                  JSON.stringify({
-                    universidade: refUniversidade.current.value,
-                  })
-                )
-                /* .then(data => console.log(data)); */
-                .then((refUniversidade.current.value = ""));
+              if (refUniversidade !== null) {
+                if (
+                  refUniversidade.current.value.trim() !== "" &&
+                  refUniversidade.current.value.trim().length > 3
+                ) {
+                  setErroUniversidade(null);
+                  axios
+                    .post(
+                      process.env.REACT_APP_API + "/universidade/create/",
+                      JSON.stringify({
+                        universidade: refUniversidade.current.value,
+                      })
+                    )
+                    /* .then(data => console.log(data)); */
+                    .then((refUniversidade.current.value = ""));
 
-              AlertSuccess({
-                text: "Universidade inserida com sucesso",
-                title: "Sucesso...",
-              });
-            } else {
-              setErroUniversidade("O campo tem que ser maior que 3");
-            }
-          } else {
-            setErroUniversidade("O campo não pode estar vazio");
-          }
-        }}
-      >
-        <Input
-          title="Universidade:"
-          ref={refUniversidade}
-          error={ErroUniversidade}
-          id="universidade"
-          class=" c-form__item"
-          name="universidade"
-          type="text"
-          icon={<FaBookOpen />}
-          inputMode="text"
-        />
-        <Button type="submit" styleButton={{ marginTop: 20 }}>
-          Adicionar Universidade
-        </Button>
-      </form>
-      <Table
-        colunas={columns}
-        linhas={linhas}
-        tabela={"universidade"}
-        nome="Universidade"
-        style={{
-          marginTop: 20,
-        }}
-        functionUpdate={update}
-      />
-      <div id="backdrop"></div>
+                  AlertSuccess({
+                    text: "Universidade inserida com sucesso",
+                    title: "Sucesso...",
+                  });
+                } else {
+                  setErroUniversidade("O campo tem que ser maior que 3");
+                }
+              } else {
+                setErroUniversidade("O campo não pode estar vazio");
+              }
+            }}
+          >
+            <Input
+              title="Universidade:"
+              ref={refUniversidade}
+              error={ErroUniversidade}
+              id="universidade"
+              class=" c-form__item"
+              name="universidade"
+              type="text"
+              icon={<FaBookOpen />}
+              inputMode="text"
+            />
+            <Button type="submit" styleButton={{ marginTop: 20 }}>
+              Adicionar Universidade
+            </Button>
+          </form>
+          <Table
+            colunas={columns}
+            linhas={linhas}
+            tabela={"universidade"}
+            nome="Universidade"
+            style={{
+              marginTop: 20,
+            }}
+            functionUpdate={update}
+          />
+          <div id="backdrop"></div>
+          </div>
     </section>
   );
 }

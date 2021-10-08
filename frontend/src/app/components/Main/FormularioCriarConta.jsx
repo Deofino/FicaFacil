@@ -31,7 +31,7 @@ export default function FormularioCriarConta() {
                                 </div>
 
                                 <div className="login_field voltar">
-                                    <Link className="login_field__link" to="/loginSocial">
+                                    <Link className="login_field__link" to="/entrar">
                                         <FaArrowLeft />
                                         <span className="login_field__volt">
                                             Voltar

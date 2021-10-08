@@ -1,21 +1,29 @@
 import React, { Fragment, } from "react";
 import { Input, } from '../Form';
-import { FaAt, FaLock, FaArrowLeft } from 'react-icons/fa';
+import { FaAt, FaLock, FaFont} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import Logo from "../../../img/project/logo-branca.png";
 
-export default function FormularioLoginEmail() {
+export default function FormularioLoginAdm() {
   return (
     <Fragment>
-      <section className="login-main">
+      <section className="login-main" style={{background: '#0077b5'}}>
         <div className="login_field">
-          <div className="login_field__logo">
+          <div className="login_field__logo" style={{background: '#6f42c1'}}>
             <img src={Logo} alt="Fica Fácil" />
           </div>
           <div className="login_field__form">
             <form method="post" id="formLogin">
-              <h3 className="login_field__title">Entrar com E-mail</h3>
+              <h3 className="login_field__title">Seja bem-vindo administrador!</h3>
               <Input
+                title="Nome"
+                id="nome"
+                name="nome"
+                type="text"
+                icon={<FaFont />}
+                inputMode="text"
+              />
+               <Input
                 title="E-mail"
                 id="email"
                 name="email"
@@ -35,16 +43,9 @@ export default function FormularioLoginEmail() {
                 Esqueceu a senha? clique aqui!
               </Link>
 
-              <div className="login_field btn">
-                <Link className="login_field__link" to="#">
-                  <span className="login_field__btn">Entrar</span>
-                </Link>
-              </div>
-
-              <div className="login_field voltar">
-                <Link className="login_field__link" to="/entrar">
-                  <FaArrowLeft />
-                  <span className="login_field__volt">Voltar</span>
+              <div className="login_field btn" style={{background: '#6f42c1'}}>
+                <Link className="login_field__link" to="#" style={{background: '#6f42c1'}}>
+                  <span className="login_field__btn" style={{background: '#6f42c1'}}>Entrar</span>
                 </Link>
               </div>
             </form>

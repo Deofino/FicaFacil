@@ -5,7 +5,7 @@ import { AlertSuccess } from "../Alert/Modal";
 import { Input, Button, Table } from "../Form";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess } from "../Alert/Toast";
-import { FaBookOpen, FaTimes } from "react-icons/fa";
+import {  FaChartArea, FaTimes } from "react-icons/fa";
 
 const Backdrop = (props) => {
   const [attDificuldade, setAttDificuldade] = useState(props.data[1] || ""); // State para atualizar o campo
@@ -134,70 +134,77 @@ export default function FormularioDificuldade() {
 
   return (
     <section>
-      <form
-        method="post"
-        id="formU"
-        className="c-form"
-        onSubmit={(e) => {
-          e.preventDefault();
+       <div className="c-forms">
+          <div className="c-forms__title">
+            <h2 className="c-forms__question">Dificuldade</h2>
+          </div>
+           <div className="c-forms__quite"></div>
+              <form
+                method="post"
+                id="formU"
+                className="c-form"
+                onSubmit={(e) => {
+                  e.preventDefault();
 
-          if (refDificuldade !== null) {
-            if (
-              refDificuldade.current.value.trim() !== "" &&
-              refDificuldade.current.value.trim().length > 4
-            ) {
-              setErroDificuldade(null);
-              axios
-                .post(
-                  process.env.REACT_APP_API + "/dificuldade/create/",
-                  JSON.stringify({
-                    dificuldade: refDificuldade.current.value,
-                  })
-                )
-                /* .then(data => console.log(data)); */
-                .then((refDificuldade.current.value = ""));
+                  if (refDificuldade !== null) {
+                    if (
+                      refDificuldade.current.value.trim() !== "" &&
+                      refDificuldade.current.value.trim().length > 4
+                    ) {
+                      setErroDificuldade(null);
+                      axios
+                        .post(
+                          process.env.REACT_APP_API + "/dificuldade/create/",
+                          JSON.stringify({
+                            dificuldade: refDificuldade.current.value,
+                          })
+                        )
+                        /* .then(data => console.log(data)); */
+                        .then((refDificuldade.current.value = ""));
 
-              AlertSuccess({
-                text: "Dificuldade inserida com sucesso",
-                title: "Sucesso...",
-              });
-            } else {
-              setErroDificuldade("O campo tem que ser maior que 4");
-            }
-          } else {
-            setErroDificuldade("O campo não pode estar vazio");
-          }
-        }}
-      >
-        <Input
-          title="Dificuldade:"
-          ref={refDificuldade}
-          error={ErroDificuldade}
-          id="dificuldade"
-          name="dificuldade"
-          type="text"
-          icon={<FaBookOpen />}
-          inputMode="text"
-        />
-        <Button
-          type="submit"
-          styleButton={{ marginTop: 20 }}
-          onClick={() => {}}
-        >
-          Adicionar Dificuldade
-        </Button>
-      </form>
-      <Table
-        colunas={columns}
-        linhas={linhas}
-        tabela={"dificuldade"}
-        nome="Dificuldade"
-        style={{
-          marginTop: 20,
-        }}
-        functionUpdate={update}
-      />
-      <div id="backdrop"></div>
+                      AlertSuccess({
+                        text: "Dificuldade inserida com sucesso",
+                        title: "Sucesso...",
+                      });
+                    } else {
+                      setErroDificuldade("O campo tem que ser maior que 4");
+                    }
+                  } else {
+                    setErroDificuldade("O campo não pode estar vazio");
+                  }
+                }}
+              >
+                <Input
+                  title="Dificuldade:"
+                  ref={refDificuldade}
+                  error={ErroDificuldade}
+                  id="dificuldade"
+                  name="dificuldade"
+                  type="text"
+                  icon={<FaChartArea />}
+                  inputMode="text"
+                />
+                <Button
+                  type="submit"
+                  styleButton={{ marginTop: 20 }}
+                  onClick={() => {}}
+                >
+                  Adicionar Dificuldade
+                </Button>
+              </form>
+              
+              <Table
+                colunas={columns}
+                linhas={linhas}
+                tabela={"dificuldade"}
+                nome="Dificuldade"
+                style={{
+                  marginTop: 20,
+                }}
+                functionUpdate={update}
+              />
+              <div id="backdrop"></div>
+          </div>
     </section>
   );
 }
