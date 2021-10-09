@@ -167,8 +167,6 @@ export default function FormularioResposta() {
                 setInputAlternativa(target.value);
               }}
             />
-          </div>
-          <div className="c-formResposta__inpR">
             <Button
               type="button"
               styleButton={{ padding: 25 }}
@@ -220,7 +218,9 @@ export default function FormularioResposta() {
               Adicionar
             </Button>
           </div>
-          <section className="formResposta__alternativas">
+          <section
+            className={"c-formResposta__alternativas " + TypeInputAlternativa}
+          >
             {alternativas !== [] &&
               alternativas.map((el, i) => (
                 <RadioGroup
@@ -231,28 +231,22 @@ export default function FormularioResposta() {
                   value={correta}
                 >
                   {document.querySelector("#alternativas").type === "text" ? (
-                    <Radio
-                      value={el}
-                      label={`"${el}" é a resposta dessa questao?`}
-                    />
-                  ) : (
                     <div
-                      className="c-alternativa"
-                      style={{
-                        background: "#333",
-                        padding: 8,
-                        borderRadius: 8,
-                        display: "flex",
-                      }}
+                      className={
+                        
+                        (i % 2) === 0
+                          ? "c-alternativa--texto par"
+                          : "c-alternativa--texto impar"
+                      }
                     >
-                      <img
-                        src={`${el.img}`}
-                        alt={el.title}
-                        style={{
-                          width: 100,
-                          height: 100,
-                        }}
+                      <Radio
+                        value={el}
+                        label={`"${el}" é a resposta dessa questao?`}
                       />
+                    </div>
+                  ) : (
+                    <div className="c-alternativa">
+                      <img src={`${el.img}`} alt={el.title} />
                       <Radio
                         value={el.title}
                         label={` é a resposta dessa questao?`}

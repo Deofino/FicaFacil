@@ -20,9 +20,9 @@
       display: none !important;
     }
   }
-   .PrivateTabIndicator-colorSecondary-7{
-     background-color: #6f42c1 !important;
-   }
+  .PrivateTabIndicator-colorSecondary-7 {
+    background-color: #6f42c1 !important;
+  }
   &__submit {
     padding: rem(26) !important;
   }
@@ -108,7 +108,7 @@
       margin-top: rem(-88);
     }
   }
-  .l-tabs{
+  .l-tabs {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,33 +171,93 @@
 .c-formResposta {
   width: 100%;
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   &__inpL {
-    flex-grow: 1;
-  }
-  &__inpR {
-    flex-grow: 1;
-    margin-left: rem(8);
-    min-width: rem(200);
-    align-self: flex-end;
-    span {
-      font-size: $global-font-size-sm !important;
-    }
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
     @include breakpoint(small) {
-      margin-left: 0;
-      margin-top: rem(8);
+      flex-direction: column;
+    }
+    button {
+      max-width: rem(250px);
+      margin-left: rem(8);
       span {
-        font-size: rem(12) !important;
+        font-size: $global-font-size-sm !important;
       }
-      button {
-        padding: rem(8) !important;
+      @include breakpoint(small) {
+        max-width: none;
+        margin-left: 0;
+        margin-top: rem(8);
+        span {
+          font-size: rem(12) !important;
+        }
+        button {
+          padding: rem(8) !important;
+        }
       }
     }
   }
 
   &__title {
     margin-top: rem(30);
+  }
+  &__alternativas {
+    @include flex(space-around);
+    flex-wrap: wrap;
+  }
+  &__alternativas.text {
+    display: block;
+  }
+  .c-alternativa {
+    flex-direction: column;
+    box-shadow: 0 rem(4) rem(4) var(--color-shadow);
+    padding: rem(8);
+    margin: rem(8) rem(8);
+    border-radius: rem(8);
+    background-color: $gray-dark;
+
+    @include breakpoint(small) {
+      margin: rem(4) 0;
+
+      span {
+        font-size: rem(11);
+      }
+    }
+    img {
+      border-radius: rem(8);
+      margin: 0 auto;
+      width: rem(200);
+      height: rem(150);
+      @include breakpoint(small) {
+        width: rem(350);
+        margin: 0;
+        height: rem(200);
+      }
+    }
+
+    &--texto {
+      width: 100%;
+      margin-top: rem(2);
+      padding: rem(8) rem(4);
+      border-radius: rem(8);
+      opacity: 0.8;
+      box-shadow: 0 rem(2) rem(4) var(--color-shadow);
+
+      @include breakpoint(small) {
+        padding: rem(4);
+      }
+      &.par {
+        background-color: darken($color: $gray, $amount: 26%);
+      }
+      &.impar {
+        background-color: darken($color: $gray, $amount: 20%);
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 }
 .c-formSVideo {
