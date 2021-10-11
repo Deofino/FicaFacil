@@ -82,7 +82,8 @@
         label,
         *::after,
         *::before,
-        input {
+        input,
+        textarea {
             color: var(--color-danger) !important;
             caret-color: var(--font-danger);
             border-color: var(--color-danger) !important;

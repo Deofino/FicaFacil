@@ -1,12 +1,350 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import { FaAlignJustify, FaFont, FaImages, FaPlusCircle } from "react-icons/fa";
+import ReactDOM from "react-dom";
+import {
+  FaAlignJustify,
+  FaFont,
+  FaImages,
+  FaPlusCircle,
+  FaTimes,
+} from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../Alert/Modal";
 import { ToastWarning } from "../Alert/Toast";
-import { Button, Input, MenuItem, Select, Table } from "../Form";
+import { Button, Input, MenuItem, Select, Table, Radio } from "../Form";
 import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
 import FormularioResposta from "./FormularioResposta";
 import { UseQuestion } from "../Context/QuestaoContext";
+import { IconButton, RadioGroup, Tooltip } from "@material-ui/core";
+
+const Backdrop = (props) => {
+  const [alternativas, setalternativas] = useState([]);
+  const [correta, setcorreta] = useState(0);
+  // Sugestao
+  const [tituloSugestao, settituloSugestao] = useState("");
+  const [thumbSugestao, setthumbSugestao] = useState("");
+  const [urlSugestao, seturlSugestao] = useState("");
+  var regexURL =
+    /(Http|Https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-/]))?/;
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API + `/resposta/index/${props.data[0]}/`)
+      .then((value) => {
+        setalternativas(value.data.data.resposta);
+        setcorreta(
+          value.data.data.resposta.find((e) => +e.certaResposta === 1)
+            .idResposta
+        );
+      });
+
+    axios
+      .get(process.env.REACT_APP_API + `/sugestaoVideo/index/${props.data[0]}/`)
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          let sugestao = value.data.data.sugestaoVideo[0];
+          settituloSugestao(sugestao.tituloSujestaoVideo);
+          setthumbSugestao(sugestao.thumbnailSujestaoVideo);
+          seturlSugestao(sugestao.urlSujestaoVideo);
+          console.log(sugestao);
+        }
+        // console.log(value.data);
+      });
+  }, [props.data]);
+
+  const questoes = props.data[props.data.length - 1] || [];
+
+  const [selectUniversidade, setselectUniversidade] = useState(
+    questoes.universidade.find((e) => e.nomeUniversidade === props.data[4])
+      .idUniversidade || 0
+  );
+
+  const [selectAssuntoMateria, setselectAssuntoMateria] = useState(
+    questoes.assuntoMateria.assuntoMateria.find(
+      (e) => e.nomeAssuntoMateria === props.data[6]
+    ).idAssuntoMateria || 0
+  );
+  const [selectDificuldade, setselectDificuldade] = useState(
+    questoes.dificuldade.find((e) => e.nivelDificuldade === props.data[5])
+      .idDificuldade || 0
+  );
+  const [selectAdministrador, setselectAdministrador] = useState(
+    questoes.administrador.find((e) => e.nomeAdministrador === props.data[7])
+      .idAdministrador || 0
+  );
+
+  const [QtdeImgsSelect, setQtdeImgsSelect] = useState(
+    JSON.parse(props.data[3]).length || 0
+  );
+  const [ImgsSelect, setImgsSelect] = useState(
+    JSON.parse(props.data[3]) || null
+  );
+
+  const [titulo, settitulo] = useState(props.data[1] || "");
+  const [texto, settexto] = useState(props.data[2] || "");
+  const refImageUpdate = useRef(null);
+
+  const updateEvent = (e) => {
+    // na hora que clica no botao de atualizar
+    e.preventDefault();
+  };
+  const close = () => {
+    let backdrop = document.querySelector("#backdrop");
+    backdrop.classList.toggle("open");
+    ReactDOM.unmountComponentAtNode(backdrop);
+  };
+  return (
+    <section className="c-formularioUpdate questao" id="c-formularioUpdate">
+      <Tooltip
+        className="c-formularioUpdate__close"
+        title="Fechar"
+        enterDelay={400}
+        enterNextDelay={200}
+      >
+        <IconButton onClick={() => close()}>
+          <FaTimes />
+        </IconButton>
+      </Tooltip>
+      <h1 className="c-formularioUpdate__headline">
+        Atualizar Questao: {props.data[1]}
+      </h1>
+      <form
+        onSubmit={(e) => updateEvent(e)}
+        encType="multipart/form-data"
+        className="c-formularioUpdate__form--update"
+        id="formUpdate"
+      >
+        <Input
+          title="Titulo: *"
+          id="titulo"
+          name="titulo"
+          type="text"
+          value={titulo}
+          onChange={(e) => settitulo(e.target.value)}
+          inputMode="text"
+        />
+        <Input
+          title="Texto: *"
+          id="texto"
+          icon={<FaAlignJustify />}
+          rows={3}
+          value={texto}
+          onChange={(e) => settexto(e.target.value)}
+          multiline
+          name="texto"
+          type="text"
+          inputMode="text"
+        />
+        <div className="c-forms__preview">
+          <label htmlFor="imageUpdate" className="c-forms__img inputFile">
+            <FaPlusCircle />
+            {QtdeImgsSelect === 0 ? (
+              <span>Procurar Imagens...</span>
+            ) : (
+              <span>{QtdeImgsSelect} imagem(s) selecionada(s)</span>
+            )}
+          </label>
+
+          {ImgsSelect === null ? (
+            <React.Fragment>
+              <div className="c-forms__img"></div>
+            </React.Fragment>
+          ) : (
+            ImgsSelect.map((val, i) => {
+              let img = "";
+              if (typeof val === "string") {
+                img = val;
+              } else {
+                img = URL.createObjectURL(val);
+              }
+              return (
+                <div className="c-forms__img" key={i}>
+                  <img src={img} alt={val.name || "Imagem"} />
+                </div>
+              );
+            })
+          )}
+          <Input
+            className="c-forms__input c-forms__input--invisible"
+            title="Imagens:"
+            id="imageUpdate"
+            accept="image/*"
+            name="imagesUpdate[]"
+            multiple={true}
+            ref={refImageUpdate}
+            type="file"
+            onChange={(e) => {
+              setQtdeImgsSelect(e.target.files.length);
+              let arr = [];
+              for (let i = 0; i < e.target.files.length; i++) {
+                arr.push(e.target.files[i]);
+              }
+              console.log(arr);
+              setImgsSelect(arr);
+            }}
+            icon={<FaImages />}
+          />
+        </div>
+
+        <div className="c-forms__fks--update">
+          <Select
+            label="Universidades: *"
+            id="universidade"
+            name="universidade"
+            onChange={(e) => {
+              setselectUniversidade(e.target.value);
+            }}
+            value={selectUniversidade}
+          >
+            <MenuItem value={-1}>Selecione</MenuItem>
+            {questoes.universidade !== undefined &&
+              questoes.universidade.map((el, i) => (
+                <MenuItem key={i} value={el["idUniversidade"]}>
+                  {el["nomeUniversidade"]}
+                </MenuItem>
+              ))}
+          </Select>
+
+          <Select
+            label="Dificuldades: *"
+            id="dificuldades"
+            name="dificuldade"
+            onChange={(e) => {
+              setselectDificuldade(e.target.value);
+            }}
+            value={selectDificuldade}
+          >
+            <MenuItem value={-1}>Selecione</MenuItem>
+            {questoes.dificuldade !== undefined &&
+              questoes.dificuldade.map((el, i) => (
+                <MenuItem key={i} value={el["idDificuldade"]}>
+                  {el["nivelDificuldade"]}
+                </MenuItem>
+              ))}
+          </Select>
+          <Select
+            label="Assunto Matéria: *"
+            id="assuntoMateria"
+            name="assuntoMateria"
+            onChange={(e) => {
+              setselectAssuntoMateria(e.target.value);
+            }}
+            value={selectAssuntoMateria}
+          >
+            <MenuItem value={-1}>Selecione</MenuItem>
+            {questoes.assuntoMateria !== undefined &&
+              questoes.assuntoMateria.assuntoMateria.map((el, i) => (
+                <MenuItem key={i} value={el["idAssuntoMateria"]}>
+                  {el["nomeAssuntoMateria"]}
+                </MenuItem>
+              ))}
+          </Select>
+          <Select
+            label="Administrador: *"
+            id="administrador"
+            name="administrador"
+            onChange={(e) => {
+              setselectAdministrador(e.target.value);
+            }}
+            value={selectAdministrador}
+          >
+            <MenuItem value={-1}>Selecione</MenuItem>
+            {questoes.administrador !== undefined &&
+              questoes.administrador.map((el, i) => (
+                <MenuItem key={i} value={el["idAdministrador"]}>
+                  {el["nomeAdministrador"]}
+                </MenuItem>
+              ))}
+          </Select>
+        </div>
+        <h2>Alternativas</h2>
+        <p>Selecione a correta.</p>
+        <div className="c-alternativas--update">
+          {alternativas[0] !== undefined &&
+          regexURL.test(alternativas[0].textoResposta) ? (
+            <React.Fragment>
+              <input
+                type="file"
+                className="input-file"
+                multiple
+                accept="image/*"
+              />
+              <div className="alternativas--image">
+                <RadioGroup
+                  onChange={(e) => {
+                    setcorreta(e.target.value);
+                  }}
+                  value={correta}
+                >
+                  {alternativas.map((el, i) => (
+                    <div className="alternativa--image" key={i}>
+                      <img src={el.textoResposta} alt={`Alternativa ${i}`} />
+                      <Radio value={el.idResposta} label={``} />
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
+            </React.Fragment>
+          ) : (
+            <div>
+              <RadioGroup
+                onChange={(e) => {
+                  setcorreta(e.target.value);
+                }}
+                value={correta}
+              >
+                {alternativas.map((el, i) => (
+                  <div className="alternativa--texto" key={i}>
+                    <input
+                      placeholder={el.textoResposta}
+                      onChange={(e) => console.log(e.target.value)}
+                    />
+                    <Radio value={el.idResposta} label={``} />
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+          )}
+        </div>
+        <br />
+        <h2>Sugestao</h2>
+        <Input
+          title="Titulo:"
+          id="tituloSugestao"
+          value={tituloSugestao}
+          onChange={(e) => settituloSugestao(e.target.value)}
+          name="tituloSugestao"
+          type="text"
+          inputMode="text"
+        />
+        <Input
+          title="Thumbnail:"
+          id="thumb"
+          value={thumbSugestao}
+          onChange={(e) => setthumbSugestao(e.target.value)}
+          name="thumb"
+          type="text"
+          inputMode="text"
+        />
+        <Input
+          title="Url:"
+          value={urlSugestao}
+          onChange={(e) => seturlSugestao(e.target.value)}
+          id="url"
+          name="url"
+          type="text"
+          inputMode="text"
+        />
+
+        <Button
+          className="c-forms__submit"
+          styleButton={{ marginTop: 20 }}
+          type="submit"
+        >
+          Atualizar
+        </Button>
+      </form>
+    </section>
+  );
+};
 
 export default function FormularioQuestao() {
   const { alternativa, sugestao } = UseQuestion();
@@ -32,15 +370,24 @@ export default function FormularioQuestao() {
   const [ErroAdministrador, setErroAdministrador] = useState(null);
 
   const errorMsg = "O campo precisa ter mais de 4 caracteres";
-  const clean = (inputs, selects) => {
-    inputs.forEach((val) => (val[0] = ""));
-    selects.forEach((val) => val[2](0));
-  };
   useEffect(() => {
     axios.get(process.env.REACT_APP_API + "/questao/index/").then((value) => {
       setQuestao(value.data.data);
     });
   }, []);
+
+  const update = (id, tabela, nome, linhas, colunas) => {
+    let data = linhas.filter((el) => el.id === id)[0]; //
+    delete data.update;
+    delete data.delete;
+    let titles = colunas;
+    data = Object.values(data);
+
+    let div = document.querySelector("#backdrop");
+    div.classList.toggle("open");
+
+    ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
+  };
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -56,48 +403,103 @@ export default function FormularioQuestao() {
       [selectAdministrador, setErroAdministrador, setselectAdministrador],
     ];
 
+    // Inputs obrigatorios
     inputs.forEach((val) =>
       val[0].length <= 4 ? val[1](errorMsg) : val[1](null)
     );
+    // foreign keys
     selects.forEach((val) =>
       val[0] === 0 || val[0] === -1 ? val[1]("Campo obrigatorio") : val[1](null)
     );
 
-    let formulario = document.getElementById("form");
+    //alternativas
+    if (alternativa.alternativas.length !== 5) {
+      alternativa.setErroAlternativa("Você precisa das 5 alternativas.");
+      // return;
+    } else {
+      if (alternativa.correta === null) {
+        alternativa.setErroAlternativa("Selecione umas das alternativas.");
+        // return;
+      }
+    }
+    alternativa.setErroAlternativa(null);
 
-    let formData = new FormData(formulario);
-    formData.append("correta", alternativa.correta);
-    alternativa.alternativas.length > 0 &&
-      formData.append("alternativas", alternativa.alternativas);
+    //sugestao (opctional)
+    let {
+      thumbnail,
+      titulo,
+      url,
+      setErroThumbVideo,
+      setErroUrlVideo,
+      setErroTituloSugestao,
+    } = sugestao;
+    const datas = [
+      [titulo.trim(), setErroTituloSugestao],
+      [thumbnail.trim(), setErroThumbVideo],
+      [url.trim(), setErroUrlVideo],
+    ];
+    if (thumbnail.trim() !== "" || titulo.trim() !== "" || url.trim() !== "") {
+      datas.forEach((val) =>
+        val[0].length <= 4 ? val[1](errorMsg) : val[1](null)
+      );
+    } else {
+      setErroThumbVideo(null);
+      setErroUrlVideo(null);
+      setErroTituloSugestao(null);
+    }
 
-    axios
-      .post(`${process.env.REACT_APP_API}/questao/create/`, formData)
-      .then((val) => console.log(val.data));
-    // Verificação geral
+    console.log(selects.every((el) => el[0] > 0));
+
     if (
-      inputs.every((ipt) => ipt[0].length > 4) &&
-      selectUniversidade !== 0 &&
-      selectAssuntoMateria !== 0 &&
-      selectDificuldade !== 0 &&
-      selectAdministrador !== 0
+      inputs.every((el) => el[0].trim().length > 4) &&
+      selects.every((el) => el[0] > 0) &&
+      alternativa.alternativas.length === 5 &&
+      alternativa.correta !== null
     ) {
-      // axios
-      //   .post(`${process.env.REACT_APP_API}/questao/create/`, formData)
-      //   .then(function (parametro) {
-      //     if (parametro.data) {
-      //       clean(inputs, selects);
-      //       AlertSuccess({
-      //         text: "Questão inserida com sucesso",
-      //         title: "Sucesso...",
-      //       });
-      //       setTimeout(() => {
-      //         window.location.reload();
-      //       }, 4000);
-      //     }
-      //   })
-      //   .catch(function () {
-      //     AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
-      //   });
+      let formulario = document.getElementById("form");
+      let formData = new FormData(formulario);
+
+      if (
+        thumbnail.trim() !== "" ||
+        titulo.trim() !== "" ||
+        url.trim() !== ""
+      ) {
+        ToastWarning({ text: "Preencha todos os campos" });
+        return;
+      }
+      if (
+        thumbnail.trim() === "" ||
+        titulo.trim() === "" ||
+        url.trim() === ""
+      ) {
+        formData.delete("url");
+        formData.delete("tituloSugestao");
+        formData.delete("thumbnail");
+      }
+
+      formData.append("correta", alternativa.correta);
+      alternativa.alternativas.length > 0 &&
+        formData.append("alternativas", alternativa.alternativas);
+
+      axios
+        .post(`${process.env.REACT_APP_API}/questao/create/`, formData)
+        .then(function (parametro) {
+          console.log(parametro.data);
+          if (parametro.data.status_code === 200) {
+            AlertSuccess({
+              text: "Questão inserida com sucesso",
+              title: "Sucesso...",
+            });
+          } else {
+            AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
+          }
+        })
+        .catch(function () {
+          AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
+        });
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     } else ToastWarning({ text: "Preencha todos os campos" });
   };
 
@@ -158,6 +560,8 @@ export default function FormularioQuestao() {
           administrador: questoes.administrador.filter(
             (e) => e.idAdministrador === questao.idAdministrador
           )[0].nomeAdministrador,
+
+          questao: questoes,
         };
       })
     : [];
@@ -172,6 +576,7 @@ export default function FormularioQuestao() {
         <form
           method="post"
           id="form"
+          className="c-form"
           onSubmit={(e) => submitForm(e)}
           encType="multipart/form-data"
         >
@@ -189,6 +594,8 @@ export default function FormularioQuestao() {
             title="Texto: *"
             id="texto"
             name="texto"
+            rows={3}
+            multiline
             type="text"
             error={ErroTexto}
             ref={refTexto}
@@ -340,7 +747,9 @@ export default function FormularioQuestao() {
           linhas={linhas}
           tabela="questao"
           nome="Questão"
+          functionUpdate={update}
         />
+        <div id="backdrop"></div>
       </div>
     </Fragment>
   );

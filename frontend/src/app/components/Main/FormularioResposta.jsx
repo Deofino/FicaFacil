@@ -1,124 +1,25 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { UseQuestion } from "../Context/QuestaoContext";
 import { Input, Button, RadioGroup, Radio } from "../Form/";
-import { AlertSuccess, AlertError } from "../Alert/Modal";
-import { ToastError, ToastInformation } from "../Alert/Toast";
+import { ToastInformation } from "../Alert/Toast";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { FaListAlt, FaImages, FaFont } from "react-icons/fa";
 
 export default function FormularioResposta() {
   const {
-    alternativa: { alternativas, setAlternativas, correta, setCorreta },
+    alternativa: {
+      alternativas,
+      setAlternativas,
+      correta,
+      setCorreta,
+      erroAlterativa,
+      setErroAlternativa,
+    },
   } = UseQuestion();
 
   const [TypeInputAlternativa, setTypeInputAlternativa] = useState("text");
 
   const [inputAlternativa, setInputAlternativa] = useState("");
-  const [ErroResposta, setErroResposta] = useState(null);
-
-  const submitForm = (e) => {
-    e.preventDefault();
-
-    if (alternativas !== null) {
-      if (alternativas !== [] && alternativas.length === 5) {
-        if (correta !== null) {
-          let data = null;
-          if (TypeInputAlternativa === "text") {
-            data = JSON.stringify({
-              alternativas: alternativas,
-              certaResposta: correta,
-            });
-          } else {
-            let formData = new FormData(
-              document.querySelector("#formResposta")
-            );
-            formData.append("correta", correta);
-
-            data = formData;
-          }
-
-          setErroResposta(null);
-          setAlternativas([]);
-          setInputAlternativa("");
-          setCorreta(null);
-
-          axios
-            .post(`${process.env.REACT_APP_API}/resposta/create/`, data)
-            .then((value) => {
-              if (value.data.status_code === 200) {
-                console.log(value.data);
-                AlertSuccess({
-                  text: "Resposta inserida com sucesso",
-                  title: "Sucesso...",
-                });
-              } else {
-                console.error(value.data);
-                AlertError({
-                  text: "Ocorreu algum erro ao adicionar a resposta",
-                  title: "Ops...",
-                });
-              }
-            })
-            .catch((error) => {
-              AlertError({
-                text: "Parece que esta questao ja tem respostas...",
-                title: "Ops...",
-              });
-            });
-        } else {
-          setCorreta(null);
-          setErroResposta("Marque uma alternativa correta");
-        }
-      } else {
-        setErroResposta("Adicione 5 alternativas");
-        setCorreta(null);
-        /*    AlertError({ text: "Campo deve conter mais do que 4 caracteres", title: 'Atenção...' }); */
-      }
-    } else {
-      setCorreta(null);
-      setErroResposta("Adicione 5 alternativas");
-    }
-  };
-
-  /*  const colunas = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 90,
-    },
-    {
-      field: "resposta",
-      headerName: "Resposta",
-      width: 200,
-    },
-    {
-      field: "certa",
-      headerName: "Certa?",
-      width: 100,
-    },
-    {
-      field: "questao",
-      headerName: "Questao",
-      width: 200,
-    },
-  ]; 
-
-   const linhas =
-    Resposta !== undefined && Resposta.resposta !== undefined
-      ? Resposta.resposta.map((resposta) => {
-          return {
-            id: resposta.idResposta,
-            resposta: resposta.textoResposta,
-            certa: +resposta.certaResposta === 0 ? "Não" : "Sim",
-            questao:
-              Resposta.questao.questao !== undefined &&
-              Resposta.questao.questao.filter(
-                (e) => e.idQuestao === resposta.idQuestao
-              )[0].tituloQuestao,
-          };
-        })
-      : []; */
 
   return (
     <React.Fragment>
@@ -128,7 +29,6 @@ export default function FormularioResposta() {
           method="post"
           id="formResposta"
           className="c-formResposta"
-          onSubmit={submitForm}
           encType='encType="multipart/form-data"'
         >
           <div className="c-formResposta__inpL">
@@ -138,7 +38,7 @@ export default function FormularioResposta() {
               multiple={true}
               id="alternativas"
               name={"alternativas[]"}
-              error={ErroResposta}
+              error={erroAlterativa}
               iconEnd={
                 <Tooltip title="Mudar para imagem/texto" placement="left">
                   <IconButton
@@ -150,6 +50,7 @@ export default function FormularioResposta() {
                         text: "Selecione as 5 imagens de uma vez.",
                       });
                       setAlternativas([]);
+                      setCorreta(null);
                       setInputAlternativa("");
                     }}
                   >
@@ -165,6 +66,7 @@ export default function FormularioResposta() {
               icon={<FaListAlt />}
               onChange={({ target }) => {
                 setInputAlternativa(target.value);
+                TypeInputAlternativa !== "text" && setAlternativas([]);
               }}
             />
             <Button
@@ -182,16 +84,16 @@ export default function FormularioResposta() {
                       !alternativas.includes(inputAlternativa) &&
                       inputAlternativa.length >= 3
                     ) {
-                      setErroResposta(null);
+                      setErroAlternativa(null);
                       setAlternativas([...alternativas, inputAlternativa]);
                       setInputAlternativa("");
                     } else
-                      setErroResposta(
+                      setErroAlternativa(
                         "O campo deve ter no minimo 3 caracteres e não deve ser igual a alguma outra"
                       );
                   } else {
                     if (input.files.length === 5) {
-                      setErroResposta(null);
+                      setErroAlternativa(null);
                       let images = [];
                       for (let i = 0; i < input.files.length; i++) {
                         let image = {
@@ -203,13 +105,13 @@ export default function FormularioResposta() {
                       }
                       setAlternativas(images);
                     } else {
-                      setErroResposta(
+                      setErroAlternativa(
                         "Selecione somente as 5 alternativas, nem mais nem menos."
                       );
                     }
                   }
                 } else {
-                  setErroResposta(
+                  setErroAlternativa(
                     "Você tem que ter somente 5 alternativas, seja imagem ou texto"
                   );
                 }
@@ -233,8 +135,7 @@ export default function FormularioResposta() {
                   {document.querySelector("#alternativas").type === "text" ? (
                     <div
                       className={
-                        
-                        (i % 2) === 0
+                        i % 2 === 0
                           ? "c-alternativa--texto par"
                           : "c-alternativa--texto impar"
                       }

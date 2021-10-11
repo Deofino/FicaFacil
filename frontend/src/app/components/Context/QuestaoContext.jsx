@@ -5,6 +5,8 @@ export const initContext = {
     setAlternativas: null,
     correta: null,
     setCorreta: null,
+    erroAlterativa: null,
+    setErroAlternativa: null,
   },
   sugestao: {
     titulo: null,
@@ -13,16 +15,27 @@ export const initContext = {
     setUrl: null,
     thumbnail: null,
     setThumbnail: null,
+    erroTituloSugestao: null,
+    setErroTituloSugestao: null,
+    ErroThumbVideo: null,
+    setErroThumbVideo: null,
+    ErroUrlVideo: null,
+    setErroUrlVideo: null,
   },
 };
 const contextQuestion = createContext(initContext);
 export const QuestaoProvider = ({ children }) => {
   const [alternativas, setAlternativas] = useState([]);
   const [correta, setCorreta] = useState(null);
+  const [erroAlterativa, setErroAlternativa] = useState(null);
 
   const [url, setUrl] = useState("");
   const [titulo, setTitulo] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [erroTituloSugestao, setErroTituloSugestao] = useState(null);
+  const [ErroThumbVideo, setErroThumbVideo] = useState(null);
+  const [ErroUrlVideo, setErroUrlVideo] = useState(null);
+
   return (
     <contextQuestion.Provider
       value={{
@@ -31,6 +44,8 @@ export const QuestaoProvider = ({ children }) => {
           setAlternativas: setAlternativas,
           correta: correta,
           setCorreta: setCorreta,
+          erroAlterativa,
+          setErroAlternativa,
         },
         sugestao: {
           titulo: titulo,
@@ -39,6 +54,12 @@ export const QuestaoProvider = ({ children }) => {
           setUrl: setUrl,
           thumbnail: thumbnail,
           setThumbnail: setThumbnail,
+          erroTituloSugestao,
+          setErroTituloSugestao,
+          ErroThumbVideo,
+          setErroThumbVideo,
+          ErroUrlVideo,
+          setErroUrlVideo,
         },
       }}
     >

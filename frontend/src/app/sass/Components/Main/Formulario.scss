@@ -30,9 +30,12 @@
             }
             width: 100%;
             min-height: 60vh;
+            max-height: 95vh;
             max-width: $w-medium;
             border-radius: $global-radius;
             padding: rem(40);
+            overflow-y: auto;
+            overflow-x: hidden;
             box-shadow: 0 rem(4) rem(8) var(--color-shadow);
             @include breakpoint(small) {
                 margin: 0 $global-margin;
