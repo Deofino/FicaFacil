@@ -42,18 +42,17 @@
 As seguintes ferramentas foram usadas na construção do projeto:
 
 ### 👉 ***Front-end***
-- Front end****
-- React - lib front end
+-> React - lib front end
 -> React router dom - lib para criar rotas
--> React icons - lib de icons
+-> React icons - lib de icones
 -> Material ui - lib de design
 -> Yarn - gerenciador de pacotes
 -> Node - runtime javascript backend
 -> Sweet alert2 - lib alertas 
 -> Glidejs - lib carrousels
 -> Sass - pre processador css
--> Axios - requisicao front end
--> JavaScript - linguagem de programacao front-end
+-> Axios - requisição front end
+-> JavaScript - linguagem de programação
 
 ### 👉 ***Back-end***
 -> Php - linguagem de programacao back-end
@@ -107,9 +106,8 @@ $ cd frontend
 
 Agora, precisamos instalar as dependências e estaremos prontos para rodar:
 ```bash
-# Instale as dependências
+# Instale as dependências para o front-end
 $ yarn install
-$ node.js 
 # Você pode startar estando dentro da pasta frontend
 $ yarn start
 ```
@@ -165,6 +163,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       <img src="https://avatars.githubusercontent.com/u/56117370?v=4" width="160px" alt="Foto da Gabrielly"/><br>
       <sub>
         <a href="https://www.github.com/Gabriely-BMO">@Gabrielly Brito</a>
+      </sub>
+    </td>
+        <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/56116962?v=4" width="160px" alt="Foto da Camylly"/><br>
+      <sub>
+        <a href="https://www.github.com/Camylly">@Camylly</a>
       </sub>
     </td>
     <td align="center">
