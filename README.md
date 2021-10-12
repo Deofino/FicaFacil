@@ -170,13 +170,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       </sub>
     </td>
         <td align="center">
-      <img src="https://scontent.fcgh4-1.fna.fbcdn.net/v/t1.6435-9/167591268_1624745421069944_5419398053723335060_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeGes0CWIAJ28uyVe3gXOgBxOjxKFeA6byQ6PEoV4DpvJDlpXzlv_j9zAzyjjocQM-X05vPBS04JBRFx7iANx5MI&_nc_ohc=2cyCy9pmJAYAX-h7_hr&_nc_ht=scontent.fcgh4-1.fna&oh=bad1d0a2e7d6b9180550cb207688c081&oe=618C0069" width="160px" alt="Foto da Camylly"/><br>
+      <img src="https://scontent.fcgh4-1.fna.fbcdn.net/v/t1.6435-9/202304604_1691603657717453_397037168520517403_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeGdcjtssS4eWz0nNLsUcwib-eQqAsYE50355CoCxgTnTUS-hm5VeTSLMvnbojMTpwY8IICxVzNU4FL6wxwaxvTq&_nc_ohc=86B92sC9lbIAX-Z6w7b&_nc_ht=scontent.fcgh4-1.fna&oh=e749f8d74a60d6260f2411a1e2a4b3b5&oe=618B7919" width="160px" alt="Foto da Camylly"/><br>
       <sub>
         <a href="https://www.github.com/Camylly">@Camylly</a>
       </sub>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/56116962?v=4" width="160px" alt="Foto do Ruy"/><br>
+      <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/141584922_2841416389463503_5836222047454229139_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeGOuszxEGBN38M85pBtvS-M4RLrtYzpcPThEuu1jOlw9CLk3s6OPitkFbjc8H_jcqFsrBpsEd4EpzIxblE-mwI1&_nc_ohc=utt8iKi0Tg4AX8DtP84&_nc_ht=scontent.fcgh5-1.fna&oh=40a708fabf61da1a6cc8ae3b3a51454a&oe=61898EFF" width="160px" alt="Foto do Ruy"/><br>
       <sub>
         <a href="https://www.github.com/RuyMene">@Ruy Barbosa</a>
       </sub>
