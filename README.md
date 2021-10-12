@@ -1,3 +1,7 @@
+<div align="center">
+  <img width="400" src="https://github.com/Deofino/FicaFacil/blob/master/frontend/src/img/project/logo-colorida.png?raw=true" border="0">
+</div>
+
 <br>
 
 <div align="center">
