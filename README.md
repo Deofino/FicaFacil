@@ -2,25 +2,22 @@
 
 <div align="center">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen?color=f6f6f6">
-  <img alt="Quantidade de linguagens" src="https://img.shields.io/github/languages/count/Almeida154/refinances?color=EE4266">
-  <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/Almeida154/refinances?color=EE4266">
-  <a href="https://github.com/Almeida154/refinances/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Almeida154/refinances?color=EE4266">
+  <img alt="Quantidade de linguagens" src="https://img.shields.io/github/languages/count/Deofino/FicaFacil?color=EE4266">
+  <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/Deofino/FicaFacil?color=EE4266">
+  <a href="https://github.com/Deofino/FicaFacil/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Deofino/FicaFacil?color=EE4266">
   </a>
-  <a href="https://evoke.com">
-    <img alt="Feito pela EVOKE" src="https://img.shields.io/static/v1?label=made%20by&message=Evoke&color=EE4266">
+  <a href="https://aura.com">
+    <img alt="Feito pela AURA" src="https://img.shields.io/static/v1?label=made%20by&message=AURA&color=EE4266">
   </a>
   <img alt="Progresso" src="https://img.shields.io/static/v1?label=progress&message=23%&color=EE4266">
-  <a href="https://github.com/Almeida154/refinances/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/Almeida154/refinances?style=social">
+  <a href="https://github.com/Deofino/FicaFacil/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/Deofino/FicaFacil?style=social">
   </a>
   <br>
-  <img alt="Web" src="https://img.shields.io/static/v1?label=web&message=React&color=5C45F9">
-  <img alt="Mobile" src="https://img.shields.io/static/v1?label=mobile&message=React%20Native&color=5C45F9">
-  <img alt="Server" src="https://img.shields.io/static/v1?label=server&message=NodeJS&color=5C45F9">
 </div>
 
-<h3 align="center">💰 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</h3>
+<h3 align="center">📘 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</h3>
 
 <p align="center">
   <a href="#-por-quê">Por quê?</a> •
@@ -31,12 +28,6 @@
 </p>
 
 <br>
-
-<p align="center">
-  <img align="center" width="250" src="https://i.ibb.co/pwgvrqR/splash.png" alt="splash">  &nbsp;&nbsp;&nbsp;
-  <img align="center" width="250" src="https://i.ibb.co/j8LsBqV/register.png" alt="register">  &nbsp;&nbsp;&nbsp;
-  <img align="center" width="250" src="https://i.ibb.co/9sdyNv6/home.png" alt="home">  &nbsp;&nbsp;&nbsp;
-</p>
 
 <br><br>
 
@@ -50,65 +41,77 @@
 <h2>🛠 Tecnologias</h2>
 As seguintes ferramentas foram usadas na construção do projeto:
 
-### 👉 ***Server***
-- NodeJS
-- mySql
-- Lorem
+### 👉 ***Front-end***
+- Front end****
+- React - lib front end
+-> React router dom - lib para criar rotas
+-> React icons - lib de icons
+-> Material ui - lib de design
+-> Yarn - gerenciador de pacotes
+-> Node - runtime javascript backend
+-> Sweet alert2 - lib alertas 
+-> Glidejs - lib carrousels
+-> Sass - pre processador css
+-> Axios - requisicao front end
+-> JavaScript - linguagem de programacao front-end
 
-### 👉 ***Mobile***
-- React-Native
-- React-Navigation
-- Axios
-- Lorem
+### 👉 ***Back-end***
+-> Php - linguagem de programacao back-end
+-> Pdo - lib interna php para conexao com banco de dados
+-> Composer - gerenciador de pacotes e autoload com psr-4
+-> Mysql - banco de dados relacional
+-> Apache - servidor php
 
 ### 👉 ***Desenvolvimento Geral***
 - Editor:
-  - Visual Studio Code
+  -> Visual Studio Code
+  -> Github - repositorio de versionamento
+  -> Git - ferramenta de versionamento
 - Prototipagem:
-  - Adobe XD
-  - Figma
+  -> Adobe XD
 - Reuniões:
-  - Discord
+  -> Discord
+  -> Microsoft Teams
+  -> Trello - ferramenta para agilizar metodologia agil scrum
 - Diagramas:
-  - Microsoft Visio
-  - Astah
+  -> Br modelo
+  -> Astah
+  -> MS Office - ferramentas de documentação
 - Apresentações:
-  - Microsoft PowerPoint
-  - Youtube
+  -> Microsoft PowerPoint
+  -> Youtube
 - Edição:
-  - Adobe Premiere
-  - Adobe Photoshop
-  - Adobe Illustrator
+  -> Adobe Photoshop
 
 <br>
 
 <h2>🚀 Como usar</h2>
 
 Antes de tudo, você precisa ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/). Além disso, é bom ter um editor para trabalhar com o código, como [VSCode](https://code.visualstudio.com/). É preciso, também, do ts-node [TS-Node](https://www.npmjs.com/package/ts-node) e [Nodemon](https://www.npmjs.com/package/nodemon).
+[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), [Composer](https://getcomposer.org/). Além disso, é bom ter um editor para trabalhar com o código, como [VSCode](https://code.visualstudio.com/).
 
 Como já visto acima, esse projeto é divido em duas partes:
 - 🎲 Server (Backend)
-- 📱 Mobile
+- 🖥 Web (Front-end)
 
 Para começar:
 ```bash
 # Clone o repositório
-$ git clone https://github.com/Almeida154/refinances.git
+$ git clone https://github.com/Deofino/FicaFacil.git
 ```
 
 Entre na pasta:
 ```bash
-$ cd mobile
+$ cd frontend
 ```
 
 Agora, precisamos instalar as dependências e estaremos prontos para rodar:
 ```bash
 # Instale as dependências
-$ npm install
-# Você pode startar com
-$ npm start
-$ react-native run-android
+$ yarn install
+$ node.js 
+# Você pode startar estando dentro da pasta frontend
+$ yarn start
 ```
 
 Precisamos instalar na pasta backend também:
@@ -116,9 +119,7 @@ Precisamos instalar na pasta backend também:
 # Instale as dependências
 $ cd ..
 $ cd backend
-$ npm install
-# Você pode startar com
-$ npx nodemon --exec ts-node --files src/server.ts
+$ composer install
 ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
@@ -132,27 +133,27 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <table border="0" align="center">
   <tr>
     <td align="center">
-      <img src="https://i.ibb.co/xgBf2Fy/DavidPPT.png" width="160px" alt="Foto do David Almeida"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56116887?v=4" width="160px" alt="Foto do Delfino"/><br>
       <sub>
-        <a href="https://www.github.com/Almeida154">@David Almeida</a>
+        <a href="https://www.github.com/Deofino">@Guilherme Delfino</a>
       </sub>
     </td>
     <td align="center">
-      <img src="https://i.ibb.co/H47KHFY/Wallace-PPT.png" width="160px" alt="Foto do Wallace"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56116607?v=4" width="160px" alt="Foto do Kauê"/><br>
       <sub>
-        <a href="https://www.github.com/wallaceMMO">@Wallace Moura</a>
+        <a href="https://www.github.com/kauezin007">@Kauê Loviz</a>
       </sub>
     </td>
     <td align="center">
-      <img src="https://i.ibb.co/SJNmhTH/Samuel-PPT.png" width="160px" alt="Foto do Samuel"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56117556?v=4" width="160px" alt="Foto da Vitória"/><br>
       <sub>
-        <a href="https://www.github.com/SamG1002">@Samuel Guerra</a>
+        <a href="https://www.github.com/vitoriaGoncalves08">@Vitoria Gonçalves</a>
       </sub>
     </td>
     <td align="center">
-      <img src="https://i.ibb.co/b50x6Ss/Phillip-PPT.png" width="160px" alt="Foto do Phillip"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56117238?v=4" width="160px" alt="Foto do Paulo"/><br>
       <sub>
-        <a href="https://www.github.com/Almeida154">@Phillip Anselmo</a>
+        <a href="https://www.github.com/PauloWarren">@Paulo Moreira</a>
       </sub>
     </td>
   </tr>
@@ -161,21 +162,21 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <table align="center">
   <tr>    
     <td align="center">
-      <img src="https://i.ibb.co/2gS15DD/IsaPPT.png" width="160px" alt="Foto da Isabela"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56117370?v=4" width="160px" alt="Foto da Gabrielly"/><br>
       <sub>
-        <a href="https://www.github.com/IsabelaSaori">@Isabela Saori</a>
+        <a href="https://www.github.com/Gabriely-BMO">@Gabrielly Brito</a>
       </sub>
     </td>
     <td align="center">
-      <img src="https://i.ibb.co/pW86FxZ/ItaloPPT.png" width="160px" alt="Foto do Italo"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56116962?v=4" width="160px" alt="Foto do Ruy"/><br>
       <sub>
-        <a href="https://www.github.com/ItaloCabral">@Italo Cabral</a>
+        <a href="https://www.github.com/RuyMene">@Ruy Barbosa</a>
       </sub>
     </td>
     <td align="center">
-      <img src="https://i.ibb.co/bFXJHmK/Mariana-PPT.png" width="160px" alt="Foto da Mariana"/><br>
+      <img src="https://avatars.githubusercontent.com/u/92266712?v=4" width="160px" alt="Foto do Fernando"/><br>
       <sub>
-        <a href="https://github.com/mariana-santos">@Mariana Santos</a>
+        <a href="https://github.com/LItilo">@Fernando</a>
       </sub>
     </td>
   </tr>
@@ -184,7 +185,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <br>
 
 <h2>🧾 Licença</h2>
-Esse repositório está licenciado pela ***MIT LICENSE***. Para informações detalhadas, leia o arquivo <a href="https://github.com/Almeida154/refinances/blob/main/LICENSE">LICENSE</a> contido nesse repositório.
+Esse repositório está licenciado pela ***MIT LICENSE***. Para informações detalhadas, leia o arquivo <a href="https://github.com/Deofino/FicaFacil/blob/main/LICENSE">LICENSE</a> contido nesse repositório.
 
 <br><br>
 
