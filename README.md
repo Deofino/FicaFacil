@@ -153,7 +153,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       </sub>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/56117238?v=4" width="160px" alt="Foto do Paulo"/><br>
+      <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/170773506_1428336254168780_2505519453599439054_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEx_ysTBH1RnKkrfjEjU_DOdx35aQSUezx3HflpBJR7PMqIh12OOUgVofWmY52XBzK2hXm70mb2P6nPBhwNbvBg&_nc_ohc=1BGUYgHbQUYAX-KyQP0&_nc_ht=scontent.fcgh5-1.fna&oh=f14559800603e2620d4a5fbf9876f8e7&oe=618B78B7" width="160px" alt="Foto do Paulo"/><br>
       <sub>
         <a href="https://www.github.com/PauloWarren">@Paulo Moreira</a>
       </sub>
@@ -164,13 +164,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <table align="center">
   <tr>    
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/56117370?v=4" width="160px" alt="Foto da Gabrielly"/><br>
+      <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/132781006_963077914220239_8002631034904586864_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeFDWhJAy9KlpQF-zFkh60G3CjkgV67CYLAKOSBXrsJgsKLtTlt2A8DQ71baH25xdogtvdEK54z9PwEcR0BgVtIC&_nc_ohc=DUNNc-znFHMAX8nkENs&_nc_ht=scontent.fcgh5-1.fna&oh=2d5bfcc8a9efb437a3735e0c2e0613b1&oe=6188A9D9" width="160px" alt="Foto da Gabrielly"/><br>
       <sub>
         <a href="https://www.github.com/Gabriely-BMO">@Gabrielly Brito</a>
       </sub>
     </td>
         <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/56116962?v=4" width="160px" alt="Foto da Camylly"/><br>
+      <img src="https://scontent.fcgh4-1.fna.fbcdn.net/v/t1.6435-9/167591268_1624745421069944_5419398053723335060_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeGes0CWIAJ28uyVe3gXOgBxOjxKFeA6byQ6PEoV4DpvJDlpXzlv_j9zAzyjjocQM-X05vPBS04JBRFx7iANx5MI&_nc_ohc=2cyCy9pmJAYAX-h7_hr&_nc_ht=scontent.fcgh4-1.fna&oh=bad1d0a2e7d6b9180550cb207688c081&oe=618C0069" width="160px" alt="Foto da Camylly"/><br>
       <sub>
         <a href="https://www.github.com/Camylly">@Camylly</a>
       </sub>
