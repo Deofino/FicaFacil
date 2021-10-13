@@ -46,40 +46,40 @@
 As seguintes ferramentas foram usadas na construção do projeto:
 
 ### ***Front-end***
-- React - lib front end
-- React router dom - lib para criar rotas
-- React icons - lib de icones
-- Material ui - lib de design
-- Yarn - gerenciador de pacotes
-- Node - runtime javascript backend
-- Sweet alert2 - lib alertas 
-- Glidejs - lib carrousels
-- Sass - pre processador css
-- Axios - requisição front end
-- JavaScript - linguagem de programação
+- React -> lib front end
+- React router dom -> lib para criar rotas
+- React icons -> lib de icones
+- Material ui -> lib de design
+- Yarn -> gerenciador de pacotes
+- Node -> runtime javascript backend
+- Sweet alert2 -> lib alertas 
+- Glidejs -> lib carrousels
+- Sass -> pre processador css
+- Axios -> requisição front end
+- JavaScript -> linguagem de programação
 
 ### ***Back-end***
-- Php - linguagem de programacao back-end
-- Pdo - lib interna php para conexao com banco de dados
-- Composer - gerenciador de pacotes e autoload com psr-4
-- Mysql - banco de dados relacional
-- Apache - servidor php
+- Php -> linguagem de programacao back-end
+- Pdo -> lib interna php para conexao com banco de dados
+- Composer -> gerenciador de pacotes e autoload com psr-4
+- Mysql -> banco de dados relacional
+- Apache -> servidor php
 
 ### ***Desenvolvimento Geral***
 - Editor:
-  - Visual Studio Code
-  - Github - repositorio de versionamento
-  - Git - ferramenta de versionamento
+  - Visual Studio Code -> ferramenta edição código
+  - Github -> repositorio de versionamento
+  - Git -> ferramenta de versionamento
 - Prototipagem:
   - Adobe XD
 - Reuniões:
   - Discord
   - Microsoft Teams
-  - Trello - ferramenta para agilizar metodologia agil scrum
+  - Trello -> ferramenta para agilizar metodologia agil scrum
 - Diagramas:
   - Br modelo
   - Astah
-  - MS Office - ferramentas de documentação
+  - MS Office -> ferramentas de documentação
 - Apresentações:
   - Microsoft PowerPoint
   - Youtube
