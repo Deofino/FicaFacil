@@ -66,7 +66,6 @@ class QuestaoModel
 
     public function setImagem(string $imagemQuestao): void
     {
-        $imagens = json_decode($imagemQuestao);
         $this->imagem = $imagemQuestao;
         return;
     }
@@ -195,7 +194,7 @@ class QuestaoModel
                         "administrador" => json_decode($administrador)->data
                     ], 404);
                 }
-                if ($stmt->rowCount() === 1) {
+                if ($stmt->rowCount() === 1 && $params != null) {
                     $questao = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     $universidade = (new UniversidadeModel)->get(['id' => $questao[0]['idUniversidade']]);
                     $dificuldade = (new DificuldadeModel)->get(['id' => $questao[0]['idDificuldade']]);
@@ -209,7 +208,7 @@ class QuestaoModel
                         "administrador" => json_decode($administrador)->data
                     ]);
                 }
-                if ($stmt->rowCount() > 1) {
+                if ($stmt->rowCount() > 0) {
                     return Response::success([
                         "questao" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
                         "universidade" => json_decode($universidade)->data,
@@ -248,7 +247,7 @@ class QuestaoModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("UPDATE tb_questao SET tituloQuestao = ? , textoQuestao = ? , idUniversidade = ? , idDificuldade = ? , idAssuntoMateria = ? , idAdministrador = ? WHERE idQuestao = ?");
+            $stmt = $con->prepare("UPDATE tb_questao SET tituloQuestao = ? , textoQuestao = ? , idUniversidade = ? , idDificuldade = ? , idAssuntoMateria = ? , idAdministrador = ?, imagensQuestao = ? WHERE idQuestao = ?");
             $stmt->bindValue(
                 1,
                 trim($this->getTitulo()),
@@ -259,7 +258,8 @@ class QuestaoModel
             $stmt->bindValue(4, $this->getIdDificuldade(), PDO::PARAM_STR);
             $stmt->bindValue(5, $this->getIdAssuntoMateria(), PDO::PARAM_STR);
             $stmt->bindValue(6, $this->getIdAdministrador(), PDO::PARAM_STR);
-            $stmt->bindValue(7, $id, PDO::PARAM_INT);
+            $stmt->bindValue(7, $this->getImagem(), PDO::PARAM_STR);
+            $stmt->bindValue(8, $id, PDO::PARAM_INT);
             if ($stmt->execute()) {
                 return Response::success("Questão `{$this->getTitulo()}` atualizada com sucesso");
             }

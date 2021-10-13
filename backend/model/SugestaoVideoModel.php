@@ -39,63 +39,32 @@ class SugestaoVideoModel
     public function setTitulo(string $tituloSugestao): void
     {
         if (isset($tituloSugestao) && trim($tituloSugestao) !== '' && strlen(trim($tituloSugestao)) !== 0 && trim($tituloSugestao) !== null) {
-            $data = json_decode($this->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data->sugestaoVideo as $el) {
-                    if (trim(strtoupper($el->tituloSujestaoVideo)) === trim(strtoupper(($tituloSugestao)))) {
-                        throw new \Exception("sugestão de vídeo `" . $tituloSugestao . "` já cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->titulo = ucfirst($tituloSugestao);
-            } else {
-                $this->titulo = ucfirst($tituloSugestao);
-            };
-            return;
-        }
-        throw new \Exception("Essa sugestão de vídeo não pode ser aceita", 400);
+            $this->titulo = ucfirst($tituloSugestao);
+        } else {
+            throw new \Exception("Essa Thumbnail Video de vídeo não pode ser aceita", 400);
+        };
         return;
     }
 
     public function setThumbnailVideo(string $thumbnailVideo): void
     {
         if (isset($thumbnailVideo) && trim($thumbnailVideo) !== '' && strlen(trim($thumbnailVideo)) !== 0 && trim($thumbnailVideo) !== null) {
-            $data = json_decode($this->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data->sugestaoVideo as $el) {
-                    if (trim(strtoupper($el->thumbnailSujestaoVideo)) === trim(strtoupper(($thumbnailVideo)))) {
-                        throw new \Exception("Thumbnail Vídeo `" . $thumbnailVideo . "` já cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->thumbnailVideo = ucfirst($thumbnailVideo);
-            } else {
-                $this->thumbnailVideo = ucfirst($thumbnailVideo);
-            };
-            return;
-        }
-        throw new \Exception("Essa Thumbnail Video de vídeo não pode ser aceita", 400);
+
+            $this->thumbnailVideo = ucfirst($thumbnailVideo);
+        } else {
+            throw new \Exception("Essa Thumbnail Video de vídeo não pode ser aceita", 400);
+        };
         return;
     }
 
     public function setUrlVideo(string $urlVideo): void
     {
         if (isset($urlVideo) && trim($urlVideo) !== '' && strlen(trim($urlVideo)) !== 0 && trim($urlVideo) !== null) {
-            $data = json_decode($this->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data->sugestaoVideo as $el) {
-                    if (trim(strtoupper($el->urlSujestaoVideo)) === trim(strtoupper(($urlVideo)))) {
-                        throw new \Exception("URL do vídeo`" . $urlVideo . "` ja cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->urlVideo = ucfirst($urlVideo);
-            } else {
-                $this->urlVideo = ucfirst($urlVideo);
-            };
-            return;
-        }
-        throw new \Exception("Essa URL do vídeo não pode ser aceita", 400);
+
+            $this->urlVideo = ucfirst($urlVideo);
+        } else {
+            throw new \Exception("Essa Thumbnail Video de vídeo não pode ser aceita", 400);
+        };
         return;
     }
     public function setQuestao(int $questao): void
@@ -129,7 +98,7 @@ class SugestaoVideoModel
             if ($params === null) {
                 $stmt = $con->prepare("SELECT * FROM tb_sugestao_video");
             } else {
-                $stmt = $con->prepare("SELECT * FROM tb_sugestao_video WHERE idSugestaoVideo = ?");
+                $stmt = $con->prepare("SELECT * FROM tb_sugestao_video WHERE idQuestao = ?");
                 $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
 
@@ -139,7 +108,7 @@ class SugestaoVideoModel
                     return Response::warning([
                         "Nenhuma sugestao de video encontrada...",
                         "questao" => json_decode($questao)->data
-                ], 404);
+                    ], 404);
                 }
                 if (isset($params['id'])) {
                     $sugestaoVideo = $stmt->fetchAll(\PDO::FETCH_ASSOC);

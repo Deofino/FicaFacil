@@ -9,7 +9,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../Alert/Modal";
-import { ToastWarning } from "../Alert/Toast";
+import { ToastInformation, ToastWarning } from "../Alert/Toast";
 import { Button, Input, MenuItem, Select, Table, Radio } from "../Form";
 import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
 import FormularioResposta from "./FormularioResposta";
@@ -23,8 +23,7 @@ const Backdrop = (props) => {
   const [tituloSugestao, settituloSugestao] = useState("");
   const [thumbSugestao, setthumbSugestao] = useState("");
   const [urlSugestao, seturlSugestao] = useState("");
-  var regexURL =
-    /(Http|Https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-/]))?/;
+  var regexURL = /(http|Https|Http|Https|blob:http|blob:https):\/\/?/;
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API + `/resposta/index/${props.data[0]}/`)
@@ -32,7 +31,7 @@ const Backdrop = (props) => {
         setalternativas(value.data.data.resposta);
         setcorreta(
           value.data.data.resposta.find((e) => +e.certaResposta === 1)
-            .idResposta
+            .textoResposta
         );
       });
 
@@ -44,9 +43,7 @@ const Backdrop = (props) => {
           settituloSugestao(sugestao.tituloSujestaoVideo);
           setthumbSugestao(sugestao.thumbnailSujestaoVideo);
           seturlSugestao(sugestao.urlSujestaoVideo);
-          console.log(sugestao);
         }
-        // console.log(value.data);
       });
   }, [props.data]);
 
@@ -83,8 +80,46 @@ const Backdrop = (props) => {
   const refImageUpdate = useRef(null);
 
   const updateEvent = (e) => {
-    // na hora que clica no botao de atualizar
     e.preventDefault();
+    let form = document.querySelector("#formUpdate");
+    let formData = new FormData(form);
+
+    if (!regexURL.test(alternativas[0].textoResposta)) {
+      // e texto
+      let prev_alternativas = [];
+      let alternativa_inputs = document.querySelectorAll(".alternativa-input");
+      alternativa_inputs.forEach((el) => {
+        if (
+          el.value.trim() === "" ||
+          el.value.trim() === null ||
+          el.value.trim().length === 0
+        ) {
+          prev_alternativas.push({
+            item: el.placeholder,
+            value: el.placeholder,
+            id: el.id,
+          });
+        } else
+          prev_alternativas.push({
+            item: el.placeholder,
+            value: el.value,
+            id: el.id,
+          });
+      });
+      formData.append("alternativas", JSON.stringify(prev_alternativas));
+    } else {
+      let ids = [];
+      document.querySelectorAll(".alternativa--image img").forEach((el) => {
+        ids.push(el.id);
+      });
+      formData.append("alternativas-id", JSON.stringify(ids));
+    }
+    formData.append("correta", correta);
+    formData.append("id", props.data[0] || 0);
+
+    axios
+      .post(process.env.REACT_APP_API + "/questao/update/", formData)
+      .then((el) => console.log(el.data));
   };
   const close = () => {
     let backdrop = document.querySelector("#backdrop");
@@ -177,7 +212,6 @@ const Backdrop = (props) => {
               for (let i = 0; i < e.target.files.length; i++) {
                 arr.push(e.target.files[i]);
               }
-              console.log(arr);
               setImgsSelect(arr);
             }}
             icon={<FaImages />}
@@ -265,7 +299,28 @@ const Backdrop = (props) => {
                 type="file"
                 className="input-file"
                 multiple
+                name="alternativas[]"
                 accept="image/*"
+                onChange={({ target }) => {
+                  let images = target.files;
+                  if (images.length === 5) {
+                    let alternativas_por_imagem = [];
+                    for (let i = 0; i < images.length; i++) {
+                      const el = images[i];
+                      let url = URL.createObjectURL(el);
+                      let imagem = {
+                        ...alternativas[i],
+                        textoResposta: `${url}`,
+                        nome: el.name,
+                      };
+                      alternativas_por_imagem.push(imagem);
+                      setcorreta(null);
+                    }
+                    // console.log(alternativas_por_imagem);
+                    setalternativas(alternativas_por_imagem);
+                  } else
+                    ToastWarning({ text: "Selecione 5 imagens em seguida." });
+                }}
               />
               <div className="alternativas--image">
                 <RadioGroup
@@ -276,8 +331,12 @@ const Backdrop = (props) => {
                 >
                   {alternativas.map((el, i) => (
                     <div className="alternativa--image" key={i}>
-                      <img src={el.textoResposta} alt={`Alternativa ${i}`} />
-                      <Radio value={el.idResposta} label={``} />
+                      <img
+                        src={el.textoResposta}
+                        alt={`Alternativa ${i}`}
+                        id={el.idResposta}
+                      />
+                      <Radio value={el.nome || el.textoResposta} />
                     </div>
                   ))}
                 </RadioGroup>
@@ -295,9 +354,10 @@ const Backdrop = (props) => {
                   <div className="alternativa--texto" key={i}>
                     <input
                       placeholder={el.textoResposta}
-                      onChange={(e) => console.log(e.target.value)}
+                      className="alternativa-input"
+                      id={el.idResposta}
                     />
-                    <Radio value={el.idResposta} label={``} />
+                    <Radio value={el.textoResposta} />
                   </div>
                 ))}
               </RadioGroup>
@@ -385,6 +445,7 @@ export default function FormularioQuestao() {
 
     let div = document.querySelector("#backdrop");
     div.classList.toggle("open");
+    ToastInformation({ text: "Deixe o campo vazio para não atualiza-lo" });
 
     ReactDOM.render(<Backdrop data={data} titles={titles} />, div);
   };
@@ -415,12 +476,11 @@ export default function FormularioQuestao() {
     //alternativas
     if (alternativa.alternativas.length !== 5) {
       alternativa.setErroAlternativa("Você precisa das 5 alternativas.");
-      // return;
-    } else {
-      if (alternativa.correta === null) {
-        alternativa.setErroAlternativa("Selecione umas das alternativas.");
-        // return;
-      }
+      return;
+    }
+    if (alternativa.correta === null) {
+      alternativa.setErroAlternativa("Selecione umas das alternativas.");
+      return;
     }
     alternativa.setErroAlternativa(null);
 
@@ -448,8 +508,6 @@ export default function FormularioQuestao() {
       setErroTituloSugestao(null);
     }
 
-    console.log(selects.every((el) => el[0] > 0));
-
     if (
       inputs.every((el) => el[0].trim().length > 4) &&
       selects.every((el) => el[0] > 0) &&
@@ -460,14 +518,6 @@ export default function FormularioQuestao() {
       let formData = new FormData(formulario);
 
       if (
-        thumbnail.trim() !== "" ||
-        titulo.trim() !== "" ||
-        url.trim() !== ""
-      ) {
-        ToastWarning({ text: "Preencha todos os campos" });
-        return;
-      }
-      if (
         thumbnail.trim() === "" ||
         titulo.trim() === "" ||
         url.trim() === ""
@@ -475,7 +525,18 @@ export default function FormularioQuestao() {
         formData.delete("url");
         formData.delete("tituloSugestao");
         formData.delete("thumbnail");
+      } else {
+        datas.forEach((el) => {
+          if (el[0].trim() === "") {
+            ToastWarning({ text: "Preencha todos os campos, Thumbnail" });
+            return;
+          }
+        });
       }
+
+      datas.forEach((el) => {
+        el[1](null);
+      });
 
       formData.append("correta", alternativa.correta);
       alternativa.alternativas.length > 0 &&
@@ -484,7 +545,6 @@ export default function FormularioQuestao() {
       axios
         .post(`${process.env.REACT_APP_API}/questao/create/`, formData)
         .then(function (parametro) {
-          console.log(parametro.data);
           if (parametro.data.status_code === 200) {
             AlertSuccess({
               text: "Questão inserida com sucesso",
@@ -492,6 +552,7 @@ export default function FormularioQuestao() {
             });
           } else {
             AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
+            console.log(parametro.data);
           }
         })
         .catch(function () {

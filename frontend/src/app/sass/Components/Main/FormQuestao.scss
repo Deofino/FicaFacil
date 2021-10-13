@@ -26,7 +26,7 @@
   }
   .alternativa--image {
     display: block !important;
-    max-width: rem(200);
+    max-width: rem(180);
     box-shadow: 0 rem(4) rem(4) var(--color-shadow);
     border-radius: rem(8);
     margin: rem(4);
@@ -35,7 +35,7 @@
       opacity: 1;
     }
     @include breakpoint(small) {
-      max-width: rem(250);
+      max-width: rem(220);
     }
     img {
       width: 100%;
@@ -45,7 +45,7 @@
     }
     @include breakpoint(small) {
       img {
-        height: rem(180);
+        height: rem(160);
       }
     }
   }

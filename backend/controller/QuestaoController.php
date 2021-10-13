@@ -73,8 +73,6 @@ class QuestaoController
                             $model->post();
                             move_uploaded_file($variavel, $path . $name);
                         }
-                        echo Response::success("Respostas cadastradas com sucesso");
-                        return;
                     } else {
                         echo Response::warning('Essa questao ja contem respostas', 400);
                         return;
@@ -101,12 +99,9 @@ class QuestaoController
                             return;
                         };
                     }
-                    echo Response::success("Respostas cadastradas com sucesso");
-                    return;
                 } else {
                     $model->delete($idInserted);
                     echo Response::warning('Alternativas nao encontradas, impossivel cadastrar questao', 404);
-                    return;
                 }
 
                 // Sugestao
@@ -118,6 +113,8 @@ class QuestaoController
                     $sugestao->setQuestao($idInserted);
                     $sugestao->post();
                 }
+
+                echo Response::success("Questao inserida com sucesso");
             } else echo Response::warning('Parametros não encontrado ou vazio/nulo', 404);
             return;
         }
@@ -126,26 +123,124 @@ class QuestaoController
     public function update() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
-            $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
-            if (isset($req->tituloQuestao) && isset($req->textoQuestao) && isset($req->universidade)  && isset($req->dificuldade) && isset($req->assuntoMateria) && isset($req->administrador) && isset($req->id)) { // verifica se o id e a materia existem
-                if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
+            if (trim($_POST['titulo']) !== '' && trim($_POST['texto']) !== '' && trim($_POST['universidade']) !== ''  && trim($_POST['dificuldade']) !== '' && trim($_POST['assuntoMateria']) !== '' && trim($_POST['administrador']) !== '' && trim($_POST['id']) !== '') { // verifica se o id e a materia existem
+                if ($_POST['id'] > 0 && $_POST['id'] !== null && $_POST['id'] > 0) { // verifica se o id pode existir
                     $model = new QuestaoModel();
                     $data = json_decode($model->get()); // requisicao para verificar se bate com alguma materia existente
                     if ($data->status_code === 200) { // se houver erro na requisicao na materia 
                         foreach ($data->data->questao as $el) { // foreach pra verificar cada elemento
-                            if ($el->idQuestao == $req->id) { // se for igual pode atualizar
-                                $model->setTitulo(trim($req->tituloQuestao)); // insere aqui pra passar pelas verificacoes de dados
-                                $model->setTexto(trim($req->textoQuestao));
-                                var_dump($req);
-                                $model->setIdUniversidade($req->universidade);
-                                $model->setIdDificuldade($req->dificuldade);
-                                $model->setIdAssuntoMateria($req->assuntoMateria);
-                                $model->setIdAdmistrador($req->administrador);
-                                echo $model->put($req->id);
+                            if ($el->idQuestao == $_POST['id']) { // se for igual pode atualizar
+                                // valores padrao
+                                $model->setTitulo(trim($_POST['titulo'])); // insere aqui pra passar pelas verificacoes de dados
+                                $model->setTexto(trim($_POST['texto']));
+                                $model->setIdUniversidade($_POST['universidade']);
+                                $model->setIdDificuldade($_POST['dificuldade']);
+                                $model->setIdAssuntoMateria($_POST['assuntoMateria']);
+                                $model->setIdAdmistrador($_POST['administrador']);
+
+                                // imagem da questao
+                                $namesImages = json_decode($el->imagensQuestao);
+
+                                if ($_FILES['imagesUpdate']['name'][0] !== '') { // tem imagens novas
+                                    if (count(json_decode($el->imagensQuestao)) > 0) { // se ja existe alguma imagem cadastrada na questao
+                                        foreach (json_decode($el->imagensQuestao) as $photo) {
+                                            $photo = explode(
+                                                'backend/',
+                                                $photo
+                                            );
+                                            $photo = './' . $photo[1];
+                                            unlink($photo);
+                                            array_pop($namesImages);
+                                        }
+                                    }
+                                    for (
+                                        $i = 0;
+                                        $i < count($_FILES['imagesUpdate']['name']);
+                                        $i++
+                                    ) {
+                                        $ext = pathinfo($_FILES['imagesUpdate']['name'][$i], PATHINFO_EXTENSION);
+                                        $name = md5(time() . $_FILES['imagesUpdate']['name'][$i]) . '.' . $ext;
+                                        $variavel = ($_FILES['imagesUpdate']['tmp_name'][$i]);
+                                        $url = 'http://' . $_SERVER['HTTP_HOST'] . explode('index.php', $_SERVER['PHP_SELF'])[0] . 'images/' . $name;
+                                        $path = './images/';
+                                        file_exists($path) or mkdir($path);
+                                        move_uploaded_file($variavel, $path . $name);
+                                        array_push($namesImages, $url);
+                                    }
+                                }
+                                $namesImages = json_encode($namesImages);
+                                $model->setImagem($namesImages);
+
+
+                                // dd($_POST);
+                                //sugestao
+                                if (
+                                    trim($_POST['tituloSugestao']) !== '' && trim($_POST['thumb']) !== '' && trim($_POST['url']) !== ''
+                                ) {
+                                    $sugestao = new SugestaoVideoModel();
+                                    $sugestao->setTitulo(trim($_POST['tituloSugestao']));
+                                    $sugestao->setThumbnailVideo(trim($_POST['thumb']));
+                                    $sugestao->setUrlVideo(trim($_POST['url']));
+                                    $sugestao->setQuestao($_POST['id']);
+                                    $idSugestao = json_decode($sugestao->get(['id' => $_POST['id']]))->data;
+                                    if (isset($idSugestao->sugestaoVideo)) {
+                                        $idSugestao = (int)$idSugestao->sugestaoVideo[0]->idSugestaoVideo;
+                                        $sugestao->put($idSugestao);
+                                    } else {
+                                        $sugestao->post();
+                                    }
+                                }
+
+                                // alternativas
+                                if (isset($_FILES['alternativas'])) {
+                                    // alternativas com imagem
+                                    if ($_FILES['alternativas']['name'][0] !== '') {
+                                        $path = './images/respostas/';
+                                        file_exists($path) or mkdir($path);
+                                        $datas_to_delete = json_decode((new RespostaModel())->get(['id' => $_POST['id']]))->data->resposta;
+                                        for ($i = 0; $i < count($_FILES['alternativas']['name']); $i++) {
+                                            $respostaModel = new RespostaModel();
+
+                                            $photo_to_delete = explode('backend/', $datas_to_delete[$i]->textoResposta);
+                                            $photo_to_delete = './' . $photo_to_delete[1];
+                                            unlink($photo_to_delete);
+
+                                            $ext = pathinfo($_FILES['alternativas']['name'][$i], PATHINFO_EXTENSION);
+                                            $name = md5(time() . $_FILES['alternativas']['name'][$i]) . '.' . $ext;
+                                            $variavel = ($_FILES['alternativas']['tmp_name'][$i]);
+                                            $url = 'http://' . $_SERVER['HTTP_HOST'] . explode('index.php', $_SERVER['PHP_SELF'])[0] . 'images/respostas/' . $name;
+                                            $respostaModel->setCertaResposta(0);
+                                            if (strtoupper(trim($_FILES['alternativas']['name'][$i])) === strtoupper(trim($_POST['correta']))) {
+                                                $respostaModel->setCertaResposta(1);
+                                            }
+                                            $respostaModel->setTextoResposta(trim($url));
+                                            $respostaModel->setIdQuestao($_POST['id']);
+                                            $respostaModel->put((int) json_decode($_POST['alternativas-id'])[$i]);
+                                            move_uploaded_file($variavel, $path . $name);
+                                        }
+                                    } else {
+                                        // caso so queria mudar a alternativa
+                                        echo (new RespostaModel())->changeCorrect($_POST['id'], $_POST['correta']);
+                                    }
+                                } else {
+                                    //alternativas com texto
+                                    $alternativas =  json_decode($_POST['alternativas']);
+                                    foreach ($alternativas as $val) {
+                                        $respostaModel = new RespostaModel();
+                                        $respostaModel->setTextoResposta($val->value);
+                                        $respostaModel->setIdQuestao($_POST['id']);
+                                        $respostaModel->setCertaResposta(0);
+                                        if ($val->item == $_POST['correta']) {
+                                            $respostaModel->setCertaResposta(1);
+                                        };
+                                        $respostaModel->put($val->id);
+                                    }
+                                }
+                                echo $model->put($_POST['id']);
                                 return;
                             };
                         }
-                        echo Response::warning("Questão com id `" . $req->id . "` não encontrada", 404);
+                        echo Response::warning("Questão com id `" . $_POST['id'] . "` não encontrada", 404);
                         return; // senao puder ele ira gerar erro daqui pra baixo
                     } else {
                         echo Response::error("Erro ao pegar questão", 404);
@@ -154,7 +249,7 @@ class QuestaoController
                 }
                 echo Response::warning("id da questão inválida", 400);
                 return;
-            } else echo Response::warning('Parametro `questao/id` não encontrado ou vazio/nulo', 404);
+            } else echo Response::warning('Parametros não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
@@ -168,6 +263,17 @@ class QuestaoController
                 if (count($data) > 0) {
                     foreach ($data as $photo) {
                         $photo = explode('backend/', $photo);
+                        $photo = './' . $photo[1];
+                        unlink($photo);
+                    }
+                }
+                $resposta = new RespostaModel();
+                $res =  json_decode($resposta->get(array('id' => $params[0])))->data->resposta;
+                foreach ($res as $alternativa) {
+                    $texto = $alternativa->textoResposta;
+                    $extention = (pathinfo($texto, PATHINFO_EXTENSION));
+                    if (isset($extention) && strlen($extention) !== 0) {
+                        $photo = explode('backend/', $texto);
                         $photo = './' . $photo[1];
                         unlink($photo);
                     }

@@ -89,7 +89,7 @@ class RespostaModel
                     return Response::warning([
                         "Nenhuma questao encontrada...",
                         "questao" => json_decode($questao)->data
-                ], 404);
+                    ], 404);
                 }
                 if ($stmt->rowCount() === 1) {
                     $resposta = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -168,7 +168,40 @@ class RespostaModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
+    public function deleteTodas(int $idQuestao)
+    {
+        try {
+            $data = json_decode($this->get(['id' => $idQuestao]))->data->resposta;
+            foreach ($data as $resposta) {
+                $id = $resposta->idResposta;
+                $this->delete($id);
+            }
+            return Response::success("Todas resposta da questao $idQuestao deletadas com sucesso.");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
+    }
+    public function changeCorrect($idQuestao, $textoRespostaCorreta)
+    {
+        try {
+            $data = json_decode($this->get(['id' => $idQuestao]))->data->resposta;
+            $con = Connection::getConn();
 
+            foreach ($data as $resposta) {
+                $stmt = $con->prepare("UPDATE tb_resposta SET certaResposta = ? WHERE idResposta = ?");
+                // dd([$resposta->textoResposta], false);
+                if ($resposta->textoResposta == $textoRespostaCorreta) {
+                    $stmt->bindValue(1, 1);
+                } else {
+                    $stmt->bindValue(1, 0);
+                }
+                $stmt->bindValue(2, $resposta->idResposta);
+                $stmt->execute();
+            }
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
+    }
     public function countRespostas(int $idQuestao)
     {
         try {
