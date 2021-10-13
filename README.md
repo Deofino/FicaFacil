@@ -35,7 +35,7 @@
 
 <br><br>
 
-<h2>🧐 Por quê?</h2>
+<h2> Por quê?</h2>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
@@ -128,7 +128,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 <br>
 
-<h2>👨‍💻 Equipe</h2>
+<h2> Equipe</h2>
 
 <br>
 
@@ -192,7 +192,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 <br>
 
-<h2>🧾 Licença</h2>
+<h2> Licença</h2>
 Esse repositório está licenciado pela ***MIT LICENSE***. Para informações detalhadas, leia o arquivo <a href="https://github.com/Deofino/FicaFacil/blob/main/LICENSE">LICENSE</a> contido nesse repositório.
 
 <br><br>
