@@ -35,7 +35,7 @@
 
 <br><br>
 
-<h2>🧐 Por quê?</h2>
+<h2> Por quê?</h2>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
@@ -45,41 +45,41 @@
 <h2>🛠 Tecnologias</h2>
 As seguintes ferramentas foram usadas na construção do projeto:
 
-### 👉 ***Front-end***
-- React - lib front end
-- React router dom - lib para criar rotas
-- React icons - lib de icones
-- Material ui - lib de design
-- Yarn - gerenciador de pacotes
-- Node - runtime javascript backend
-- Sweet alert2 - lib alertas 
-- Glidejs - lib carrousels
-- Sass - pre processador css
-- Axios - requisição front end
-- JavaScript - linguagem de programação
+### ***Front-end***
+- React -> lib front end
+- React router dom -> lib para criar rotas
+- React icons -> lib de icones
+- Material ui -> lib de design
+- Yarn -> gerenciador de pacotes
+- Node -> runtime javascript backend
+- Sweet alert2 -> lib alertas 
+- Glidejs -> lib carrousels
+- Sass -> pre processador css
+- Axios -> requisição front end
+- JavaScript -> linguagem de programação
 
-### 👉 ***Back-end***
-- Php - linguagem de programacao back-end
-- Pdo - lib interna php para conexao com banco de dados
-- Composer - gerenciador de pacotes e autoload com psr-4
-- Mysql - banco de dados relacional
-- Apache - servidor php
+### ***Back-end***
+- Php -> linguagem de programacao back-end
+- Pdo -> lib interna php para conexao com banco de dados
+- Composer -> gerenciador de pacotes e autoload com psr-4
+- Mysql -> banco de dados relacional
+- Apache -> servidor php
 
-### 👉 ***Desenvolvimento Geral***
+### ***Desenvolvimento Geral***
 - Editor:
-  - Visual Studio Code
-  - Github - repositorio de versionamento
-  - Git - ferramenta de versionamento
+  - Visual Studio Code -> ferramenta edição código
+  - Github -> repositorio de versionamento
+  - Git -> ferramenta de versionamento
 - Prototipagem:
   - Adobe XD
 - Reuniões:
   - Discord
   - Microsoft Teams
-  - Trello - ferramenta para agilizar metodologia agil scrum
+  - Trello -> ferramenta para agilizar metodologia agil scrum
 - Diagramas:
   - Br modelo
   - Astah
-  - MS Office - ferramentas de documentação
+  - MS Office -> ferramentas de documentação
 - Apresentações:
   - Microsoft PowerPoint
   - Youtube
@@ -88,7 +88,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 <br>
 
-<h2>🚀 Como usar</h2>
+<h2> Como usar</h2>
 
 Antes de tudo, você precisa ter instalado em sua máquina as seguintes ferramentas:
 [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), [Composer](https://getcomposer.org/). Além disso, é bom ter um editor para trabalhar com o código, como [VSCode](https://code.visualstudio.com/).
@@ -128,7 +128,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 <br>
 
-<h2>👨‍💻 Equipe</h2>
+<h2> Equipe</h2>
 
 <br>
 
@@ -172,7 +172,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
         <td align="center">
       <img src="https://scontent.fcgh4-1.fna.fbcdn.net/v/t1.6435-9/79423415_1222808767930280_3257655921475584000_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEvMzGhm2tOEOhD1nPOcVlScSW4CapiqW5xJbgJqmKpbsKlLzPgB_x_ar7XY6ZEaeW8bJKlmAI7NxyGi-R8x_80&_nc_ohc=uTRGeT8kvvEAX_oX8ug&_nc_ht=scontent.fcgh4-1.fna&oh=9e14f51dc765c846cdf5935a41f94844&oe=6188F855" width="160px" alt="Foto da Camylly"/><br>
       <sub>
-        <a href="https://www.github.com/Camylly">@Camylly</a>
+        <a href="https://www.github.com/CamyLima09">@Camylly</a>
       </sub>
     </td>
     <td align="center">
@@ -192,7 +192,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 <br>
 
-<h2>🧾 Licença</h2>
+<h2> Licença</h2>
 Esse repositório está licenciado pela ***MIT LICENSE***. Para informações detalhadas, leia o arquivo <a href="https://github.com/Deofino/FicaFacil/blob/main/LICENSE">LICENSE</a> contido nesse repositório.
 
 <br><br>
