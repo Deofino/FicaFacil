@@ -1,5 +1,4 @@
 import React from "react";
-import image from "../../../img/project/192.png";
 import { Link } from "react-router-dom";
 import { Tooltip, IconButton, Zoom } from "@material-ui/core";
 import {
@@ -13,7 +12,28 @@ import {
   FaArrowDown,
 } from "react-icons/fa";
 
+export function parseJwt(token) {
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
+
 export default function Navbar() {
+  const [user, setUser] = React.useState({ nomeAdministrador: "Usuario" });
+
+  React.useEffect(() => {
+    let user = parseJwt(localStorage.getItem("auth"));
+    setUser(user);
+  }, []);
   return (
     <nav className="c-navbar">
       <ul className="c-navbar__menu">
@@ -94,11 +114,8 @@ export default function Navbar() {
         </li>
         <li className="c-navbar__profile">
           <div className="c-navbar__profile-details">
-            <div className="c-navbar__image-profile">
-              <img src={image} alt="Imagem de perfil, profile" />
-            </div>
             <div className="c-navbar__name-job">
-              <div className="name">Vitor Oliveira</div>
+              <div className="name">{user.nomeAdministrador}</div>
             </div>
           </div>
           <Tooltip
@@ -106,7 +123,14 @@ export default function Navbar() {
             TransitionComponent={Zoom}
             className="c-navbar__log-out icon"
           >
-            <IconButton style={{ background: "transparent" }}>
+            <IconButton
+              style={{ background: "transparent" }}
+              onClick={() => {
+                localStorage.removeItem("auth");
+                localStorage.removeItem("user");
+                window.location.reload();
+              }}
+            >
               <FaSignOutAlt className="icon" />
             </IconButton>
           </Tooltip>

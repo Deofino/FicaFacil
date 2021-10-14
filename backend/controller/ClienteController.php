@@ -4,6 +4,7 @@ namespace Controller;
 
 use Helper\Response;
 use Model\ClienteModel;
+use Helper\JWT;
 
 class ClienteController
 {
@@ -11,7 +12,7 @@ class ClienteController
     public function index($params) // parametros daqui sao da URL
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
-            $model = new ClienteModel(null, null, null);
+            $model = new ClienteModel();
             echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
             return;
         }
@@ -22,12 +23,12 @@ class ClienteController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input'));
-            $model = new ClienteModel(null, null, null);
+            $model = new ClienteModel();
             if (isset($data->email) && isset($data->nome) && isset($data->senha)) {
                 $model->setNome(trim($data->nome));
                 $model->setEmail(trim($data->email));
-                $model->setSenha(trim($data->senha)); // insere aqui pra passar pelas verificacoes de dados
-                // echo $model->post();
+                $model->setSenha(trim(password_hash($data->senha, PASSWORD_DEFAULT))); // insere aqui pra passar pelas verificacoes de dados
+                echo $model->post();
             } else echo Response::warning('Parametro `email/nome/senha` não encontrado ou vazio/nulo', 404);
             return;
         }
@@ -72,6 +73,31 @@ class ClienteController
             $model = new ClienteModel();
             echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
             return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+    public function login()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'));
+            $model = new ClienteModel();
+            if (isset($data->email) && isset($data->senha)) {
+                $req = json_decode($model->login($data->email, $data->senha));
+
+                if ($req->status_code === 200) {
+                    $cliente = (array) json_decode($req->data->cliente);
+                    $jwt = JWT::createJWT($cliente);
+
+                    echo Response::success(['token' => $jwt]);
+                    return;
+                } else {
+                    echo Response::error("E-mail ou senha incorretos.", 400);
+                    return;
+                }
+            } else {
+                echo Response::warning('Parametro `email/senha` não encontrado ou vazio/nulo', 404);
+                return;
+            }
         }
         echo Response::warning('Metodo não encontrado', 404);
     }

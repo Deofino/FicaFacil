@@ -1,10 +1,53 @@
-import React, { Fragment, } from "react";
-import { Input, } from '../Form';
-import { FaAt, FaLock, FaArrowLeft } from 'react-icons/fa';
+import React, { Fragment, useState } from "react";
+import { Button, Input } from "../Form";
+import { FaAt, FaLock, FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../../../img/project/logo-branca.png";
+import axios from "axios";
+import { ToastError, ToastWarning } from "../Alert/Toast";
+import { regexEmail } from "./FormularioLoginAdm";
 
 export default function FormularioLoginEmail() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+
+  const [Erroremail, setErrorEmail] = useState(null);
+  const [Errorsenha, setErrorSenha] = useState(null);
+  // @ts-check
+  /**
+   * @description Logar na conta do cliente / usuario
+   * @author Delfino
+   * @date 14/10/2021
+   * @param {Event} e
+   */
+  const login = (e) => {
+    e.preventDefault();
+    if (regexEmail.test(login) && senha >= 4) {
+      axios
+        .post(
+          `${process.env.REACT_APP_API}/cliente/login/`,
+          JSON.stringify({
+            email: email,
+            senha: senha,
+          })
+        )
+        .then(({ data }) => {
+          if (data.status_code === 200) {
+            let token = data.data.token;
+
+            localStorage.removeItem("auth");
+            localStorage.removeItem("user");
+
+            localStorage.setItem("user", token);
+
+            window.location.reload();
+          } else {
+            ToastError({ text: data.data });
+          }
+        })
+        .catch((err) => ToastError({ text: err }));
+    } else ToastWarning({ text: "Preencha todos os campos corretamente..." });
+  };
   return (
     <Fragment>
       <section className="login-main">
@@ -13,40 +56,58 @@ export default function FormularioLoginEmail() {
             <img src={Logo} alt="Fica Fácil" />
           </div>
           <div className="login_field__form">
-            <form method="post" id="formLogin">
+            <form method="post" id="formLogin" onSubmit={(e) => login(e)}>
               <h3 className="login_field__title">Entrar com E-mail</h3>
               <Input
                 title="E-mail"
                 id="email"
                 name="email"
-                type="text"
+                type="email"
                 icon={<FaAt />}
-                inputMode="text"
+                inputMode="email"
+                value={email}
+                error={Erroremail}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setEmail(value);
+                  !regexEmail.test(value)
+                    ? setErrorEmail("Insira um e-mail valido")
+                    : setErrorEmail(null);
+                  value.length === 0 && setErrorEmail(null);
+                }}
               />
               <Input
                 title="Senha"
                 id="passw"
-                name="passw"
+                name="password"
                 type="password"
                 icon={<FaLock />}
+                value={senha}
+                error={Errorsenha}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setSenha(value);
+                  value.length <= 4
+                    ? setErrorSenha(
+                        "A senha deve conter no minimo 4 caracteres"
+                      )
+                    : setErrorSenha(null);
+                  value.length === 0 && setErrorSenha(null);
+                }}
               />
-
               <Link to="#" className="login_field__esenha">
                 Esqueceu a senha? clique aqui!
               </Link>
+              <Button className="login_field__button btn" type="submit">
+                Entrar
+              </Button>
 
-              <div className="login_field btn">
-                <Link className="login_field__link" to="#">
-                  <span className="login_field__btn">Entrar</span>
-                </Link>
-              </div>
-
-              <div className="login_field voltar">
-                <Link className="login_field__link" to="/entrar">
-                  <FaArrowLeft />
-                  <span className="login_field__volt">Voltar</span>
-                </Link>
-              </div>
+              <Button
+                icon={<FaArrowLeft size={15} />}
+                className="login_field__button voltar"
+              >
+                <Link to="/entrar">Voltar</Link>
+              </Button>
             </form>
           </div>
         </div>

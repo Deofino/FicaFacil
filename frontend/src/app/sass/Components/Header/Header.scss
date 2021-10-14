@@ -460,7 +460,9 @@ body {
             width: rem(250);
         }
         &__profile-details {
-            @include flex(center);
+            @include flex(start);
+            margin: 0 auto;
+            width: 80%;
         }
         &__image-profile {
             width: rem(60);
@@ -478,7 +480,10 @@ body {
         }
         &__name-job {
             display: block;
-            font-size: $global-font-size-sm;
+            div {
+                font-size: $global-font-size-lg !important;
+                font-weight: bolder !important;
+            }
         }
         &__log-out {
             left: 80%;

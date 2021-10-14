@@ -23,7 +23,7 @@ class UserModel
     }
     public function setNome(string $nome): void
     {
-        $this->nome = $nome;
+        $this->nome = ucfirst($nome);
     }
     public function setEmail(string $email): void
     {
@@ -38,13 +38,13 @@ class UserModel
     public function get($params)
     {
     }
-    public function post($params)
+    public function post()
     {
     }
-    public function put($params)
+    public function put($id)
     {
     }
-    public function delete($params)
+    public function delete($id)
     {
     }
 }

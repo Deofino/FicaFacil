@@ -1,40 +1,97 @@
-import React, { Fragment, } from "react";
-import { Input, } from '../Form';
-import { FaAt, FaLock, FaFont} from 'react-icons/fa';
+import React, { Fragment, useState } from "react";
+import { Button, Input } from "../Form";
+import axios from "axios";
+import { FaAt, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../../../img/project/logo-branca.png";
+import { ToastError, ToastWarning } from "../Alert/Toast";
+
+export const regexEmail =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 export default function FormularioLoginAdm() {
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
+
+  const [errorLogin, setErrorLogin] = useState(null);
+  const [errorSenha, setErrorSenha] = useState(null);
+  const enter = (e) => {
+    e.preventDefault();
+    if (regexEmail.test(login) && senha >= 4) {
+      axios
+        .post(
+          `${process.env.REACT_APP_API}/administrador/login/`,
+          JSON.stringify({
+            email: login,
+            senha: senha,
+          })
+        )
+        .then(({ data }) => {
+          if (data.status_code === 200) {
+            let token = data.data.token;
+
+            localStorage.removeItem("auth");
+            localStorage.removeItem("user");
+
+            localStorage.setItem("auth", token);
+
+            window.location.reload();
+          } else {
+            ToastError({ text: data.data });
+          }
+        })
+        .catch((err) => {
+          ToastError({ text: err });
+        });
+    } else ToastWarning({ text: "Preencha todos os campos corretamente." });
+  };
+
   return (
     <Fragment>
-      <section className="login-main" style={{background: '#0077b5'}}>
+      <section className="login-main" style={{ background: "#0077b5" }}>
         <div className="login_field">
-          <div className="login_field__logo" style={{background: '#6f42c1'}}>
+          <div className="login_field__logo" style={{ background: "#6f42c1" }}>
             <img src={Logo} alt="Fica Fácil" />
           </div>
           <div className="login_field__form">
-            <form method="post" id="formLogin">
-              <h3 className="login_field__title">Seja bem-vindo administrador!</h3>
+            <form method="post" id="formLogin" onSubmit={(e) => enter(e)}>
+              <h3 className="login_field__title">
+                Seja bem-vindo administrador(a)!
+              </h3>
               <Input
-                title="Nome"
-                id="nome"
-                name="nome"
-                type="text"
-                icon={<FaFont />}
-                inputMode="text"
-              />
-               <Input
-                title="E-mail"
+                title="E-mail: *"
                 id="email"
                 name="email"
-                type="text"
+                className="login_field__input"
+                type="email"
+                value={login}
+                error={errorLogin}
+                onChange={({ target }) => {
+                  setLogin(target.value);
+                  !regexEmail.test(login)
+                    ? setErrorLogin("Insira um e-mail valido")
+                    : setErrorLogin(null);
+                  target.value.length === 0 && setErrorLogin(null);
+                }}
                 icon={<FaAt />}
-                inputMode="text"
+                inputMode="email"
               />
               <Input
-                title="Senha"
+                title="Senha: *"
+                className="login_field__input"
                 id="passw"
-                name="passw"
+                value={senha}
+                error={errorSenha}
+                onChange={({ target }) => {
+                  setSenha(target.value);
+                  target.value.length <= 4
+                    ? setErrorSenha(
+                        "A senha deve conter no minimo 4 caracteres"
+                      )
+                    : setErrorSenha(null);
+                  target.value.length === 0 && setErrorSenha(null);
+                }}
+                name="password"
                 type="password"
                 icon={<FaLock />}
               />
@@ -43,11 +100,9 @@ export default function FormularioLoginAdm() {
                 Esqueceu a senha? clique aqui!
               </Link>
 
-              <div className="login_field btn" style={{background: '#6f42c1'}}>
-                <Link className="login_field__link" to="#" style={{background: '#6f42c1'}}>
-                  <span className="login_field__btn" style={{background: '#6f42c1'}}>Entrar</span>
-                </Link>
-              </div>
+              <Button className="login_field__button" type="submit">
+                Entrar
+              </Button>
             </form>
           </div>
         </div>

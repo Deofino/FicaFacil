@@ -91,7 +91,7 @@ class AdministradorController
                     echo Response::success(['token' => $jwt]);
                     return;
                 } else {
-                    echo Response::success("E-mail ou senha incorretos.");
+                    echo Response::error("E-mail ou senha incorretos.", 400);
                     return;
                 }
             } else {

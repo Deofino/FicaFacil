@@ -19,32 +19,6 @@ import FormularioLoginAdm from '../components/Main/FormularioLoginAdm';
 import ComponentCookie from '../components/Main/ComponentCookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-
-const tryLogin = async (e) => {
-    e.preventDefault();
-    let [ email, senha ] = document.querySelector('#loginadm');
-    console.log(email, senha);
-    let req = await axios.post(`${process.env.REACT_APP_API}/administrador/login/`,
-        JSON.stringify(
-            {
-                email: email.value || null,
-                senha: senha.value || null
-            }),
-        {
-            headers: { "Authorization": `Bearer ${localStorage.getItem('auth') || ''}` }
-        });
-
-    let res = await req.data;
-    if (res.data.token === null)
-    {
-        alert(res.data);
-    } else
-    {
-        let token = res.data.token;
-        localStorage.setItem('auth', token);
-        alert('login efetuado com sucesso');
-    }
-};
 const authContext = createContext();
 
 function ProvideAuth ({ children }) {
@@ -198,25 +172,8 @@ export default function Routes () {
                     <FormularioLoginAdm />
                 </GuestRoute>
                 <GuestRoute path='/entrar/administrador'>
-                    <Header />
-                    <Main>
-                        <form id='loginadm' onSubmit={ (e) => tryLogin(e) } style={ { padding: '15px 25px', background: '#777' } }>
-                            <input type='text' placeholder='E-mail' name='email' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } } />
-                            <input type='password' placeholder='Senha' name='senha' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } } />
-                            <button type='submit' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } } >Entrar</button>
-                        </form>
-                        <br />
-
-                        <button type='button' style={ { background: '#555', padding: '5px 10px', borderRadius: '8px' } }
-                            onClick={ (e) => {
-                                localStorage.removeItem('auth');
-
-                            } }
-                        >Sair da conta</button>
-                    </Main>
-                    <Footer />
+                    <FormularioLoginAdm />
                 </GuestRoute>
-
                 <Route path='*'>
                     <Header />
                     <Main>

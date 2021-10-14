@@ -10,7 +10,6 @@ use Helper\Connection;
 class ClienteModel extends UserModel
 {
 
-    private int $id;
     private string $dataAniversario;
     private string $foto;
     private int $simuladosFeitos;
@@ -20,10 +19,18 @@ class ClienteModel extends UserModel
     private int $videosAssistidos;
     private int $comentariosFeitos;
 
-    public function getId(): int
+    public function setEmail(string $email): void
     {
-        return $this->id;
+        // faz a verificacao pra essa porra nao cadastra com email igual de outro no banco de dados
+        // faz a mesma coisa no do administrador tbm
+
+        $this->email = $email;
     }
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
     public function getDataAniversario(): string
     {
         return $this->dataAniversario;
@@ -110,13 +117,58 @@ class ClienteModel extends UserModel
             return Response::error("Error: $th");
         }
     }
-    public function post($params)
+    public function post()
+    {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("INSERT INTO tb_cliente(nomeCompletoCliente, emailCliente, senhaCliente) values(?, ?, ?)");
+            $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
+            $stmt->bindValue(2, trim($this->getEmail()), PDO::PARAM_STR);
+            $stmt->bindValue(3, trim($this->getSenha()), PDO::PARAM_STR);
+            if ($stmt->execute()) {
+                return Response::success("Cliente `{$this->getNome()}` inserido com sucesso, id=" . $con->lastInsertId());
+            }
+            return Response::error("Erro ao inserir Cliente");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
+    }
+    public function put($id)
     {
     }
-    public function put($params)
+    public function delete($id)
     {
     }
-    public function delete($params)
+
+
+    public function login($email, $senha)
     {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("SELECT idCliente, nomeCompletoCliente, emailCliente, senhaCliente, fotoCliente FROM tb_cliente WHERE emailCliente = ?");
+            $stmt->bindValue(1, $email);
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() > 0) {
+                    $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+                    if ((password_verify($senha, $user['senhaCliente']))) {
+                        return Response::success([
+                            "cliente" => json_encode([
+                                'idCliente' => $user['idCliente'],
+                                'nomeCliente' => $user['nomeCompletoCliente'],
+                                'emailCliente' => $user['emailCliente'],
+                                'senhaCliente' => $user['senhaCliente'],
+                                'fotoCliente' => $user['fotoCliente'],
+                            ])
+                        ]);
+                    }
+                    return Response::error("E-mail ou senha incorretos.", 404);
+                } else {
+                    return Response::error("E-mail ou senha incorretos.", 404);
+                }
+            }
+            return Response::error("Erro Login Cliente");
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
     }
 }
