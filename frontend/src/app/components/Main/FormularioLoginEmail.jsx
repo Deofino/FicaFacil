@@ -22,7 +22,7 @@ export default function FormularioLoginEmail() {
    */
   const login = (e) => {
     e.preventDefault();
-    if (regexEmail.test(login) && senha >= 4) {
+    if (regexEmail.test(email) && senha >= 4) {
       axios
         .post(
           `${process.env.REACT_APP_API}/cliente/login/`,

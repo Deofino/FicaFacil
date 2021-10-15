@@ -31,8 +31,10 @@ export default function Navbar() {
   const [user, setUser] = React.useState({ nomeAdministrador: "Usuario" });
 
   React.useEffect(() => {
-    let user = parseJwt(localStorage.getItem("auth"));
-    setUser(user);
+    if (localStorage.getItem("auth")) {
+      let user = parseJwt(localStorage.getItem("auth"));
+      setUser(user);
+    }
   }, []);
   return (
     <nav className="c-navbar">
