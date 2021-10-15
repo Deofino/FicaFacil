@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import { Input, Select, MenuItem, Button, Table } from "../Form/";
-import { AlertSuccess } from "../Alert/Modal";
+import { AlertError, AlertSuccess } from "../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastSuccess } from "../Alert/Toast";
+import { ToastSuccess, ToastWarning } from "../Alert/Toast";
 import { FaTimes, FaBookOpen } from "react-icons/fa";
 
 const Backdrop = (props) => {
@@ -21,7 +21,6 @@ const Backdrop = (props) => {
       .get(`${process.env.REACT_APP_API}/assuntoMateria/index/`)
       .then((value) => {
         setattReqAssuntoMateria(value.data.data);
-        console.log(value.data.data);
         setAttMateria(
           value.data.data.materia.materia.find(
             (el) => el.nomeMateria === props.data[2]
@@ -33,10 +32,21 @@ const Backdrop = (props) => {
   const updateEvent = (e) => {
     // na hora que clica no botao de atualizar
     e.preventDefault();
+    if (attAssuntoMateria.length <= 4) {
+      seterrAttAssuntoMateria("Campo precisa de no minimo 4 caracteres");
+      return;
+    } else {
+      seterrAttAssuntoMateria(null);
+    }
+    if (attMateria <= 0) {
+      seterrAttMateria("Você precisa selecionar uma matéria");
+      return;
+    } else seterrAttMateria(null);
     if (
       attAssuntoMateria !== null &&
       attAssuntoMateria !== "" &&
-      attAssuntoMateria.length > 4
+      attAssuntoMateria.length > 4 &&
+      attMateria > 0
     ) {
       // verificacao dos campos
       axios
@@ -62,9 +72,7 @@ const Backdrop = (props) => {
           }
         });
     } else {
-      // previne e coloca os erros
-      seterrAttAssuntoMateria("O campo tem que ter no minimo 4 caracteres");
-      seterrAttMateria("O campo tem que ter no minimo 4 caracteres");
+      ToastWarning({ text: "Preencha os campos corretamente" });
     }
   };
   const close = () => {
@@ -124,7 +132,9 @@ const Backdrop = (props) => {
               </MenuItem>
             ))}
         </Select>
-        <Button type="submit">Atualizar</Button>
+        <Button type="submit" className="c-formularioUpdate__item">
+          Atualizar
+        </Button>
       </form>
     </section>
   );
@@ -161,7 +171,7 @@ export default function FormularioAssuntoMateria() {
     let errorMsg = "O campo precisa ter mais de 4 caracteres";
 
     // Seta erro nos input's contidos no Assunto Materia
-    if (selectedMateria === 0) setErroMateria("Selecione uma Matéria");
+    if (selectedMateria <= 0) setErroMateria("Selecione uma Matéria");
     else setErroMateria(null);
 
     // Seta erro nos select's contidos na Assunto Materia
@@ -169,7 +179,7 @@ export default function FormularioAssuntoMateria() {
       setErroAssuntoMateria(errorMsg);
     else setErroAssuntoMateria(null);
 
-    if (inputs.every((ipt) => ipt.trim().length > 4) && selectedMateria !== 0) {
+    if (inputs.every((ipt) => ipt.trim().length > 4) && selectedMateria > 0) {
       axios
         .post(
           `${process.env.REACT_APP_API}/assuntoMateria/create/`,
@@ -178,18 +188,25 @@ export default function FormularioAssuntoMateria() {
             materia: selectedMateria,
           })
         )
-        .then(function (parametro) {
-          console.log(parametro.data);
+        .then((data) => {
           refAssuntoMateria.current.value = "";
-          setSelectedMateria(0);
-        });
-      console.log("Pode passar!");
-      AlertSuccess({
-        text: "Assunto Matéria inserida com sucesso",
-        title: "Sucesso...",
-      });
-      /* .catch(error => console.log(error)); */
-    } else console.log("Não pode passar!");
+          if (data.data.status_code === 200) {
+            AlertSuccess({
+              text: "Materia inserida com sucesso",
+              title: "Sucesso...",
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 4000);
+          } else {
+            AlertError({
+              text: "Ops... Erros encontrados",
+              title: "Erro!!",
+            });
+          }
+        })
+        .catch((err) => AlertError({ title: "Erro!!", text: err }));
+    } else ToastWarning({ text: "Preencha todos os campos" });
   };
 
   const colunas = [
@@ -244,7 +261,7 @@ export default function FormularioAssuntoMateria() {
         onSubmit={submitForm}
       >
         <Input
-          title="Assunto Matéria"
+          title="Assunto Matéria: *"
           id="assuntomateria"
           error={ErroAssuntoMateria}
           className="c-formAssuntoMateria__input"
@@ -256,6 +273,7 @@ export default function FormularioAssuntoMateria() {
           className="c-formAssuntoMateria__select"
           name="materia"
           id="materia"
+          label="Matéria: *"
           value={selectedMateria}
           error={ErroMateria}
           onChange={({ target }) => setSelectedMateria(target.value)}

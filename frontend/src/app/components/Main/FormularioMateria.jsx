@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import { Input, Select, MenuItem, Button, Table } from "../Form/";
-import { AlertSuccess } from "../Alert/Modal";
+import { AlertError, AlertSuccess } from "../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastSuccess } from "../Alert/Toast";
+import { ToastSuccess, ToastWarning } from "../Alert/Toast";
 import { FaTimes, FaBookOpen } from "react-icons/fa";
 
 const Backdrop = (props) => {
@@ -117,7 +117,9 @@ const Backdrop = (props) => {
               </MenuItem>
             ))}
         </Select>
-        <Button type="submit">Atualizar</Button>
+        <Button type="submit" className="c-formularioUpdate__item">
+          Atualizar
+        </Button>
       </form>
     </section>
   );
@@ -155,7 +157,7 @@ export default function FormularioMateria() {
 
     let errorMsg = "O campo precisa ter mais de 4 caracteres";
 
-    if (selectedAreaMateria === 0)
+    if (selectedAreaMateria <= 0)
       setErroAreaMateria("Selecione uma Area Matéria");
     else setErroAreaMateria(null);
 
@@ -164,7 +166,7 @@ export default function FormularioMateria() {
 
     if (
       inputs.every((ipt) => ipt.trim().length > 4) &&
-      selectedAreaMateria !== 0
+      selectedAreaMateria > 0
     ) {
       axios
         .post(
@@ -174,20 +176,25 @@ export default function FormularioMateria() {
             area: selectedAreaMateria,
           })
         )
-        /*  .then(data => {
-                               console.log(data.data.status_code);
-                           }); */
-        .then(function (parametro) {
+        .then((data) => {
           refMateria.current.value = "";
-          setSelectedAreaMateria(0);
-        });
-      console.log("Pode passar!");
-      AlertSuccess({
-        text: "Matéria inserida com sucesso",
-        title: "Sucesso...",
-      });
-      /* .catch(error => console.log(error)); */
-    } else console.log("Não pode passar!");
+          if (data.data.status_code === 200) {
+            AlertSuccess({
+              text: "Materia inserida com sucesso",
+              title: "Sucesso...",
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 4000);
+          } else {
+            AlertError({
+              text: "Ops... Erros encontrados",
+              title: "Erro!!",
+            });
+          }
+        })
+        .catch((err) => AlertError({ title: "Erro!!", text: err }));
+    } else ToastWarning({ text: "Preencha todos os campos" });
   };
 
   const colunas = [
@@ -237,7 +244,7 @@ export default function FormularioMateria() {
     <section>
       <form method="post" id="formM" className="c-form" onSubmit={submitForm}>
         <Input
-          title="Materia"
+          title="Materia: *"
           id="nomeMateria"
           error={ErroMateria}
           className="c-formMateria__input"
@@ -248,6 +255,7 @@ export default function FormularioMateria() {
         <Select
           className="c-formMateria__select"
           name="areaMateria"
+          label="Área: *"
           id="areaMateria"
           value={selectedAreaMateria}
           error={ErroAreaMateria}
@@ -255,6 +263,7 @@ export default function FormularioMateria() {
         >
           <MenuItem value="0">Selecione</MenuItem>
           {areasMaterias !== [] &&
+            areasMaterias.map &&
             areasMaterias.map((item) => (
               <MenuItem value={item.idAreaMateria} key={item.idAreaMateria}>
                 {item.nomeAreaMateria}

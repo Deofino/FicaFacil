@@ -17,7 +17,7 @@ export default function FormularioLoginAdm() {
   const [errorSenha, setErrorSenha] = useState(null);
   const enter = (e) => {
     e.preventDefault();
-    if (regexEmail.test(login) && senha >= 4) {
+    if (regexEmail.test(login) && senha > 4) {
       axios
         .post(
           `${process.env.REACT_APP_API}/administrador/login/`,

@@ -1,4 +1,7 @@
 body {
+    overflow: hidden;
+}
+body#notfound {
     background: linear-gradient(90deg, #2f3640 23%, #181b20 100%);
     background-repeat: no-repeat;
     position: relative;

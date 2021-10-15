@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { AlertSuccess } from "../Alert/Modal";
+import { AlertError, AlertSuccess } from "../Alert/Modal";
 import { Input, Button, Table } from "../Form";
 import { FaBookOpen, FaTimes } from "react-icons/fa";
 import { Tooltip, IconButton } from "@material-ui/core";
@@ -85,7 +85,9 @@ const Backdrop = (props) => {
           }}
           inputMode="text"
         />
-        <Button type="submit">Atualizar</Button>
+        <Button type="submit" className="c-formularioUpdate__item">
+          Atualizar
+        </Button>
       </form>
     </section>
   );
@@ -117,9 +119,11 @@ export default function FormularioAreaMateria() {
       width: 200,
     },
   ];
-  const linhas = areaMaterias.map((el) => {
-    return { id: el.idAreaMateria, nomeAreaMateria: el.nomeAreaMateria };
-  });
+  const linhas = areaMaterias.map
+    ? areaMaterias.map((el) => {
+        return { id: el.idAreaMateria, nomeAreaMateria: el.nomeAreaMateria };
+      })
+    : [];
 
   const update = (id, tabela, nome, linhas, colunas) => {
     let data = linhas.filter((el) => el.id === id)[0]; //
@@ -156,15 +160,24 @@ export default function FormularioAreaMateria() {
                     areaMateria: refAreaMateria.current.value,
                   })
                 )
-                /*  .then(data => {
-                                    console.log(data.data.status_code);
-                                }); */
-                .then((refAreaMateria.current.value = ""));
-
-              AlertSuccess({
-                text: "Área da Matéria inserida com sucesso",
-                title: "Sucesso...",
-              });
+                .then((data) => {
+                  refAreaMateria.current.value = "";
+                  if (data.data.status_code === 200) {
+                    AlertSuccess({
+                      text: "Area da Materia inserida com sucesso",
+                      title: "Sucesso...",
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 4000);
+                  } else {
+                    AlertError({
+                      text: "Ops... Erros encontrados",
+                      title: "Erro!!",
+                    });
+                  }
+                })
+                .catch((err) => AlertError({ title: "Erro!!", text: err }));
             } else {
               setErroAreaMateria("O campo tem que ser maior que 4");
               /*    AlertError({ text: "Campo deve conter mais do que 4 caracteres", title: 'Atenção...' }); */
@@ -175,7 +188,7 @@ export default function FormularioAreaMateria() {
         }}
       >
         <Input
-          title="Area Matéria:"
+          title="Area Matéria: *"
           ref={refAreaMateria}
           error={ErroAreaMateria}
           id="areamateria"

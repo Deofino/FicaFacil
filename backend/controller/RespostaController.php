@@ -49,7 +49,7 @@ class RespostaController
                     return;
                 } else {
                     echo Response::warning('Essa questao ja contem respostas', 400);
-                    return;
+                    exit;
                 }
             } else if (isset($data->alternativas) && isset($data->questao) && isset($data->certaResposta)) {
                 foreach ($data->alternativas as $al) {
@@ -69,7 +69,7 @@ class RespostaController
                         };
                     } else {
                         echo Response::warning('Essa questao ja contem respostas', 400);
-                        return;
+                        exit;
                     };
                 }
                 echo Response::success("Respostas cadastradas com sucesso");

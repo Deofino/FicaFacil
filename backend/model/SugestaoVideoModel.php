@@ -152,7 +152,7 @@ class SugestaoVideoModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("UPDATE tb_sugestao_video SET tituloSujestaoVideo = ? , thumbnailSujestaoVideo = ? , urlSujestaoVideo = ? , idQuestao = ? WHERE idSugestaoVideo = ?");
+            $stmt = $con->prepare("UPDATE tb_sugestao_video SET tituloSugestaoVideo = ? , thumbnailSugestaoVideo = ? , urlSugestaoVideo = ? , idQuestao = ? WHERE idSugestaoVideo = ?");
             $stmt->bindValue(
                 1,
                 trim($this->getTitulo()),

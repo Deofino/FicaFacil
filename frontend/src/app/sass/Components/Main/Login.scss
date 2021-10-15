@@ -63,6 +63,10 @@
       @include breakpoint(small) {
         font-size: rem(12) !important;
       }
+
+      &:hover{
+        color: $white;
+      }
     }
     &.btn {
       span {

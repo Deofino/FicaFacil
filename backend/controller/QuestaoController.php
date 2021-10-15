@@ -92,11 +92,11 @@ class QuestaoController
                                 $model->post();
                             } else {
                                 echo Response::warning('Alternativa com valor vazio', 404);
-                                return;
+                                exit;
                             };
                         } else {
                             echo Response::warning('Essa questao ja contem respostas', 400);
-                            return;
+                            exit;
                         };
                     }
                 } else {
@@ -113,7 +113,6 @@ class QuestaoController
                     $sugestao->setQuestao($idInserted);
                     $sugestao->post();
                 }
-
                 echo Response::success("Questao inserida com sucesso");
             } else echo Response::warning('Parametros não encontrado ou vazio/nulo', 404);
             return;
@@ -137,6 +136,7 @@ class QuestaoController
                                 $model->setIdDificuldade($_POST['dificuldade']);
                                 $model->setIdAssuntoMateria($_POST['assuntoMateria']);
                                 $model->setIdAdmistrador($_POST['administrador']);
+
 
                                 // imagem da questao
                                 $namesImages = json_decode($el->imagensQuestao);
@@ -172,7 +172,6 @@ class QuestaoController
                                 $model->setImagem($namesImages);
 
 
-                                // dd($_POST);
                                 //sugestao
                                 if (
                                     trim($_POST['tituloSugestao']) !== '' && trim($_POST['thumb']) !== '' && trim($_POST['url']) !== ''
@@ -190,7 +189,6 @@ class QuestaoController
                                         $sugestao->post();
                                     }
                                 }
-
                                 // alternativas
                                 if (isset($_FILES['alternativas'])) {
                                     // alternativas com imagem

@@ -9,7 +9,12 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../Alert/Modal";
-import { ToastInformation, ToastWarning } from "../Alert/Toast";
+import {
+  ToastError,
+  ToastInformation,
+  ToastSuccess,
+  ToastWarning,
+} from "../Alert/Toast";
 import { Button, Input, MenuItem, Select, Table, Radio } from "../Form";
 import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
 import FormularioResposta from "./FormularioResposta";
@@ -40,9 +45,9 @@ const Backdrop = (props) => {
       .then((value) => {
         if (value.data.status_code === 200) {
           let sugestao = value.data.data.sugestaoVideo[0];
-          settituloSugestao(sugestao.tituloSujestaoVideo);
-          setthumbSugestao(sugestao.thumbnailSujestaoVideo);
-          seturlSugestao(sugestao.urlSujestaoVideo);
+          settituloSugestao(sugestao.tituloSugestaoVideo || "");
+          setthumbSugestao(sugestao.thumbnailSugestaoVideo || "");
+          seturlSugestao(sugestao.urlSugestaoVideo || "");
         }
       });
   }, [props.data]);
@@ -83,6 +88,7 @@ const Backdrop = (props) => {
     e.preventDefault();
     let form = document.querySelector("#formUpdate");
     let formData = new FormData(form);
+    let ids = [];
 
     if (!regexURL.test(alternativas[0].textoResposta)) {
       // e texto
@@ -108,7 +114,6 @@ const Backdrop = (props) => {
       });
       formData.append("alternativas", JSON.stringify(prev_alternativas));
     } else {
-      let ids = [];
       document.querySelectorAll(".alternativa--image img").forEach((el) => {
         ids.push(el.id);
       });
@@ -117,9 +122,51 @@ const Backdrop = (props) => {
     formData.append("correta", correta);
     formData.append("id", props.data[0] || 0);
 
-    axios
-      .post(process.env.REACT_APP_API + "/questao/update/", formData)
-      .then((el) => console.log(el.data));
+    if (
+      correta.length > 3 &&
+      titulo.length >= 4 &&
+      texto.length >= 4 &&
+      selectAdministrador > 0 &&
+      selectAssuntoMateria > 0 &&
+      selectDificuldade > 0 &&
+      selectUniversidade > 0
+    ) {
+      if (formData.get("alternativas-id") || formData.get("alternativas")) {
+        if (
+          tituloSugestao.length > 3 ||
+          thumbSugestao.length > 3 ||
+          urlSugestao.length > 3
+        ) {
+          if (
+            tituloSugestao.length === 0 ||
+            thumbSugestao.length === 0 ||
+            urlSugestao.length === 0
+          ) {
+            ToastWarning({
+              text: "Se você quer uma sugestão, preencha tudo corretamente",
+            });
+            return;
+          }
+        }
+        axios
+          .post(process.env.REACT_APP_API + "/questao/update/", formData)
+          .then((el) => {
+            console.log(el.data);
+            if (el.data.status_code === 200) {
+              ToastSuccess({ text: "Questao atualizada com sucesso!" });
+              setTimeout(() => {
+                window.location.reload();
+              }, 4000);
+            } else {
+              ToastError({ text: `Ops... erro: ${el.data.data}` });
+            }
+          })
+          .catch((err) => ToastError({ text: err }))
+          .finally(() => close());
+      } else ToastError({ text: "Preencha as alternativas" });
+    } else {
+      ToastError({ text: "Preencha todos os campos corretamente" });
+    }
   };
   const close = () => {
     let backdrop = document.querySelector("#backdrop");

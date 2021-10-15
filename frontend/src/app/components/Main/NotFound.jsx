@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 export default function NotFound() {
   React.useEffect(() => {
+    document.querySelector("body").id = "notfound";
     const cordCanvas = document.getElementById("cordao");
     const ctx = cordCanvas.getContext("2d");
 
@@ -72,7 +73,9 @@ export default function NotFound() {
 
     drawVisor();
     animate();
-  });
+
+    return () => (document.querySelector("body").id = "");
+  }, []);
   return (
     <React.Fragment>
       <div className="lua"></div>

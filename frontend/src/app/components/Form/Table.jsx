@@ -47,8 +47,11 @@ export default function StickyHeadTable({
         axios
           .post(`${process.env.REACT_APP_API}/${tabela}/delete/${id}/`)
           .then((value) => {
-            ToastSuccess({ text: nome + " deletada com sucesso" });
-            // console.log(value.data);
+            if(value.data.status_code === 200){
+              ToastSuccess({ text: nome + " deletada com sucesso" });
+            }else{
+              ToastError({ text: "Nao pode excluir por causa da Foreign Key" });
+            }
           })
           .catch((error) =>
             ToastError({ text: "Nao pode excluir por causa da Foreign Key" })
