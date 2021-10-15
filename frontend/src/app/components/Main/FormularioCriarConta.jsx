@@ -5,7 +5,7 @@ import { FaAt, FaUser, FaLock, FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../../../img/project/logo-branca.png";
 import { ToastError, ToastSuccess } from "../Alert/Toast";
-import { regexEmail } from './FormularioLoginAdm'
+import { regexEmail } from "./FormularioLoginAdm";
 export default function FormularioCriarConta() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -33,9 +33,9 @@ export default function FormularioCriarConta() {
       .post(
         `${process.env.REACT_APP_API}/cliente/create/`,
         JSON.stringify({
-          nome: nome,
-          email: email,
-          senha: senha,
+          nome: nome.trim(),
+          email: email.trim(),
+          senha: senha.trim(),
         })
       )
       .then(({ data }) => {

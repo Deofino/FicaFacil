@@ -27,8 +27,8 @@ export default function FormularioLoginEmail() {
         .post(
           `${process.env.REACT_APP_API}/cliente/login/`,
           JSON.stringify({
-            email: email,
-            senha: senha,
+            email: email.trim(),
+            senha: senha.trim(),
           })
         )
         .then(({ data }) => {

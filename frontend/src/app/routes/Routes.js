@@ -16,6 +16,7 @@ import FormularioLoginEmail from '../components/Main/FormularioLoginEmail';
 import FormularioLoginSocial from '../components/Main/FormularioLoginSocial';
 import FormularioCriarConta from '../components/Main/FormularioCriarConta';
 import FormularioLoginAdm from '../components/Main/FormularioLoginAdm';
+import NotFound from '../components/Main/NotFound';
 import ComponentCookie from '../components/Main/ComponentCookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -175,11 +176,7 @@ export default function Routes () {
                     <FormularioLoginAdm />
                 </GuestRoute>
                 <Route path='*'>
-                    <Header />
-                    <Main>
-                        <h1>Pagina nao encontrada</h1>
-                    </Main>
-                    <Footer />
+                    <NotFound />
                 </Route>
             </Switch>
         </ProvideAuth >
