@@ -50,6 +50,7 @@ export default function StickyHeadTable({
             if(value.data.status_code === 200){
               ToastSuccess({ text: nome + " deletada com sucesso" });
             }else{
+              console.log(value.data);
               ToastError({ text: "Nao pode excluir por causa da Foreign Key" });
             }
           })

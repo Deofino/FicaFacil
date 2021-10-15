@@ -769,7 +769,7 @@ export default function FormularioQuestao() {
                 value={selectUniversidade}
               >
                 <MenuItem value={-1}>Selecione</MenuItem>
-                {questoes.universidade !== undefined &&
+                {questoes.universidade !== undefined && questoes.universidade.map &&
                   questoes.universidade.map((el, i) => (
                     <MenuItem key={i} value={el["idUniversidade"]}>
                       {el["nomeUniversidade"]}
@@ -808,8 +808,7 @@ export default function FormularioQuestao() {
                 value={selectAssuntoMateria}
               >
                 <MenuItem value={-1}>Selecione</MenuItem>
-                {questoes.assuntoMateria !== undefined &&
-                  questoes.assuntoMateria.assuntoMateria.map((el, i) => (
+                {questoes.assuntoMateria !== undefined && questoes.assuntoMateria.assuntoMateria != undefined && questoes.assuntoMateria.assuntoMateria.map((el, i) => (
                     <MenuItem key={i} value={el["idAssuntoMateria"]}>
                       {el["nomeAssuntoMateria"]}
                     </MenuItem>
