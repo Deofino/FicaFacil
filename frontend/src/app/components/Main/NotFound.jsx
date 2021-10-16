@@ -92,7 +92,7 @@ export default function NotFound() {
       <div className="error">
         <div className="title">404</div>
         <div className="subtitle">Hmmm...</div>
-        <div className="descricao">Pagina nao encontrada</div>
+        <div className="descricao">Página não encontrada</div>
         <button className="btn">
           <Link to="/">HOME</Link>
         </button>

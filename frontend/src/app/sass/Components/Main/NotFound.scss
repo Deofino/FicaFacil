@@ -1,6 +1,6 @@
 body {
     overflow: hidden;
-}
+}   
 body#notfound {
     background: linear-gradient(90deg, #2f3640 23%, #181b20 100%);
     background-repeat: no-repeat;
@@ -93,17 +93,31 @@ body#notfound {
     left: 100px;
     top: 400px;
     transform: translateY(-60%);
-    font-family: "Righteous", cursive;
-    color: #343e49;
+    color: #6f42c1;
 }
 .title {
     font-size: 10em;
+    @include breakpoint(medium) {
+        font-size: 7em;
+    }
+    @include breakpoint(small) {
+        font-size: 3em;
+    }
 }
 .subtitle {
     font-size: 2rem;
+    @include breakpoint(medium) {
+        font-size: 1.5em;
+    }
+    @include breakpoint(small) {
+        font-size: 1em;
+    }
 }
 .descricao {
     opacity: 0.5s;
+    @include breakpoint(small) {
+        font-size: rem(12);
+    }
 }
 .btn {
     min-width: 7rem;
@@ -111,19 +125,23 @@ body#notfound {
     margin-right: 0.5em;
     padding: 0.5em 2em;
     outline: none;
-    border: 2px solid #2f3640;
+    border: 2px solid #6f42c1;
     background-color: transparent;
     border-radius: 8em;
     cursor: pointer;
     transition-duration: 0.2s;
-    color: #576375;
+    color: #6f42c1;
     a {
         font-weight: bolder;
         font-size: 0.75em;
     }
+    @include breakpoint(medium) {
+        min-width: 4rem;
+    }
+   
 }
 .btn:hover {
-    color: #21252c;
+    color: #6610f2;
 }
 .astronauta {
     position: absolute;
@@ -132,6 +150,18 @@ body#notfound {
     left: 70%;
     top: 50%;
     transform: translate(-50%, -50%) rotate(20deg) scale(1.2);
+    @include breakpoint(small) {
+        position: relative;
+        margin-top: 40%;
+        margin-left: 0;
+        margin-right: 100%;
+    }
+    @include breakpoint(smallin) {
+        position: relative;
+        margin-top: 55%;
+        margin-left: 0;
+    }
+    
 }
 .head {
     background-color: white;
@@ -143,7 +173,7 @@ body#notfound {
     border-radius: 2em;
 }
 .head-visor-clarao1 {
-    background-color: #7f8fa6;
+    background-color: #6f42c1;
     position: absolute;
     top: 28px;
     left: 40px;
@@ -153,7 +183,7 @@ body#notfound {
     opacity: 0.5;
 }
 .head-visor-clarao2 {
-    background-color: #718093;
+    background-color: #6f42c1;
     position: absolute;
     top: 40px;
     left: 38px;
@@ -254,7 +284,7 @@ body#notfound {
     transform: rotate(20deg);
 }
 .pulso-left {
-    background-color: #e67e22;
+    background-color: #6f42c1;
     position: absolute;
     top: 122px;
     left: 6.5px;
@@ -264,7 +294,7 @@ body#notfound {
     transform: rotate(-15deg);
 }
 .pulso-right {
-    background-color: #e67e22;
+    background-color: #6f42c1;
     position: absolute;
     top: 98px;
     left: 141px;
@@ -302,7 +332,7 @@ body#notfound {
     border-radius: 3px;
     border-top-left-radius: 8em;
     border-top-right-radius: 8em;
-    border-bottom: 4px solid #e67e22;
+    border-bottom: 4px solid #6f42c1;
 }
 .pe-right {
     background-color: white;
@@ -315,5 +345,6 @@ body#notfound {
     border-radius: 3px;
     border-top-left-radius: 8em;
     border-top-right-radius: 8em;
-    border-bottom: 4px solid #e67e22;
+    border-bottom: 4px solid #6f42c1;
 }
+

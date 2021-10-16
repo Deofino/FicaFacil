@@ -9,47 +9,73 @@
   border-radius: rem(15);
   box-shadow: rem(1) rem(7) rem(14) rem(-5) rgba(0,0,0,0.15);
   text-align: center;
+    @include breakpoint(small) {
+      max-width: rem(250);
+      max-height: rem(200);
+    }
     &__img{
       max-width: 40%;
       height: 40%;
       margin: 0 auto;
+      @include breakpoint(small) {
+        opacity: 0;
+      }
     }
     &__content{
-
       margin-top: rem(5);
 
       &__title{
         font-size: rem(16);
         font-weight: 600;
         text-align: center;
+        @include breakpoint(small) {
+          margin-top: rem(-100);
+          font-size: rem(14);
+        }
       }
       &__text{
         color: $gray;
         margin: 5px 0 5px 0;
         font-size: rem(15);
+        @include breakpoint(small) {
+          font-size: rem(12);
+          text-align: justify;
+        }
       }
       &__politica{
         font-size: small;
         color: $primary;
         text-decoration: underline;
         margin-bottom: rem(15);
+        @include breakpoint(small) {
+          font-size: rem(11);
+        }
       }
     }
-
     &__buttons{
       display: flex;
       align-items: center;
       justify-content: center;
-      
+      @include breakpoint(small) {
+        margin-top: rem(-10);
+      }
       .accept{
         max-width:50%;
         transition: all 0.3s ease;
+        @include breakpoint(small) {
+          max-height:rem(20);
+        }
       }
       .noaccept{
         max-width:50%;
         color: $primary;
         margin: auto;
+        @include breakpoint(small) {
+          max-height:rem(20);
+          font-size: rem(14);
+        }
       }
+      
     }
 
 }

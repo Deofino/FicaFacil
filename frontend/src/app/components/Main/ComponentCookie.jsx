@@ -16,10 +16,9 @@ export default function ComponentCookie() {
         <span className="c-cookie__content__politica">Política de Privacidade</span>
         </div>
         <div className="c-cookie__buttons">
-          <Button className="c-cookie__buttons accept">Eu aceito</Button>
+          <Button className="c-cookie__buttons accept">Aceitar</Button>
           <Link to="#" className="c-cookie__buttons noaccept">Rejeitar</Link>
-        </div>
-    
+        </div>    
     </div>
     </Fragment>
     );
