@@ -46,7 +46,7 @@ export function UserRoute({ children, ...rest }) {
           />
         ) : (
           <React.Fragment>
-            <HeaderUser></HeaderUser>
+            <HeaderUser />
             <Main>{children}</Main>
             <Footer />
           </React.Fragment>

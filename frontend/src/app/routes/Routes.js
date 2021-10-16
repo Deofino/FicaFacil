@@ -8,7 +8,7 @@ import { GuestRoute, UserRoute, PrivateRoute } from "./CustomRoutes";
 import { Route, Switch } from "react-router-dom";
 // Components
 import Header from "../components/Header/Header";
-import HeaderUser from "../components/Header/HeaderUser";
+import HeaderUser from "../components/Header/NavBarUser";
 import Footer from "../components/Footer/Footer";
 
 import {

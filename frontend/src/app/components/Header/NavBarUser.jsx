@@ -28,7 +28,7 @@ export function parseJwt(token) {
 }
 
 export default function NavbarUser() {
-  const [user, setUser] = React.useState({ nomeAdministrador: "Usuario" });
+  const [user, setUser] = React.useState({ nome: "Usuario" });
 
   React.useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -54,10 +54,10 @@ export default function NavbarUser() {
           <Link to="/acessos">
             <div className="space">
               <FaChartLine className="icon" />
-              <span className="c-navbar__links-name">Questoes</span>
+              <span className="c-navbar__links-name">Desempenho</span>
             </div>
           </Link>
-          <span className="c-navbar__tooltip">Questoes</span>
+          <span className="c-navbar__tooltip">Desempenho</span>
         </li>
         <li className="c-navbar__menu-item">
           <Link to="/dashboard">
@@ -117,7 +117,7 @@ export default function NavbarUser() {
         <li className="c-navbar__profile">
           <div className="c-navbar__profile-details">
             <div className="c-navbar__name-job">
-              <div className="name">{user.nomeAdministrador}</div>
+              <div className="name">{user.nome}</div>
             </div>
           </div>
           <Tooltip
