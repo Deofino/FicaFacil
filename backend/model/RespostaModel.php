@@ -94,7 +94,7 @@ class RespostaModel
                 if ($params !== null) {
                     $resposta = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     $questao = (new QuestaoModel)->get(['id' => $resposta[0]['idQuestao']]);
-                    dd($questao);
+                    // dd($questao);
                     return Response::success([
                         "resposta" => $resposta,
                         "questao" => json_decode($questao)->data

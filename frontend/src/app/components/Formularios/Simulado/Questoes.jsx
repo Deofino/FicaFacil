@@ -30,7 +30,7 @@ export const Questoes = (props) => {
       {ReqQuestao.questao !== undefined ? (
         ReqQuestao.questao.map &&
         ReqQuestao.questao.map((el, index) => {
-          return <Questao key={index} index={index} questao={el} />;
+          return <Questao key={index} index={index} id={el.idQuestao} />;
         })
       ) : (
         <Fragment>
