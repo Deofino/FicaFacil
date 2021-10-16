@@ -8,17 +8,17 @@ import {
   FaPlusCircle,
   FaTimes,
 } from "react-icons/fa";
-import { AlertError, AlertSuccess } from "../Alert/Modal";
+import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import {
   ToastError,
   ToastInformation,
   ToastSuccess,
   ToastWarning,
-} from "../Alert/Toast";
-import { Button, Input, MenuItem, Select, Table, Radio } from "../Form";
+} from "../../Alert/Toast";
+import { Button, Input, MenuItem, Select, Table, Radio } from "../../Form";
 import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
 import FormularioResposta from "./FormularioResposta";
-import { UseQuestion } from "../Context/QuestaoContext";
+import { UseQuestion } from "../../Context/QuestaoContext";
 import { IconButton, RadioGroup, Tooltip } from "@material-ui/core";
 
 const Backdrop = (props) => {
@@ -455,6 +455,8 @@ const Backdrop = (props) => {
 
 export default function FormularioQuestao() {
   const { alternativa, sugestao } = UseQuestion();
+
+  console.log(alternativa);
   const [selectUniversidade, setselectUniversidade] = useState(0);
   const [selectAssuntoMateria, setselectAssuntoMateria] = useState(0);
   const [selectDificuldade, setselectDificuldade] = useState(0);
@@ -769,7 +771,8 @@ export default function FormularioQuestao() {
                 value={selectUniversidade}
               >
                 <MenuItem value={-1}>Selecione</MenuItem>
-                {questoes.universidade !== undefined && questoes.universidade.map &&
+                {questoes.universidade !== undefined &&
+                  questoes.universidade.map &&
                   questoes.universidade.map((el, i) => (
                     <MenuItem key={i} value={el["idUniversidade"]}>
                       {el["nomeUniversidade"]}
@@ -808,7 +811,9 @@ export default function FormularioQuestao() {
                 value={selectAssuntoMateria}
               >
                 <MenuItem value={-1}>Selecione</MenuItem>
-                {questoes.assuntoMateria !== undefined && questoes.assuntoMateria.assuntoMateria != undefined && questoes.assuntoMateria.assuntoMateria.map((el, i) => (
+                {questoes.assuntoMateria !== undefined &&
+                  questoes.assuntoMateria.assuntoMateria != undefined &&
+                  questoes.assuntoMateria.assuntoMateria.map((el, i) => (
                     <MenuItem key={i} value={el["idAssuntoMateria"]}>
                       {el["nomeAssuntoMateria"]}
                     </MenuItem>

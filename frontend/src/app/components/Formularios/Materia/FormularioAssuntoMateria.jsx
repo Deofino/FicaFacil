@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { Input, Select, MenuItem, Button, Table } from "../Form/";
-import { AlertError, AlertSuccess } from "../Alert/Modal";
+import { Input, Select, MenuItem, Button, Table } from "../../Form/";
+import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastSuccess, ToastWarning } from "../Alert/Toast";
+import { ToastSuccess, ToastWarning } from "../../Alert/Toast";
 import { FaTimes, FaBookOpen } from "react-icons/fa";
 
 const Backdrop = (props) => {
