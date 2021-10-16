@@ -1,6 +1,4 @@
 RewriteEngine On
-RewriteCond %{REQUEST_URI} !(/$|\.)
-RewriteRule (.*) %{REQUEST_URI}/ [R=301,L]
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^([^.]+)$ index.php?url=$1 [NC,L]

@@ -8,6 +8,15 @@ define(
     "FICA FACIL"
 );
 define(
+    "FACEBOOK",
+    [
+        'clientId'          => '297518861925944',
+        'clientSecret'      => 'a526b3822fc57bb337cdee78473e33fd',
+        'redirectUri'       => 'https://localhost/FicaFacil/backend/api/cliente/facebook/',
+        'graphApiVersion'   => 'v2.10',
+    ]
+);
+define(
     "HOSTNAME",
     'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 );

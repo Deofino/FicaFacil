@@ -25,7 +25,7 @@ export const SimuladoProvider = (props) => {
   const [qtde, setQtde] = useState(10);
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
-  const [questaoAtual, setQuestaoAtual] = useState(1);
+  const [questaoAtual, setQuestaoAtual] = useState(0);
   const [tempo, setTempo] = useState(30);
   return (
     <contextSimulado.Provider

@@ -27,8 +27,8 @@ export function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-export default function Navbar() {
-  const [user, setUser] = React.useState({ nome: "Usuario" });
+export default function NavbarUser() {
+  const [user, setUser] = React.useState({ nomeAdministrador: "Usuario" });
 
   React.useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -54,45 +54,45 @@ export default function Navbar() {
           <Link to="/acessos">
             <div className="space">
               <FaChartLine className="icon" />
-              <span className="c-navbar__links-name">Ver Métrica</span>
+              <span className="c-navbar__links-name">Questoes</span>
             </div>
           </Link>
-          <span className="c-navbar__tooltip">Ver Métrica</span>
+          <span className="c-navbar__tooltip">Questoes</span>
         </li>
         <li className="c-navbar__menu-item">
           <Link to="/dashboard">
             <div className="space">
               <FaChartPie className="icon" />
-              <span className="c-navbar__links-name">Simulados Feitos</span>
+              <span className="c-navbar__links-name">Metricas</span>
             </div>
           </Link>
-          <span className="c-navbar__tooltip">Porcentagem%</span>
+          <span className="c-navbar__tooltip">Metricas</span>
         </li>
         <li className="c-navbar__dropdown">
           <div className="c-navbar__menu-item">
             <Link to="/questao">
               <div className="space">
                 <FaGraduationCap className="icon" />
-                <span className="c-navbar__links-name"></span>
+                <span className="c-navbar__links-name">Fazer simulado</span>
                 <FaArrowDown className="arrow icon" />
               </div>
             </Link>
-            <span className="c-navbar__tooltip">Simulado Modular</span>
+            <span className="c-navbar__tooltip">Fazer simulado</span>
           </div>
           <ul className="c-navbar__sub-menu">
             <li className="c-navbar__menu-item">
               <Link className="c-navbar__link-name" to="/questao">
-              Simulado Por Dia
+                Questão
               </Link>
             </li>
             <li className="c-navbar__menu-item">
-              <Link to="/materias">Simulado Por Caderno</Link>
+              <Link to="/materias">Matérias</Link>
             </li>
             <li className="c-navbar__menu-item">
-              <Link to="/dificuldade">Simulado Por Matéria</Link>
+              <Link to="/dificuldade">Dificuldade</Link>
             </li>
             <li className="c-navbar__menu-item">
-              <Link to="/universidade">Simulado Área</Link>
+              <Link to="/universidade">Universidade</Link>
             </li>
           </ul>
         </li>
@@ -117,7 +117,7 @@ export default function Navbar() {
         <li className="c-navbar__profile">
           <div className="c-navbar__profile-details">
             <div className="c-navbar__name-job">
-              <div className="name">{user.nome}</div>
+              <div className="name">{user.nomeAdministrador}</div>
             </div>
           </div>
           <Tooltip

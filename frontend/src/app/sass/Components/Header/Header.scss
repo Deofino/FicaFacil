@@ -4,6 +4,7 @@ body {
         padding-left: rem(50);
     }
 }
+
 .l-header {
     position: fixed;
     height: 100%;
@@ -489,4 +490,9 @@ body {
             left: 80%;
         }
     }
+}
+
+.l-header.user {
+    //
+    background: red;
 }

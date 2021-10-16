@@ -91,9 +91,10 @@ class RespostaModel
                         "questao" => json_decode($questao)->data
                     ], 404);
                 }
-                if ($stmt->rowCount() === 1) {
+                if ($params !== null) {
                     $resposta = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     $questao = (new QuestaoModel)->get(['id' => $resposta[0]['idQuestao']]);
+                    dd($questao);
                     return Response::success([
                         "resposta" => $resposta,
                         "questao" => json_decode($questao)->data
