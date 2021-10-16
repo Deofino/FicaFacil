@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { AlertError, AlertSuccess } from "../Alert/Modal";
-import { Input, Button, Table } from "../Form";
+import { AlertError, AlertSuccess } from "../../Alert/Modal";
+import { Input, Button, Table } from "../../Form";
 import { FaBookOpen, FaTimes } from "react-icons/fa";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastError, ToastSuccess } from "../Alert/Toast";
+import { ToastError, ToastSuccess } from "../../Alert/Toast";
 
 const Backdrop = (props) => {
   const [attAreaMateria, setAttAreaMateria] = useState(props.data[1] || ""); // State para atualizar o campo

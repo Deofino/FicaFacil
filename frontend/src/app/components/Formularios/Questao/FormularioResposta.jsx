@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { UseQuestion } from "../Context/QuestaoContext";
-import { Input, Button, RadioGroup, Radio } from "../Form/";
-import { ToastInformation } from "../Alert/Toast";
+import { UseQuestion } from "../../Context/QuestaoContext";
+import { Input, Button, RadioGroup, Radio } from "../../Form/";
+import { ToastInformation } from "../../Alert/Toast";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { FaListAlt, FaImages, FaFont } from "react-icons/fa";
 
