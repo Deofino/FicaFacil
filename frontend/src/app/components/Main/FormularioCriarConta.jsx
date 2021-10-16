@@ -54,6 +54,7 @@ export default function FormularioCriarConta() {
           setConfirmacao_senha("");
         } else {
           ToastError({ text: "Ops... Houve Algum erro ao inserir cliente..." });
+          console.log(data);
         }
       })
       .catch((err) => {
