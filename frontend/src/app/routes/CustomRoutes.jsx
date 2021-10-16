@@ -3,6 +3,7 @@ import { useAuth } from "../components/Context/AuthContext";
 import { Redirect, Route } from "react-router-dom";
 
 import Header from "../components/Header/Header";
+import HeaderUser from "../components/Header/NavBarUser";
 import Footer from "../components/Footer/Footer";
 import Main from "../components/Main/Main";
 
@@ -45,6 +46,7 @@ export function UserRoute({ children, ...rest }) {
           />
         ) : (
           <React.Fragment>
+            <HeaderUser></HeaderUser>
             <Main>{children}</Main>
             <Footer />
           </React.Fragment>

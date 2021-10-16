@@ -8,6 +8,7 @@ import { GuestRoute, UserRoute, PrivateRoute } from "./CustomRoutes";
 import { Route, Switch } from "react-router-dom";
 // Components
 import Header from "../components/Header/Header";
+import HeaderUser from "../components/Header/NavBarUser";
 import Footer from "../components/Footer/Footer";
 
 import {
@@ -35,7 +36,7 @@ export default function Routes() {
           {localStorage.getItem("auth") !== null ? (
             <Header />
           ) : (
-            <h1>Menu user</h1>
+            <HeaderUser></HeaderUser>
           )}
           <h1 style={{ color: "white", fontSize: 22, margin: 20 }}>
             Pagina inicial
