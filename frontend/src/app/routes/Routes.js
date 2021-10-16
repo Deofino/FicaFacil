@@ -8,6 +8,7 @@ import { GuestRoute, UserRoute, PrivateRoute } from "./CustomRoutes";
 import { Route, Switch } from "react-router-dom";
 // Components
 import Header from "../components/Header/Header";
+import HeaderUser from "../components/Header/HeaderUser";
 import Footer from "../components/Footer/Footer";
 
 import {
@@ -27,17 +28,17 @@ import {
 import { FormularioQuestao } from "../components/Formularios/Questao";
 import { Simulado } from "../components/Formularios/Simulado";
 
-export default function Routes() {
+export default function Routes () {
   return (
     <ProvideAuth>
       <Switch>
         <Route exact path="/">
-          {localStorage.getItem("auth") !== null ? (
+          { localStorage.getItem("auth") !== null ? (
             <Header />
           ) : (
-            <h1>Menu user</h1>
-          )}
-          <h1 style={{ color: "white", fontSize: 22, margin: 20 }}>
+            <HeaderUser />
+          ) }
+          <h1 style={ { color: "white", fontSize: 22, margin: 20 } }>
             Pagina inicial
           </h1>
           <Footer />
