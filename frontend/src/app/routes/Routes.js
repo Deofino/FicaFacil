@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState } from 'react';
 
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import axios from 'axios';
 import { QuestaoProvider } from "../components/Context/QuestaoContext";
 
 // Components 
@@ -13,6 +12,7 @@ import FormularioUniversidade from '../components/Main/FormularioUniversidade';
 import FormularioDificuldade from '../components/Main/FormularioDificuldade';
 import FormularioMaterias from '../components/Main/FormularioMaterias';
 import ComponentCookie from '../components/Main/ComponentCookie';
+import ComponentHome from '../components/Main/ComponentHome';
 import FormularioLoginEmail from '../components/Main/FormularioLoginEmail';
 import FormularioLoginSocial from '../components/Main/FormularioLoginSocial';
 import FormularioCriarConta from '../components/Main/FormularioCriarConta';
@@ -162,6 +162,11 @@ export default function Routes () {
                 </PrivateRoute>
                 <GuestRoute path='/cookie'>
                     <ComponentCookie />
+                </GuestRoute>
+                <GuestRoute path='/home'>
+                <Header />
+                    <ComponentHome />
+                 <Footer />
                 </GuestRoute>
                 <GuestRoute path='/entrar/email'>
                     <FormularioLoginEmail />

@@ -53,7 +53,7 @@ const Backdrop = (props) => {
     backdrop.classList.toggle("open");
     ReactDOM.unmountComponentAtNode(backdrop);
   };
-  return (
+    return (
     <section className="c-formularioUpdate" id="c-formularioUpdate">
       <Tooltip
         className="c-formularioUpdate__close"
