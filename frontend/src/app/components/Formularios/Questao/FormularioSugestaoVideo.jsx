@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { Input } from "../Form/";
+import { Input } from "../../Form/";
 import { FaLink, FaImage } from "react-icons/fa";
-import { UseQuestion } from "../Context/QuestaoContext";
+import { UseQuestion } from "../../Context/QuestaoContext";
 
 export default function FormularioSugestaoVideo(props) {
   const {

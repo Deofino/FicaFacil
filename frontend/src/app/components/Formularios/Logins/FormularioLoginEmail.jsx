@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Button, Input } from "../Form";
+import { Input, Button } from "../../Form";
 import { FaAt, FaLock, FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Logo from "../../../img/project/logo-branca.png";
+import Logo from "../../../../img/project/logo-branca.png";
 import axios from "axios";
-import { ToastError, ToastWarning } from "../Alert/Toast";
+import { ToastError, ToastWarning } from "../../Alert/Toast";
 import { regexEmail } from "./FormularioLoginAdm";
 
 export default function FormularioLoginEmail() {

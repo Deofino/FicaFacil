@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Input, Button } from "../Form";
+import { Input, Button } from "../../Form";
 import axios from "axios";
 import { FaAt, FaUser, FaLock, FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Logo from "../../../img/project/logo-branca.png";
-import { ToastError, ToastSuccess } from "../Alert/Toast";
+import Logo from "../../../../img/project/logo-branca.png";
+import { ToastError, ToastSuccess } from "../../Alert/Toast";
 import { regexEmail } from "./FormularioLoginAdm";
 export default function FormularioCriarConta() {
   const [nome, setNome] = useState("");
@@ -54,6 +54,7 @@ export default function FormularioCriarConta() {
           setConfirmacao_senha("");
         } else {
           ToastError({ text: "Ops... Houve Algum erro ao inserir cliente..." });
+          console.log(data);
         }
       })
       .catch((err) => {

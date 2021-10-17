@@ -101,4 +101,34 @@ class ClienteController
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
+    public function facebook($params)
+    {
+        session_start();
+        /**
+         * AUTH FACEBOOK
+         */
+        $facebook = new \League\OAuth2\Client\Provider\Facebook(FACEBOOK);
+        if (!isset($_SESSION['facebook'])) {
+            $authurl = $facebook->getAuthorizationUrl([
+                'scope' => ['email']
+            ]);
+
+            echo "<a href='$authurl'
+            >Login</a>";
+
+            $queryString = (explode('?', $_SERVER["REQUEST_URI"]));
+            array_shift($queryString);
+            if (count($queryString) !== 0) {
+                $res = explode('=', $queryString[0])[0];
+                if ($res === 'code') {
+                    dd('ok Passou!!', false);
+                    $token = explode('=', $queryString[0])[1];
+                    $data = $facebook->getResourceOwner($token);
+                    dd($data);
+                } else {
+                    dd('Nao autorizado');
+                }
+            }
+        }
+    }
 }

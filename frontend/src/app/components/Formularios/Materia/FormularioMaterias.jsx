@@ -1,8 +1,11 @@
 import React, { Fragment } from "react";
 import { Tab, Tabs } from "@material-ui/core";
-import FormularioAssuntoMateria from "./FormularioAssuntoMateria";
-import FormularioAreaMateria from "./FormularioAreaMateria";
-import FormularioMateria from "./FormularioMateria";
+
+import {
+  FormularioAreaMateria,
+  FormularioAssuntoMateria,
+  FormularioMateria,
+} from "./";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
