@@ -873,13 +873,6 @@ body {
                 left: 0;
                 transform: translate(0, -50%);
             }
-            .arrow {
-                font-size: rem(12);
-
-                @include breakpoint(small) {
-                    font-size: rem(10);
-                }
-            }
         }
         &__sub-menu {
             display: block;

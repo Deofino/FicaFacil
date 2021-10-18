@@ -8,8 +8,7 @@ import {
   FaUserAlt,
   FaCog,
   FaSignOutAlt,
-  FaArrowDown,
-  FaStickyNote,
+  FaEdit,
 } from "react-icons/fa";
 
 export function parseJwt(token) {
@@ -28,7 +27,7 @@ export function parseJwt(token) {
 }
 
 export default function NavbarUser() {
-  const [user, setUser] = React.useState({ nome: "Usuario" });
+  const [user, setUser] = React.useState({ nome: "Usuário" });
 
   React.useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -63,38 +62,21 @@ export default function NavbarUser() {
           <Link to="/metricas">
             <div className="space">
               <FaChartPie className="icon" />
-              <span className="c-navbar__links-name">Metricas</span>
+              <span className="c-navbar__links-name">Métricas</span>
             </div>
           </Link>
-          <span className="c-navbar__tooltip">Metricas</span>
+          <span className="c-navbar__tooltip">Métricas</span>
         </li>
         <li className="c-navbar__dropdown">
           <div className="c-navbar__menu-item">
             <Link to="/simulado">
               <div className="space">
-                <FaStickyNote className="icon" />
-                <span className="c-navbar__links-name">Fazer simulado</span>
-                <FaArrowDown className="arrow icon" />
+                <FaEdit className="icon" />
+                <span className="c-navbar__links-name">Simulado</span>
               </div>
             </Link>
-            <span className="c-navbar__tooltip">Fazer simulado</span>
+            <span className="c-navbar__tooltip">Simulado</span>
           </div>
-          <ul className="c-navbar__sub-menu">
-            <li className="c-navbar__menu-item">
-              <Link className="c-navbar__link-name" to="/simulado">
-                Simulado Por Dia
-              </Link>
-            </li>
-            <li className="c-navbar__menu-item">
-              <Link to="/simulado">Simulado Por Mês</Link>
-            </li>
-            <li className="c-navbar__menu-item">
-              <Link to="/simulado">Simulado Por Bimestre</Link>
-            </li>
-            <li className="c-navbar__menu-item">
-              <Link to="/simulado">Simulado Por Semestre</Link>
-            </li>
-          </ul>
         </li>
         <li className="c-navbar__menu-item">
           <Link to="/entrar">
