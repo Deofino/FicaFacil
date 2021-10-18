@@ -25,6 +25,8 @@ import {
   NotFound,
 } from "../components/Formularios/Outros";
 
+import ComponentHome from "../components/Main/ComponentHome";
+
 import { FormularioQuestao } from "../components/Formularios/Questao";
 import { Simulado } from "../components/Formularios/Simulado";
 
@@ -38,9 +40,7 @@ export default function Routes () {
           ) : (
             <HeaderUser />
           ) }
-          <h1 style={ { color: "white", fontSize: 22, margin: 20 } }>
-            Pagina inicial
-          </h1>
+         <ComponentHome />
           <Footer />
         </Route>
         <PrivateRoute path="/questao">

@@ -2,28 +2,66 @@
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+   
+    &_home{
+        display: flex;
+        width: 100%;
+        @include breakpoint(medium){
+            flex-direction: column-reverse;
+        }
     &__right{
         width: 50%;
         position: absolute;
         right: 0;
         top: 0;
+        @include breakpoint(medium){
+            position: relative;
+            width: 70%;
+            margin-left: 30%;
+        }
+        @include breakpoint(smallin){
+            width: 100%;
+            margin-left: 0%;
+        }
     }
     &__left{
         width: 50%;
+        @include breakpoint(medium){
+            width: 80%;
+        }
         &__title{
             font-size: rem(30);
             font-weight: bold;
             margin: rem(150) rem(0) rem(0) rem(30);
+            @include breakpoint(large){
+                font-size: rem(25);
+                margin: rem(120) rem(0) rem(0) rem(30);
+            }
+            @include breakpoint(medium){
+                margin: rem(20) rem(0) rem(0) rem(30);
+            }
+            @include breakpoint(small){
+                font-size: rem(18);
+            }
         }
         &__sub{
             font-size: rem(25);
             font-weight: 500;
             margin: rem(20) rem(0) rem(15) rem(30);
+            @include breakpoint(large){
+                font-size: rem(18);
+            }
         }
         &__text{
             font-size: rem(20);
             font-weight: 200;
             margin: rem(0) rem(0) rem(30) rem(30);
+            @include breakpoint(large){
+                font-size: rem(15);
+            }
+            @include breakpoint(small){
+                font-size: rem(15);
+            }
         }
         &__btn{
             margin: rem(0) rem(0) rem(150) rem(30);
@@ -34,6 +72,38 @@
             text-align: center;
             color: var(--color-white);
             font-weight: 800;
+            box-shadow: rem(5) rem(5px) rem(8px) var(--color-shadow);
+            @include breakpoint(large){
+                font-size: rem(12);
+            }
+            @include breakpoint(medium){
+                width: 35%;
+            }
+            @include breakpoint(small){
+                width: 50%;
+            }
+            @include breakpoint(smallin){
+                width: 60%;
+            } 
+        }
+    }
+}
+    &__explanation{
+        width: 100%;
+        
+        &__cont{
+            background-color: $white;
+            max-width: 70%;
+            margin: 0 auto;
+            border-radius: rem(8);
+            box-shadow: rem(5) rem(5px) rem(8px) var(--color-shadow);
+            height: 200px;
+            background: $white;
+            position: absolute;
+            top: 140vh;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
     }
 }
