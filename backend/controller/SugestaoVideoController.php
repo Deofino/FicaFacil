@@ -10,7 +10,7 @@ class SugestaoVideoController
 
     public function index($params) // parametros daqui sao da URL
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new SugestaoVideoModel();
             echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
             return;
@@ -20,7 +20,7 @@ class SugestaoVideoController
 
     public function create() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
             $data = json_decode(file_get_contents('php://input', true));
             $model = new SugestaoVideoModel();
             if (isset($data->sugestaoVideo) && isset($data->questao)) {
@@ -37,7 +37,7 @@ class SugestaoVideoController
 
     public function update() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && auth()) { // verificar se eh post
             $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
             if (isset($req->titulosugestaoVideo) && isset($req->thumbnailsugestaoVideo) && isset($req->urlsugestaoVideo) && isset($req->id) && isset($req->questao)) { // verifica se o id e a materia existem
                 if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
@@ -71,7 +71,7 @@ class SugestaoVideoController
     }
     public function delete($params) // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && auth()) {
             $model = new SugestaoVideoModel();
             echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
             return;

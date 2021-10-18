@@ -10,7 +10,7 @@ class MateriaController
 
     public function index($params) // parametros daqui sao da URL
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new MateriaModel();
             echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
             return;
@@ -20,7 +20,7 @@ class MateriaController
 
     public function create() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
             $data = json_decode(file_get_contents('php://input', true));
             $model = new MateriaModel();
             if (isset($data->materia) && isset($data->area)) {
@@ -35,7 +35,7 @@ class MateriaController
 
     public function update() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && auth()) { // verificar se eh post
             $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
             if (isset($req->materia) && isset($req->id) && isset($req->area)) { // verifica se o id e a materia existem
                 if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
@@ -66,7 +66,7 @@ class MateriaController
     }
     public function delete($params) // parametro do URL
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && auth()) {
             $model = new MateriaModel();
             echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
             return;

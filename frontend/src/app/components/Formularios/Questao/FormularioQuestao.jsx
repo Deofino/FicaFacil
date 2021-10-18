@@ -31,24 +31,41 @@ const Backdrop = (props) => {
   var regexURL = /(http|Https|Http|Https|blob:http|blob:https):\/\/?/;
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API + `/resposta/index/${props.data[0]}/`)
+      .get(process.env.REACT_APP_API + `/resposta/index/${props.data[0]}/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
+      })
       .then((value) => {
-        setalternativas(value.data.data.resposta);
-        setcorreta(
-          value.data.data.resposta.find((e) => +e.certaResposta === 1)
-            .textoResposta
-        );
+        if(value.data.status_code === 200){
+          setalternativas(value.data.data.resposta);
+          setcorreta(
+            value.data.data.resposta.find((e) => +e.certaResposta === 1)
+              .textoResposta
+          );
+        }
       });
 
     axios
-      .get(process.env.REACT_APP_API + `/sugestaoVideo/index/${props.data[0]}/`)
+      .get(
+        process.env.REACT_APP_API + `/sugestaoVideo/index/${props.data[0]}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        }
+      )
       .then((value) => {
         if (value.data.status_code === 200) {
           let sugestao = value.data.data.sugestaoVideo[0];
           settituloSugestao(sugestao.tituloSugestaoVideo || "");
           setthumbSugestao(sugestao.thumbnailSugestaoVideo || "");
           seturlSugestao(sugestao.urlSugestaoVideo || "");
-        }
+        } else ToastWarning({ text: value.data.data || "Warning" });
       });
   }, [props.data]);
 
@@ -149,9 +166,14 @@ const Backdrop = (props) => {
           }
         }
         axios
-          .post(process.env.REACT_APP_API + "/questao/update/", formData)
+          .post(process.env.REACT_APP_API + "/questao/update/", formData, {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          })
           .then((el) => {
-            console.log(el.data);
             if (el.data.status_code === 200) {
               ToastSuccess({ text: "Questao atualizada com sucesso!" });
               setTimeout(() => {
@@ -363,7 +385,6 @@ const Backdrop = (props) => {
                       alternativas_por_imagem.push(imagem);
                       setcorreta(null);
                     }
-                    // console.log(alternativas_por_imagem);
                     setalternativas(alternativas_por_imagem);
                   } else
                     ToastWarning({ text: "Selecione 5 imagens em seguida." });
@@ -456,7 +477,6 @@ const Backdrop = (props) => {
 export default function FormularioQuestao() {
   const { alternativa, sugestao } = UseQuestion();
 
-  console.log(alternativa);
   const [selectUniversidade, setselectUniversidade] = useState(0);
   const [selectAssuntoMateria, setselectAssuntoMateria] = useState(0);
   const [selectDificuldade, setselectDificuldade] = useState(0);
@@ -479,10 +499,22 @@ export default function FormularioQuestao() {
   const [ErroAdministrador, setErroAdministrador] = useState(null);
 
   const errorMsg = "O campo precisa ter mais de 4 caracteres";
+
   useEffect(() => {
-    axios.get(process.env.REACT_APP_API + "/questao/index/").then((value) => {
-      setQuestao(value.data.data);
-    });
+    axios
+      .get(process.env.REACT_APP_API + "/questao/index/", {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
+      })
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setQuestao(value.data.data);
+        } else ToastWarning({ text: value.data.data });
+      })
+      .catch((err) =>ToastError({ text: err || "Warning" }));
   }, []);
 
   const update = (id, tabela, nome, linhas, colunas) => {
@@ -592,7 +624,13 @@ export default function FormularioQuestao() {
         formData.append("alternativas", alternativa.alternativas);
 
       axios
-        .post(`${process.env.REACT_APP_API}/questao/create/`, formData)
+        .post(`${process.env.REACT_APP_API}/questao/create/`, formData, {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        })
         .then(function (parametro) {
           if (parametro.data.status_code === 200) {
             AlertSuccess({
@@ -601,10 +639,9 @@ export default function FormularioQuestao() {
             });
           } else {
             AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
-            console.log(parametro.data);
           }
         })
-        .catch(function () {
+        .catch(function (err) {
           AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
         });
       setTimeout(() => {
@@ -812,7 +849,7 @@ export default function FormularioQuestao() {
               >
                 <MenuItem value={-1}>Selecione</MenuItem>
                 {questoes.assuntoMateria !== undefined &&
-                  questoes.assuntoMateria.assuntoMateria != undefined &&
+                  questoes.assuntoMateria.assuntoMateria !== undefined &&
                   questoes.assuntoMateria.assuntoMateria.map((el, i) => (
                     <MenuItem key={i} value={el["idAssuntoMateria"]}>
                       {el["nomeAssuntoMateria"]}

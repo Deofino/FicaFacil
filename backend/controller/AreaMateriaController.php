@@ -10,7 +10,7 @@ class AreaMateriaController
 
     public function index($params) // parametros daqui sao da URL
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new AreaMateriaModel();
             echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
             return;
@@ -20,7 +20,7 @@ class AreaMateriaController
 
     public function create() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
             $data = json_decode(file_get_contents('php://input'));
             $model = new AreaMateriaModel();
             if (isset($data->areaMateria)) {
@@ -31,10 +31,10 @@ class AreaMateriaController
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
-    
+
     public function update() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && auth()) { // verificar se eh post
             $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
             if (isset($req->areaMateria) && isset($req->id)) { // verifica se o id e a dificuldade existem
                 if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
@@ -43,12 +43,12 @@ class AreaMateriaController
                     if ($data->status_code === 200) { // se houver erro na requisicao na dificuldade 
                         foreach ($data->data as $el) { // foreach pra verificar cada elemento
                             if ($el->idAreaMateria == $req->id) { // se for igual pode atualizar
-                                $model->setNome(trim($req->areaMateria)); // insere aqui pra passar pelas verificacoes de dados
+                                $model->setNome(trim($req->areaMateria), false); // insere aqui pra passar pelas verificacoes de dados
                                 echo $model->put($req->id);
                                 return;
                             };
                         }
-                        echo Response::warning("Area Matéria com id `" .$req->id . "` nao encontrada", 404);
+                        echo Response::warning("Area Matéria com id `" . $req->id . "` nao encontrada", 404);
                         return; // senao puder ele ira gerar erro daqui pra baixo
                     } else {
                         echo Response::error("Erro ao pegar area matéria", 404);
@@ -64,7 +64,7 @@ class AreaMateriaController
     }
     public function delete($params) // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && auth()) {
             $model = new AreaMateriaModel();
             echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
             return;

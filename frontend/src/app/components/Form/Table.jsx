@@ -45,13 +45,19 @@ export default function StickyHeadTable({
     conf.then((v) => {
       if (v.isConfirmed) {
         axios
-          .post(`${process.env.REACT_APP_API}/${tabela}/delete/${id}/`)
+          .delete(`${process.env.REACT_APP_API}/${tabela}/delete/${id}/`, {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          })
           .then((value) => {
-            if(value.data.status_code === 200){
+            if (value.data.status_code === 200) {
               ToastSuccess({ text: nome + " deletada com sucesso" });
-            }else{
-              console.log(value.data);
-              ToastError({ text: "Nao pode excluir por causa da Foreign Key" });
+            } else {
+              // console.log(value.data);
+              ToastError({ text: value.data.data });
             }
           })
           .catch((error) =>
@@ -59,7 +65,7 @@ export default function StickyHeadTable({
           );
 
         setTimeout(() => {
-          window.location.reload();
+          // window.location.reload();
         }, 4000);
       }
     });

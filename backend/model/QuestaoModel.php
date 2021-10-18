@@ -170,17 +170,21 @@ class QuestaoModel
         return;
     }
 
-    public function get($params = null)
+    public function get(string $where = '', array $send = [])
     {
         try {
             $con = Connection::getConn();
-            if ($params === null) {
-                $stmt = $con->prepare("SELECT * FROM tb_questao");
+            $query = 'SELECT * FROM tb_questao';
+            if ($where === '' && $send == []) {
+                $stmt = $con->prepare($query);
+            } else if (isset($send['id'])) {
+                $stmt = $con->prepare($query . ' WHERE idQuestao = ?');
+                $send = [(int)$send['id']];
             } else {
-                $stmt = $con->prepare("SELECT * FROM tb_questao WHERE idQuestao = ?");
-                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
+                $stmt = $con->prepare($query . $where);
+                dd($query . $where);
             }
-            if ($stmt->execute()) {
+            if ($stmt->execute($send)) {
                 $universidade = (new UniversidadeModel)->get();
                 $dificuldade = (new DificuldadeModel)->get();
                 $assuntoMateria = (new AssuntoMateriaModel)->get();
@@ -194,7 +198,7 @@ class QuestaoModel
                         "administrador" => json_decode($administrador)->data
                     ], 404);
                 }
-                if ($stmt->rowCount() === 1 && $params != null) {
+                if ($stmt->rowCount() === 1 && $where != '') {
                     $questao = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     $universidade = (new UniversidadeModel)->get(['id' => $questao[0]['idUniversidade']]);
                     $dificuldade = (new DificuldadeModel)->get(['id' => $questao[0]['idDificuldade']]);
@@ -220,7 +224,7 @@ class QuestaoModel
             }
             return Response::error("Erro ao selecionar questão");
         } catch (\Throwable $th) {
-            return Response::error("Error: $th");
+            return Response::error("Error: " . $th->getMessage());
         }
     }
     public function post()
@@ -273,7 +277,7 @@ class QuestaoModel
         try {
             if ($id !== -1 && $id !== null) {
                 $con = Connection::getConn();
-                $data = json_decode($this->get(array('id' => $id)));
+                $data = json_decode($this->get('', array('id' => $id)));
                 if ($data->status_code === 200) {
                     $stmt = $con->prepare("DELETE FROM tb_questao WHERE idQuestao = ?");
                     $stmt->bindValue(1, trim($id), PDO::PARAM_INT);

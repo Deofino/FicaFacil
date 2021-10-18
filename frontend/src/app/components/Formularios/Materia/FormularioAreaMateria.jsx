@@ -5,7 +5,7 @@ import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Input, Button, Table } from "../../Form";
 import { FaBookOpen, FaTimes } from "react-icons/fa";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastError, ToastSuccess } from "../../Alert/Toast";
+import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
 
 const Backdrop = (props) => {
   const [attAreaMateria, setAttAreaMateria] = useState(props.data[1] || ""); // State para atualizar o campo
@@ -20,25 +20,31 @@ const Backdrop = (props) => {
     ) {
       // verificacao dos campos
       axios
-        .post(
+        .put(
           `${process.env.REACT_APP_API}/areaMateria/update/`, // requisicao post backend/api/campo/update METHOD POST
+
           JSON.stringify({
             // faz um json com
             areaMateria: attAreaMateria, // o campo que deve ser atualizado
             id: props.data[0], // o id da universidade que deve ser atualizado no WHERE
-          })
+          }),
+          {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          }
         )
         .then((value) => {
-          if (value.data.status_code) {
+          if (value.data.status_code === 200) {
             // verifica se status code retorna 200 = OK
             ToastSuccess({ text: value.data.data }); // mensagem de sucesso
             close(); // fecha o backdrop
             setTimeout(() => {
               window.location.reload(); // atualiza a pagina dps de 4 segundos
             }, 4000);
-          } else {
-            console.log(value.data);
-          }
+          } else ToastWarning({ text: value.data.data || "Warning" });
         })
         .catch((error) => ToastError({ text: error })); // caso backend retorne erro aparece aqui
     } else {
@@ -100,11 +106,19 @@ export default function FormularioAreaMateria() {
   const [areaMaterias, setareaMaterias] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/areaMateria/index/`)
-      .then((value) => {
-        setareaMaterias(value.data.data);
+      .get(`${process.env.REACT_APP_API}/areaMateria/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
       })
-      .catch((error) => console.error(error));
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setareaMaterias(value.data.data);
+        } else ToastWarning({ text: value.data.data || "Warning" });
+      })
+      .catch((error) => ToastError({ text: error || "Warning" }));
   }, []);
 
   const columns = [
@@ -158,7 +172,15 @@ export default function FormularioAreaMateria() {
                   process.env.REACT_APP_API + "/areaMateria/create/",
                   JSON.stringify({
                     areaMateria: refAreaMateria.current.value,
-                  })
+                  }),
+                  {
+                    headers: {
+                      Authorization: `Bearer ${
+                        localStorage.getItem("auth") ||
+                        localStorage.getItem("user")
+                      }`,
+                    },
+                  }
                 )
                 .then((data) => {
                   refAreaMateria.current.value = "";

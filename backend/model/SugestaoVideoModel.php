@@ -112,7 +112,7 @@ class SugestaoVideoModel
                 }
                 if (isset($params['id'])) {
                     $sugestaoVideo = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    $questao = (new QuestaoModel)->get(['id' => $sugestaoVideo[0]['idQuestao']]);
+                    $questao = (new QuestaoModel)->get('', ['id' => $sugestaoVideo[0]['idQuestao']]);
                     return Response::success([
                         "sugestaoVideo" => $sugestaoVideo,
                         "questao" => json_decode($questao)->data

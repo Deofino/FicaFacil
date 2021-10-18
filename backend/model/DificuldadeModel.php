@@ -15,22 +15,26 @@ class DificuldadeModel
     {
         return $this->nivel;
     }
-    public function setNivel(string $nivel): void
+    public function setNivel(string $nivel, bool $igual = true): void
     {
         if (isset($nivel) && trim($nivel) !== '' && strlen(trim($nivel)) !== 0 && trim($nivel) !== null) {
-            $model = new DificuldadeModel();
-            $data = json_decode($model->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
-                    if (trim(strtoupper($el->nivelDificuldade)) === trim(strtoupper(($nivel)))) {
-                        throw new \Exception("Nivel de dificuldade `" . $nivel . "` ja cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->nivel = ucfirst($nivel);
-            } else {
-                $this->nivel = ucfirst($nivel);
-            };
+            if ($igual) {
+                $model = new DificuldadeModel();
+                $data = json_decode($model->get());
+                if ($data->status_code === 200) {
+                    foreach ($data->data as $el) {
+                        if (trim(strtoupper($el->nivelDificuldade)) === trim(strtoupper(($nivel)))) {
+                            throw new \Exception("Nivel de dificuldade `" . $nivel . "` ja cadastrada", 400);
+                            return;
+                        };
+                    }
+                    $this->nivel = ucfirst($nivel);
+                } else {
+                    $this->nivel = ucfirst($nivel);
+                };
+                return;
+            }
+            $this->nivel = ucfirst($nivel);
             return;
         }
         throw new \Exception("Esse nivel de dificuldade não pode ser aceito", 400);

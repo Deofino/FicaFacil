@@ -4,7 +4,7 @@ import axios from "axios";
 import { Input, Select, MenuItem, Button, Table } from "../../Form/";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastSuccess, ToastWarning } from "../../Alert/Toast";
+import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
 import { FaTimes, FaBookOpen } from "react-icons/fa";
 
 const Backdrop = (props) => {
@@ -18,16 +18,24 @@ const Backdrop = (props) => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/assuntoMateria/index/`)
-      .then((value) => {
-        setattReqAssuntoMateria(value.data.data);
-        setAttMateria(
-          value.data.data.materia.materia.find(
-            (el) => el.nomeMateria === props.data[2]
-          ).idMateria
-        );
+      .get(`${process.env.REACT_APP_API}/assuntoMateria/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
       })
-      .catch((error) => console.error(error));
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setattReqAssuntoMateria(value.data.data);
+          setAttMateria(
+            value.data.data.materia.materia.find(
+              (el) => el.nomeMateria === props.data[2]
+            ).idMateria
+          );
+        }
+      })
+      .catch((error) => ToastError({ text: error || "Error" }));
   }, [props.data]);
   const updateEvent = (e) => {
     // na hora que clica no botao de atualizar
@@ -50,26 +58,31 @@ const Backdrop = (props) => {
     ) {
       // verificacao dos campos
       axios
-        .post(
+        .put(
           `${process.env.REACT_APP_API}/assuntoMateria/update/`, // requisicao post backend/api/campo/update METHOD POST
           JSON.stringify({
             // faz um json com
             assuntoMateria: attAssuntoMateria, // o campo que deve ser atualizado
             id: props.data[0], // o id dao assunto materia que deve ser atualizado no WHERE
             materia: attMateria, // o id da materia que deve ser atualizado no WHERE
-          })
+          }),
+          {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          }
         )
         .then((value) => {
-          if (value.data.status_code) {
+          if (value.data.status_code === 200) {
             // verifica se status code retorna 200 = OK
             ToastSuccess({ text: value.data.data }); // mensagem de sucesso
             close(); // fecha o backdrop
             setTimeout(() => {
               window.location.reload(); // atualiza a pagina dps de 4 segundos
             }, 4000);
-          } else {
-            console.log(value.data);
-          }
+          } else ToastWarning({ text: value.data.data || "Warning" });
         });
     } else {
       ToastWarning({ text: "Preencha os campos corretamente" });
@@ -153,14 +166,34 @@ export default function FormularioAssuntoMateria() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/materia/index/`)
-      .then((value) => setMaterias(value.data.data))
-      .catch((error) => console.error(error));
+      .get(`${process.env.REACT_APP_API}/materia/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
+      })
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setMaterias(value.data.data);
+        }
+      })
+      .catch((error) => ToastError({ text: error || "Error" }));
 
     axios
-      .get(`${process.env.REACT_APP_API}/assuntoMateria/index/`)
-      .then((value) => setAssuntoMateria(value.data.data))
-      .catch((error) => console.error(error));
+      .get(`${process.env.REACT_APP_API}/assuntoMateria/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
+      })
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setAssuntoMateria(value.data.data);
+        }
+      })
+      .catch((error) => ToastError({ text: error || "Error" }));
   }, []);
 
   const submitForm = (e) => {
@@ -186,7 +219,14 @@ export default function FormularioAssuntoMateria() {
           JSON.stringify({
             assuntoMateria: refAssuntoMateria.current.value || null,
             materia: selectedMateria,
-          })
+          }),
+          {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          }
         )
         .then((data) => {
           refAssuntoMateria.current.value = "";

@@ -15,22 +15,26 @@ class AreaMateriaModel
     {
         return $this->nome;
     }
-    public function setNome(string $nome): void
+    public function setNome(string $nome, $igual = true): void
     {
         if (isset($nome) && trim($nome) !== '' && strlen(trim($nome)) !== 0 && trim($nome) !== null) {
-            $model = new AreaMateriaModel();
-            $data = json_decode($model->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
-                    if (trim(strtoupper($el->nomeAreaMateria)) === trim(strtoupper(($nome)))) {
-                        throw new \Exception("nome de Area da materia `" . $nome . "` ja cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->nome = ucfirst($nome);
-            } else {
-                $this->nome = ucfirst($nome);
-            };
+            if ($igual) {
+                $model = new AreaMateriaModel();
+                $data = json_decode($model->get());
+                if ($data->status_code === 200) {
+                    foreach ($data->data as $el) {
+                        if (trim(strtoupper($el->nomeAreaMateria)) === trim(strtoupper(($nome)))) {
+                            throw new \Exception("nome de Area da materia `" . $nome . "` ja cadastrada", 400);
+                            return;
+                        };
+                    }
+                    $this->nome = ucfirst($nome);
+                } else {
+                    $this->nome = ucfirst($nome);
+                };
+                return;
+            }
+            $this->nome = ucfirst($nome);
             return;
         }
         throw new \Exception("Esse Area da materia não pode ser aceito", 400);

@@ -37,7 +37,7 @@ class ClienteController
 
     public function update() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) { // verificar se eh post
             $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
             if (isset($req->nomeCliente) && isset($req->emailCliente) && isset($req->senhaCliente) && isset($req->id)) { // verifica se o id e a dificuldade existem
                 if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
@@ -69,7 +69,7 @@ class ClienteController
     }
     public function delete($params) // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && auth()) {
             $model = new ClienteModel();
             echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
             return;

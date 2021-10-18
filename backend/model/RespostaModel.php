@@ -93,7 +93,7 @@ class RespostaModel
                 }
                 if ($params !== null) {
                     $resposta = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    $questao = (new QuestaoModel)->get(['id' => $resposta[0]['idQuestao']]);
+                    $questao = (new QuestaoModel)->get('', ['id' => $resposta[0]['idQuestao']]);
                     // dd($questao);
                     return Response::success([
                         "resposta" => $resposta,
@@ -103,7 +103,7 @@ class RespostaModel
                 if ($stmt->rowCount() > 1) {
                     return Response::success([
                         "resposta" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
-                        "questao" => $params ? json_decode((new QuestaoModel)->get(['id' => $params['id']])) :  json_decode($questao)->data,
+                        "questao" => $params ? json_decode((new QuestaoModel)->get('',['id' => $params['id']])) :  json_decode($questao)->data,
                     ]);
                 }
             }
@@ -154,7 +154,7 @@ class RespostaModel
         try {
             if ($id !== -1 && $id !== null) {
                 $con = Connection::getConn();
-                $data = json_decode($this->get(array('id' => $id)));
+                $data = json_decode($this->get('', array('id' => $id)));
                 if ($data->status_code === 200) {
                     $stmt = $con->prepare("DELETE FROM tb_resposta WHERE idResposta = ?");
                     $stmt->bindValue(1, trim($id), PDO::PARAM_INT);

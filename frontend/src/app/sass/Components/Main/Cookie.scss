@@ -106,7 +106,7 @@
     border-radius: rem(8);
     &__titulo {
       font-size: $global-font-size-xlg;
-      margin-bottom: rem(16);
+      margin-bottom: rem(4);
     }
     &__content {
       border: 1px solid var(--color-shadow);
@@ -117,6 +117,14 @@
     }
     &__texto {
       font-size: $global-font-size-sm;
+      margin-bottom: rem(4);
+      &.bold {
+        font-size: $global-font-size;
+        font-weight: 700;
+      }
+      &.bold:not(:first-child) {
+        margin-top: rem(20);
+      }
     }
     &__checkbox {
       span {

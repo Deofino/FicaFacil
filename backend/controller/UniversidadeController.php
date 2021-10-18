@@ -10,7 +10,7 @@ class universidadeController
 
     public function index($params) // parametros daqui sao da URL
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new UniversidadeModel();
             echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
             return;
@@ -20,7 +20,7 @@ class universidadeController
 
     public function create() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'&& auth()) {
             $data = json_decode(file_get_contents('php://input'));
             $model = new UniversidadeModel();
             if (isset($data->universidade)) {
@@ -34,7 +34,7 @@ class universidadeController
     
     public function update() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT'&& auth()) { // verificar se eh post
             $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
             if (isset($req->universidade) && isset($req->id)) { // verifica se o id e a dificuldade existem
                 if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
@@ -43,7 +43,7 @@ class universidadeController
                     if ($data->status_code === 200) { // se houver erro na requisicao na dificuldade 
                         foreach ($data->data as $el) { // foreach pra verificar cada elemento
                             if ($el->idUniversidade == $req->id) { // se for igual pode atualizar
-                                $model->setNome(trim($req->universidade)); // insere aqui pra passar pelas verificacoes de dados
+                                $model->setNome(trim($req->universidade),false); // insere aqui pra passar pelas verificacoes de dados
                                 echo $model->put($req->id);
                                 return;
                             };
@@ -64,7 +64,7 @@ class universidadeController
     }
     public function delete($params) // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE'&& auth()) {
             $model = new UniversidadeModel();
             echo count($params) !== 0 ? $model->delete($params[0]) : Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
             return;

@@ -5,32 +5,37 @@ namespace Model;
 use Helper\Connection;
 use Helper\Response;
 use \PDO;
+
 class UniversidadeModel
 {
 
     private string $universidade;
-    
+
     public function getUniversidade(): string
     {
         return $this->universidade;
     }
-  
-    public function setNome(string $universidade): void
+
+    public function setNome(string $universidade, bool $igual = true): void
     {
         if (isset($universidade) && trim($universidade) !== '' && strlen(trim($universidade)) !== 0 && trim($universidade) !== null) {
-            $model = new UniversidadeModel();
-            $data = json_decode($model->get());
-            if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
-                    if (trim(strtoupper($el->nomeUniversidade)) === trim(strtoupper(($universidade)))) {
-                        throw new \Exception("Nome da Universidade `" . $universidade . "` ja cadastrada", 400);
-                        return;
-                    };
-                }
-                $this->universidade = ucfirst($universidade);
-            } else {
-                $this->universidade = ucfirst($universidade);
-            };
+            if ($igual) {
+                $model = new UniversidadeModel();
+                $data = json_decode($model->get());
+                if ($data->status_code === 200) {
+                    foreach ($data->data as $el) {
+                        if (trim(strtoupper($el->nomeUniversidade)) === trim(strtoupper(($universidade)))) {
+                            throw new \Exception("Nome da Universidade `" . $universidade . "` ja cadastrada", 400);
+                            return;
+                        };
+                    }
+                    $this->universidade = ucfirst($universidade);
+                } else {
+                    $this->nome = ucfirst($universidade);
+                };
+                return;
+            }
+            $this->universidade = ucfirst($universidade);
             return;
         }
         throw new \Exception("Esse Universidade não pode ser aceito", 400);
@@ -38,7 +43,7 @@ class UniversidadeModel
     }
 
 
-    public function get($params=null)
+    public function get($params = null)
     {
         try {
             $con = Connection::getConn();

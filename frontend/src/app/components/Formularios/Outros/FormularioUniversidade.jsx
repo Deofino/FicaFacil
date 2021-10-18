@@ -5,7 +5,7 @@ import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Input, Button, Table } from "../../Form";
 import { FaBookOpen, FaTimes } from "react-icons/fa";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastError, ToastSuccess } from "../../Alert/Toast";
+import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
 
 const Backdrop = (props) => {
   const [attUniversidade, setAttUniversidade] = useState(props.data[1] || ""); // State para atualizar o campo
@@ -20,13 +20,20 @@ const Backdrop = (props) => {
     ) {
       // verificacao dos campos
       axios
-        .post(
+        .put(
           `${process.env.REACT_APP_API}/${props.tabela}/update/`, // requisicao post backend/api/campo/update METHOD POST
           JSON.stringify({
             // faz um json com
             universidade: attUniversidade, // o campo que deve ser atualizado
             id: props.data[0], // o id da universidade que deve ser atualizado no WHERE
-          })
+          }),
+          {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          }
         )
         .then((value) => {
           if (value.data.status_code === 200) {
@@ -53,7 +60,7 @@ const Backdrop = (props) => {
     backdrop.classList.toggle("open");
     ReactDOM.unmountComponentAtNode(backdrop);
   };
-    return (
+  return (
     <section className="c-formularioUpdate" id="c-formularioUpdate">
       <Tooltip
         className="c-formularioUpdate__close"
@@ -102,11 +109,19 @@ export default function FormularioUniversidade() {
   const [universidades, setUniversidades] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/universidade/index/`)
-      .then((value) => {
-        setUniversidades(value.data.data);
+      .get(`${process.env.REACT_APP_API}/universidade/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
       })
-      .catch((error) => console.error(error));
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setUniversidades(value.data.data);
+        }
+      })
+      .catch((error) => ToastError({ text: error || "Error" }));
   }, []);
 
   const columns = [
@@ -179,7 +194,15 @@ export default function FormularioUniversidade() {
                     process.env.REACT_APP_API + "/universidade/create/",
                     JSON.stringify({
                       universidade: refUniversidade.current.value,
-                    })
+                    }),
+                    {
+                      headers: {
+                        Authorization: `Bearer ${
+                          localStorage.getItem("auth") ||
+                          localStorage.getItem("user")
+                        }`,
+                      },
+                    }
                   )
                   .then((data) => {
                     refUniversidade.current.value = "";

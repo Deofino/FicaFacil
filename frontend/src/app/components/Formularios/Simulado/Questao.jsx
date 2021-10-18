@@ -51,8 +51,9 @@ export const Questao = (props) => {
         <RadioGroup>
           {Respostas.map((res, index) => {
             return (
+              
               <div className="c-questao__alternativa" key={index}>
-                <h2>{alfabeto[index]}) -</h2>
+                <span>{alfabeto[index]}) -</span>
                 <Radio label={res.textoResposta} value={res.idResposta} />
               </div>
             );

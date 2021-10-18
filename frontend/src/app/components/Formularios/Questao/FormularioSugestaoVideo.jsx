@@ -3,6 +3,7 @@ import axios from "axios";
 import { Input } from "../../Form/";
 import { FaLink, FaImage } from "react-icons/fa";
 import { UseQuestion } from "../../Context/QuestaoContext";
+import { ToastError, ToastWarning } from "../../Alert/Toast";
 
 export default function FormularioSugestaoVideo(props) {
   const {
@@ -21,9 +22,18 @@ export default function FormularioSugestaoVideo(props) {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/sugestaoVideo/index/`)
-      .then((value) => {})
-      .catch((error) => {});
+      .get(`${process.env.REACT_APP_API}/sugestaoVideo/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
+      })
+      .then((value) => {
+        if (value.data.status_code !== 200)
+          ToastWarning({ text: value.data.data || "Warning" });
+      })
+      .catch((error) => ToastError(error));
   }, []);
 
   return (

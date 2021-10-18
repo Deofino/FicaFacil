@@ -12,16 +12,51 @@ class QuestaoController
 
     public function index($params) // GET-->PEGAR
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new QuestaoModel();
-            echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
+            $where = '';
+            $send = [];
+            if (isset($params[0])) {
+                $where .= ' WHERE idQuestao = :id AND';
+                $send[':id'] = (int) $params[0];
+            }
+            if (isset($_GET['universidade'])) {
+                $where .= ' WHERE idUniversidade = :universidade AND';
+                $send[':universidade']
+                    = (int) $_GET['universidade'];
+            }
+            if (isset($_GET['dificuldade'])) {
+                $where .= ' WHERE idDificuldade = :dificuldade AND';
+                $send[':dificuldade']
+                    = (int) $_GET['dificuldade'];
+            }
+            if (isset($_GET['assunto'])) {
+                $where .= ' WHERE idAssuntoMateria = :assunto AND';
+                $send[':assunto']
+                    = (int) $_GET['assunto'];
+            }
+            if (isset($_GET['pesquisa'])) {
+                $where .= ' WHERE tituloQuestao LIKE :pesquisa OR textoQuestao LIKE :pesquisa AND';
+                $send[':pesquisa'] = "%" . $_GET['pesquisa'] . "%";
+            }
+            $pos = (strpos($where, 'WHERE'));
+            $str_before = substr($where, 0, $pos + 6);
+            $str_after = str_replace('WHERE', '', substr($where, $pos, strlen($where)));
+            $where = $str_before . $str_after;
+            if (substr($where, strlen($where) - 4, strlen($where)) == ' AND') {
+                $where =  substr($where, 0, strlen($where) - 4);
+            };
+            if (isset($_GET['limit'])) {
+                $where .= ' LIMIT ' . $_GET['limit'];
+            }
+            echo $model->get($where, $send);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
     public function create() // POST INSERIR
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
 
             // inserir questao
             $namesImages = [];
@@ -121,7 +156,7 @@ class QuestaoController
     }
     public function update() // parametro do file_get_contents
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // verificar se eh post
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) { // verificar se eh post
             if (trim($_POST['titulo']) !== '' && trim($_POST['texto']) !== '' && trim($_POST['universidade']) !== ''  && trim($_POST['dificuldade']) !== '' && trim($_POST['assuntoMateria']) !== '' && trim($_POST['administrador']) !== '' && trim($_POST['id']) !== '') { // verifica se o id e a materia existem
                 if ($_POST['id'] > 0 && $_POST['id'] !== null && $_POST['id'] > 0) { // verifica se o id pode existir
                     $model = new QuestaoModel();
@@ -140,7 +175,6 @@ class QuestaoController
 
                                 // imagem da questao
                                 $namesImages = json_decode($el->imagensQuestao);
-
                                 if ($_FILES['imagesUpdate']['name'][0] !== '') { // tem imagens novas
                                     if (count(json_decode($el->imagensQuestao)) > 0) { // se ja existe alguma imagem cadastrada na questao
                                         foreach (json_decode($el->imagensQuestao) as $photo) {
@@ -170,7 +204,6 @@ class QuestaoController
                                 }
                                 $namesImages = json_encode($namesImages);
                                 $model->setImagem($namesImages);
-
 
                                 //sugestao
                                 if (
@@ -254,10 +287,12 @@ class QuestaoController
     }
     public function delete($params)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && auth()) {
             $model = new QuestaoModel();
             if (count($params) !== 0) {
-                $data = json_decode(json_decode($model->get(array('id' => $params[0])))->data->questao[0]->imagensQuestao);
+                // dd(json_decode($model->get('', array('id' => $params[0]))));
+                $data = json_decode(json_decode($model->get('', array('id' => $params[0])))->data->questao[0]->imagensQuestao);
+                // dd($data);
                 if (count($data) > 0) {
                     foreach ($data as $photo) {
                         $photo = explode('backend/', $photo);
@@ -280,14 +315,6 @@ class QuestaoController
                 return;
             }
             echo Response::warning('Parametro `id` na url nao encontrado ou nulo', 404);
-            return;
-        }
-        echo Response::warning('Metodo não encontrado', 404);
-    }
-    public function view($params)
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo json_encode([$_POST, $_FILES]);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);

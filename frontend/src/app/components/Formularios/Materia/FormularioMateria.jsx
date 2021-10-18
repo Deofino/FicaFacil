@@ -4,7 +4,7 @@ import axios from "axios";
 import { Input, Select, MenuItem, Button, Table } from "../../Form/";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastSuccess, ToastWarning } from "../../Alert/Toast";
+import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
 import { FaTimes, FaBookOpen } from "react-icons/fa";
 
 const Backdrop = (props) => {
@@ -16,16 +16,24 @@ const Backdrop = (props) => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/materia/index/`)
-      .then((value) => {
-        setattReqMateria(value.data.data);
-        setAttAreaMateria(
-          value.data.data.area.find(
-            (el) => el.nomeAreaMateria === props.data[2]
-          ).idAreaMateria
-        );
+      .get(`${process.env.REACT_APP_API}/materia/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
       })
-      .catch((error) => console.error(error));
+      .then((value) => {
+        if(value.data.status_code === 200){
+          setattReqMateria(value.data.data);
+          setAttAreaMateria(
+            value.data.data.area.find(
+              (el) => el.nomeAreaMateria === props.data[2]
+            ).idAreaMateria
+          );
+        }
+      })
+      .catch((error) => ToastError({ text: error || "Error" }));
   }, [props.data]);
   const updateEvent = (e) => {
     // na hora que clica no botao de atualizar
@@ -33,26 +41,31 @@ const Backdrop = (props) => {
     if (attMateria !== null && attMateria !== "" && attMateria.length > 4) {
       // verificacao dos campos
       axios
-        .post(
+        .put(
           `${process.env.REACT_APP_API}/materia/update/`, // requisicao post backend/api/campo/update METHOD POST
           JSON.stringify({
             // faz um json com
             materia: attMateria, // o campo que deve ser atualizado
             id: props.data[0], // o id da materia que deve ser atualizado no WHERE
             area: attAreaMateria, // o id da area materia que deve ser atualizado no WHERE
-          })
+          }),
+          {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          }
         )
         .then((value) => {
-          if (value.data.status_code) {
+          if (value.data.status_code === 200) {
             // verifica se status code retorna 200 = OK
             ToastSuccess({ text: value.data.data }); // mensagem de sucesso
             close(); // fecha o backdrop
             setTimeout(() => {
               window.location.reload(); // atualiza a pagina dps de 4 segundos
             }, 4000);
-          } else {
-            console.log(value.data);
-          }
+          } else ToastWarning({ text: value.data.data || "Warning" });
         });
     } else {
       // previne e coloca os erros
@@ -138,16 +151,34 @@ export default function FormularioMateria() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/areaMateria/index/`)
-      .then((value) => setAreasMaterias(value.data.data))
-      .catch((error) => console.error(error));
+      .get(`${process.env.REACT_APP_API}/areaMateria/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
+      })
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setAreasMaterias(value.data.data);
+        }
+      })
+      .catch((error) => ToastError({ text: error || "Error" }));
 
     axios
-      .get(`${process.env.REACT_APP_API}/materia/index/`)
-      .then((value) => {
-        setMaterias(value.data.data);
+      .get(`${process.env.REACT_APP_API}/materia/index/`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
       })
-      .catch((error) => console.error(error));
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setMaterias(value.data.data);
+        }
+      })
+      .catch((error) => ToastError({ text: error || "Error" }));
   }, []);
 
   const submitForm = (e) => {
@@ -174,7 +205,14 @@ export default function FormularioMateria() {
           JSON.stringify({
             materia: refMateria.current.value || null,
             area: selectedAreaMateria,
-          })
+          }),
+          {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          }
         )
         .then((data) => {
           refMateria.current.value = "";
