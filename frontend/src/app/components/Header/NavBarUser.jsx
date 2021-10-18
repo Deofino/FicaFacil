@@ -10,6 +10,7 @@ import {
   FaCog,
   FaSignOutAlt,
   FaArrowDown,
+  FaStickyNote,
 } from "react-icons/fa";
 
 export function parseJwt(token) {
@@ -51,7 +52,7 @@ export default function NavbarUser() {
           <span className="c-navbar__tooltip">Pesquisar</span>
         </li>
         <li className="c-navbar__menu-item">
-          <Link to="/acessos">
+          <Link to="/desempenho">
             <div className="space">
               <FaChartLine className="icon" />
               <span className="c-navbar__links-name">Desempenho</span>
@@ -60,7 +61,7 @@ export default function NavbarUser() {
           <span className="c-navbar__tooltip">Desempenho</span>
         </li>
         <li className="c-navbar__menu-item">
-          <Link to="/dashboard">
+          <Link to="/metricas">
             <div className="space">
               <FaChartPie className="icon" />
               <span className="c-navbar__links-name">Metricas</span>
@@ -70,9 +71,9 @@ export default function NavbarUser() {
         </li>
         <li className="c-navbar__dropdown">
           <div className="c-navbar__menu-item">
-            <Link to="/questao">
+            <Link to="/simulado">
               <div className="space">
-                <FaGraduationCap className="icon" />
+                <FaStickyNote className="icon" />
                 <span className="c-navbar__links-name">Fazer simulado</span>
                 <FaArrowDown className="arrow icon" />
               </div>
@@ -81,18 +82,18 @@ export default function NavbarUser() {
           </div>
           <ul className="c-navbar__sub-menu">
             <li className="c-navbar__menu-item">
-              <Link className="c-navbar__link-name" to="/questao">
-                Questão
+              <Link className="c-navbar__link-name" to="/simulado">
+                Simulado Por Dia
               </Link>
             </li>
             <li className="c-navbar__menu-item">
-              <Link to="/materias">Matérias</Link>
+              <Link to="/simulado">Simulado Por Mês</Link>
             </li>
             <li className="c-navbar__menu-item">
-              <Link to="/dificuldade">Dificuldade</Link>
+              <Link to="/simulado">Simulado Por Bimestre</Link>
             </li>
             <li className="c-navbar__menu-item">
-              <Link to="/universidade">Universidade</Link>
+              <Link to="/simulado">Simulado Por Semestre</Link>
             </li>
           </ul>
         </li>
