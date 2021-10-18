@@ -1,5 +1,5 @@
 import React from "react";
-import NavbarUser from "./NavbarUser";
+import NavbarUser from "./NavBarUser";
 import { Switch, FormControlLabel, Tooltip } from "@material-ui/core";
 import logo from "../../../img/project/logo-branca.png";
 import { FaBars, FaTimes } from "react-icons/fa";
