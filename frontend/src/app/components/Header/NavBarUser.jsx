@@ -5,7 +5,6 @@ import {
   FaSearch,
   FaChartLine,
   FaChartPie,
-  FaGraduationCap,
   FaUserAlt,
   FaCog,
   FaSignOutAlt,
