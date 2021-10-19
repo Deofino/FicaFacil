@@ -43,9 +43,9 @@
 <br><br>
 
 <h2> Por quê?</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+<p>Desenvolvida com intuito para que seja acessivel para todo o público alvo, tendo foco em que todos tenham chances em fututos vestibulares.</p>
+<p>FicaFácil é sua nova plataforma de estudos online, que permite que você teste seus conhecimentos acompanhando sua evolução e desempenho a cada simulado feito.</p>
+<p>Juntando tecnologia, educação e otimização de tempo, desenvolvemos o FicaFácil, a fim de auxiliar os estudantes, dando a eles mais autonomia na hora de estudar!</p>
 
 <br>
 
