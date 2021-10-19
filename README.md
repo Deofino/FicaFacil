@@ -21,7 +21,7 @@
   <br>
 </div>
 
-<h3 align="center">📘 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</h3>
+<h3 align="center">📘 Conheça sua nova plataforma de estudar, Fácil, Completa e Eficaz!</h3>
 
 <p align="center">
   <a href="#-por-quê">Por quê?</a> •
@@ -33,17 +33,24 @@
 
 <br>
 
+<p align="center">
+  <img align="center" width="250" src="https://github.com/Deofino/FicaFacil/blob/master/backend/images/dashborad.png?raw=true" alt="dashboard">  &nbsp;&nbsp;&nbsp;
+  <img align="center" width="250" src="https://github.com/Deofino/FicaFacil/blob/master/backend/images/menu.png?raw=true" alt="menu">  &nbsp;&nbsp;&nbsp;
+  <img align="center" width="250" src="https://github.com/Deofino/FicaFacil/blob/master/backend/images/mat%C3%A9rias%20adm.png?raw=true" alt="adm">  &nbsp;&nbsp;&nbsp;
+</p>
+
+
 <br><br>
 
 <h2> Por quê?</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+<p>Desenvolvida com intuito para que seja acessivel para todo o público alvo, tendo foco em que todos tenham chances em fututos vestibulares.</p>
+<p>FicaFácil é sua nova plataforma de estudos online, que permite que você teste seus conhecimentos acompanhando sua evolução e desempenho a cada simulado feito.</p>
+<p>Juntando tecnologia, educação e otimização de tempo, desenvolvemos o FicaFácil, a fim de auxiliar os estudantes, dando a eles mais autonomia na hora de estudar!</p>
 
 <br>
 
-<h2>🛠 Tecnologias</h2>
-As seguintes ferramentas foram usadas na construção do projeto:
+<h2>Tecnologias</h2>
+As seguintes tecnologias foram usadas na construção do projeto:
 
 ### ***Front-end***
 - React -> lib front end
@@ -64,6 +71,15 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - Composer -> gerenciador de pacotes e autoload com psr-4
 - Mysql -> banco de dados relacional
 - Apache -> servidor php
+
+### ***Recursos***
+- Responsivo 
+- Dark Mode
+- Assincrono
+- Autenticacao Jwt e OAuth2
+-  CRUD completo
+- Design Interativo
+- Rotas e Url amigável
 
 ### ***Desenvolvimento Geral***
 - Editor:
