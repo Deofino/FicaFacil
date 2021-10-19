@@ -50,7 +50,7 @@
 <br>
 
 <h2>Tecnologias</h2>
-As seguintes ferramentas foram usadas na construção do projeto:
+As seguintes tecnologias foram usadas na construção do projeto:
 
 ### ***Front-end***
 - React -> lib front end
