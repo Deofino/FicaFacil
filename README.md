@@ -72,6 +72,14 @@ As seguintes tecnologias foram usadas na construção do projeto:
 - Mysql -> banco de dados relacional
 - Apache -> servidor php
 
+### ***Recursos***
+- Responsivo 
+- Dark Mode
+- Assincrono
+- Autenticacao Jwt e OAuth2
+- Design Interativo
+- Rotas e Url amigável
+
 ### ***Desenvolvimento Geral***
 - Editor:
   - Visual Studio Code -> ferramenta edição código
@@ -92,15 +100,6 @@ As seguintes tecnologias foram usadas na construção do projeto:
   - Youtube
 - Edição:
   - Adobe Photoshop
-
-
-### ***Recursos***
-- Responsivo 
-- Dark Mode
-- Assincrono
-- Autenticacao Jwt e OAuth2
-- Design Interativo
-- Rotas e Url amigável
 
 <br>
 
