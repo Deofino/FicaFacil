@@ -116,11 +116,11 @@ $ yarn install
 $ yarn start
 ```
 
-Precisamos instalar na pasta backend também:
+Precisamos instalar na pasta lib também:
 ```bash
 # Instale as dependências
 $ cd ..
-$ cd backend
+$ cd lib
 $ composer install
 ```
 
