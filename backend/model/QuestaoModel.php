@@ -182,7 +182,6 @@ class QuestaoModel
                 $send = [(int)$send['id']];
             } else {
                 $stmt = $con->prepare($query . $where);
-                dd($query . $where);
             }
             if ($stmt->execute($send)) {
                 $universidade = (new UniversidadeModel)->get();
@@ -198,7 +197,7 @@ class QuestaoModel
                         "administrador" => json_decode($administrador)->data
                     ], 404);
                 }
-                if ($stmt->rowCount() === 1 && $where != '') {
+                if ($stmt->rowCount() === 1 && $where != '' && !$send['data']) {
                     $questao = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     $universidade = (new UniversidadeModel)->get(['id' => $questao[0]['idUniversidade']]);
                     $dificuldade = (new DificuldadeModel)->get(['id' => $questao[0]['idDificuldade']]);

@@ -25,6 +25,9 @@ class QuestaoController
                 $send[':universidade']
                     = (int) $_GET['universidade'];
             }
+            if (isset($_GET['data'])) {
+                $send['data'] = true;
+            }
             if (isset($_GET['dificuldade'])) {
                 $where .= ' WHERE idDificuldade = :dificuldade AND';
                 $send[':dificuldade']

@@ -6,6 +6,7 @@ import {
   FaFont,
   FaImages,
   FaPlusCircle,
+  FaSearch,
   FaTimes,
 } from "react-icons/fa";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
@@ -39,7 +40,7 @@ const Backdrop = (props) => {
         },
       })
       .then((value) => {
-        if(value.data.status_code === 200){
+        if (value.data.status_code === 200) {
           setalternativas(value.data.data.resposta);
           setcorreta(
             value.data.data.resposta.find((e) => +e.certaResposta === 1)
@@ -475,7 +476,7 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioQuestao() {
-  const { alternativa, sugestao } = UseQuestion();
+  const { alternativa, sugestao, pesquisa, setPesquisa } = UseQuestion();
 
   const [selectUniversidade, setselectUniversidade] = useState(0);
   const [selectAssuntoMateria, setselectAssuntoMateria] = useState(0);
@@ -502,20 +503,27 @@ export default function FormularioQuestao() {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API + "/questao/index/", {
-        headers: {
-          Authorization: `Bearer ${
-            localStorage.getItem("auth") || localStorage.getItem("user")
-          }`,
-        },
-      })
+      .get(
+        process.env.REACT_APP_API +
+          `/questao/index/?pesquisa=${pesquisa}&data=true`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        }
+      )
       .then((value) => {
+        // console.log(value.data);
         if (value.data.status_code === 200) {
           setQuestao(value.data.data);
-        } else ToastWarning({ text: value.data.data });
+        } else console.log(value.data.data);
+        // } else ToastWarning({ text: value.data.data });
       })
-      .catch((err) =>ToastError({ text: err || "Warning" }));
-  }, []);
+      // .catch((err) => console.log(err));
+      .catch((err) => ToastError({ text: err || "Warning" }));
+  }, [pesquisa]);
 
   const update = (id, tabela, nome, linhas, colunas) => {
     let data = linhas.filter((el) => el.id === id)[0]; //
@@ -890,14 +898,24 @@ export default function FormularioQuestao() {
         </form>
 
         {/* ------------------ TABELA DE DADOS (SELECT) ----------------------- */}
-        <Table
-          style={{ marginTop: 25 }}
-          colunas={colunas}
-          linhas={linhas}
-          tabela="questao"
-          nome="Questão"
-          functionUpdate={update}
-        />
+        <div className="c-forms__table">
+          <Input
+            placeholder="Pesquise por algo..."
+            icon={<FaSearch />}
+            value={pesquisa}
+            onChange={(e) => setPesquisa(e.target.value)}
+            id="pesquisa"
+            className="c-forms__inputSearch"
+          />
+          <Table
+            style={{ marginTop: 25 }}
+            colunas={colunas}
+            linhas={linhas}
+            tabela="questao"
+            nome="Questão"
+            functionUpdate={update}
+          />
+        </div>
         <div id="backdrop"></div>
       </div>
     </Fragment>

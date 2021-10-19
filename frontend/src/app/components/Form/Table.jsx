@@ -10,6 +10,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+
 /*
  * @description
  * @author Guilherme Delfino
@@ -112,7 +113,6 @@ export default function StickyHeadTable({
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
   return (
     <section className={"c-table " + className} style={style || null}>
       <TableContainer className={"c-table__container "}>

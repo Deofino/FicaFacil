@@ -13,6 +13,32 @@
     padding: rem(16) rem(4);
   }
 
+  &__table {
+    @include flex(flex-end);
+    flex-direction: column;
+  }
+  &__inputSearch.c-input {
+    align-self: flex-end;
+    max-width: rem(300);
+    margin-bottom: rem(-12);
+    @include breakpoint(small) {
+      max-width: 100%;
+      margin-bottom: rem(-20);
+    }
+    & > div {
+      border-top-left-radius: rem(10);
+      border-top-right-radius: rem(10);
+      padding: rem(10);
+      @include breakpoint(small) {
+        border-top-left-radius: rem(4);
+        border-top-right-radius: rem(4);
+        padding: rem(6) !important;
+        input {
+          font-size: $global-font-size-sm;
+        }
+      }
+    }
+  }
   .input-file {
     font-size: $global-font-size-sm;
     max-width: 100%;

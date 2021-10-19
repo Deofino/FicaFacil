@@ -1,5 +1,8 @@
 import React, { createContext, useState, useContext } from "react";
 export const initContext = {
+  pesquisa: null,
+  setPesquisa: null,
+
   alternativa: {
     alternativas: null,
     setAlternativas: null,
@@ -25,7 +28,9 @@ export const initContext = {
 };
 const contextQuestion = createContext(initContext);
 export const QuestaoProvider = ({ children }) => {
+  const [pesquisa, setPesquisa] = useState([]);
   const [alternativas, setAlternativas] = useState([]);
+
   const [correta, setCorreta] = useState(null);
   const [erroAlterativa, setErroAlternativa] = useState(null);
 
@@ -39,6 +44,9 @@ export const QuestaoProvider = ({ children }) => {
   return (
     <contextQuestion.Provider
       value={{
+        pesquisa: pesquisa,
+        setPesquisa: setPesquisa,
+
         alternativa: {
           alternativas: alternativas,
           setAlternativas: setAlternativas,
