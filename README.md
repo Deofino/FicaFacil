@@ -77,6 +77,7 @@ As seguintes tecnologias foram usadas na construção do projeto:
 - Dark Mode
 - Assincrono
 - Autenticacao Jwt e OAuth2
+-  CRUD completo
 - Design Interativo
 - Rotas e Url amigável
 
