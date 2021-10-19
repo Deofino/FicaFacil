@@ -11,7 +11,7 @@
   <a href="https://github.com/Deofino/FicaFacil/commits/master">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Deofino/FicaFacil?color=EE4266">
   </a>
-  <a href="https://aura.com">
+  <a href="https://paulowarren.github.io/AURA/">
     <img alt="Feito pela AURA" src="https://img.shields.io/static/v1?label=made%20by&message=AURA&color=EE4266">
   </a>
   <img alt="Progresso" src="https://img.shields.io/static/v1?label=progress&message=23%&color=EE4266">
