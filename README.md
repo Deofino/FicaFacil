@@ -93,6 +93,15 @@ As seguintes tecnologias foram usadas na construção do projeto:
 - Edição:
   - Adobe Photoshop
 
+
+### ***Recursos***
+- Responsivo 
+- Dark Mode
+- Assincrono
+- Autenticacao Jwt e OAuth2
+- Design Interativo
+- Rotas e Url amigável
+
 <br>
 
 <h2> Como usar</h2>
