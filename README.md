@@ -34,9 +34,9 @@
 <br>
 
 <p align="center">
+  <img align="center" width="250" src="https://github.com/Deofino/FicaFacil/blob/master/backend/images/loginface.png?raw=true" alt="login">  &nbsp;&nbsp;&nbsp;
   <img align="center" width="250" src="https://github.com/Deofino/FicaFacil/blob/master/backend/images/dashborad.png?raw=true" alt="dashboard">  &nbsp;&nbsp;&nbsp;
   <img align="center" width="250" src="https://github.com/Deofino/FicaFacil/blob/master/backend/images/menu.png?raw=true" alt="menu">  &nbsp;&nbsp;&nbsp;
-  <img align="center" width="250" src="https://github.com/Deofino/FicaFacil/blob/master/backend/images/mat%C3%A9rias%20adm.png?raw=true" alt="adm">  &nbsp;&nbsp;&nbsp;
 </p>
 
 
