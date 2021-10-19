@@ -21,7 +21,7 @@
   <br>
 </div>
 
-<h3 align="center">📘 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</h3>
+<h3 align="center">📘 Conheça sua nova plataforma de estudar, Fácil, Completa e Eficaz!</h3>
 
 <p align="center">
   <a href="#-por-quê">Por quê?</a> •
