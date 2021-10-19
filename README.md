@@ -49,7 +49,7 @@
 
 <br>
 
-<h2>🛠 Tecnologias</h2>
+<h2>Tecnologias</h2>
 As seguintes ferramentas foram usadas na construção do projeto:
 
 ### ***Front-end***
