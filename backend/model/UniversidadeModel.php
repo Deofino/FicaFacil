@@ -31,7 +31,7 @@ class UniversidadeModel
                     }
                     $this->universidade = ucfirst($universidade);
                 } else {
-                    $this->nome = ucfirst($universidade);
+                    $this->universidade = ucfirst($universidade);
                 };
                 return;
             }

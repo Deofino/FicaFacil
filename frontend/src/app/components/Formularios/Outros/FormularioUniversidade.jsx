@@ -215,7 +215,7 @@ export default function FormularioUniversidade() {
                         window.location.reload();
                       }, 4000);
                     } else {
-                      // console.log(data.data);
+                      //console.log(data.data);
                       AlertError({
                         text: "Ops... Erros encontrados",
                         title: "Erro!!",
