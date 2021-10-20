@@ -35,7 +35,10 @@ export default function Header() {
         {isOpen === "" ? (
           <FaBars className="l-header__menu icon" onClick={() => handle()} />
         ) : (
-          <FaTimes className="l-header__menu icon" onClick={() => handle()} />
+          <FaTimes
+            className="l-header__menu icon close"
+            onClick={() => handle()}
+          />
         )}
       </div>
       <FormControlLabel

@@ -580,8 +580,8 @@ body {
         text-align: center;
         cursor: pointer;
     }
-    &--open &__menu {
-        left: 80%;
+    &--open .icon.close {
+        left: 80% !important;
     }
     label {
         max-width: rem(80);
@@ -870,7 +870,6 @@ body {
                 position: relative;
                 top: 50%;
                 width: rem(50);
-                left: 0;
                 transform: translate(0, -50%);
             }
         }
