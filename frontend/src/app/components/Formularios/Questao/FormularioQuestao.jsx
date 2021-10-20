@@ -46,7 +46,8 @@ const Backdrop = (props) => {
             value.data.data.resposta.find((e) => +e.certaResposta === 1)
               .textoResposta
           );
-        }
+        } else ToastWarning({ text: value.data.data[0] || "Warning" });
+        // } else console.log(value.data.data);
       });
 
     axios
@@ -66,7 +67,8 @@ const Backdrop = (props) => {
           settituloSugestao(sugestao.tituloSugestaoVideo || "");
           setthumbSugestao(sugestao.thumbnailSugestaoVideo || "");
           seturlSugestao(sugestao.urlSugestaoVideo || "");
-        } else ToastWarning({ text: value.data.data || "Warning" });
+        }
+        // } else console.log(value.data.data);
       });
   }, [props.data]);
 
@@ -515,7 +517,7 @@ export default function FormularioQuestao() {
         }
       )
       .then((value) => {
-        // console.log(value.data);
+        console.log(value.data);
         if (value.data.status_code === 200) {
           setQuestao(value.data.data);
         } else console.log(value.data.data);
@@ -675,6 +677,11 @@ export default function FormularioQuestao() {
       width: 200,
     },
     {
+      field: "resposta",
+      headerName: "Resposta",
+      width: 200,
+    },
+    {
       field: "universidade",
       headerName: "Universidade",
       width: 150,
@@ -715,7 +722,9 @@ export default function FormularioQuestao() {
           administrador: questoes.administrador.filter(
             (e) => e.idAdministrador === questao.idAdministrador
           )[0].nomeAdministrador,
-
+          resposta: questoes.respostas.resposta.filter(
+            (e) => e.idQuestao === questao.idQuestao
+          )[0].textoResposta,
           questao: questoes,
         };
       })
