@@ -1,18 +1,28 @@
 .glide {
-    &__slide {
-        filter: grayscale(65%);
-        opacity: 0.6;
-        padding: rem(16) 0;
-        border-radius: $global-radius;
-        text-align: center;
-        color: white;
-        &--active {
-            opacity: 1;
-            filter: grayscale(0);
-        }
+  &__slide {
+    filter: grayscale(65%);
+    opacity: 0.6;
+    padding: rem(16) 0;
+    border-radius: $global-radius;
+    text-align: center;
+    color: white;
+    &--active {
+      opacity: 1;
+      filter: grayscale(0);
     }
-    &__image {
-        margin: 0 auto;
+  }
+  &__image {
+    margin: 0 auto;
+  }
+  &__title {
+    font-size: $global-font-size-xlg;
+    color: var(black);
+    line-height: rem(24);
+    margin-top: $global-padding;
+    padding: $global-padding;
+    @include breakpoint(small) {
+      font-size: $global-font-size;
+      line-height: rem(18);
     }
     &__title {
         font-size: $global-font-size-xlg;
@@ -42,6 +52,10 @@
             font-size: rem(11);
         }
     }
+    @include breakpoint(medium) {
+      font-size: rem(11);
+    }
+  }
 
     &__arrow {
         opacity: 0.98;
@@ -66,9 +80,20 @@
             right: 1%;
         }
     }
-    &__arrows {
-        z-index: $z-overlay;
+    &:hover {
+      border-color: var(black);
+      opacity: 1;
     }
+    &--left {
+      left: 1%;
+    }
+    &--right {
+      right: 1%;
+    }
+  }
+  &__arrows {
+    z-index: $z-overlay;
+  }
 
     &__bullet {
         opacity: 0.5;
@@ -83,12 +108,20 @@
             opacity: 1;
         }
 
-        @include breakpoint(small) {
-            width: rem(8);
-            height: rem(8);
-        }
+    background-color: var(black);
+    &:hover {
+      opacity: 1;
     }
-    &__bullets {
-        bottom: rem(4);
+    &--active {
+      opacity: 1;
     }
+
+    @include breakpoint(small) {
+      width: rem(8);
+      height: rem(8);
+    }
+  }
+  &__bullets {
+    bottom: rem(4);
+  }
 }
