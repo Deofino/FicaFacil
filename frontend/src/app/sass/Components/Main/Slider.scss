@@ -16,7 +16,7 @@
     }
     &__title {
         font-size: $global-font-size-xlg;
-        color: var(--font-color);
+        color: var(--color-black);
         line-height: rem(24);
         margin-top: $global-padding;
         padding: $global-padding;
@@ -30,7 +30,7 @@
         }
     }
     &__description {
-        color: var(--font-color);
+        color: var(--color-black);
         line-height: rem(14);
         font-size: $global-font-size-sm;
         padding-bottom: $global-padding;
@@ -50,13 +50,13 @@
         opacity: 0.8;
         transition: 0.3s ease;
         background-color: var(--color-background);
-        border-color: var(--font-color);
+        border-color: var(--color-black);
         @include breakpoint(small) {
             font-size: rem(10);
             transform: scale(0.8);
         }
         &:hover {
-            border-color: var(--font-color);
+            border-color: var(--color-black);
             opacity: 1;
         }
         &--left {
@@ -75,7 +75,7 @@
         width: rem(10);
         height: rem(10);
 
-        background-color: var(--font-color);
+        background-color: var(--color-black);
         &:hover {
             opacity: 1;
         }
