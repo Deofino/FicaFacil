@@ -33,13 +33,13 @@
         &__title{
             font-size: rem(30);
             font-weight: bold;
-            margin: rem(150) rem(0) rem(0) rem(30);
+            margin: rem(150) rem(0) rem(0) 5%;
             @include breakpoint(large){
                 font-size: rem(25);
-                margin: rem(120) rem(0) rem(0) rem(30);
+                margin: rem(120) rem(0) rem(0) 5%;
             }
             @include breakpoint(medium){
-                margin: rem(20) rem(0) rem(0) rem(30);
+                margin: 5% rem(0) rem(0) 5%;
             }
             @include breakpoint(small){
                 font-size: rem(18);
@@ -48,7 +48,7 @@
         &__sub{
             font-size: rem(25);
             font-weight: 500;
-            margin: rem(20) rem(0) rem(15) rem(30);
+            margin: rem(20) rem(0) rem(15) 5%;
             @include breakpoint(large){
                 font-size: rem(18);
             }
@@ -56,7 +56,7 @@
         &__text{
             font-size: rem(20);
             font-weight: 200;
-            margin: rem(0) rem(0) rem(30) rem(30);
+            margin: rem(0) rem(0) rem(30) 5%;
             @include breakpoint(large){
                 font-size: rem(15);
             }
@@ -65,7 +65,7 @@
             }
         }
         &__btn{
-            margin: rem(0) rem(0) rem(150) rem(30);
+            margin: rem(0) rem(0) rem(100) 5%;
             padding: rem(12);
             background: linear-gradient(to left, #6f42c1, #4662D9);
             width: 30%;
@@ -89,22 +89,236 @@
         }
     }
 }
+/* ------------------------- COMEÇO SLIDER NOTICES --------------------- */
+        &__notices{
+            width: 100%;
+            margin-bottom: 10%; 
+        }
+/* ------------------------- FIM SLIDER NOTICES --------------------- */
+
+/* ------------------------- Processo --------------------- */
     &__explanation{
-        width: 100%;
+        position: relative;
+        &__img{
+            min-width: 100%;
+            @media (max-width: 328px) {
+               opacity: 0;
+            }
+            @media (max-width: 372px) {
+                opacity: 0;
+            }
+        }
         
         &__cont{
+            position:absolute;
             background-color: $white;
-            max-width: 70%;
-            margin: 0 auto;
+            width: 60%;
+            height: 35%;
             border-radius: rem(8);
             box-shadow: rem(5) rem(5px) rem(8px) var(--color-shadow);
-            height: 200px;
-            background: $white;
-            position: absolute;
-            top: 140vh;
+            top: 35%;
             left: 0;
-            right: 0;
-            bottom: 0;
+            transform: translate(30%, 0);
+            display: flex;
+            @media (max-width: 708px) {
+                width: 70%;
+                height: 45%;
+                transform: translate(20%, 0);
+                top: 30%;
+            }
+            @media (max-width: 570px) {
+                width: 80%;
+                height: 90%;
+                top: 0;
+                transform: translate(10%, 0);
+            }
+            @media (max-width: 470px) {
+                width: 80%;
+                height: 90%;
+                top: 0;
+                transform: translate(10%, 0);
+            }
+            @media (max-width: 372px) {
+                top: 0;
+                width: 90%;
+                height: 100%;
+                transform: translate(5%, 0);
+            }
+           
+            @media (max-width: 328px) {
+                width: 100%;
+                height: 110%;
+                top: 0;
+                transform: translate(0, 0);
+            }
+
+            &__s{
+                &__img{
+                    width: 40%;
+                    margin: 0 auto;
+                    transform: translate(0, -45%);
+                }
+                &__title{
+                    text-align: center;
+                    font-size: rem(20);
+                    margin-top: rem(-25);
+                    @include breakpoint(large){
+                        font-size: rem(17);
+                    }
+                    @include breakpoint(medium){
+                        font-size: rem(15);
+                    }
+                    @include breakpoint(small){
+                        margin-top: rem(-15);
+                        font-size: rem(10);
+                    }
+                    
+                }
+                &__text{
+                    margin: rem(0) rem(15) rem(15) rem(15);
+                    text-align: center;
+                    @include breakpoint(large){
+                        font-size: rem(12);
+                    }
+                    @include breakpoint(medium){
+                        font-size: rem(10);
+                    }
+                    @include breakpoint(small){
+                        font-size: x-small;
+                    }
+                }
+            }
+            &__s:hover{
+                margin-top: rem(-5);
+            }
+            &__p{
+                &__img{
+                    width: 40%;
+                    margin: 0 auto;
+                    transform: translate(0, -45%);
+                }
+                &__title{
+                    text-align: center;
+                    font-size: rem(20);
+                    margin-top: rem(-25);
+                    @include breakpoint(large){
+                        font-size: rem(17);
+                    }
+                    @include breakpoint(medium){
+                        font-size: rem(15);
+                    }
+                    @include breakpoint(small){
+                        margin-top: rem(-15);
+                        font-size: rem(10);
+                    }
+                    
+                }
+                &__text{
+                    margin: rem(0) rem(15) rem(15) rem(15);
+                    text-align: center;
+                    @include breakpoint(large){
+                        font-size: rem(12);
+                    }
+                    @include breakpoint(medium){
+                        font-size: rem(10);
+                    }
+                }
+                
+            }   &__p:hover{
+                margin-top: rem(-5);
+            }
+            &__e{
+                &__img{
+                    width: 40%;
+                    margin: 0 auto;
+                    transform: translate(0, -45%);
+                }
+                &__title{
+                    text-align: center;
+                    font-size: rem(20);
+                    margin-top: rem(-25);
+                    @include breakpoint(large){
+                        font-size: rem(17);
+                    }
+                    @include breakpoint(medium){
+                        font-size: rem(15);
+                    }
+                    @include breakpoint(small){
+                        margin-top: rem(-15);
+                        font-size: rem(10);
+                    }
+                }
+                &__text{
+                    margin: rem(0) rem(15) rem(15) rem(15);
+                    text-align: center;
+                    @include breakpoint(large){
+                        font-size: rem(12);
+                    }
+                    @include breakpoint(medium){
+                        font-size: rem(10);
+                    }
+                }
+                
+            }
+            &__e:hover{
+                margin-top: rem(-5);
+            }
         }
     }
+    /* ------------------------- FIM Processo --------------------- */
+
+    /* -------------------------COMEÇO AURA --------------------- */
+    &__aura{
+        display: flex;
+        width: 100%;
+        margin-top: 10%;
+
+        &__left{
+            width: 50%;
+            &__enf{
+              transform: translate(50%, -50%);
+            }
+            &__title{
+                font-size: rem(25);
+                margin-left: 8%;
+            }
+            &__sub{
+                font-size: rem(35);
+                margin-left: 8%;
+
+            }
+            &__text{
+                margin-left: 8%;
+                margin-right: 8%;
+                font-weight: 200;
+            }
+            &__link{
+                margin-left: 8%;
+                margin-right: 8%;
+                margin-top: 5%;
+                font-weight: bolder;
+                display: flex;
+                &__i{
+                    color: $primary;
+                    svg{
+                        font-size: rem(30);
+                        text-align: center;
+                        margin-top: rem(-4);
+                        cursor: pointer;
+                    }
+                }
+                &__l:hover{
+                    color: $primary;
+                }
+            }            
+        }
+        &__right{
+            width: 50%;
+            right: 0;
+            top: 0;
+        }
+    }
+        /* -------------------------FIM AURA --------------------- */
+
+        
 }
