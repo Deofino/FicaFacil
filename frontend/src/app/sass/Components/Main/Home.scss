@@ -120,6 +120,9 @@
             left: 0;
             transform: translate(30%, 0);
             display: flex;
+            @include darkMode {
+                background-color: #212529;
+            }
             @media (max-width: 708px) {
                 width: 70%;
                 height: 45%;

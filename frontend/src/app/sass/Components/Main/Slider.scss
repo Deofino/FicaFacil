@@ -5,7 +5,10 @@
     padding: rem(16) 0;
     border-radius: $global-radius;
     text-align: center;
-    color: white;
+    color: $black;
+    @include darkMode {
+      color: $white;
+  }
     &--active {
       opacity: 1;
       filter: grayscale(0);
@@ -16,7 +19,7 @@
   }
   &__title {
     font-size: $global-font-size-xlg;
-    color: var(black);
+    color: inherit;
     line-height: rem(24);
     margin-top: $global-padding;
     padding: $global-padding;
@@ -30,7 +33,7 @@
     }
   }
   &__description {
-    color: var(black);
+    color: inherit;
     line-height: rem(14);
     font-size: $global-font-size-sm;
     padding-bottom: $global-padding;
@@ -50,13 +53,13 @@
     opacity: 0.8;
     transition: 0.3s ease;
     // background-color: var(--color-primary);
-    border-color: var(black);
+    border-color: inherit;
     @include breakpoint(small) {
       font-size: rem(10);
       transform: scale(0.8);
     }
     &:hover {
-      border-color: var(black);
+      border-color: inherit;
       opacity: 1;
     }
     &--left {
@@ -74,8 +77,10 @@
     opacity: 0.5;
     width: rem(10);
     height: rem(10);
-
-    background-color: var(black);
+    background-color: $black;
+    @include darkMode {
+      background-color: $white;
+  }
     &:hover {
       opacity: 1;
     }
