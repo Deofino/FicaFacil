@@ -188,14 +188,17 @@ class QuestaoModel
                 $dificuldade = (new DificuldadeModel)->get();
                 $assuntoMateria = (new AssuntoMateriaModel)->get();
                 $administrador = (new AdministradorModel)->get();
+                $resposta = (new RespostaModel())->get();
                 if ($stmt->rowCount() === 0) {
                     return Response::warning([
-                        "Nenhuma universidade, dificuldade, assunto ou adm encontrado...",
+                        "Nenhuma Questao encontrada",
                         "universidade" => json_decode($universidade)->data,
                         "dificuldade" => json_decode($dificuldade)->data,
                         "assuntoMateria" => json_decode($assuntoMateria)->data,
-                        "administrador" => json_decode($administrador)->data
-                    ], 404);
+                        "administrador" => json_decode($administrador)->data,
+                        "respostas" => json_decode($resposta)->data
+
+                    ], 204);
                 }
                 if ($stmt->rowCount() === 1 && $where != '' && !$send['data']) {
                     $questao = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -203,12 +206,14 @@ class QuestaoModel
                     $dificuldade = (new DificuldadeModel)->get(['id' => $questao[0]['idDificuldade']]);
                     $assuntoMateria = (new AssuntoMateriaModel)->get(['id' => $questao[0]['idAssuntoMateria']]);
                     $administrador = (new AdministradorModel)->get(['id' => $questao[0]['idAdministrador']]);
+                    $resposta = (new RespostaModel)->get(['id' => $questao[0]['idQuestao']]);
                     return Response::success([
                         "questao" => $questao,
                         "universidade" => json_decode($universidade)->data,
                         "dificuldade" => json_decode($dificuldade)->data,
                         "assuntoMateria" => json_decode($assuntoMateria)->data,
-                        "administrador" => json_decode($administrador)->data
+                        "administrador" => json_decode($administrador)->data,
+                        "respostas" => json_decode($resposta)->data
                     ]);
                 }
                 if ($stmt->rowCount() > 0) {
@@ -217,7 +222,9 @@ class QuestaoModel
                         "universidade" => json_decode($universidade)->data,
                         "dificuldade" => json_decode($dificuldade)->data,
                         "assuntoMateria" => json_decode($assuntoMateria)->data,
-                        "administrador" => json_decode($administrador)->data
+                        "administrador" => json_decode($administrador)->data,
+                        "respostas" => json_decode($resposta)->data
+
                     ]);
                 }
             }

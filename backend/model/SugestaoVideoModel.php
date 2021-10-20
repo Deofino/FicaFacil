@@ -105,10 +105,13 @@ class SugestaoVideoModel
             if ($stmt->execute()) {
                 $questao = (new QuestaoModel)->get();
                 if ($stmt->rowCount() === 0) {
-                    return Response::warning([
-                        "Nenhuma sugestao de video encontrada...",
-                        "questao" => json_decode($questao)->data
-                    ], 404);
+                    return Response::warning(
+                        [
+                            "Nenhuma sugestao de video encontrada...",
+                            "questao" => json_decode($questao)->data
+                        ],
+                        204
+                    );
                 }
                 if (isset($params['id'])) {
                     $sugestaoVideo = $stmt->fetchAll(\PDO::FETCH_ASSOC);
