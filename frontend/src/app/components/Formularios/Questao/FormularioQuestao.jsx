@@ -62,7 +62,10 @@ const Backdrop = (props) => {
         }
       )
       .then((value) => {
-        if (value.data.status_code === 200) {
+        if (
+          value.data.status_code === 200 &&
+          value.data.data.sugestaoVideo !== undefined
+        ) {
           let sugestao = value.data.data.sugestaoVideo[0];
           settituloSugestao(sugestao.tituloSugestaoVideo || "");
           setthumbSugestao(sugestao.thumbnailSugestaoVideo || "");
