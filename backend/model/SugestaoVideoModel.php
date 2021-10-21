@@ -110,7 +110,7 @@ class SugestaoVideoModel
                             "Nenhuma sugestao de video encontrada...",
                             "questao" => json_decode($questao)->data
                         ],
-                        204
+                        200
                     );
                 }
                 if (isset($params['id'])) {

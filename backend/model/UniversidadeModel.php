@@ -48,9 +48,9 @@ class UniversidadeModel
         try {
             $con = Connection::getConn();
             if ($params === null) {
-                $stmt = $con->prepare("SELECT * FROM tb_universidade");
+                $stmt = $con->prepare("SELECT * FROM tb_universidade order by nomeUniversidade");
             } else {
-                $stmt = $con->prepare("SELECT * FROM tb_universidade WHERE idUniversidade = ?");
+                $stmt = $con->prepare("SELECT * FROM tb_universidade WHERE idUniversidade = ?  order by nomeUniversidade");
                 $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
 

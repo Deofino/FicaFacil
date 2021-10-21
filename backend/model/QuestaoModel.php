@@ -188,6 +188,7 @@ class QuestaoModel
                 $dificuldade = (new DificuldadeModel)->get();
                 $assuntoMateria = (new AssuntoMateriaModel)->get();
                 $administrador = (new AdministradorModel)->get();
+
                 $resposta = (new RespostaModel())->get();
                 if ($stmt->rowCount() === 0) {
                     return Response::warning([

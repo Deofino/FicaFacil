@@ -60,8 +60,8 @@ class QuestaoController
     public function create() // POST INSERIR
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
-
             // inserir questao
+            // dd($_POST, false);
             $namesImages = [];
             if (isset($_FILES['images']) && strlen($_FILES['images']['name'][0]) > 0) {
                 for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
@@ -116,13 +116,15 @@ class QuestaoController
                         return;
                     }
                 } else if (isset($_POST['alternativas']) && isset($_POST['correta'])) {
-                    $alternativas = (explode(',', $_POST['alternativas']));
+                    $alternativas = json_decode($_POST['alternativas']);
+                    // dd($alternativas);
                     foreach ($alternativas as $al) {
                         $model = new RespostaModel();
+                        // dd($model->countRespostas($idInserted), false);
                         if ($model->countRespostas($idInserted) < 5) {
                             if (isset($al)) {
                                 $model->setCertaResposta(0);
-                                if (strtoupper(trim($al)) === strtoupper(trim($_POST['correta']))) {
+                                if ($al == $_POST['correta']) {
                                     $model->setCertaResposta(1);
                                 }
                                 $model->setTextoResposta(trim($al));
