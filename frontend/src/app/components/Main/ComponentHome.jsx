@@ -128,7 +128,7 @@ export default function ComponentHome() {
             </p>
             <div className="container_home__aura__left__link">
               <Link
-                to="#"
+                to="https://paulowarren.github.io/AURA/"
                 target="_blank"
                 className="container_home__aura__left__link__l">
                 Saiba tudo agora mesmo sobre a Aura
