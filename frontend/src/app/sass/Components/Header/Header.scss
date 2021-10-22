@@ -22,7 +22,7 @@ body {
     background: linear-gradient(120deg, darken($primary, 5%), $primary);
 
     @include darkMode {
-        background: #11101d;
+        background: #1a1d20;
     }
     &--open {
         width: rem(250);
@@ -269,9 +269,9 @@ body {
             left: 0;
             bottom: rem(-8);
             padding: rem(10) rem(14);
-            background: darken($primary, 10%);
+            background: darken($primary, 13%);
             @include darkMode {
-                background: $accent-dark;
+                background: #101214;
             }
             display: flex;
             overflow: hidden;
@@ -366,16 +366,19 @@ body {
             }
             &:hover {
                 background-color: $white;
+                @include darkMode{
+                    background-color: #101214;
+                }
                 .icon {
                     fill: $accent;
                     @include darkMode {
-                        fill: #11101d;
+                        fill: $accent;
                     }
                 }
                 span {
                     color: $accent;
                     @include darkMode {
-                        color: #11101d;
+                        color: $white;
                     }
                 }
             }
@@ -429,12 +432,15 @@ body {
                 color: $accent-dark;
                 &:hover {
                     background-color: $white;
+                    @include darkMode{
+                        background-color: #101214;
+                    }
                 }
                 &:hover a {
                     color: $accent;
 
                     @include darkMode {
-                        color: $accent-dark;
+                        color: $white;
                     }
                 }
             }
@@ -466,14 +472,20 @@ body {
             width: 80%;
         }
         &__image-profile {
-            width: rem(60);
+            width: rem(50);
             height: rem(50);
-            // background-color: #777;
             overflow: hidden;
             display: block;
-            border-radius: rem(8);
+            border-radius: 100%;
             margin-right: rem(8);
+            font-size: rem(25);
+            color: $white;
+            background-color: $primary;
+            @include flex(center);
 
+            @include darkMode(){
+                background-color: $accent;
+            }
             @include breakpoint(small) {
                 height: rem(30);
                 width: rem(30);
@@ -727,7 +739,8 @@ body {
                 height: rem(35);
             }
             &:hover {
-                background-color: $white;
+                background-color: $accent;
+                
                 .icon {
                     fill: $accent;
 
@@ -852,7 +865,7 @@ body {
                 height: rem(35);
             }
             &:hover {
-                background-color: $white;
+                background-color: $accent;
                 .icon {
                     fill: $accent;
                     @include darkMode {

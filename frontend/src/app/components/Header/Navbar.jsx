@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Tooltip, IconButton, Zoom } from "@material-ui/core";
+import { Tooltip, IconButton, Zoom, Avatar, Stack} from "@material-ui/core";
+
 import {
   FaSearch,
   FaChartLine,
@@ -115,11 +116,12 @@ export default function Navbar() {
           <span className="c-navbar__tooltip">Configuração</span>
         </li>
         <li className="c-navbar__profile">
-          <div className="c-navbar__profile-details">
+          <div className="c-navbar__image-profile">
+          {user.nomeAdministrador.charAt(0).toUpperCase()}
+          </div>
             <div className="c-navbar__name-job">
               <div className="name">{user.nomeAdministrador}</div>
             </div>
-          </div>
           <Tooltip
             title="Sair"
             TransitionComponent={Zoom}
