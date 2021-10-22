@@ -98,11 +98,13 @@ export default function NavbarUser() {
           <span className="c-navbar__tooltip">Configuração</span>
         </li>
         <li className="c-navbar__profile">
-          <div className="c-navbar__profile-details">
+          <div className="c-navbar__image-profile">
+            {/* {user.nomeCliente.charAt(0).toUpperCase()} */}
+            U
+            </div>
             <div className="c-navbar__name-job">
               <div className="name">{user.nomeCliente || "User"}</div>
             </div>
-          </div>
           <Tooltip
             title="Sair"
             TransitionComponent={Zoom}

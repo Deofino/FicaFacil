@@ -271,7 +271,7 @@ body {
             padding: rem(10) rem(14);
             background: darken($primary, 13%);
             @include darkMode {
-                background: #101214;
+                background:  $accent-dark;
             }
             display: flex;
             overflow: hidden;
@@ -503,7 +503,7 @@ body {
         }
     }
 }
-
+    /* -------------------------------- OUTRO MENU --------------------- */
 .user.l-header {
     position: fixed;
     height: 100%;
@@ -521,7 +521,7 @@ body {
     background: linear-gradient(120deg, darken($primary, 5%), $primary);
 
     @include darkMode {
-        background: #11101d;
+        background: #1a1d20;
     }
     &--open {
         width: rem(250);
@@ -865,17 +865,20 @@ body {
                 height: rem(35);
             }
             &:hover {
-                background-color: $accent;
+                background-color: $white;
+                @include darkMode{
+                    background-color: #101214;
+                }
                 .icon {
                     fill: $accent;
                     @include darkMode {
-                        fill: #11101d;
+                        fill: $accent;
                     }
                 }
                 span {
                     color: $accent;
                     @include darkMode {
-                        color: #11101d;
+                        color: $white;
                     }
                 }
             }
@@ -958,13 +961,20 @@ body {
             width: 80%;
         }
         &__image-profile {
-            width: rem(60);
+            width: rem(50);
             height: rem(50);
-            // background-color: #777;
             overflow: hidden;
             display: block;
-            border-radius: rem(8);
+            border-radius: 100%;
             margin-right: rem(8);
+            font-size: rem(25);
+            color: $white;
+            background-color: $primary;
+            @include flex(center);
+
+            @include darkMode(){
+                background-color: $accent;
+            }
 
             @include breakpoint(small) {
                 height: rem(30);
