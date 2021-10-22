@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Tooltip, IconButton, Zoom } from "@material-ui/core";
 import {
   FaSearch,
@@ -27,14 +27,15 @@ export function parseJwt(token) {
 }
 
 export default function NavbarUser() {
-  const [user, setUser] = React.useState({ nome: "Usuário" });
+  const [user, setUser] = React.useState("");
 
   React.useEffect(() => {
-    if (localStorage.getItem("auth")) {
-      let user = parseJwt(localStorage.getItem("auth"));
+    if (localStorage.getItem("user")) {
+      let user = parseJwt(localStorage.getItem("user"));
       setUser(user);
     }
   }, []);
+  if (user === null) return <Redirect to="/entrar" />;
   return (
     <nav className="c-navbar">
       <ul className="c-navbar__menu">
@@ -99,7 +100,7 @@ export default function NavbarUser() {
         <li className="c-navbar__profile">
           <div className="c-navbar__profile-details">
             <div className="c-navbar__name-job">
-              <div className="name">{user.nome}</div>
+              <div className="name">{user.nomeCliente || "User"}</div>
             </div>
           </div>
           <Tooltip
@@ -110,9 +111,13 @@ export default function NavbarUser() {
             <IconButton
               style={{ background: "transparent" }}
               onClick={() => {
-                localStorage.removeItem("auth");
-                localStorage.removeItem("user");
-                window.location.reload();
+                if (user.nomeCliente !== undefined) {
+                  localStorage.removeItem("auth");
+                  localStorage.removeItem("user");
+                  window.location.reload();
+                } else {
+                  setUser(null);
+                }
               }}
             >
               <FaSignOutAlt className="icon" />

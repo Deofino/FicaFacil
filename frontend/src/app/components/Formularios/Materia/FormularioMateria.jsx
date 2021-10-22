@@ -291,9 +291,9 @@ export default function FormularioMateria() {
           icon={<FaBookOpen />}
         />
         <Select
-          className="c-formMateria__select"
           name="areaMateria"
           label="Área: *"
+          className="c-formMateria__select"
           id="areaMateria"
           value={selectedAreaMateria}
           error={ErroAreaMateria}

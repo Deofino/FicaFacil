@@ -64,16 +64,20 @@
         font-size: rem(12) !important;
       }
 
-      &:hover{
+      &:hover {
         color: $white;
       }
     }
     &.btn {
       span {
+        color: $white;
         background: $accent;
       }
     }
     &.voltar {
+      a {
+        width: 100%;
+      }
       span {
         background: $primary !important;
       }
@@ -100,6 +104,9 @@
       @include breakpoint(small) {
         font-size: rem(20);
       }
+    }
+    .c-input svg {
+      color: $black;
     }
     span {
       align-self: flex-start;

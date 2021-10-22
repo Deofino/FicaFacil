@@ -16,27 +16,39 @@ class QuestaoController
             $model = new QuestaoModel();
             $where = '';
             $send = [];
+            $inner = '';
+            if (isset($_GET['materia'])) {
+                if ($_GET['materia'] > 0) {
+                    $where .= '  WHERE tb_assunto_materia.idMateria = :materia AND';
+                    $send[':materia']
+                        = (int) $_GET['materia'];
+                    $inner .= 'INNER JOIN tb_assunto_materia on tb_assunto_materia.idAssuntoMateria = tb_questao.idAssuntoMateria INNER JOIN tb_materia on tb_assunto_materia.idMateria = tb_materia.idMateria';
+                }
+            }
             if (isset($params[0])) {
                 $where .= ' WHERE idQuestao = :id AND';
                 $send[':id'] = (int) $params[0];
             }
             if (isset($_GET['universidade'])) {
-                $where .= ' WHERE idUniversidade = :universidade AND';
-                $send[':universidade']
-                    = (int) $_GET['universidade'];
-            }
-            if (isset($_GET['data'])) {
-                $send['data'] = true;
+                if ($_GET['universidade'] > 0) {
+                    $where .= ' WHERE idUniversidade = :universidade AND';
+                    $send[':universidade']
+                        = (int) $_GET['universidade'];
+                }
             }
             if (isset($_GET['dificuldade'])) {
-                $where .= ' WHERE idDificuldade = :dificuldade AND';
-                $send[':dificuldade']
-                    = (int) $_GET['dificuldade'];
+                if ($_GET['dificuldade']) {
+                    $where .= ' WHERE idDificuldade = :dificuldade AND';
+                    $send[':dificuldade']
+                        = (int) $_GET['dificuldade'];
+                }
             }
             if (isset($_GET['assunto'])) {
-                $where .= ' WHERE idAssuntoMateria = :assunto AND';
-                $send[':assunto']
-                    = (int) $_GET['assunto'];
+                if ($_GET['assunto']) {
+                    $where .= ' WHERE idAssuntoMateria = :assunto AND';
+                    $send[':assunto']
+                        = (int) $_GET['assunto'];
+                }
             }
             if (isset($_GET['pesquisa'])) {
                 $where .= ' WHERE tituloQuestao LIKE :pesquisa OR textoQuestao LIKE :pesquisa AND';
@@ -52,7 +64,7 @@ class QuestaoController
             if (isset($_GET['limit'])) {
                 $where .= ' LIMIT ' . $_GET['limit'];
             }
-            echo $model->get($where, $send);
+            echo $model->get($where, $send, $inner);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);

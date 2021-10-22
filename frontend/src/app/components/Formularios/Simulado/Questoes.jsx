@@ -1,36 +1,27 @@
-import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
-import { ToastError } from "../../Alert/Toast";
+import React, { Fragment } from "react";
 import { Questao } from "./Questao";
+import { useSimulado } from "../../Context/SImuladoContext";
 export const Questoes = (props) => {
-  const [ReqQuestao, setReqQuestao] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API}/questao/index/`)
-      .then((value) => {
-        if (value.data.status_code === 200) {
-          setReqQuestao(value.data.data);
-        }
-      })
-      .catch((err) => ToastError(err));
-  }, []);
+  const simulado = useSimulado();
+  const ReqQuestao = simulado.reqQuestao || [];
 
   return (
-    <section
-      className="l-questoes"
-      style={{
-        padding: 20,
-        borderWidth: 3,
-        borderColor: "#888",
-        borderStyle: "solid",
-        borderRadius: 8,
-        marginTop: 10,
-      }}
-    >
+    <section className="l-questoes">
       {ReqQuestao.questao !== undefined ? (
         ReqQuestao.questao.map &&
         ReqQuestao.questao.map((el, index) => {
-          return <Questao key={index} index={index} id={el.idQuestao} />;
+          let respostas = ReqQuestao.respostas.resposta.filter(
+            (val) => val.idQuestao === el.idQuestao
+          );
+          return (
+            <Questao
+              key={index}
+              index={index}
+              questao={el}
+              id={el.idQuestao}
+              respostas={respostas}
+            />
+          );
         })
       ) : (
         <Fragment>
