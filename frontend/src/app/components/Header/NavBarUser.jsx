@@ -99,8 +99,8 @@ export default function NavbarUser() {
         </li>
         <li className="c-navbar__profile">
           <div className="c-navbar__image-profile">
-            {/* {user.nomeCliente.charAt(0).toUpperCase()} */}
-            U
+             {user.nomeCliente.charAt(0).toUpperCase()} 
+            
             </div>
             <div className="c-navbar__name-job">
               <div className="name">{user.nomeCliente || "User"}</div>
