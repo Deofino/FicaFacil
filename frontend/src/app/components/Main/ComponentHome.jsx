@@ -7,7 +7,9 @@ import Simulates from "../../../img/project/elipse1.svg";
 import Progress from "../../../img/project/elipse2.svg";
 import Evolution from "../../../img/project/elipse3.svg";
 import Enfeite from "../../../img/project/enfeite.png";
-import Teste from "../../../img/project/teste.png";
+import Enem from "../../../img/project/ENEM.png";
+import Banner from "../../../img/project/Banner1.png";
+import Fuvest from "../../../img/project/fuvest.png";
 import Aura from "../../../img/project/icon-aura.svg";
 
 import Slider from "./Slider";
@@ -15,17 +17,17 @@ import Slider from "./Slider";
 const images = [
 
         {
-            path: Teste, 
+            path: Banner, 
             alt: "Banner Fica Fácil",
             title: "FICA FÁCIL",
         },
          {
-            path: Teste, 
+            path: Enem, 
             alt: "Banner ENEM",
             title: "ENEM",
         },
          {
-            path: Teste, 
+            path: Fuvest, 
             alt: "Banner FUVEST",
             title: "FUVEST",
         },

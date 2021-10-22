@@ -5,7 +5,7 @@
     padding: rem(16) 0;
     border-radius: $global-radius;
     text-align: center;
-    color: $black;
+    color: $primary;
     @include darkMode {
       color: $white;
   }
@@ -77,7 +77,7 @@
     opacity: 0.5;
     width: rem(10);
     height: rem(10);
-    background-color: $black;
+    background-color: $primary;
     @include darkMode {
       background-color: $white;
   }

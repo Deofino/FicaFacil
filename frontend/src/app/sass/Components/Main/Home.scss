@@ -275,25 +275,48 @@
         display: flex;
         width: 100%;
         margin-top: 10%;
-
+        @include breakpoint(medium){
+            flex-direction: column-reverse;
+        }
         &__left{
             width: 50%;
+            @include breakpoint(medium){
+                width: 100%;
+                margin-top: rem(-150);
+            }
             &__enf{
               transform: translate(50%, -50%);
+              @include breakpoint(medium){
+                    opacity: 0;
+                }
             }
             &__title{
                 font-size: rem(25);
                 margin-left: 8%;
+                @include breakpoint (medium){
+                    font-size: rem(20);  
+                }
+                @include breakpoint (small){
+                    font-size: rem(15);  
+                }
             }
             &__sub{
                 font-size: rem(35);
                 margin-left: 8%;
-
+                @include breakpoint (medium){
+                    font-size: rem(28);  
+                }
+                @include breakpoint (small){
+                    font-size: rem(22);  
+                }
             }
             &__text{
                 margin-left: 8%;
                 margin-right: 8%;
                 font-weight: 200;
+                @include breakpoint (small){
+                    font-size: rem(14);  
+                }
             }
             &__link{
                 margin-left: 8%;
@@ -302,12 +325,17 @@
                 font-weight: bolder;
                 display: flex;
                 &__i{
+                    
                     color: $primary;
                     svg{
                         font-size: rem(30);
                         text-align: center;
                         margin-top: rem(-4);
                         cursor: pointer;
+                        @include breakpoint (small){
+                            font-size: rem(20);  
+                            margin-top: rem(3);
+                        }
                     }
                 }
                 &__l:hover{
@@ -319,6 +347,11 @@
             width: 50%;
             right: 0;
             top: 0;
+            @include breakpoint(medium){
+                position: relative;
+                width: 70%;
+                margin-left: 30%;
+            }
         }
     }
         /* -------------------------FIM AURA --------------------- */
