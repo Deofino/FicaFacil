@@ -1,0 +1,75 @@
+.l-questoes {
+    &__headline {
+        text-align: center;
+    }
+}
+
+.c-questao {
+    box-shadow: 0 rem(2) rem(4) var(--color-shadow);
+    padding: rem(16) rem(8);
+    background-color: $gray-dark;
+    border-radius: rem(8);
+    position: relative;
+    &__number {
+        font-size: rem(12);
+        position: absolute;
+        top: rem(-20);
+        left: 0;
+    }
+    &__titulo {
+        font-size: $global-font-size-lg;
+        margin-bottom: rem(12);
+    }
+    &__texto {
+        font-size: $global-font-size;
+        margin-bottom: rem(20);
+    }
+    &__respostas {
+        margin-bottom: rem(20);
+    }
+    &__alternativa {
+        @include flex(start);
+        background-color: $dark;
+        padding: rem(8);
+        margin-top: rem(10);
+        border-radius: rem(16);
+        label {
+            width: 100%;
+        }
+        .cut {
+            padding: rem(2) rem(4) !important;
+            cursor: pointer;
+            svg {
+                font-size: $global-font-size-sm;
+                color: $white;
+            }
+        }
+    }
+    &__actions {
+        padding: 0 rem(20);
+        @include flex(end);
+        position: relative;
+        button {
+            max-width: rem(200);
+            span {
+                text-transform: capitalize;
+            }
+        }
+        .err {
+            position: absolute;
+            left: rem(10);
+            font-size: $global-font-size-sm;
+            font-weight: bolder;
+            @include flex(start);
+            svg {
+                margin-left: rem(4);
+            }
+        }
+        .prev {
+            margin-right: rem(8);
+        }
+        .prox {
+            margin-left: rem(8);
+        }
+    }
+}

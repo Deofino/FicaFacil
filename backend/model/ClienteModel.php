@@ -26,10 +26,6 @@ class ClienteModel extends UserModel
 
         $this->email = $email;
     }
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
 
     public function getDataAniversario(): string
     {

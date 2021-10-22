@@ -11,6 +11,7 @@ class UserModel
 
     public function getNome(): string
     {
+
         return $this->nome;
     }
     public function getEmail(): string
@@ -23,10 +24,13 @@ class UserModel
     }
     public function setNome(string $nome): void
     {
+        // faz verificacao nao nulo aqui
+
         $this->nome = ucfirst($nome);
     }
     public function setEmail(string $email): void
     {
+        //poliforma pra cada cxaaso adm e clinete
         $this->email = $email;
     }
     public function setSenha(string $senha): void

@@ -170,11 +170,12 @@ class QuestaoModel
         return;
     }
 
-    public function get(string $where = '', array $send = [])
+    public function get(string $where = '', array $send = [], $inner = '*')
     {
         try {
             $con = Connection::getConn();
-            $query = 'SELECT * FROM tb_questao';
+            $query = "SELECT *  FROM tb_questao $inner";
+
             if ($where === '' && $send == []) {
                 $stmt = $con->prepare($query);
             } else if (isset($send['id'])) {
@@ -201,7 +202,7 @@ class QuestaoModel
 
                     ], 204);
                 }
-                if ($stmt->rowCount() === 1 && $where != '' && !$send['data']) {
+                if ($stmt->rowCount() === 1 && $where != '' && isset($send['data'])) {
                     $questao = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     $universidade = (new UniversidadeModel)->get(['id' => $questao[0]['idUniversidade']]);
                     $dificuldade = (new DificuldadeModel)->get(['id' => $questao[0]['idDificuldade']]);
@@ -231,6 +232,8 @@ class QuestaoModel
             }
             return Response::error("Erro ao selecionar questão");
         } catch (\Throwable $th) {
+            json([$query . $where]);
+            die;
             return Response::error("Error: " . $th->getMessage());
         }
     }

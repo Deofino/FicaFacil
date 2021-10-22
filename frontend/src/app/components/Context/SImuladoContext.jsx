@@ -1,9 +1,12 @@
+import axios from "axios";
 import React, { createContext, useState, useContext } from "react";
+import { ToastError, ToastWarning } from "../Alert/Toast";
 
 export const propsContextSimulado = {
-  qtde: null,
-  setQtde: null,
-  acertos: null,
+  reqQuestao: null,
+  setReqQuestao: null,
+  filter: "",
+  setFilter: null,
   setAcertos: null,
   erros: null,
   setErros: null,
@@ -22,16 +25,38 @@ const contextSimulado = createContext(propsContextSimulado);
  * @param {import("react").Props} props
  */
 export const SimuladoProvider = (props) => {
-  const [qtde, setQtde] = useState(10);
+  const [filter, setFilter] = useState("limit=10");
+  const [reqQuestao, setReqQuestao] = useState([]);
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
   const [questaoAtual, setQuestaoAtual] = useState(0);
   const [tempo, setTempo] = useState(30);
+
+  React.useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API}/questao/index?${filter}`, {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
+        },
+      })
+      .then((value) => {
+        if (value.data.status_code === 200) {
+          setReqQuestao(value.data.data);
+          // } else ToastWarning({ text: value.data.data });
+        } else console.log(value.data);
+      })
+      .catch((err) => ToastError(err));
+  }, [filter]);
+
   return (
     <contextSimulado.Provider
       value={{
-        qtde: qtde,
-        setQtde: setQtde,
+        filter: filter,
+        setFilter: setFilter,
+        reqQuestao: reqQuestao,
+        setReqQuestao: setReqQuestao,
         acertos: acertos,
         setAcertos: setAcertos,
         erros: erros,
