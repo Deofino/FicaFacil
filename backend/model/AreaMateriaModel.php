@@ -47,9 +47,9 @@ class AreaMateriaModel
         try {
             $con = Connection::getConn();
             if ($params === null) {
-                $stmt = $con->prepare("SELECT * FROM tb_area_materia");
+                $stmt = $con->prepare("SELECT * FROM tb_area_materia  order by nomeAreaMateria");
             } else {
-                $stmt = $con->prepare("SELECT * FROM tb_area_materia WHERE idAreaMateria = ?");
+                $stmt = $con->prepare("SELECT * FROM tb_area_materia WHERE idAreaMateria = ?  order by nomeAreaMateria");
                 $stmt->bindValue(1, $params['id'], \PDO::PARAM_INT);
             }
 

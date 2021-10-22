@@ -66,7 +66,7 @@ export default function StickyHeadTable({
           );
 
         setTimeout(() => {
-          // window.location.reload();
+          window.location.reload();
         }, 4000);
       }
     });

@@ -62,7 +62,10 @@ const Backdrop = (props) => {
         }
       )
       .then((value) => {
-        if (value.data.status_code === 200) {
+        if (
+          value.data.status_code === 200 &&
+          value.data.data.sugestaoVideo !== undefined
+        ) {
           let sugestao = value.data.data.sugestaoVideo[0];
           settituloSugestao(sugestao.tituloSugestaoVideo || "");
           setthumbSugestao(sugestao.thumbnailSugestaoVideo || "");
@@ -517,7 +520,7 @@ export default function FormularioQuestao() {
         }
       )
       .then((value) => {
-        console.log(value.data);
+        // console.log(value.data);
         if (value.data.status_code === 200) {
           setQuestao(value.data.data);
         } else console.log(value.data.data);
@@ -631,7 +634,10 @@ export default function FormularioQuestao() {
 
       formData.append("correta", alternativa.correta);
       alternativa.alternativas.length > 0 &&
-        formData.append("alternativas", alternativa.alternativas);
+        formData.append(
+          "alternativas",
+          JSON.stringify(alternativa.alternativas)
+        );
 
       axios
         .post(`${process.env.REACT_APP_API}/questao/create/`, formData, {
@@ -642,6 +648,7 @@ export default function FormularioQuestao() {
           },
         })
         .then(function (parametro) {
+          console.log(parametro.data);
           if (parametro.data.status_code === 200) {
             AlertSuccess({
               text: "Questão inserida com sucesso",
@@ -655,7 +662,7 @@ export default function FormularioQuestao() {
           AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
         });
       setTimeout(() => {
-        window.location.reload();
+        // window.location.reload();
       }, 4000);
     } else ToastWarning({ text: "Preencha todos os campos" });
   };
@@ -722,9 +729,12 @@ export default function FormularioQuestao() {
           administrador: questoes.administrador.filter(
             (e) => e.idAdministrador === questao.idAdministrador
           )[0].nomeAdministrador,
-          resposta: questoes.respostas.resposta.filter(
-            (e) => e.idQuestao === questao.idQuestao
-          )[0].textoResposta,
+          resposta:
+            questoes.respostas.resposta.filter((e) => {
+              return (
+                e.idQuestao === questao.idQuestao && e.certaResposta === "1"
+              );
+            })[0].textoResposta || "404",
           questao: questoes,
         };
       })

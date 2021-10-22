@@ -79,9 +79,9 @@ class MateriaModel
         try {
             $con = Connection::getConn();
             if ($params === null) {
-                $stmt = $con->prepare("SELECT * FROM tb_materia");
+                $stmt = $con->prepare("SELECT * FROM tb_materia order by nomeMateria");
             } else {
-                $stmt = $con->prepare("SELECT * FROM tb_materia WHERE idMateria = ?");
+                $stmt = $con->prepare("SELECT * FROM tb_materia WHERE idMateria = ? order by nomeMateria");
                 $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
 
@@ -91,7 +91,7 @@ class MateriaModel
                     return Response::warning([
                         "Nenhuma materia encontrada...",
                         "area" => json_decode($area)->data
-                ], 404);
+                    ], 404);
                 }
                 if ($stmt->rowCount() === 1) {
                     $materia = $stmt->fetchAll(\PDO::FETCH_ASSOC);
