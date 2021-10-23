@@ -16,9 +16,14 @@ const alfabeto = ["a)", "b)", "c)", "d)", "e)"];
  */
 export const Questao = (props) => {
   const { questaoAtual, setQuestaoAtual } = useSimulado();
-  const [Selected, setSelected] = useState(0);
+  const [Selected, setSelected] = useState(null);
   const questao = props.questao || [];
   const Respostas = props.respostas || [];
+  let CertaResposta = 0;
+
+  if (Respostas !== []) {
+    CertaResposta = +Respostas.find((el) => +el.certaResposta === 1).idResposta;
+  }
 
   return (
     <div
@@ -77,7 +82,12 @@ export const Questao = (props) => {
         <Button
           className="prox"
           onClick={() => {
-            setQuestaoAtual(questaoAtual + 1);
+            if (Selected !== null && Selected > 0){
+              if(Selected === CertaResposta){
+                
+              }
+            }
+             setQuestaoAtual(questaoAtual + 1);
           }}
         >
           Proximo

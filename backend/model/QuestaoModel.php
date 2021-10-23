@@ -170,11 +170,11 @@ class QuestaoModel
         return;
     }
 
-    public function get(string $where = '', array $send = [], $inner = '*')
+    public function get(string $where = '', array $send = [], $inner = '')
     {
         try {
             $con = Connection::getConn();
-            $query = "SELECT *  FROM tb_questao $inner";
+            $query = "SELECT * FROM tb_questao $inner";
 
             if ($where === '' && $send == []) {
                 $stmt = $con->prepare($query);

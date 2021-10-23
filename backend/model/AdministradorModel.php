@@ -9,11 +9,34 @@ use PDO;
 
 class AdministradorModel extends UserModel
 {
-    // public function setEmail(string $email): void
-    // {
-    //     // Verificar se adm tem email igual, se sim nao pode deixar entrar
-    //     $this->email = $email;
-    // }
+    public function setEmail(string $email): void
+    {
+        // Verificar se adm tem email igual, se sim nao pode deixar entrar
+        if (
+            isset($email) && trim($email) !== '' && strlen(trim($email)) !== 0 && trim($email) !== null
+        ) {
+            $data =  json_decode($this->get());
+
+            if ($data->status_code === 200) {
+                foreach ($data->data as $el) {
+                    if ($el->emailAdministrador == $email) {
+                        throw new \Exception("Esse email ja esta cadastrado como um administrador.", 400);
+                    };
+                }
+                $this->email = $email;
+                return;
+            } else {
+                throw new \Exception("Adm codigo nao 200", 400);
+                return;
+            };
+        }
+        throw new \Exception("Esse titulo não pode ser aceito", 400);
+        return;
+    }
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 
     public function get($params = null)
     {

@@ -7,6 +7,8 @@ export const propsContextSimulado = {
   setReqQuestao: null,
   filter: "",
   setFilter: null,
+  quantidade: null,
+  setQuantidade: null,
   setAcertos: null,
   erros: null,
   setErros: null,
@@ -25,6 +27,7 @@ const contextSimulado = createContext(propsContextSimulado);
  * @param {import("react").Props} props
  */
 export const SimuladoProvider = (props) => {
+  const [quantidade, setQuantidade] = useState(10);
   const [filter, setFilter] = useState("limit=10");
   const [reqQuestao, setReqQuestao] = useState([]);
   const [acertos, setAcertos] = useState(0);
@@ -34,16 +37,20 @@ export const SimuladoProvider = (props) => {
 
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/questao/index?${filter}`, {
-        headers: {
-          Authorization: `Bearer ${
-            localStorage.getItem("auth") || localStorage.getItem("user")
-          }`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API}/questao/index?${filter.replace("?", "")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        }
+      )
       .then((value) => {
         if (value.data.status_code === 200) {
           setReqQuestao(value.data.data);
+          
           // } else ToastWarning({ text: value.data.data });
         } else console.log(value.data);
       })

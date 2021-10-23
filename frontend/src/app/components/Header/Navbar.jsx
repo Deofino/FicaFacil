@@ -98,15 +98,6 @@ export default function Navbar() {
           </ul>
         </li>
         <li className="c-navbar__menu-item">
-          <Link to="/entrar">
-            <div className="space">
-              <FaUserAlt className="icon" />
-              <span className="c-navbar__links-name">Perfil</span>
-            </div>
-          </Link>
-          <span className="c-navbar__tooltip">Perfil</span>
-        </li>
-        <li className="c-navbar__menu-item">
           <Link to="/configuracoes">
             <div className="space">
               <FaCog className="icon" />

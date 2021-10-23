@@ -11,7 +11,6 @@ class UserModel
 
     public function getNome(): string
     {
-
         return $this->nome;
     }
     public function getEmail(): string

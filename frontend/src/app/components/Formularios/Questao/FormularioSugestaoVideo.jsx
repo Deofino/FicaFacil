@@ -30,6 +30,7 @@ export default function FormularioSugestaoVideo(props) {
         },
       })
       .then((value) => {
+        // console.log(value.data);
         if (value.data.status_code !== 200)
           ToastWarning({ text: value.data.data || "Warning" });
       })
