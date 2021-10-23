@@ -21,10 +21,31 @@ class ClienteModel extends UserModel
 
     public function setEmail(string $email): void
     {
-        // faz a verificacao pra essa porra nao cadastra com email igual de outro no banco de dados
-        // faz a mesma coisa no do administrador tbm
+        if (
+            isset($email) && trim($email) !== '' && strlen(trim($email)) !== 0 && trim($email) !== null
+        ) {
+            $data =  json_decode($this->get());
 
-        $this->email = $email;
+            if ($data->status_code === 200) {
+                foreach ($data->data as $el) {
+                    if ($el->emailCliente == $email) {
+                        throw new \Exception("Esse email ja esta cadastrado como um usuario.", 400);
+                    };
+                }
+                $this->email = $email;
+                return;
+            } else {
+                throw new \Exception("User codigo não 200", 400);
+                return;
+            };
+        }
+        throw new \Exception("Esse email não pode ser aceito", 400);
+        return;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 
     public function getDataAniversario(): string
