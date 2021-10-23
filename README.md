@@ -28,7 +28,6 @@
   <a href="#-tecnologias">Tecnologias</a> •
   <a href="#-como-usar">Como usar</a> •
   <a href="#-equipe">Equipe</a> •  
-  <a href="#-licença">Licença</a>
 </p>
 
 <br>
@@ -207,9 +206,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 </table>
 
 <br>
-
-<h2> Licença</h2>
-Esse repositório está licenciado pela ***MIT LICENSE***. Para informações detalhadas, leia o arquivo <a href="https://github.com/Deofino/FicaFacil/blob/main/LICENSE">LICENSE</a> contido nesse repositório.
-
 <br><br>
 
