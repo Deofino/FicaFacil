@@ -14,6 +14,25 @@ import { Backdrop } from "@material-ui/core";
  * @param {int} tempo = 30 minutos
  */
 export function Simulado() {
+  function removeURLParameter(url, parameter) {
+    //prefer to use l.search if you have a location/link object
+    var urlparts = url.split("?");
+    if (urlparts.length >= 2) {
+      var prefix = encodeURIComponent(parameter) + "=";
+      var pars = urlparts[1].split(/[&;]/g);
+
+      //reverse iteration as may be destructive
+      for (var i = pars.length; i-- > 0; ) {
+        //idiom for string.startsWith
+        if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+          pars.splice(i, 1);
+        }
+      }
+
+      return urlparts[0] + (pars.length > 0 ? "?" + pars.join("&") : "");
+    }
+    return url;
+  }
   const [start, setStart] = useState(false);
 
   const { reqQuestao, setFilter, filter } = useSimulado();
@@ -39,6 +58,13 @@ export function Simulado() {
                 value={quantidade}
                 onChange={({ target }) => {
                   setQuantidade(target.value);
+                  if (!filter.includes("limit")) {
+                    if (target.value > 0) {
+                      setFilter(`${filter}&limit=${target.value}`);
+                      return;
+                    }
+                  }
+                  // setFilter(removeURLParameter("?" + filter, "limit")+);
                 }}
               >
                 <MenuItem value={0}>Selecione</MenuItem>
@@ -52,13 +78,22 @@ export function Simulado() {
                 value={dificuldade}
                 onChange={({ target }) => {
                   setDificuldade(target.value);
+                  console.log(target.value);
+                  if (!filter.includes("dificuldade")) {
+                    if (target.value > 0) {
+                      setFilter(`${filter}&dificuldade=${target.value}`);
+                      return;
+                    }
+                  }
+                  let params = new URLSearchParams(filter);
+                  console.log(params.delete("dificuldade"));
                 }}
               >
                 <MenuItem value={-1}>Aleatória</MenuItem>
                 {reqQuestao !== [] &&
                   reqQuestao.dificuldade !== undefined &&
                   reqQuestao.dificuldade.map((el) => (
-                    <MenuItem value={el.idDificuldade} key={el.idDificuldade}>
+                    <MenuItem value={+el.idDificuldade} key={el.idDificuldade}>
                       {el.nivelDificuldade}
                     </MenuItem>
                   ))}
@@ -69,6 +104,14 @@ export function Simulado() {
                 value={universidade}
                 onChange={({ target }) => {
                   setUniversidade(target.value);
+                  if (!filter.includes("universidade")) {
+                    if (target.value > 0) {
+                      setFilter(`${filter}&universidade=${target.value}`);
+                      return;
+                    }
+                  }
+                  let params = new URLSearchParams(filter);
+                  params.delete("universidade");
                 }}
               >
                 <MenuItem value={-1}>Aleatória</MenuItem>
@@ -86,6 +129,14 @@ export function Simulado() {
                 value={materia}
                 onChange={({ target }) => {
                   setMateria(target.value);
+                  if (!filter.includes("materia")) {
+                    if (target.value > 0) {
+                      setFilter(`${filter}&materia=${target.value}`);
+                      return;
+                    }
+                  }
+                  let params = new URLSearchParams(filter);
+                  params.delete("materia");
                 }}
               >
                 <MenuItem value={-1}>Aleatória</MenuItem>
@@ -104,6 +155,14 @@ export function Simulado() {
                 value={assunto}
                 onChange={({ target }) => {
                   setAssunto(target.value);
+                  if (!filter.includes("assunto")) {
+                    if (target.value > 0) {
+                      setFilter(`${filter}&assunto=${target.value}`);
+                      return;
+                    }
+                  }
+                  let params = new URLSearchParams(filter);
+                  params.delete("assunto");
                 }}
               >
                 <MenuItem value={-1}>Aleatória</MenuItem>
@@ -122,13 +181,8 @@ export function Simulado() {
               <br />
               <Button
                 onClick={() => {
-                  setFilter(filter + `&materia=${materia}`);
-                  setFilter(filter + `&quantidade=${quantidade}`);
-                  setFilter(filter + `&dificuldade=${dificuldade}`);
-                  setFilter(filter + `&universidade=${universidade}`);
-                  setFilter(filter + `&quantidade=${quantidade}`);
-                  setFilter(filter + `&assunto=${assunto}`);
-                  setStart(true);
+                  console.log(filter);
+                  // setStart(true);
                 }}
               >
                 Comecar simulado

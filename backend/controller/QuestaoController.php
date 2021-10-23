@@ -45,7 +45,11 @@ class QuestaoController
             }
             if (isset($_GET['assunto'])) {
                 if ($_GET['assunto']) {
-                    $where .= ' WHERE idAssuntoMateria = :assunto AND';
+                    if ($inner === '') {
+                        $where .= ' WHERE idAssuntoMateria = :assunto AND';
+                    } else {
+                        $where .= ' WHERE tb_assunto_materia.idAssuntoMateria = :assunto AND';
+                    }
                     $send[':assunto']
                         = (int) $_GET['assunto'];
                 }

@@ -523,8 +523,8 @@ export default function FormularioQuestao() {
         // console.log(value.data);
         if (value.data.status_code === 200) {
           setQuestao(value.data.data);
-        } else console.log(value.data.data);
-        // } else ToastWarning({ text: value.data.data });
+          // } else console.log(value.data.data);
+        } else ToastWarning({ text: value.data.data });
       })
       // .catch((err) => console.log(err));
       .catch((err) => ToastError({ text: err || "Warning" }));
@@ -648,7 +648,7 @@ export default function FormularioQuestao() {
           },
         })
         .then(function (parametro) {
-          console.log(parametro.data);
+          // console.log(parametro.data);
           if (parametro.data.status_code === 200) {
             AlertSuccess({
               text: "Questão inserida com sucesso",
@@ -662,7 +662,7 @@ export default function FormularioQuestao() {
           AlertError({ text: "Ocorreram alguns erros...", title: "Ops..." });
         });
       setTimeout(() => {
-        // window.location.reload();
+        window.location.reload();
       }, 4000);
     } else ToastWarning({ text: "Preencha todos os campos" });
   };

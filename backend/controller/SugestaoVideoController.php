@@ -12,6 +12,7 @@ class SugestaoVideoController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new SugestaoVideoModel();
+            // echo 'roi';
             echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
             return;
         }
