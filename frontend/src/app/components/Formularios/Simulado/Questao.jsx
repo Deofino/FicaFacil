@@ -15,7 +15,7 @@ const alfabeto = ["a)", "b)", "c)", "d)", "e)"];
  * @param {import("react").Props} props
  */
 export const Questao = (props) => {
-  const { questaoAtual, setQuestaoAtual } = useSimulado();
+  const { questaoAtual, setQuestaoAtual, reqQuestao } = useSimulado();
   const [Selected, setSelected] = useState(null);
   const questao = props.questao || [];
   const Respostas = props.respostas || [];
@@ -41,7 +41,12 @@ export const Questao = (props) => {
         </span>
       </article>
       <div className="c-questao__respostas">
-        <RadioGroup>
+        <RadioGroup
+          onChange={(e) => {
+            setSelected(e.target.value);
+          }}
+          value={Selected}
+        >
           {Respostas.map((res, index) => {
             return (
               <div className="c-questao__alternativa" key={index}>
@@ -82,12 +87,18 @@ export const Questao = (props) => {
         <Button
           className="prox"
           onClick={() => {
-            if (Selected !== null && Selected > 0){
-              if(Selected === CertaResposta){
-                
+            if (Selected !== null) {
+              if (+Selected === CertaResposta) {
+                console.log("acertou");
+              } else {
+                console.log("errou");
               }
             }
-             setQuestaoAtual(questaoAtual + 1);
+            if (questaoAtual < reqQuestao.questao.length - 1) {
+              setQuestaoAtual(questaoAtual + 1);
+            } else {
+              console.log("fim do simulado");
+            }
           }}
         >
           Proximo

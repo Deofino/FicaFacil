@@ -1,7 +1,14 @@
 import React, { Fragment, useState } from "react";
 import { Input, Button } from "../../Form";
 import axios from "axios";
-import { FaAt, FaUser, FaLock, FaArrowLeft } from "react-icons/fa";
+import {
+  FaAt,
+  FaUser,
+  FaLock,
+  FaArrowLeft,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../../../../img/project/logo-branca.png";
 import { ToastError, ToastSuccess } from "../../Alert/Toast";
@@ -11,6 +18,9 @@ export default function FormularioCriarConta() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmacao_senha, setConfirmacao_senha] = useState("");
+
+  const [olho, setOlho] = useState(false);
+  const [olhoV, setOlhoV] = useState(false);
 
   const [Errornome, setErrorNome] = useState(null);
   const [Erroremail, setErrorEmail] = useState(null);
@@ -116,7 +126,14 @@ export default function FormularioCriarConta() {
                   title="Senha"
                   id="passw"
                   name="password"
-                  type="password"
+                  type={!olho ? "password" : "text"}
+                  iconEnd={
+                    !olho ? (
+                      <FaEye onClick={() => setOlho(!olho)} />
+                    ) : (
+                      <FaEyeSlash onClick={() => setOlho(!olho)} />
+                    )
+                  }
                   icon={<FaLock />}
                   value={senha}
                   error={Errorsenha}
@@ -131,7 +148,14 @@ export default function FormularioCriarConta() {
                   title="Confirmar senha"
                   id="confPassw"
                   name="confPassw"
-                  type="password"
+                  type={!olhoV ? "password" : "text"}
+                  iconEnd={
+                    !olhoV ? (
+                      <FaEye onClick={() => setOlhoV(!olhoV)} />
+                    ) : (
+                      <FaEyeSlash onClick={() => setOlhoV(!olhoV)} />
+                    )
+                  }
                   icon={<FaLock />}
                   value={confirmacao_senha}
                   error={Errorconfirmacao_senha}
