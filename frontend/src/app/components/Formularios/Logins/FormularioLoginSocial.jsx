@@ -41,7 +41,6 @@ export default function FormularioLoginSocial() {
           </div>
 
           <Link to="#" className="login_field__terms">
-            Termos de uso e políticas de privacidade
           </Link>
         </div>
         <div className="wave">
