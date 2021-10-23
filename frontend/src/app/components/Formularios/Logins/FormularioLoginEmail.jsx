@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Input, Button } from "../../Form";
-import { FaAt, FaLock, FaArrowLeft } from "react-icons/fa";
+import { FaAt, FaLock, FaArrowLeft,  FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../../../../img/project/logo-branca.png";
 import axios from "axios";
@@ -10,6 +10,8 @@ import { regexEmail } from "./FormularioLoginAdm";
 export default function FormularioLoginEmail() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+
+  const [olhoL, setOlhoL] = useState(false);
 
   const [Erroremail, setErrorEmail] = useState(null);
   const [Errorsenha, setErrorSenha] = useState(null);
@@ -81,6 +83,14 @@ export default function FormularioLoginEmail() {
                 id="passw"
                 name="password"
                 type="password"
+                type={!olhoL ? "password" : "text"}
+                  iconEnd={
+                    !olhoL ? (
+                      <FaEye onClick={() => setOlhoL(!olhoL)} />
+                    ) : (
+                      <FaEyeSlash onClick={() => setOlhoL(!olhoL)} />
+                    )
+                  }
                 icon={<FaLock />}
                 value={senha}
                 error={Errorsenha}
@@ -89,7 +99,7 @@ export default function FormularioLoginEmail() {
                   setSenha(value);
                   value.length <= 4
                     ? setErrorSenha(
-                        "A senha deve conter no minimo 4 caracteres"
+                        "A senha deve conter no minimo 5 caracteres"
                       )
                     : setErrorSenha(null);
                   value.length === 0 && setErrorSenha(null);

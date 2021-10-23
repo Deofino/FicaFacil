@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../../../../img/project/logo-branca.png";
-import { ToastError, ToastSuccess } from "../../Alert/Toast";
+import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
 import { regexEmail } from "./FormularioLoginAdm";
 
 export default function FormularioCriarConta() {
@@ -71,7 +71,7 @@ export default function FormularioCriarConta() {
       .catch((err) => {
         ToastError({ text: err });
       });
-    }
+    } else ToastWarning({ text: "Preencha todos os campos corretamente." });
   };
   return (
     <Fragment>

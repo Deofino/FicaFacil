@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Input, Button } from "../../Form";
 import axios from "axios";
-import { FaAt, FaLock } from "react-icons/fa";
+import { FaAt, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../../../../img/project/logo-branca.png";
 import { ToastError, ToastWarning } from "../../Alert/Toast";
@@ -12,6 +12,8 @@ export const regexEmail =
 export default function FormularioLoginAdm() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
+
+  const [olhoA, setOlhoA] = useState(false);
 
   const [errorLogin, setErrorLogin] = useState(null);
   const [errorSenha, setErrorSenha] = useState(null);
@@ -82,11 +84,19 @@ export default function FormularioLoginAdm() {
                 id="passw"
                 value={senha}
                 error={errorSenha}
+                type={!olhoA ? "password" : "text"}
+                iconEnd={
+                  !olhoA ? (
+                    <FaEye onClick={() => setOlhoA(!olhoA)} />
+                  ) : (
+                    <FaEyeSlash onClick={() => setOlhoA(!olhoA)} />
+                  )
+                }
                 onChange={({ target }) => {
                   setSenha(target.value);
                   target.value.length <= 4
                     ? setErrorSenha(
-                        "A senha deve conter no minimo 4 caracteres"
+                        "A senha deve conter no minimo 5 caracteres"
                       )
                     : setErrorSenha(null);
                   target.value.length === 0 && setErrorSenha(null);
