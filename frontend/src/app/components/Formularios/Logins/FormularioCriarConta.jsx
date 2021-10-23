@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Logo from "../../../../img/project/logo-branca.png";
 import { ToastError, ToastSuccess } from "../../Alert/Toast";
 import { regexEmail } from "./FormularioLoginAdm";
+
 export default function FormularioCriarConta() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ export default function FormularioCriarConta() {
   const create = (e) => {
     e.preventDefault();
 
-    //if(){ as verificacoes dos campos aqui
+    if (regexEmail.test(email) && nome && senha > 4) {
 
     axios
       .post(
@@ -60,8 +61,7 @@ export default function FormularioCriarConta() {
       .catch((err) => {
         ToastError({ text: err });
       });
-
-    //   }
+    }
   };
   return (
     <Fragment>
@@ -89,11 +89,15 @@ export default function FormularioCriarConta() {
                   inputMode="text"
                   value={nome}
                   error={Errornome}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    setNome(value);
-                    // verificacao de nome
-                  }}
+                  onChange={({target}) => {
+                    setNome(target.value);
+                    target.value.length < 4
+                    ? setErrorNome(
+                        "O campo deve conter no minimo 4 caracteres"
+                      )
+                    : setErrorNome(null);
+                  target.value.length === 0 && setErrorNome(null);
+                }}                    
                 />
                 <Input
                   className="login_field__input"
@@ -105,10 +109,12 @@ export default function FormularioCriarConta() {
                   inputMode="email"
                   value={email}
                   error={Erroremail}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    setEmail(value);
-                    // verificacao de email
+                  onChange={({target}) => {
+                    setEmail(target.value);
+                    !regexEmail.test(email)
+                      ? setErrorEmail("Insira um e-mail valido")
+                      : setErrorEmail(null);
+                    target.value.length === 0 && setErrorEmail(null);
                   }}
                 />
                 <Input
@@ -120,10 +126,14 @@ export default function FormularioCriarConta() {
                   icon={<FaLock />}
                   value={senha}
                   error={Errorsenha}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    setSenha(value);
-                    // verificacao de senha
+                  onChange={({target}) => {
+                    setSenha(target.value);
+                     target.value.length < 5
+                    ? setErrorSenha(
+                        "O campo deve conter no minimo 5 caracteres"
+                      )
+                    : setErrorSenha(null);
+                  target.value.length === 0 && setErrorSenha(null);
                   }}
                 />
                 <Input
@@ -135,10 +145,14 @@ export default function FormularioCriarConta() {
                   icon={<FaLock />}
                   value={confirmacao_senha}
                   error={Errorconfirmacao_senha}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    setConfirmacao_senha(value);
-                    // verificacao de confirmacao de senha
+                  onChange={({target}) => {
+                    setConfirmacao_senha(target.value);
+                    target.value.length < 5
+                    ? setErrorConfirmacao_senha(
+                        "O campo deve conter no minimo 5 caracteres"
+                      )
+                    : setErrorConfirmacao_senha(null);
+                  target.value.length === 0 && setErrorConfirmacao_senha(null);
                   }}
                 />
 

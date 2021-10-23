@@ -22,8 +22,8 @@ export default function FormularioLoginAdm() {
         .post(
           `${process.env.REACT_APP_API}/administrador/login/`,
           JSON.stringify({
-            email: login,
-            senha: senha,
+            email: login.trim(),
+            senha: senha.trim(),
           })
         )
         .then(({ data }) => {
