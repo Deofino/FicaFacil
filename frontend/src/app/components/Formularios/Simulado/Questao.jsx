@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
 // import axios from "axios";
 import { useSimulado } from "../../Context/SImuladoContext";
 import { Button, Radio, RadioGroup } from "../../Form";
@@ -19,15 +19,37 @@ export const Questao = (props) => {
     questaoAtual,
     setQuestaoAtual,
     reqQuestao,
-    setAcertos,
-    setErros,
-    erros,
-    acertos,
+    AcertarQuestao,
+    ErrarQuestao,
+    // acertos,
+    // erros,
+    // terminado,
   } = useSimulado();
-  const [Selected, setSelected] = useState(null);
+  const [Selected, setSelected] = useState(-1);
+  const [isAcertou, setAcertou] = useState("");
   const questao = props.questao || [];
   const Respostas = props.respostas || [];
   let CertaResposta = 0;
+  let universidade = "";
+  let materia = "";
+  let assunto = "";
+  let dificuldade = "";
+  if (reqQuestao !== [] && questao !== []) {
+    dificuldade = reqQuestao.dificuldade.find(
+      (el) => el.idDificuldade === questao.idDificuldade
+    ).nivelDificuldade;
+    universidade = reqQuestao.universidade.find(
+      (el) => el.idUniversidade === questao.idUniversidade
+    ).nomeUniversidade;
+    assunto = reqQuestao.assuntoMateria.assuntoMateria.find(
+      (el) => el.idAssuntoMateria === questao.idAssuntoMateria
+    );
+    materia = reqQuestao.assuntoMateria.materia.materia.find(
+      (el) => el.idMateria === assunto.idMateria
+    ).nomeMateria;
+  }
+
+  // console.log(reqQuestao);
 
   if (Respostas !== []) {
     CertaResposta = +Respostas.find((el) => +el.certaResposta === 1).idResposta;
@@ -36,10 +58,14 @@ export const Questao = (props) => {
   return (
     <div
       page={props.questaoAtual}
-      className="c-questao"
+      className={"c-questao " + props.index + " " + isAcertou}
       style={{ display: questaoAtual === props.index ? "block" : "none" }}
     >
       <span className="c-questao__number">Questão nº {questaoAtual + 1}</span>
+      <span className="c-questao__number c-questao__number--right">
+        {universidade} - {materia} - {assunto.nomeAssuntoMateria} -{" "}
+        {dificuldade}
+      </span>
       <h2 className="c-questao__titulo">
         {(questao !== undefined && questao.tituloQuestao) || "Titulofoda"}
       </h2>
@@ -51,7 +77,7 @@ export const Questao = (props) => {
       <div className="c-questao__respostas">
         <RadioGroup
           onChange={(e) => {
-            setSelected(e.target.value);
+            if (isAcertou === "") setSelected(e.target.value);
           }}
           value={Selected}
         >
@@ -95,21 +121,23 @@ export const Questao = (props) => {
         <Button
           className="prox"
           onClick={() => {
-            if (questaoAtual < reqQuestao.questao.length - 1) {
-              setQuestaoAtual(questaoAtual + 1);
-            } else {
-              console.log("fim do simulado");
-              console.log({ erros, acertos });
-            }
-            if (Selected !== null) {
+            if (Selected !== -1) {
               if (+Selected === CertaResposta) {
-                setAcertos(1 + acertos);
-                console.log("acertou");
+                AcertarQuestao();
+                setAcertou("correct");
+                alert("acertou");
               } else {
-                setErros(1 + erros);
-                console.log("errou");
+                ErrarQuestao();
+                setAcertou("errou");
+                alert("errou");
               }
-              console.log({ erros, acertos, Selected, CertaResposta });
+              setSelected(-1);
+            } else {
+              if (questaoAtual < reqQuestao.questao.length - 1) {
+                setQuestaoAtual(questaoAtual + 1);
+              } else {
+                alert("Voce ainda tem questoes ha responder");
+              }
             }
           }}
         >

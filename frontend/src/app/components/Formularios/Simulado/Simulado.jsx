@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import { Button, Select, MenuItem } from "../../Form";
 import { SimuladoProvider, useSimulado } from "../../Context/SImuladoContext";
 import { Questoes } from "./Questoes";
@@ -182,13 +182,13 @@ export function Simulado() {
               <br />
               <Button
                 onClick={() => {
+                  // console.log(filter.replaceAll("?", ""));
                   if (reqQuestao.questao.length < quantidade) {
                     AlertWarning({
                       title: "Ops...",
                       text: `Encontramos somente ${reqQuestao.questao.length} questões com esse filtro no nosso banco de dados. Deseja realizar o simulado mesmo assim?`,
                     }).then((el) => el.isConfirmed && setStart(true));
                   } else setStart(true);
-                  // console.log(filter.replaceAll("?", ""));
                 }}
               >
                 Comecar simulado
@@ -202,6 +202,7 @@ export function Simulado() {
                 universidade={universidade}
                 assunto={assunto}
                 materia={materia}
+                questoes={reqQuestao}
               />
             </section>
           )}

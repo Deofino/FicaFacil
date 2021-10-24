@@ -10,11 +10,22 @@
     background-color: $gray-dark;
     border-radius: rem(8);
     position: relative;
+    &.errou {
+        background-color: #f003;
+    }
+    &.correct {
+        background-color: #0f03;
+    }
     &__number {
         font-size: rem(12);
         position: absolute;
         top: rem(-20);
-        left: 0;
+        left: 2px;
+        &--right {
+            font-weight: 600;
+            left: initial;
+            right: 4px;
+        }
     }
     &__titulo {
         font-size: $global-font-size-lg;

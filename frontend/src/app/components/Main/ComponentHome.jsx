@@ -151,13 +151,14 @@ export default function ComponentHome() {
               site!
             </p>
             <div className="container_home__aura__left__link">
-              <Link
-                to="https://paulowarren.github.io/AURA/"
+              <a
+                href="https://paulowarren.github.io/AURA/"
                 target="_blank"
+                rel="noreferrer"
                 className="container_home__aura__left__link__l"
               >
                 Saiba tudo agora mesmo sobre a Aura
-              </Link>
+              </a>
               <div className="container_home__aura__left__link__i">
                 <FaAngleDoubleRight />
               </div>
@@ -275,15 +276,21 @@ export default function ComponentHome() {
           <div className="container_home__difficulty__cont">
             <div className="container_home__difficulty__cont__f">
               <div className="container_home__difficulty__cont__f__ret"></div>
-              <h2 className="container_home__difficulty__cont__f__desc">Fácil</h2>
+              <h2 className="container_home__difficulty__cont__f__desc">
+                Fácil
+              </h2>
             </div>
             <div className="container_home__difficulty__cont__m">
               <div className="container_home__difficulty__cont__m__ret"></div>
-              <h2 className="container_home__difficulty__cont__m__desc">Médio</h2>
+              <h2 className="container_home__difficulty__cont__m__desc">
+                Médio
+              </h2>
             </div>
             <div className="container_home__difficulty__cont__d">
               <div className="container_home__difficulty__cont__d__ret"></div>
-              <h2 className="container_home__difficulty__cont__d__desc">Difícil</h2>
+              <h2 className="container_home__difficulty__cont__d__desc">
+                Difícil
+              </h2>
             </div>
           </div>
         </section>

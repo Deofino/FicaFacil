@@ -29,6 +29,7 @@ class QuestaoController
                 $where .= ' WHERE idQuestao = :id AND';
                 $send[':id'] = (int) $params[0];
             }
+
             if (isset($_GET['universidade'])) {
                 if ($_GET['universidade'] > 0) {
                     $where .= ' WHERE idUniversidade = :universidade AND';
@@ -65,6 +66,9 @@ class QuestaoController
             if (substr($where, strlen($where) - 4, strlen($where)) == ' AND') {
                 $where =  substr($where, 0, strlen($where) - 4);
             };
+            if (isset($_GET['random'])) {
+                $where .= ' ORDER BY RAND() ';
+            }
             if (isset($_GET['limit'])) {
                 $where .= ' LIMIT ' . $_GET['limit'];
             }

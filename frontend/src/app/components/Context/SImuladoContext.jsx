@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { createContext, useState, useContext } from "react";
-import { ToastError, ToastWarning } from "../Alert/Toast";
+import { ToastError } from "../Alert/Toast";
 
 export const propsContextSimulado = {
   reqQuestao: null,
@@ -10,13 +10,15 @@ export const propsContextSimulado = {
   quantidade: null,
   setQuantidade: null,
   acertos: 0,
-  setAcertos: null,
+  AcertarQuestao: null,
   erros: 0,
-  setErros: null,
+  ErrarQuestao: null,
   questaoAtual: null,
   setQuestaoAtual: null,
   tempo: null,
   setTempo: null,
+  isTerminado: null,
+  setTerminado: null,
 };
 const contextSimulado = createContext(propsContextSimulado);
 
@@ -35,28 +37,49 @@ export const SimuladoProvider = (props) => {
   const [erros, setErros] = useState(0);
   const [questaoAtual, setQuestaoAtual] = useState(0);
   const [tempo, setTempo] = useState(30);
+  const [isTerminado, setTerminado] = useState(false);
+
+  const AcertarQuestao = () => {
+    setAcertos(acertos + 1);
+  };
+  const ErrarQuestao = () => {
+    setErros(erros + 1);
+  };
 
   React.useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_API}/questao/index?${filter.replace("?", "")}`,
-        {
-          headers: {
-            Authorization: `Bearer ${
-              localStorage.getItem("auth") || localStorage.getItem("user")
-            }`,
-          },
-        }
-      )
-      .then((value) => {
-        if (value.data.status_code === 200) {
-          setReqQuestao(value.data.data);
-
-          // } else ToastWarning({ text: value.data.data });
-        } else console.log(value.data);
-      })
-      .catch((err) => ToastError(err));
-  }, [filter]);
+    if (acertos + erros === 10) {
+      setTerminado(true);
+    }
+  }, [acertos, erros]);
+  React.useEffect(() => {
+    if (isTerminado === false) {
+      axios
+        .get(
+          `${process.env.REACT_APP_API}/questao/index?${filter.replace(
+            "?",
+            ""
+          )}&random=true`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          }
+        )
+        .then((value) => {
+          if (value.data.status_code === 200) {
+            setReqQuestao(value.data.data);
+            // console.log(value.data.data.questao);
+            // } else ToastWarning({ text: value.data.data });
+          } else console.log(value.data);
+        })
+        .catch((err) => ToastError(err));
+    } else {
+      setReqQuestao([]);
+      console.log("acabou");
+    }
+  }, [filter, isTerminado]);
 
   return (
     <contextSimulado.Provider
@@ -68,19 +91,21 @@ export const SimuladoProvider = (props) => {
         reqQuestao: reqQuestao,
         setReqQuestao: setReqQuestao,
         acertos: acertos,
-        setAcertos: setAcertos,
+        AcertarQuestao: AcertarQuestao,
         erros: erros,
-        setErros: setErros,
+        ErrarQuestao: ErrarQuestao,
         questaoAtual: questaoAtual,
         setQuestaoAtual: setQuestaoAtual,
         tempo: tempo,
         setTempo: setTempo,
+        isTerminado: isTerminado,
+        setTerminado: setTerminado,
       }}
     >
       {props.children}
     </contextSimulado.Provider>
   );
 };
-export const useSimulado = (props) => {
+export const useSimulado = () => {
   return useContext(contextSimulado);
 };
