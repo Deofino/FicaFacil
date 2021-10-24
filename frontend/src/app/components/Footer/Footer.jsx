@@ -8,16 +8,17 @@ export default function Footer() {
                     <div className="c-footer__col">
                         <h4>menu</h4>
                         <ul>
-                            <li><a href="#inicio" >início</a></li>
-                            <li><a href="#perfil">meu perfil</a></li>
-                            <li><a href="#a">simulado</a></li>
+                            <li><a href="/" >início</a></li>
+                            <li><a href="#p">meu perfil</a></li>
+                            <li><a href="/simulado">simulado</a></li>
                             <li><a href="#a">dashboard</a></li>
                         </ul>
                     </div>
                     <div className="c-footer__col">
                         <h4>empresa</h4>
                         <ul>
-                            <li><a href="https://deofino.github.io/Aura/">aura</a></li>
+                            <li><a href="https://paulowarren.github.io/AURA/"
+                            target="_blank">aura</a></li>
                             <li><a href="#sobre">sobre</a></li>
                         </ul>
                     </div>

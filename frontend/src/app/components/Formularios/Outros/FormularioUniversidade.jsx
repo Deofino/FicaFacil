@@ -5,7 +5,7 @@ import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Input, Button, Table } from "../../Form";
 import { FaBookOpen, FaTimes } from "react-icons/fa";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
+import { ToastError, ToastSuccess, } from "../../Alert/Toast";
 
 const Backdrop = (props) => {
   const [attUniversidade, setAttUniversidade] = useState(props.data[1] || ""); // State para atualizar o campo

@@ -17,7 +17,6 @@ import {
   FaItalic,
   FaEtsy,
 } from "react-icons/fa";
-import { mdiAlphaE, mdiAlphaI } from "react-icons/md";
 import Home from "../../../img/project/c-Esquerdo.svg";
 import Curve from "../../../img/project/curve1.png";
 import Simulates from "../../../img/project/elipse1.svg";

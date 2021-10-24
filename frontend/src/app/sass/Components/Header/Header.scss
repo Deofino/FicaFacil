@@ -195,9 +195,8 @@ body {
             }
 
             &:hover {
-                background-color: $white;
                 .icon {
-                    fill: $accent;
+                    fill: $white;
                     @include darkMode {
                         fill: $white;
                     }
@@ -240,7 +239,10 @@ body {
                 height: rem(35);
             }
             &:hover {
-                background-color: $white;
+                background-color: $primary;
+                @include darkMode {
+                    background-color: $accent;
+                }
                 .icon {
                     fill: $accent;
 
@@ -282,6 +284,13 @@ body {
         }
         &__image-profile {
             display: none;
+            svg{
+                font-size: rem(20);
+                margin-right: rem(-5);
+                @include breakpoint (small){
+                    font-size: rem(15);
+                }
+            }
         }
         &__name-job {
             display: none;
@@ -694,14 +703,13 @@ body {
             }
 
             &:hover {
-                background-color: $white;
                 .icon {
-                    fill: $accent;
+                    fill: $white;
                     @include darkMode {
                         fill: $white;
                     }
                 }
-            }
+            } 
         }
         &__input-search {
             font-size: $global-font-size;
@@ -739,10 +747,12 @@ body {
                 height: rem(35);
             }
             &:hover {
-                background-color: $accent;
-
+                background-color: $primary;
+                @include darkMode {
+                    background-color: $accent;
+                }
                 .icon {
-                    fill: $accent;
+                    fill: $white;
 
                     @include darkMode {
                         fill: #11101d;

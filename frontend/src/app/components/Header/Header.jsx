@@ -30,7 +30,7 @@ export default function Header() {
     <header className={"l-header " + isOpen}>
       <div className="l-header__logo">
         <div className="l-header__image">
-          <img src={logo} alt="Logotipo, Fica Facil" />
+          <img src={logo} alt="Logotipo, Fica Facil"/>
         </div>
         {isOpen === "" ? (
           <FaBars className="l-header__menu icon" onClick={() => handle()} />
