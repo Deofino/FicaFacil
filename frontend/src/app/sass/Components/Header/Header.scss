@@ -271,7 +271,7 @@ body {
             padding: rem(10) rem(14);
             background: darken($primary, 13%);
             @include darkMode {
-                background:  $accent-dark;
+                background: $accent-dark;
             }
             display: flex;
             overflow: hidden;
@@ -366,7 +366,7 @@ body {
             }
             &:hover {
                 background-color: $white;
-                @include darkMode{
+                @include darkMode {
                     background-color: #101214;
                 }
                 .icon {
@@ -432,7 +432,7 @@ body {
                 color: $accent-dark;
                 &:hover {
                     background-color: $white;
-                    @include darkMode{
+                    @include darkMode {
                         background-color: #101214;
                     }
                 }
@@ -483,7 +483,7 @@ body {
             background-color: $primary;
             @include flex(center);
 
-            @include darkMode(){
+            @include darkMode() {
                 background-color: $accent;
             }
             @include breakpoint(small) {
@@ -503,7 +503,7 @@ body {
         }
     }
 }
-    /* -------------------------------- OUTRO MENU --------------------- */
+/* -------------------------------- OUTRO MENU --------------------- */
 .user.l-header {
     position: fixed;
     height: 100%;
@@ -740,7 +740,7 @@ body {
             }
             &:hover {
                 background-color: $accent;
-                
+
                 .icon {
                     fill: $accent;
 
@@ -866,7 +866,7 @@ body {
             }
             &:hover {
                 background-color: $white;
-                @include darkMode{
+                @include darkMode {
                     background-color: #101214;
                 }
                 .icon {
@@ -965,6 +965,8 @@ body {
             height: rem(50);
             overflow: hidden;
             display: block;
+            font-weight: bold;
+            align-self: center;
             border-radius: 100%;
             margin-right: rem(8);
             font-size: rem(25);
@@ -972,7 +974,7 @@ body {
             background-color: $primary;
             @include flex(center);
 
-            @include darkMode(){
+            @include darkMode() {
                 background-color: $accent;
             }
 
@@ -982,7 +984,9 @@ body {
             }
         }
         &__name-job {
-            display: block;
+            display: flex;
+            align-self: center;
+            align-items: center;
             div {
                 font-size: $global-font-size-lg !important;
                 font-weight: bolder !important;

@@ -27,7 +27,7 @@ export function parseJwt(token) {
 }
 
 export default function NavbarUser() {
-  const [user, setUser] = React.useState("");
+  const [user, setUser] = React.useState({ nomeCliente: "Visitante" });
 
   React.useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -99,12 +99,11 @@ export default function NavbarUser() {
         </li>
         <li className="c-navbar__profile">
           <div className="c-navbar__image-profile">
-            {/* {user.nomeCliente.charAt(0).toUpperCase()}  */}K
-
-            </div>
-            <div className="c-navbar__name-job">
-              <div className="name">{user.nomeCliente || "User"}</div>
-            </div>
+            {user !== "" && user.nomeCliente.charAt(0).toUpperCase()}
+          </div>
+          <div className="c-navbar__name-job">
+            <div className="name">{user.nomeCliente.split(" ")[0]}</div>
+          </div>
           <Tooltip
             title="Sair"
             TransitionComponent={Zoom}
@@ -113,12 +112,12 @@ export default function NavbarUser() {
             <IconButton
               style={{ background: "transparent" }}
               onClick={() => {
-                if (user.nomeCliente !== undefined) {
+                if (user.idCliente !== undefined) {
                   localStorage.removeItem("auth");
                   localStorage.removeItem("user");
                   window.location.reload();
                 } else {
-                  setUser(null);
+                  setUser({ nomeCliente: "Visitante" });
                 }
               }}
             >

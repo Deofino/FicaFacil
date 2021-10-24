@@ -38,39 +38,42 @@ export default function FormularioCriarConta() {
   const create = (e) => {
     e.preventDefault();
 
-    if (regexEmail.test(email) && nome && senha > 4) {
-
-    axios
-      .post(
-        `${process.env.REACT_APP_API}/cliente/create/`,
-        JSON.stringify({
-          nome: nome.trim(),
-          email: email.trim(),
-          senha: senha.trim(),
-        })
-      )
-      .then(({ data }) => {
-        console.log(data.data);
-        if (data.status_code === 200) {
-          ToastSuccess({
-            text: `Cliente ${
-              (nome.charAt(0).toUpperCase() + nome.slice(1, nome.length)).split(
-                " "
-              )[0]
-            } inserido(a) com sucesso!`,
+    if (regexEmail.test(email) && nome.length > 3 && senha > 4) {
+      if (senha === confirmacao_senha) {
+        axios
+          .post(
+            `${process.env.REACT_APP_API}/cliente/create/`,
+            JSON.stringify({
+              nome: nome.trim(),
+              email: email.trim(),
+              senha: senha.trim(),
+            })
+          )
+          .then(({ data }) => {
+            if (data.status_code === 200) {
+              ToastSuccess({
+                text: `Cliente ${
+                  (
+                    nome.charAt(0).toUpperCase() + nome.slice(1, nome.length)
+                  ).split(" ")[0]
+                } inserido(a) com sucesso!`,
+              });
+              setNome("");
+              setEmail("");
+              setSenha("");
+              setConfirmacao_senha("");
+            } else {
+              ToastError({
+                text:
+                  data.split('"')[1] ||
+                  "Ops... Houve Algum erro ao inserir cliente...",
+              });
+            }
+          })
+          .catch((err) => {
+            ToastError({ text: err });
           });
-          setNome("");
-          setEmail("");
-          setSenha("");
-          setConfirmacao_senha("");
-        } else {
-          ToastError({ text: "Ops... Houve Algum erro ao inserir cliente..." });
-          console.log(data);
-        }
-      })
-      .catch((err) => {
-        ToastError({ text: err });
-      });
+      }
     } else ToastWarning({ text: "Preencha todos os campos corretamente." });
   };
   return (
@@ -99,15 +102,15 @@ export default function FormularioCriarConta() {
                   inputMode="text"
                   value={nome}
                   error={Errornome}
-                  onChange={({target}) => {
+                  onChange={({ target }) => {
                     setNome(target.value);
                     target.value.length < 4
-                    ? setErrorNome(
-                        "O campo deve conter no minimo 4 caracteres"
-                      )
-                    : setErrorNome(null);
-                  target.value.length === 0 && setErrorNome(null);
-                }}                    
+                      ? setErrorNome(
+                          "O campo deve conter no minimo 4 caracteres"
+                        )
+                      : setErrorNome(null);
+                    target.value.length === 0 && setErrorNome(null);
+                  }}
                 />
                 <Input
                   className="login_field__input"
@@ -119,7 +122,7 @@ export default function FormularioCriarConta() {
                   inputMode="email"
                   value={email}
                   error={Erroremail}
-                  onChange={({target}) => {
+                  onChange={({ target }) => {
                     setEmail(target.value);
                     !regexEmail.test(email)
                       ? setErrorEmail("Insira um e-mail valido")
@@ -143,14 +146,14 @@ export default function FormularioCriarConta() {
                   icon={<FaLock />}
                   value={senha}
                   error={Errorsenha}
-                  onChange={({target}) => {
+                  onChange={({ target }) => {
                     setSenha(target.value);
-                     target.value.length < 5
-                    ? setErrorSenha(
-                        "O campo deve conter no minimo 5 caracteres"
-                      )
-                    : setErrorSenha(null);
-                  target.value.length === 0 && setErrorSenha(null);
+                    target.value.length < 5
+                      ? setErrorSenha(
+                          "O campo deve conter no minimo 5 caracteres"
+                        )
+                      : setErrorSenha(null);
+                    target.value.length === 0 && setErrorSenha(null);
                   }}
                 />
                 <Input
@@ -169,14 +172,20 @@ export default function FormularioCriarConta() {
                   icon={<FaLock />}
                   value={confirmacao_senha}
                   error={Errorconfirmacao_senha}
-                  onChange={({target}) => {
+                  onChange={({ target }) => {
                     setConfirmacao_senha(target.value);
                     target.value.length < 5
-                    ? setErrorConfirmacao_senha(
-                        "O campo deve conter no minimo 5 caracteres"
-                      )
-                    : setErrorConfirmacao_senha(null);
-                  target.value.length === 0 && setErrorConfirmacao_senha(null);
+                      ? setErrorConfirmacao_senha(
+                          "O campo deve conter no minimo 5 caracteres"
+                        )
+                      : setErrorConfirmacao_senha(null);
+                    target.value !== senha
+                      ? setErrorConfirmacao_senha(
+                          "Confirmacao de senha esta incorreta."
+                        )
+                      : setErrorConfirmacao_senha(null);
+                    target.value.length === 0 &&
+                      setErrorConfirmacao_senha(null);
                   }}
                 />
 

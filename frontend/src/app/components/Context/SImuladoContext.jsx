@@ -9,8 +9,9 @@ export const propsContextSimulado = {
   setFilter: null,
   quantidade: null,
   setQuantidade: null,
+  acertos: 0,
   setAcertos: null,
-  erros: null,
+  erros: 0,
   setErros: null,
   questaoAtual: null,
   setQuestaoAtual: null,
@@ -50,7 +51,7 @@ export const SimuladoProvider = (props) => {
       .then((value) => {
         if (value.data.status_code === 200) {
           setReqQuestao(value.data.data);
-          
+
           // } else ToastWarning({ text: value.data.data });
         } else console.log(value.data);
       })
@@ -60,6 +61,8 @@ export const SimuladoProvider = (props) => {
   return (
     <contextSimulado.Provider
       value={{
+        quantidade: quantidade,
+        setQuantidade: setQuantidade,
         filter: filter,
         setFilter: setFilter,
         reqQuestao: reqQuestao,
