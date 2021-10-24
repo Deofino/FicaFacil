@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Tooltip, IconButton, Zoom, Avatar, Stack} from "@material-ui/core";
+import { Tooltip, IconButton, Zoom,} from "@material-ui/core";
 
 import {
   FaSearch,
   FaChartLine,
   FaChartPie,
   FaGraduationCap,
-  FaUserAlt,
   FaCog,
   FaSignOutAlt,
   FaArrowDown,
+  FaUserShield
 } from "react-icons/fa";
 
 export function parseJwt(token) {
@@ -108,10 +108,11 @@ export default function Navbar() {
         </li>
         <li className="c-navbar__profile">
           <div className="c-navbar__image-profile">
-          {user.nomeAdministrador.charAt(0).toUpperCase()}
+          {/* {user !== "" && user.nomeAdministrador.charAt(0).toUpperCase()} */}
+          <FaUserShield />
           </div>
             <div className="c-navbar__name-job">
-              <div className="name">{user.nomeAdministrador}</div>
+              <div className="name">{user.nomeAdministrador.split(" ")[0]}</div>
             </div>
           <Tooltip
             title="Sair"
