@@ -6,7 +6,6 @@ import { Button } from "../../Form";
 import { FaArrowRight, FaHistory, FaClock } from "react-icons/fa";
 import { Backdrop } from "@material-ui/core";
 import Smiley from "../../../../img/project/smiley.svg";
-import { Link } from "react-router-dom";
 
 export const Questoes = (props) => {
   let { acertos, isTerminado, erros, setTerminado } = useSimulado();
@@ -33,6 +32,7 @@ export const Questoes = (props) => {
     document.querySelector("audio").play();
     return (
       <section className="c-results">
+        <audio src={song} />
         <h2 className="c-results__headline">
           Parabéns, você realizou um Simulado de {quantidade} questões!
         </h2>
