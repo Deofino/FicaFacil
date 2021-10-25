@@ -2,8 +2,6 @@ import React, { Fragment, useState } from "react";
 import { Button, Select, MenuItem } from "../../Form";
 import { SimuladoProvider, useSimulado } from "../../Context/SImuladoContext";
 import { Questoes } from "./Questoes";
-import axios from "axios";
-import { ToastError, ToastWarning } from "../../Alert/Toast";
 import { Backdrop } from "@material-ui/core";
 import { AlertWarning } from "../../Alert/Modal";
 
@@ -11,8 +9,6 @@ import { AlertWarning } from "../../Alert/Modal";
  * @description
  * @author Delfino
  * @date 16/10/2021
- * @param {int} qtdeQuestoes = 10 questoes ao total
- * @param {int} tempo = 30 minutos
  */
 export function Simulado() {
   function RemoveParameterFromUrl(url, parameter) {
@@ -25,7 +21,7 @@ export function Simulado() {
 
   const { reqQuestao, setFilter, filter } = useSimulado();
 
-  const [quantidade, setQuantidade] = useState(null);
+  const [quantidade, setQuantidade] = useState(10);
   const [dificuldade, setDificuldade] = useState(null);
   const [universidade, setUniversidade] = useState(null);
   const [materia, setMateria] = useState(null);
@@ -182,13 +178,20 @@ export function Simulado() {
               <br />
               <Button
                 onClick={() => {
-                  // console.log(filter.replaceAll("?", ""));
-                  if (reqQuestao.questao.length < quantidade) {
+                  console.log(reqQuestao);
+                  if (reqQuestao.questao !== undefined) {
+                    if (reqQuestao.questao.length < quantidade) {
+                      AlertWarning({
+                        title: "Ops...",
+                        text: `Encontramos somente ${reqQuestao.questao.length} questões com esse filtro no nosso banco de dados. Deseja realizar o simulado mesmo assim?`,
+                      }).then((el) => el.isConfirmed && setStart(true));
+                    } else setStart(true);
+                  } else {
                     AlertWarning({
-                      title: "Ops...",
-                      text: `Encontramos somente ${reqQuestao.questao.length} questões com esse filtro no nosso banco de dados. Deseja realizar o simulado mesmo assim?`,
-                    }).then((el) => el.isConfirmed && setStart(true));
-                  } else setStart(true);
+                      title: "Eita...",
+                      text: `Não encontramos nenhuma questão com esse tipo de filtro no nosso banco de dados, selecione outras!`,
+                    });
+                  }
                 }}
               >
                 Comecar simulado
@@ -197,12 +200,12 @@ export function Simulado() {
           ) : (
             <section>
               <Questoes
-                quantidade={quantidade}
                 dificuldade={dificuldade}
                 universidade={universidade}
                 assunto={assunto}
                 materia={materia}
                 questoes={reqQuestao}
+                quantidade={reqQuestao.questao.length}
               />
             </section>
           )}

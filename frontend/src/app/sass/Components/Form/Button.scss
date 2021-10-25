@@ -9,6 +9,7 @@
     width: 100%;
     text-align: center;
     opacity: 0.95;
+    text-transform: capitalize;
 
     &__loading {
         circle {
@@ -20,6 +21,7 @@
         opacity: 1;
     }
     span {
+        text-transform: capitalize;
         font-weight: bolder;
         @include breakpoint(small) {
             font-size: $global-font-size-sm;
