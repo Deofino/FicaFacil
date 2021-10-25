@@ -38,14 +38,14 @@ class QuestaoController
                 }
             }
             if (isset($_GET['dificuldade'])) {
-                if ($_GET['dificuldade']) {
+                if ($_GET['dificuldade'] > 0) {
                     $where .= ' WHERE idDificuldade = :dificuldade AND';
                     $send[':dificuldade']
                         = (int) $_GET['dificuldade'];
                 }
             }
             if (isset($_GET['assunto'])) {
-                if ($_GET['assunto']) {
+                if ($_GET['assunto'] > 0) {
                     if ($inner === '') {
                         $where .= ' WHERE idAssuntoMateria = :assunto AND';
                     } else {

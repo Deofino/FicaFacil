@@ -30,7 +30,6 @@ const contextSimulado = createContext(propsContextSimulado);
  * @param {import("react").Props} props
  */
 export const SimuladoProvider = (props) => {
-  const [quantidade, setQuantidade] = useState(10);
   const [filter, setFilter] = useState("limit=10");
   const [reqQuestao, setReqQuestao] = useState([]);
   const [acertos, setAcertos] = useState(0);
@@ -47,12 +46,7 @@ export const SimuladoProvider = (props) => {
   };
 
   React.useEffect(() => {
-    if (acertos + erros === 10) {
-      setTerminado(true);
-    }
-  }, [acertos, erros]);
-  React.useEffect(() => {
-    if (isTerminado === false) {
+    if (!isTerminado) {
       axios
         .get(
           `${process.env.REACT_APP_API}/questao/index?${filter.replace(
@@ -70,22 +64,17 @@ export const SimuladoProvider = (props) => {
         .then((value) => {
           if (value.data.status_code === 200) {
             setReqQuestao(value.data.data);
-            // console.log(value.data.data.questao);
-            // } else ToastWarning({ text: value.data.data });
-          } else console.log(value.data);
+          } else {
+            setReqQuestao(value.data.data);
+          }
         })
         .catch((err) => ToastError(err));
-    } else {
-      setReqQuestao([]);
-      console.log("acabou");
     }
   }, [filter, isTerminado]);
 
   return (
     <contextSimulado.Provider
       value={{
-        quantidade: quantidade,
-        setQuantidade: setQuantidade,
         filter: filter,
         setFilter: setFilter,
         reqQuestao: reqQuestao,

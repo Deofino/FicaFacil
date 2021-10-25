@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import songAcerto from "../../../../audio/certo.mp3";
+import songErro from "../../../../audio/errada.mp3";
 // import axios from "axios";
 import { useSimulado } from "../../Context/SImuladoContext";
 import { Button, Radio, RadioGroup } from "../../Form";
@@ -21,9 +23,9 @@ export const Questao = (props) => {
     reqQuestao,
     AcertarQuestao,
     ErrarQuestao,
-    // acertos,
-    // erros,
-    // terminado,
+    erros,
+    acertos,
+    setTerminado,
   } = useSimulado();
   const [Selected, setSelected] = useState(-1);
   const [isAcertou, setAcertou] = useState("");
@@ -37,7 +39,7 @@ export const Questao = (props) => {
   if (reqQuestao !== [] && questao !== []) {
     dificuldade = reqQuestao.dificuldade.find(
       (el) => el.idDificuldade === questao.idDificuldade
-    ).nivelDificuldade;
+    ).idDificuldade;
     universidade = reqQuestao.universidade.find(
       (el) => el.idUniversidade === questao.idUniversidade
     ).nomeUniversidade;
@@ -49,8 +51,6 @@ export const Questao = (props) => {
     ).nomeMateria;
   }
 
-  // console.log(reqQuestao);
-
   if (Respostas !== []) {
     CertaResposta = +Respostas.find((el) => +el.certaResposta === 1).idResposta;
   }
@@ -61,11 +61,16 @@ export const Questao = (props) => {
       className={"c-questao " + props.index + " " + isAcertou}
       style={{ display: questaoAtual === props.index ? "block" : "none" }}
     >
+      <audio src={songAcerto} id="song1" />
+      <audio src={songErro} id="song2" />
       <span className="c-questao__number">Questão nº {questaoAtual + 1}</span>
       <span className="c-questao__number c-questao__number--right">
-        {universidade} - {materia} - {assunto.nomeAssuntoMateria} -{" "}
-        {dificuldade}
+        {universidade} - {materia} - {assunto.nomeAssuntoMateria}
       </span>
+      <div id="dificuldade" className={`nivel${dificuldade}`}>
+        <span>Dificuldade:</span>
+        <div></div>
+      </div>
       <h2 className="c-questao__titulo">
         {(questao !== undefined && questao.tituloQuestao) || "Titulofoda"}
       </h2>
@@ -82,13 +87,38 @@ export const Questao = (props) => {
           value={Selected}
         >
           {Respostas.map((res, index) => {
+            let add = "";
+            // console.log(res);
+            if (isAcertou !== "") {
+              if (isAcertou === "correct") {
+                if (res.certaResposta === "0") {
+                  add = "errada";
+                } else {
+                  add = "correta";
+                  console.log(+res.certaResposta);
+                }
+              } else {
+                let alternativa = document.querySelector(
+                  `#alternativa${Selected}`
+                );
+                if (alternativa !== null)
+                  alternativa.classList.toggle("errada");
+              }
+            }
             return (
-              <div className="c-questao__alternativa" key={index}>
+              <div
+                className={"c-questao__alternativa " + add}
+                key={index}
+                id={"alternativa" + res.idResposta}
+              >
                 <Tooltip title="Cortar questao" placement="left">
                   <IconButton
                     className="cut"
-                    onClick={() => {
-                      console.log("cut");
+                    onClick={(e) => {
+                      let questao = document.querySelector(
+                        `#alternativa${res.idResposta}`
+                      );
+                      questao.classList.toggle("cortada");
                     }}
                   >
                     <MdContentCut />
@@ -121,22 +151,27 @@ export const Questao = (props) => {
         <Button
           className="prox"
           onClick={() => {
-            if (Selected !== -1) {
+            if (isAcertou === "" && +Selected !== -1) {
               if (+Selected === CertaResposta) {
                 AcertarQuestao();
                 setAcertou("correct");
-                alert("acertou");
+                document.querySelector("#song1").play();
               } else {
                 ErrarQuestao();
                 setAcertou("errou");
-                alert("errou");
+                document.querySelector("#song2").play();
               }
-              setSelected(-1);
+              // setSelected(-1);
             } else {
-              if (questaoAtual < reqQuestao.questao.length - 1) {
-                setQuestaoAtual(questaoAtual + 1);
+              console.log({ questaoAtual, qtde: props.quantidade });
+              if (erros + acertos === props.quantidade) {
+                setTerminado(true);
               } else {
-                alert("Voce ainda tem questoes ha responder");
+                if (props.index + 1 < props.quantidade) {
+                  setQuestaoAtual(questaoAtual + 1);
+                } else {
+                  alert("Voce ainda tem questoes ha responder");
+                }
               }
             }
           }}
