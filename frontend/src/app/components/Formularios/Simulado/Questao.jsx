@@ -7,8 +7,10 @@ import { Button, Radio, RadioGroup } from "../../Form";
 // import { ToastError } from "../../Alert/Toast";
 import { MdContentCut, MdBugReport } from "react-icons/md";
 import { IconButton, Tooltip } from "@material-ui/core";
+import { ToastInformation } from "../../Alert/Toast";
 const lorem =
   " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci repellat cumque debitis officia? Repellendus laborum totam rerum molestiae numquam incidunt, ipsam et, deleniti fugit pariatur maiores quaerat ipsa. Fuga, earum?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse amet, consequatur unde quis optio iure ipsa quas totam reiciendis modi voluptatibus ducimus eius possimus necessitatibus hic blanditiis recusandae deleniti excepturi.";
+var regexURL = /(http|Https|Http|Https|blob:http|blob:https):\/\/?/;
 
 const alfabeto = ["a)", "b)", "c)", "d)", "e)"];
 // @ts-check
@@ -36,6 +38,7 @@ export const Questao = (props) => {
   let materia = "";
   let assunto = "";
   let dificuldade = "";
+  let imagens = [];
   if (reqQuestao !== [] && questao !== []) {
     dificuldade = reqQuestao.dificuldade.find(
       (el) => el.idDificuldade === questao.idDificuldade
@@ -49,6 +52,7 @@ export const Questao = (props) => {
     materia = reqQuestao.assuntoMateria.materia.materia.find(
       (el) => el.idMateria === assunto.idMateria
     ).nomeMateria;
+    imagens = JSON.parse(questao.imagensQuestao);
   }
 
   if (Respostas !== []) {
@@ -79,6 +83,16 @@ export const Questao = (props) => {
           {(questao !== undefined && questao.textoQuestao) || lorem}
         </span>
       </article>
+      {imagens.length > 0 && (
+        <React.Fragment>
+          <span>Imagens de apoio:</span>
+          <div className="c-questao__imagens">
+            {imagens.map((el, i) => (
+              <img src={el} alt={`Imagem ${i}`} key={i} />
+            ))}
+          </div>
+        </React.Fragment>
+      )}
       <div className="c-questao__respostas">
         <RadioGroup
           onChange={(e) => {
@@ -88,14 +102,12 @@ export const Questao = (props) => {
         >
           {Respostas.map((res, index) => {
             let add = "";
-            // console.log(res);
             if (isAcertou !== "") {
               if (isAcertou === "correct") {
                 if (res.certaResposta === "0") {
                   add = "errada";
                 } else {
                   add = "correta";
-                  console.log(+res.certaResposta);
                 }
               } else {
                 let alternativa = document.querySelector(
@@ -106,9 +118,10 @@ export const Questao = (props) => {
               }
             }
             return (
-              <div
+              <label
                 className={"c-questao__alternativa " + add}
                 key={index}
+                htmlFor={`radio${index}`}
                 id={"alternativa" + res.idResposta}
               >
                 <Tooltip title="Cortar questao" placement="left">
@@ -124,11 +137,26 @@ export const Questao = (props) => {
                     <MdContentCut />
                   </IconButton>
                 </Tooltip>
-                <Radio
-                  label={alfabeto[index] + " " + res.textoResposta}
-                  value={res.idResposta}
-                />
-              </div>
+                {regexURL.test(res.textoResposta) ? (
+                  <div className="image">
+                    <Radio
+                      label={alfabeto[index]}
+                      id={`radio${index}`}
+                      value={res.idResposta}
+                    />
+                    <img
+                      src={res.textoResposta}
+                      alt={`Alternativa ${res.idResposta}`}
+                    />
+                  </div>
+                ) : (
+                  <Radio
+                    label={alfabeto[index] + " " + res.textoResposta}
+                    value={res.idResposta}
+                    id={`radio${index}`}
+                  />
+                )}
+              </label>
             );
           })}
         </RadioGroup>
@@ -163,14 +191,15 @@ export const Questao = (props) => {
               }
               // setSelected(-1);
             } else {
-              console.log({ questaoAtual, qtde: props.quantidade });
               if (erros + acertos === props.quantidade) {
                 setTerminado(true);
               } else {
                 if (props.index + 1 < props.quantidade) {
                   setQuestaoAtual(questaoAtual + 1);
                 } else {
-                  alert("Voce ainda tem questoes ha responder");
+                  ToastInformation({
+                    text: "Ainda falta responder algumas questões",
+                  });
                 }
               }
             }

@@ -1,6 +1,6 @@
-import React from 'react';
-import Radio from '@material-ui/core/Radio';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import React from "react";
+import Radio from "@material-ui/core/Radio";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 /**
  * @function RadioButtonComponent
@@ -8,12 +8,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
  * @param {label} label label do radio
  */
 const CustomRadioButton = (props) => {
-    return (
-        <FormControlLabel
-            className='c-radio'
-            value={props.value || null} control={<Radio className='c-radio__item' />}
-            label={props.label || null} />
-    )
-}
+  return (
+    <FormControlLabel
+      className="c-radio"
+      value={props.value || null}
+      control={<Radio id={props.id || null} className="c-radio__item" />}
+      label={props.label || null}
+    />
+  );
+};
 
 export default CustomRadioButton;

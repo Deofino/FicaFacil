@@ -60,7 +60,7 @@
             border-radius: 50%;
             height: 100%;
             top: 0;
-            opacity: 0.1;
+            opacity: 0.2;
         }
         &.nivel1 {
             &::after {
@@ -112,6 +112,16 @@
             margin-bottom: rem(8);
         }
     }
+    &__imagens {
+        @include flex(start);
+        flex-wrap: wrap;
+
+        img {
+            margin-right: rem(20);
+            width: rem(120);
+            height: 100%;
+        }
+    }
     &__texto {
         font-size: $global-font-size;
         margin-bottom: rem(20);
@@ -126,8 +136,42 @@
         }
     }
     &__alternativa {
+        &.correta {
+            background-color: lighten($color: $success, $amount: 5%);
+            @include darkMode {
+                background-color: darken($color: $success, $amount: 5%);
+            }
+            svg {
+                fill: $gray-dark;
+            }
+        }
+        &.errada {
+            svg {
+                fill: $gray-dark;
+            }
+            background-color: lighten($color: $danger, $amount: 10%);
+            @include darkMode {
+                background-color: lighten($color: $danger, $amount: 2%);
+            }
+        }
+        .image {
+            background-color: inherit;
+            width: 100%;
+            height: 100%;
+            @include flex(start);
+            img {
+                width: rem(100);
+                height: 100%;
+            }
+            &:hover {
+                filter: grayscale(0);
+                opacity: 1;
+                box-shadow: initial !important;
+            }
+        }
         &.cortada {
             user-select: none;
+            filter: grayscale(100%) brightness(60%) !important;
             label span {
                 text-decoration: line-through;
             }
@@ -152,7 +196,7 @@
             border-radius: rem(8);
             margin-top: rem(4);
         }
-        label {
+        .c-radio label {
             width: 100%;
         }
         &:hover {
@@ -181,24 +225,6 @@
         svg {
             @include breakpoint(small) {
                 font-size: rem(14);
-            }
-        }
-        &.correta {
-            background-color: lighten($color: $success, $amount: 5%);
-            @include darkMode {
-                background-color: darken($color: $success, $amount: 5%);
-            }
-            svg {
-                fill: $gray-dark;
-            }
-        }
-        &.errada {
-            svg {
-                fill: $gray-dark;
-            }
-            background-color: lighten($color: $danger, $amount: 10%);
-            @include darkMode {
-                background-color: lighten($color: $danger, $amount: 2%);
             }
         }
     }
@@ -246,6 +272,23 @@
                 margin-top: rem(8);
                 margin-left: 0;
             }
+        }
+    }
+}
+
+.c-cronometro {
+    @include flex(center);
+    margin-top: rem(10);
+    span,
+    svg {
+        margin: 0 rem(4);
+    }
+    @include breakpoint(small) {
+        margin-top: rem(30);
+        span,
+        svg {
+            margin: 0 rem(2);
+            font-size: $global-font-size-sm;
         }
     }
 }
