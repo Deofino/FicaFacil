@@ -3,9 +3,11 @@ import { Questao } from "./Questao";
 import song from "../../../../audio/fim_simulado.mp3";
 import { useSimulado } from "../../Context/SImuladoContext";
 import { Button } from "../../Form";
-import { FaArrowRight, FaHistory } from "react-icons/fa";
+import { FaArrowRight, FaHistory, Clock } from "react-icons/fa";
 import Smiley from "../../../../img/project/smiley.svg";
 import {Link} from "react-router-dom";
+import { Backdrop } from "@material-ui/core";
+import { ToastInformation } from "../../Alert/Toast";
 
 export const Questoes = (props) => {
   let { acertos, isTerminado, erros, setTerminado } = useSimulado();
@@ -33,6 +35,7 @@ export const Questoes = (props) => {
     document.querySelector("audio").play();
     return (
       <section className="c-results">
+        <audio src={song} />
           <h2 className="c-results__headline">
               Parabéns, você realizou um Simulado de {quantidade} questões!
           </h2>

@@ -82,7 +82,7 @@ export default function FormularioResposta() {
                   if (input.type === "text") {
                     if (
                       !alternativas.includes(inputAlternativa) &&
-                      inputAlternativa.length >= 3
+                      inputAlternativa.length > 0
                     ) {
                       setErroAlternativa(null);
                       setAlternativas([...alternativas, inputAlternativa]);

@@ -358,10 +358,16 @@
         padding: rem(4);
       }
       &.par {
-        background-color: darken($color: $gray, $amount: 26%);
+        background-color: lighten($color: $primary, $amount: 26%);
+        @include darkMode() {
+          background-color: darken($color: $gray, $amount: 26%);
+        }
       }
       &.impar {
-        background-color: darken($color: $gray, $amount: 20%);
+        background-color: lighten($color: $primary, $amount: 20%);
+        @include darkMode() {
+          background-color: darken($color: $gray, $amount: 20%);
+        }
       }
       &:hover {
         opacity: 1;
