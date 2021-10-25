@@ -1,0 +1,188 @@
+.c-results{
+    background-color: #efe7ff;
+    padding: rem(20);
+    border-radius: rem(8);
+    width: 70%;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    box-shadow: rem(5) rem(5) rem(8) var(--color-shadow);
+    @include darkMode{
+        background-color: #212023;
+    }
+    @include breakpoint(smallin){           
+        padding: rem(10);
+        width: 90%;
+    }
+    &__headline{
+        font-size: rem(25);
+        font-weight: 700;
+        color: $primary;
+        @include breakpoint(medium){           
+            font-size: rem(20);
+        }
+        @include breakpoint(small){           
+            font-size: rem(18);
+        }
+        @include breakpoint(smallin){           
+            font-size: rem(14);
+        }
+        &__img{
+            max-width: 20%;
+            margin: 0 auto;
+            @include breakpoint(large){
+                max-width: 30%;
+            }
+            @include breakpoint(small){
+                max-width: 40%;
+            }
+            @include breakpoint(smallmin){
+                max-width: 50%;
+            }
+        }
+    }
+    &__dados{
+        background-color: #b9c4ff;
+        border-radius: rem(8);
+        padding: rem(10);
+        @include darkMode{
+            background-color: #333039;
+        }
+        &__title{
+            font-size: rem(20);
+            font-weight: 500;
+            @include breakpoint(small){           
+                font-size: rem(18);
+            }
+            @include breakpoint(smallmin){           
+                font-size: rem(14);
+            }
+        }
+        &__btns{
+            display: flex;
+            width: 100%;
+            margin: 0 auto;
+            padding: rem(15);
+            justify-content: space-around;
+            @include breakpoint(smallmin){           
+                padding: rem(10);
+                display: block;
+            }
+            
+            &__s{
+                width: 45%;
+                @include breakpoint(smallmin){ 
+                    width: 100%;
+                    margin-bottom: rem(5);
+                }
+                svg{
+                  margin-left:rem(5);  
+                }
+               
+            }
+            &__r{
+                width: 45%;
+                @include breakpoint(smallmin){ 
+                    width: 100%;
+                }
+                svg{
+                    margin-left:rem(5);  
+                  }
+            }
+        }
+    }
+}
+
+.l-simulado{
+    &__instructions{
+        background-color: #efe7ff;
+        padding: rem(40);
+        box-shadow: 0 rem(4) rem(6) var(--color-shadow);
+        margin: 0 auto;
+        border-radius: rem(8);
+        margin-bottom: rem(15);
+        @include darkMode{
+            background-color: #212023;
+        }
+        &__title{
+            font-size: rem(30);
+            font-weight: 700;
+            text-align: center;
+            color:$primary;
+            @include breakpoint(medium){
+                font-size: rem(25);
+            }
+            @include breakpoint(small){
+                font-size: rem(20);
+            }
+           
+        }
+        &__sub{
+            font-size: rem(20);
+            color:$primary;
+            text-align: justify;
+            margin-top: rem(15);
+            @include breakpoint(medium){
+                font-size: rem(18);
+            }
+            @include breakpoint(small){
+                font-size: rem(17);
+            }
+        }
+        &__txt{
+            font-size: rem(16);
+            font-weight: 600;
+            text-align: justify;
+            @include breakpoint(medium){
+                font-size: rem(15);
+            }
+            
+        }
+        &__s{
+            &__q{
+                margin-left: rem(20);
+                @include breakpoint(medium){
+                    font-size: rem(18);
+                }
+                @include breakpoint(small){
+                    font-size: rem(16);
+                }
+            }
+        }
+        &__icons{
+            &__txt{
+                margin-left: rem(20);
+                margin-top: rem(10);
+                text-align: justify;
+                @include breakpoint(medium){
+                    font-size: rem(18);
+                }
+                @include breakpoint(small){
+                    font-size: rem(16);
+                }
+                &__t{
+                    margin-right: rem(10); 
+                }
+                &__e{
+                    margin-right: rem(10); 
+                    font-size: rem(20);
+                }
+               &__g{
+                    fill: green;      
+               }
+               &__o{
+                fill: orange;
+                }
+                &__r{
+                    fill: red; 
+                    margin-right: rem(10);               
+               }
+               &__c{
+                    fill: $primary;
+                    margin-right: rem(10); 
+               }
+
+            }
+        }
+    }
+}

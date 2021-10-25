@@ -6,6 +6,10 @@ import axios from "axios";
 import { ToastError, ToastWarning } from "../../Alert/Toast";
 import { Backdrop } from "@material-ui/core";
 import { AlertWarning } from "../../Alert/Modal";
+import { MdContentCut, MdBugReport } from "react-icons/md";
+import {
+  FaCircle, FaDotCircle
+} from "react-icons/fa";
 
 /**
  * @description
@@ -37,7 +41,82 @@ export function Simulado() {
         <section className="l-simulado">
           {!start ? (
             <Fragment>
-              <h1>Simulado bonito </h1>
+              <div className="l-simulado__instructions">
+                <h1 className="l-simulado__instructions__title">
+                  Instruções para o simulado
+                </h1>
+                <h2 className="l-simulado__instructions__sub">Simulado:</h2>
+                <h3 className="l-simulado__instructions__txt">
+                  No simulado é obrigatório você escolher a quantidade de
+                  questões que deseja, dentre 5 opções:
+                </h3>
+                <div className="l-simulado__instructions__s">
+                  <p className="l-simulado__instructions__s__q">
+                     - 15 questões com 45min para a finalização
+                  </p>
+                  <p className="l-simulado__instructions__s__q">
+                    - 30 questões com 1h 30min para a finalização
+                  </p>
+                  <p className="l-simulado__instructions__s__q">
+                     - 45 questões com 2h 30min para a finalização
+                  </p>
+                  <p className="l-simulado__instructions__s__q">
+                    - 60 questões com 3h para a finalização
+                  </p>
+                  <p className="l-simulado__instructions__s__q">
+                     - 90 questões com 4h e 30min para a finalização
+                  </p>
+                </div>
+                <h2 className="l-simulado__instructions__sub">Filtros:</h2>
+                <h3 className="l-simulado__instructions__txt">
+                  Existem filtros para que o seu simulado criado seja o mais
+                  próximo da sua necessidade, sendo assim, poderá escolher as
+                  questões de certas universidades (ex.FATEC),
+                  dificuldades(ex.Fácil), matéria (ex.Matemática) e o assunto
+                  matéria (ex.Fração).
+                </h3>
+                <h2 className="l-simulado__instructions__sub">Respostas:</h2>
+                <h3 className="l-simulado__instructions__txt">
+                  As respostas são objetivas. Existe apenas UMA resposta correta
+                  por questão. Questões passadas e não respondidas impedirão
+                  você de terminar o simulado, sendo assim, todas as questões
+                  devem ser respondidas.
+                </h3>
+                <h2 className="l-simulado__instructions__sub">Ações em Respostas:</h2>
+                <h3 className="l-simulado__instructions__txt">
+                Poderá voltar para a questão anterior, mas NÃO poderá mudar de alternativa, já que no momento que passar para a próxima questão, já mostrará a resposta certa.
+                </h3>
+                <h2 className="l-simulado__instructions__sub">Gabarito:</h2>
+                <h3 className="l-simulado__instructions__txt">
+                  Se você completou todo o simulado, respondendo todas as
+                  questões, depois que visualizou seus erros e o que errou,
+                  aparecerá a sua pontuação (número de erros e de acertos).
+                </h3>
+                <h2 className="l-simulado__instructions__sub">
+                  Funcionalidade dos ícones:
+                </h2>
+                <h3 className="l-simulado__instructions__txt">
+                Os botões listados aqui aparecerão durante o seu simulado, saiba qual a funcionalidade de cada um deles:
+                </h3>
+                <div className="l-simulado__instructions__icons">
+                  <p className="l-simulado__instructions__icons__txt">
+                  <MdContentCut className="l-simulado__instructions__icons__txt__t"/>- Neste ícone que aparecerá a esquerda das alternativas, terá uma opção de você riscar a alternativa em que tenha certeza de que está errada (essa opção não é absoluta, pode fazer quando e em quantas quiser).
+                  </p>
+                  <p className="l-simulado__instructions__icons__txt">
+                  <MdBugReport className="l-simulado__instructions__icons__txt__e"/>- Caso encontre algum erro na questão ou no próprio sistema, pode reportá-lo.
+                  </p>
+                  <p className="l-simulado__instructions__icons__txt">
+                  <FaCircle className="l-simulado__instructions__icons__txt__g"/>
+                  <FaCircle className="l-simulado__instructions__icons__txt__o"/>
+                  <FaCircle className="l-simulado__instructions__icons__txt__r"/>
+                  - Aqui mostra a dificuldade de cada questão, caso não tenha filtrado essa parte do simulado, aparecerá alternadas dificuldades.
+                  </p>
+                  <p className="l-simulado__instructions__icons__txt">
+                  <FaDotCircle className="l-simulado__instructions__icons__txt__c"/>- Nesta circunferência ficará marcado a alternativa em que você escolheu, certifique-se de que em cada questão você marque uma opção desse ícone.
+                  </p>
+                 
+                </div>
+              </div>
               <Select
                 label="Quantidade de Questões *"
                 className="l-simulado__select"
@@ -179,6 +258,7 @@ export function Simulado() {
                     </MenuItem>
                   ))}
               </Select>
+              <br />
               <br />
               <Button
                 onClick={() => {

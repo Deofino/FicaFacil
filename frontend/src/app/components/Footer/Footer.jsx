@@ -18,7 +18,7 @@ export default function Footer() {
                         <h4>empresa</h4>
                         <ul>
                             <li><a href="https://paulowarren.github.io/AURA/"
-                            target="_blank">aura</a></li>
+                            target="_blank" rel="noreferrer">aura</a></li>
                             <li><a href="#sobre">sobre</a></li>
                         </ul>
                     </div>

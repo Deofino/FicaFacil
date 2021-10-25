@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom"; 
 import Navbar from "./Navbar";
 import { Switch, FormControlLabel, Tooltip } from "@material-ui/core";
 import logo from "../../../img/project/logo-branca.png";
@@ -30,7 +31,9 @@ export default function Header() {
     <header className={"l-header " + isOpen}>
       <div className="l-header__logo">
         <div className="l-header__image">
-          <img src={logo} alt="Logotipo, Fica Facil"/>
+          <Link to="/">
+            <img src={logo} alt="Logotipo, Fica Facil"/>
+          </Link>
         </div>
         {isOpen === "" ? (
           <FaBars className="l-header__menu icon" onClick={() => handle()} />
