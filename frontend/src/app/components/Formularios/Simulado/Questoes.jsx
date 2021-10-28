@@ -1,16 +1,18 @@
 import React, { Fragment } from "react";
 import { Questao } from "./Questao";
-import song from "../../../../audio/fim_simulado.mp3";
+import { Resultados } from ".";
 import { useSimulado } from "../../Context/SImuladoContext";
-import { Button } from "../../Form";
-import { FaArrowRight, FaHistory, FaClock } from "react-icons/fa";
+import { FaClock } from "react-icons/fa";
 import { Backdrop } from "@material-ui/core";
-import Smiley from "../../../../img/project/smiley.svg";
 
 export const Questoes = (props) => {
-  let { acertos, isTerminado, erros, setTerminado } = useSimulado();
+  let { isTerminado, setTerminado } = useSimulado();
   let quantidade = props.quantidade;
   let reqQuestao = props.questoes;
+
+  const comeco = props.comeco || "";
+  const [fim, setFim] = React.useState(new Date().getTime());
+
   const [tempo, setTempo] = React.useState(quantidade * 180);
   const [segundos, setsSegundos] = React.useState("00");
   const [minutos, setMinuto] = React.useState("00");
@@ -26,43 +28,17 @@ export const Questoes = (props) => {
       setTerminado(true);
       setsSegundos("00");
       setMinuto("00");
+      setFim(
+        new Date().toISOString().split("T")[0] +
+          " " +
+          new Date().toTimeString().split(" ")[0]
+      );
     }
   }, [tempo, minutos, setTerminado, isTerminado]);
+
   if (isTerminado) {
     document.querySelector("audio").play();
-    return (
-      <section className="c-results">
-        <audio src={song} />
-        <h2 className="c-results__headline">
-          Parabéns, você realizou um Simulado de {quantidade} questões!
-        </h2>
-        <div className="c-results__headline__img">
-          <img src={Smiley} alt="Imagem Sorrindo" />
-        </div>
-        <br />
-        <div className="c-results__dados">
-          <h2 className="c-results__dados__title"> ~ Dados ~ </h2>
-          <span className="c-results__dados acerto">
-            Acertos: {acertos} / {quantidade}{" "}
-          </span>
-          <span className="c-results__dados erro">
-            Erros: {erros} / {quantidade}{" "}
-          </span>
-        </div>
-        <div className="c-results__dados__btns">
-          <div className="c-results__dados__btns__s">
-            <Button className="c-results__dados__btns__s__b">
-              Sair <FaArrowRight />
-            </Button>
-          </div>
-          <div className="c-results__dados__btns__r">
-            <Button className="c-results__dados__btns__r__b">
-              Refazer <FaHistory />{" "}
-            </Button>
-          </div>
-        </div>
-      </section>
-    );
+    return <Resultados quantidade={quantidade} comeco={comeco} fim={fim} />;
   }
   if (reqQuestao.questao === undefined) {
     return <Backdrop />;

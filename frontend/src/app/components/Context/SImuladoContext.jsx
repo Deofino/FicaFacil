@@ -19,6 +19,8 @@ export const propsContextSimulado = {
   setTempo: null,
   isTerminado: null,
   setTerminado: null,
+  questoesSimulado: [],
+  setQuestoesSimulado: null,
 };
 const contextSimulado = createContext(propsContextSimulado);
 
@@ -32,6 +34,7 @@ const contextSimulado = createContext(propsContextSimulado);
 export const SimuladoProvider = (props) => {
   const [filter, setFilter] = useState("limit=10");
   const [reqQuestao, setReqQuestao] = useState([]);
+  const [questoesSimulado, setQuestoesSimulado] = useState([]);
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
   const [questaoAtual, setQuestaoAtual] = useState(0);
@@ -89,6 +92,8 @@ export const SimuladoProvider = (props) => {
         setTempo: setTempo,
         isTerminado: isTerminado,
         setTerminado: setTerminado,
+        questoesSimulado: questoesSimulado,
+        setQuestoesSimulado: setQuestoesSimulado,
       }}
     >
       {props.children}

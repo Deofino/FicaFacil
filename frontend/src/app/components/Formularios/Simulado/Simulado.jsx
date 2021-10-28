@@ -29,6 +29,22 @@ export function Simulado() {
   const [materia, setMateria] = useState(null);
   const [assunto, setAssunto] = useState(null);
 
+  let data = new Date();
+
+  // let comeco = data.toISOString().split("T")[0] + data.getTime();
+  // let comeco =
+  //   data.getDate() +
+  //   "/" +
+  //   (data.getMonth() + 1) +
+  //   "/" +
+  //   data.getFullYear() +
+  //   " " +
+  //   data.getHours() +
+  //   ":" +
+  //   data.getMinutes() +
+  //   ":" +
+  //   data.getSeconds();
+
   if (reqQuestao !== []) {
     return (
       <SimuladoProvider>
@@ -306,6 +322,11 @@ export function Simulado() {
                 assunto={assunto}
                 materia={materia}
                 questoes={reqQuestao}
+                comeco={
+                  new Date().toISOString().split("T")[0] +
+                  " " +
+                  new Date().toTimeString().split(" ")[0]
+                }
                 quantidade={reqQuestao.questao.length}
               />
             </section>

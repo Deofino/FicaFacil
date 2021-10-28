@@ -28,10 +28,14 @@ export const Questao = (props) => {
     erros,
     acertos,
     setTerminado,
+    setQuestoesSimulado,
+    questoesSimulado,
   } = useSimulado();
+
   const [Selected, setSelected] = useState(-1);
   const [isAcertou, setAcertou] = useState("");
   const questao = props.questao || [];
+  // console.log(questao);
   const Respostas = props.respostas || [];
   let CertaResposta = 0;
   let universidade = "";
@@ -183,12 +187,15 @@ export const Questao = (props) => {
               if (+Selected === CertaResposta) {
                 AcertarQuestao();
                 setAcertou("correct");
+                questoesSimulado.push({ id: +questao.idQuestao, acertou: 1 });
                 document.querySelector("#song1").play();
               } else {
                 ErrarQuestao();
                 setAcertou("errou");
+                questoesSimulado.push({ id: +questao.idQuestao, acertou: 0 });
                 document.querySelector("#song2").play();
               }
+              setQuestoesSimulado(questoesSimulado);
               // setSelected(-1);
             } else {
               if (erros + acertos === props.quantidade) {

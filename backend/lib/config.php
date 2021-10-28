@@ -82,8 +82,9 @@ function auth()
         if (JWT::validateJWT($token)) {
             return true;
         }
+        json($bearer);
     }
-    echo Response::error("Requisicao negada, sem autorizacao", 405);
+    // echo Response::error("Requisicao negada, sem autorizacao", 405);
     die;
 }
 function json($data)
