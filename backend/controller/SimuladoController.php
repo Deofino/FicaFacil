@@ -4,6 +4,7 @@ namespace Controller;
 
 use DateTime;
 use Helper\Response;
+use Model\SimuladoModel;
 use Model\UniversidadeModel;
 
 class SimuladoController
@@ -21,7 +22,17 @@ class SimuladoController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
             $data = json_decode(file_get_contents('php://input'));
-            json($data);
+            foreach ($data->questoes as $item) {
+                $model = new SimuladoModel();
+                $model->setIdQuestao($item->id);
+                $model->setIdUsuario($data->user);
+                $model->setHoraInicio($data->comeco);
+                $model->setHoraTermino($data->fim);
+                $model->setAcertou($item->acertou);
+
+                echo $model->post();
+            }
+            // json($item);
             exit;
         }
         echo Response::warning('Metodo não encontrado', 404);

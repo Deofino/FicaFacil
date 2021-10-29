@@ -438,7 +438,7 @@ const Backdrop = (props) => {
             </div>
           )}
         </div>
-        <br />
+        {/* <br />
         <h2>Sugestao</h2>
         <Input
           title="Titulo:"
@@ -466,7 +466,7 @@ const Backdrop = (props) => {
           name="url"
           type="text"
           inputMode="text"
-        />
+        /> */}
 
         <Button
           className="c-forms__submit"
@@ -905,7 +905,7 @@ export default function FormularioQuestao() {
           </section>
 
           <FormularioResposta alternativa={alternativa} />
-          <FormularioSugestaoVideo className="mt" />
+          {/* <FormularioSugestaoVideo className="mt" /> */}
 
           <Button
             className="c-forms__submit"
