@@ -60,6 +60,7 @@ As seguintes tecnologias foram usadas na construção do projeto:
 - Node -> runtime javascript backend
 - Sweet alert2 -> lib alertas 
 - Glidejs -> lib carrousels
+- Recharts -> lib graficos
 - Sass -> pre processador css
 - Axios -> requisição front end
 - JavaScript -> linguagem de programação
