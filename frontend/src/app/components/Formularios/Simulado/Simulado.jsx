@@ -138,7 +138,7 @@ export function Simulado(props) {
                     if (filter.includes("limit")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "limit") +
-                          `&limit=${target.value}`
+                        `&limit=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
@@ -162,7 +162,7 @@ export function Simulado(props) {
                     if (filter.includes("dificuldade")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "dificuldade") +
-                          `&dificuldade=${target.value}`
+                        `&dificuldade=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
@@ -193,7 +193,7 @@ export function Simulado(props) {
                     if (filter.includes("universidade")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "universidade") +
-                          `&universidade=${target.value}`
+                        `&universidade=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
@@ -224,7 +224,7 @@ export function Simulado(props) {
                     if (filter.includes("materia")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "materia") +
-                          `&materia=${target.value}`
+                        `&materia=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
@@ -253,7 +253,7 @@ export function Simulado(props) {
                     if (filter.includes("assunto")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "assunto") +
-                          `&assunto=${target.value}`
+                        `&assunto=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
