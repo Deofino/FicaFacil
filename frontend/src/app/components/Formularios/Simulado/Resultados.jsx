@@ -60,6 +60,9 @@ export default function Resultados(props) {
       <h2 className="c-results__headline">
         Parabéns, você realizou um Simulado de {quantidade} questões!
       </h2>
+      <div className="c-results__headline__frame">
+          <iframe className="c-results__headline__frame__conf" frameborder="0" allowfullscreen src="https://embed.lottiefiles.com/animation/7893" ></iframe>
+      </div>
       <div className="c-results__headline__img">
         <img src={Smiley} alt="Imagem Sorrindo" />
       </div>

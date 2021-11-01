@@ -40,6 +40,17 @@
                 max-width: 50%;
             }
         }
+        &__frame{
+            height: 0;
+        
+            &__conf{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
     &__dados {
         background-color: #b9c4ff;
