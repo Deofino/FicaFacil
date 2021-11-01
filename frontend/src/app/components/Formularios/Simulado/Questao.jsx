@@ -167,9 +167,9 @@ export const Questao = (props) => {
       </div>
 
       <div className="c-questao__actions">
-        <a href="/" className="err">
+        {/* <a href="/" className="err">
           Reportar Erro <MdBugReport />
-        </a>
+        </a> */}
         {questaoAtual !== 0 && (
           <Button
             className="prev"

@@ -68,6 +68,9 @@
                 padding: rem(10);
                 display: block;
             }
+            > button {
+                margin: 0 rem(10);
+            }
 
             &__s {
                 width: 45%;

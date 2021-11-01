@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Button, Select, MenuItem } from "../../Form";
 import { SimuladoProvider, useSimulado } from "../../Context/SImuladoContext";
 import { Questoes } from "./Questoes";
@@ -12,14 +12,14 @@ import { FaCircle, FaDotCircle, FaArrowRight } from "react-icons/fa";
  * @author Delfino
  * @date 16/10/2021
  */
-export function Simulado() {
+export function Simulado(props) {
   function RemoveParameterFromUrl(url, parameter) {
     return url
       .replace(new RegExp("[?&]" + parameter + "=[^&#]*(#.*)?$"), "$1")
       .replace(new RegExp("([&])" + parameter + "=[^&]*&"), "$1");
   }
 
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState(props.started || false);
 
   const { reqQuestao, setFilter, filter } = useSimulado();
 
@@ -28,22 +28,6 @@ export function Simulado() {
   const [universidade, setUniversidade] = useState(null);
   const [materia, setMateria] = useState(null);
   const [assunto, setAssunto] = useState(null);
-
-  let data = new Date();
-
-  // let comeco = data.toISOString().split("T")[0] + data.getTime();
-  // let comeco =
-  //   data.getDate() +
-  //   "/" +
-  //   (data.getMonth() + 1) +
-  //   "/" +
-  //   data.getFullYear() +
-  //   " " +
-  //   data.getHours() +
-  //   ":" +
-  //   data.getMinutes() +
-  //   ":" +
-  //   data.getSeconds();
 
   if (reqQuestao !== []) {
     return (

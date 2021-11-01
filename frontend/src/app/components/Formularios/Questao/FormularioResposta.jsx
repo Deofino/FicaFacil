@@ -128,6 +128,17 @@ export default function FormularioResposta() {
                 <RadioGroup
                   key={i}
                   onChange={(e) => {
+                    let divs = document.querySelectorAll(
+                      ".c-alternativa--texto"
+                    );
+                    divs.forEach((el) => {
+                      el.classList.remove("correct");
+                    });
+                    // console.log(divs);
+                    let div =
+                      e.target.parentElement.parentElement.parentElement
+                        .parentElement;
+                    div.classList.toggle("correct");
                     setCorreta(e.target.value);
                   }}
                   value={correta}

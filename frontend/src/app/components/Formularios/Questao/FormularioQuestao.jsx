@@ -524,7 +524,7 @@ export default function FormularioQuestao() {
         if (value.data.status_code === 200) {
           setQuestao(value.data.data);
           // } else console.log(value.data.data);
-        } else ToastWarning({ text: value.data.data });
+        } else ToastWarning({ text: value.data.data[0] });
       })
       // .catch((err) => console.log(err));
       .catch((err) => ToastError({ text: err || "Warning" }));
@@ -919,7 +919,7 @@ export default function FormularioQuestao() {
         {/* ------------------ TABELA DE DADOS (SELECT) ----------------------- */}
         <div className="c-forms__table">
           <Input
-            placeholder="Pesquise por algo..."
+            placeholder="Pesquise pelo titulo ou texto"
             icon={<FaSearch />}
             value={pesquisa}
             onChange={(e) => setPesquisa(e.target.value)}

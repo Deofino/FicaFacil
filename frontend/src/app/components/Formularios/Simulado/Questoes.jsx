@@ -9,7 +9,6 @@ export const Questoes = (props) => {
   let { isTerminado, setTerminado } = useSimulado();
   let quantidade = props.quantidade;
   let reqQuestao = props.questoes;
-
   const comeco = props.comeco || "";
   const [fim, setFim] = React.useState(new Date().getTime());
 
@@ -36,9 +35,16 @@ export const Questoes = (props) => {
     }
   }, [tempo, minutos, setTerminado, isTerminado]);
 
-  if (isTerminado) {
-    document.querySelector("audio").play();
-    return <Resultados quantidade={quantidade} comeco={comeco} fim={fim} />;
+  if (isTerminado && props.refazer !== true) {
+    
+    return (
+      <Resultados
+        quantidade={quantidade}
+        comeco={comeco}
+        reqQuestao={reqQuestao}
+        fim={fim}
+      />
+    );
   }
   if (reqQuestao.questao === undefined) {
     return <Backdrop />;

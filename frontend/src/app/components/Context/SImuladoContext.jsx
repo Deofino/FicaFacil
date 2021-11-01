@@ -21,6 +21,8 @@ export const propsContextSimulado = {
   setTerminado: null,
   questoesSimulado: [],
   setQuestoesSimulado: null,
+  setAcertos: null,
+  setErros: null,
 };
 const contextSimulado = createContext(propsContextSimulado);
 
@@ -94,6 +96,8 @@ export const SimuladoProvider = (props) => {
         setTerminado: setTerminado,
         questoesSimulado: questoesSimulado,
         setQuestoesSimulado: setQuestoesSimulado,
+        setAcertos: setAcertos,
+        setErros: setErros,
       }}
     >
       {props.children}

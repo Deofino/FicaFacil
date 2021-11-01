@@ -8,25 +8,27 @@ import { parseJwt } from "../../Header/NavBarUser";
 import { useSimulado } from "../../Context/SImuladoContext";
 
 export default function Resultados(props) {
-  const { quantidade, comeco, fim } = props;
+  const { quantidade, comeco, fim, reqQuestao } = props;
   let { acertos, erros, questoesSimulado } = useSimulado();
-  const [idUser, setidUser] = React.useState(0);
-  //   console.log(questoesSimulado);
+  const [Sair, setSair] = React.useState(false);
+  const [Refazer, setRefazer] = React.useState(false);
+  document.querySelector("audio").play();
 
-  useEffect(() => {
+  const inserir = () => {
+    let user = 0;
     if (localStorage.getItem("user")) {
-      let user = parseJwt(localStorage.getItem("user"));
-      setidUser(user.idCliente);
+      let data = parseJwt(localStorage.getItem("user"));
+      user = data.idCliente || 0;
     }
 
-    if (idUser > 0) {
+    if (user > 0) {
       axios
         .post(
           process.env.REACT_APP_API + `/simulado/create/`,
           JSON.stringify({
             comeco: comeco,
             fim: fim,
-            user: +idUser,
+            user: +user,
             questoes: questoesSimulado,
           }),
           {
@@ -37,9 +39,20 @@ export default function Resultados(props) {
             },
           }
         )
-        .then((val) => console.log(val.data));
+        .then((val) => console.log(val.data))
+        .finally(() => {
+          setSair(true);
+        });
     }
-  }, [comeco, fim, idUser, questoesSimulado]);
+  };
+  if (Refazer) {
+    // refazer as questoes
+  }
+  if (Sair) {
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  }
 
   return (
     <section className="c-results">
@@ -61,16 +74,22 @@ export default function Resultados(props) {
         </span>
       </div>
       <div className="c-results__dados__btns">
-        <div className="c-results__dados__btns__s">
-          <Button className="c-results__dados__btns__s__b">
-            Sair <FaArrowRight />
-          </Button>
-        </div>
-        <div className="c-results__dados__btns__r">
-          <Button className="c-results__dados__btns__r__b">
-            Refazer <FaHistory />{" "}
-          </Button>
-        </div>
+        <Button
+          className="c-results__dados__btns__s__b"
+          onClick={() => {
+            inserir();
+          }}
+        >
+          Sair <FaArrowRight style={{ marginLeft: 10 }} />
+        </Button>
+        <Button
+          className="c-results__dados__btns__r__b"
+          onClick={() => {
+            setRefazer(true);
+          }}
+        >
+          Refazer <FaHistory style={{ marginLeft: 10 }} />
+        </Button>
       </div>
     </section>
   );
