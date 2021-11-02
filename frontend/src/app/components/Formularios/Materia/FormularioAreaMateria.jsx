@@ -202,7 +202,6 @@ export default function FormularioAreaMateria() {
                 .catch((err) => AlertError({ title: "Erro!!", text: err }));
             } else {
               setErroAreaMateria("O campo tem que ser maior que 4");
-              /*    AlertError({ text: "Campo deve conter mais do que 4 caracteres", title: 'Atenção...' }); */
             }
           } else {
             setErroAreaMateria("O campo não pode estar vazio");
