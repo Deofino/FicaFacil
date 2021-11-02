@@ -1,5 +1,7 @@
 import React from "react";
 
+import { ChartBar } from '../components/Main/Charts';
+
 import { QuestaoProvider } from "../components/Context/QuestaoContext";
 import { SimuladoProvider } from "../components/Context/SImuladoContext";
 import { ProvideAuth } from "../components/Context/AuthContext";
@@ -30,6 +32,7 @@ import ComponentHome from "../components/Main/ComponentHome";
 import { FormularioQuestao } from "../components/Formularios/Questao";
 import { Simulado } from "../components/Formularios/Simulado";
 
+
 export default function Routes () {
   return (
     <ProvideAuth>
@@ -40,7 +43,7 @@ export default function Routes () {
           ) : (
             <HeaderUser />
           ) }
-         <ComponentHome />
+          <ComponentHome />
           <Footer />
         </Route>
         <PrivateRoute path="/questao">
@@ -62,15 +65,15 @@ export default function Routes () {
             <Simulado />
           </SimuladoProvider>
         </UserRoute>
-        <GuestRoute path="/cookie">
-          <ComponentCookie />
-        </GuestRoute>
         <GuestRoute path="/entrar/email">
           <FormularioLoginEmail />
         </GuestRoute>
         <GuestRoute exact path="/entrar">
           <FormularioLoginSocial />
         </GuestRoute>
+        <UserRoute path="/chart">
+          <ChartBar />
+        </UserRoute>
         <GuestRoute exact path="/criar">
           <FormularioCriarConta />
         </GuestRoute>
