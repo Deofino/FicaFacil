@@ -1,7 +1,5 @@
 import React from "react";
 
-import { ChartBar } from '../components/Main/Charts';
-
 import { QuestaoProvider } from "../components/Context/QuestaoContext";
 import { SimuladoProvider } from "../components/Context/SImuladoContext";
 import { ProvideAuth } from "../components/Context/AuthContext";
@@ -21,7 +19,6 @@ import {
 } from "../components/Formularios/Logins";
 import { FormularioMaterias } from "../components/Formularios/Materia";
 import {
-  ComponentCookie,
   FormularioDificuldade,
   FormularioUniversidade,
   NotFound,
@@ -71,9 +68,6 @@ export default function Routes () {
         <GuestRoute exact path="/entrar">
           <FormularioLoginSocial />
         </GuestRoute>
-        <UserRoute path="/chart">
-          <ChartBar />
-        </UserRoute>
         <GuestRoute exact path="/criar">
           <FormularioCriarConta />
         </GuestRoute>

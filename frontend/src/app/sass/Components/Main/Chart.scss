@@ -1,36 +1,38 @@
 .c-chart {
     width: 100% !important; //mexe no tamanho do grafico inteiro
     height: rem(300);
-    @include breakpoint(small) {
-        margin-left: rem(-15);
-
-        .recharts-xAxis.xAxis {
-            display: none;
-        }
-        .recharts-default-legend {
-            transform: translate(-40px, -20px);
-        }
-    }
-    .recharts-rectangle.recharts-bar-background-rectangle {
-        // fundo
-        fill: darken($light, 6%);
-        @include darkMode {
-            fill: darken($dark, 2%);
-        }
-        opacity: 0.9;
-    }
-    .recharts-rectangle,
-    span,
-    path {
-        //colorido
-        color: $primary;
-        fill: $primary;
-        @include darkMode {
+    &.bar {
+        .recharts-rectangle,
+        span,
+        path {
+            //colorido
+            color: $primary;
             fill: $primary;
+            @include darkMode {
+                fill: $primary;
+            }
+        }
+        @include breakpoint(small) {
+            margin-left: rem(-15);
+
+            .recharts-xAxis.xAxis {
+                display: none;
+            }
+            .recharts-default-legend {
+                transform: translate(-40px, -20px);
+            }
+        }
+        .recharts-rectangle.recharts-bar-background-rectangle {
+            // fundo
+            fill: darken($light, 6%);
+            @include darkMode {
+                fill: darken($dark, 2%);
+            }
+            opacity: 0.9;
         }
     }
     tspan {
-        @include breakpoint(small) {
+        @include breakpoint(medium) {
             font-size: rem(12);
         }
     }
@@ -43,13 +45,6 @@
             fill: $light;
         }
     }
-    line {
-        //cores das linhas
-        stroke: #2223;
-        @include darkMode {
-            stroke: #eee3;
-        }
-    }
     .recharts-tooltip-wrapper {
         //tooltip
         &,
@@ -57,6 +52,25 @@
             @include darkMode {
                 background-color: $gray-dark !important;
                 color: $light;
+            }
+        }
+    }
+    line {
+        //cores das linhas
+        stroke: #2223;
+        @include darkMode {
+            stroke: #eee3;
+        }
+    }
+
+    &.pie {
+    }
+
+    &.area {
+        @include breakpoint(small) {
+            margin-left: rem(-25);
+            .recharts-xAxis.xAxis {
+                display: none;
             }
         }
     }
