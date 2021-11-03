@@ -56,7 +56,7 @@ class QuestaoController
                 }
             }
             if (isset($_GET['pesquisa'])) {
-                $where .= ' WHERE  tituloQuestao LIKE :pesquisa OR textoQuestao LIKE :pesquisa AND';
+                $where .= ' WHERE tituloQuestao LIKE :pesquisa OR textoQuestao LIKE :pesquisa AND';
                 $send[':pesquisa'] = "%" . $_GET['pesquisa'] . "%";
             }
             $pos = (strpos($where, 'WHERE'));

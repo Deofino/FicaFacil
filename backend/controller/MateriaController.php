@@ -12,7 +12,37 @@ class MateriaController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new MateriaModel();
-            echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
+            $where = '';
+            $send = [];
+            $inner = '';
+
+            if (isset($_GET['materia'])) {
+                if ($_GET['materia'] > 0) {
+                    $where .= ' WHERE idmateria = :materia AND';
+                    $send[':materia']
+                        = (int) $_GET['materia'];
+                }
+            }
+
+            if (isset($_GET['pesquisa'])) {
+                $where .= ' WHERE  nomeAreaMateria LIKE :pesquisa ';
+                $send[':pesquisa'] = "%" . $_GET['pesquisa'] . "%";
+            }
+
+            $pos = (strpos($where, 'WHERE'));
+            $str_before = substr($where, 0, $pos + 6);
+            $str_after = str_replace('WHERE', '', substr($where, $pos, strlen($where)));
+            $where = $str_before . $str_after;
+            if (substr($where, strlen($where) - 4, strlen($where)) == ' AND') {
+                $where =  substr($where, 0, strlen($where) - 4);
+            };
+            if (isset($_GET['random'])) {
+                $where .= ' ORDER BY RAND() ';
+            }
+            if (isset($_GET['limit'])) {
+                $where .= ' LIMIT ' . $_GET['limit'];
+            }
+            echo $model->get($where, $send, $inner);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
