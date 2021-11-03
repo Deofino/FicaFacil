@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Input, Button, Table } from "../../Form";
-import { FaBookOpen, FaTimes } from "react-icons/fa";
+import { FaBookOpen, FaTimes, FaSearch } from "react-icons/fa";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
 
@@ -100,13 +100,16 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioAreaMateria() {
+
+  const [pesquisa, setPesquisa] = useState("");
+
   const [ErroAreaMateria, setErroAreaMateria] = useState(null);
   const refAreaMateria = useRef(null);
 
   const [areaMaterias, setareaMaterias] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/areaMateria/index/`, {
+      .get(`${process.env.REACT_APP_API}/areaMateria/index/?pesquisa=${pesquisa}&data=true`, {
         headers: {
           Authorization: `Bearer ${
             localStorage.getItem("auth") || localStorage.getItem("user")
@@ -114,12 +117,13 @@ export default function FormularioAreaMateria() {
         },
       })
       .then((value) => {
+        console.log(value.data)
         if (value.data.status_code === 200) {
           setareaMaterias(value.data.data);
-        } else ToastWarning({ text: value.data.data || "Warning" });
+        } else ToastWarning({ text: value.data.data[0] || "Warning" });
       })
       .catch((error) => ToastError({ text: error || "Warning" }));
-  }, []);
+  }, [pesquisa]);
 
   const columns = [
     {
@@ -226,6 +230,16 @@ export default function FormularioAreaMateria() {
           Adicionar Area Matéria
         </Button>
       </form>
+
+      <div className="c-forms__table">
+        <Input
+          placeholder="Pesquise pelo nome da área"
+          icon={<FaSearch />}
+          value={pesquisa}
+          onChange={(e) => setPesquisa(e.target.value)}
+          id="pesquisa"
+          className="c-forms__inputSearch"
+        />   
       <Table
         colunas={columns}
         linhas={linhas}
@@ -236,6 +250,7 @@ export default function FormularioAreaMateria() {
         }}
         functionUpdate={update}
       />
+      </div>
       <div id="backdrop"></div>
     </section>
   );
