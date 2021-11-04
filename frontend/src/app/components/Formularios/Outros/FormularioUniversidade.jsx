@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Input, Button, Table } from "../../Form";
-import { FaBookOpen, FaTimes } from "react-icons/fa";
+import { FaBookOpen, FaTimes, FaSearch } from "react-icons/fa";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess, } from "../../Alert/Toast";
 
@@ -103,13 +103,16 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioUniversidade() {
+
+  const [pesquisa, setPesquisa] = useState("");
+
   const [ErroUniversidade, setErroUniversidade] = useState(null);
   const refUniversidade = useRef(null);
 
   const [universidades, setUniversidades] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/universidade/index/`, {
+      .get(`${process.env.REACT_APP_API}/universidade/index/?pesquisa=${pesquisa}&data=true`, {
         headers: {
           Authorization: `Bearer ${
             localStorage.getItem("auth") || localStorage.getItem("user")
@@ -122,7 +125,7 @@ export default function FormularioUniversidade() {
         }
       })
       .catch((error) => ToastError({ text: error || "Error" }));
-  }, []);
+  }, [pesquisa]);
 
   const columns = [
     {
@@ -246,6 +249,17 @@ export default function FormularioUniversidade() {
             Adicionar Universidade
           </Button>
         </form>
+
+        <div className="c-forms__table">
+        <Input
+          placeholder="Pesquise pelo nome da universidade"
+          icon={<FaSearch />}
+          value={pesquisa}
+          onChange={(e) => setPesquisa(e.target.value)}
+          id="pesquisa"
+          className="c-forms__inputSearch"
+        />  
+
         <Table
           colunas={columns}
           linhas={linhas}
@@ -257,6 +271,7 @@ export default function FormularioUniversidade() {
           functionUpdate={update}
         />
         <div id="backdrop"></div>
+      </div>
       </div>
     </section>
   );

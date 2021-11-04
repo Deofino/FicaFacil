@@ -108,7 +108,7 @@ export default function FormularioDificuldade() {
   const [questoes, setQuestoes] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/dificuldade/index/`, {
+      .get(`${process.env.REACT_APP_API}/dificuldade/index/?pesquisa=${pesquisa}&data=true`, {
         headers: {
           Authorization: `Bearer ${
             localStorage.getItem("auth") || localStorage.getItem("user")
@@ -121,7 +121,7 @@ export default function FormularioDificuldade() {
           }
       })
       .catch((error) => ToastError({ text: error || "Error" }));
-  }, []);
+  }, [pesquisa]);
 
   const columns = [
     {
