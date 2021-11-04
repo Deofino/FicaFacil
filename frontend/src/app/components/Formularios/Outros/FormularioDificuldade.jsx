@@ -5,7 +5,7 @@ import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Input, Button, Table } from "../../Form";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
-import { FaChartArea, FaTimes } from "react-icons/fa";
+import { FaChartArea, FaTimes, FaSearch } from "react-icons/fa";
 
 const Backdrop = (props) => {
   const [attDificuldade, setAttDificuldade] = useState(props.data[1] || ""); // State para atualizar o campo
@@ -99,6 +99,9 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioDificuldade() {
+
+  const [pesquisa, setPesquisa] = useState("");
+
   const [ErroDificuldade, setErroDificuldade] = useState(null);
   const refDificuldade = useRef(null);
 
@@ -231,6 +234,16 @@ export default function FormularioDificuldade() {
           </Button>
         </form>
 
+        <div className="c-forms__table">
+        <Input
+          placeholder="Pesquise pelo nome da dificuldade"
+          icon={<FaSearch />}
+          value={pesquisa}
+          onChange={(e) => setPesquisa(e.target.value)}
+          id="pesquisa"
+          className="c-forms__inputSearch"
+        />  
+
         <Table
           colunas={columns}
           linhas={linhas}
@@ -242,6 +255,7 @@ export default function FormularioDificuldade() {
           functionUpdate={update}
         />
         <div id="backdrop"></div>
+      </div>
       </div>
     </section>
   );
