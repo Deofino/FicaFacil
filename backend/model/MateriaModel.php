@@ -74,41 +74,27 @@ class MateriaModel
     }
 
 
-    public function get($params = null)
+    public function get($params = null,  $where = '', $send = [], $inner = '')
     {
         try {
             $con = Connection::getConn();
-            if ($params === null) {
-                $stmt = $con->prepare("SELECT * FROM tb_materia order by nomeMateria");
-            } else {
-                $stmt = $con->prepare("SELECT * FROM tb_materia WHERE idMateria = ? order by nomeMateria");
-                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
-            }
+            $query = "SELECT * FROM tb_materia $inner";
 
-            if ($stmt->execute()) {
-                $area = (new AreaMateriaModel)->get();
-                if ($stmt->rowCount() === 0) {
-                    return Response::warning([
-                        "Nenhuma materia encontrada...",
-                        "area" => json_decode($area)->data
-                    ], 404);
-                }
-                if ($stmt->rowCount() === 1) {
-                    $materia = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    $area = (new AreaMateriaModel)->get(['id' => $materia[0]['idAreaMateria']]);
-                    return Response::success([
-                        "materia" => $materia,
-                        "area" => json_decode($area)->data
-                    ]);
-                }
-                if ($stmt->rowCount() > 1) {
-                    return Response::success([
-                        "materia" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
-                        "area" => json_decode($area)->data
-                    ]);
-                }
+            if ($where === '' && $send == []) {
+                $stmt = $con->prepare($query);
+            } else if (isset($send['id'])) {
+                $stmt = $con->prepare($query . ' WHERE idMateria = ?');
+                $send = [(int)$send['id']];
+            } else {
+                $stmt = $con->prepare($query . $where);
             }
-            return Response::error("Erro ao selecionar materia");
+            //daqui pra baixo
+            if ($stmt->execute($send)) {
+                return $stmt->rowCount() == 0 ?
+                    Response::warning("Nenhuma Materia encontrada...", 404) :
+                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+            }
+            return Response::error("Erro ao selecionar Materia");
         } catch (\Throwable $th) {
             return Response::error("Error: $th");
         }

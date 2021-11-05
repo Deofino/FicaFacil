@@ -5,7 +5,7 @@ import { Input, Select, MenuItem, Button, Table } from "../../Form/";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
-import { FaTimes, FaBookOpen } from "react-icons/fa";
+import { FaTimes, FaBookOpen, FaSearch } from "react-icons/fa";
 
 const Backdrop = (props) => {
   const [attMateria, setAttMateria] = useState(props.data[1] || ""); // State para atualizar o campo
@@ -139,6 +139,9 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioMateria() {
+
+  const [pesquisa, setPesquisa] = useState("");
+
   const [areasMaterias, setAreasMaterias] = useState([]);
   const [selectedAreaMateria, setSelectedAreaMateria] = useState(0);
 
@@ -316,6 +319,16 @@ export default function FormularioMateria() {
           Cadastrar
         </Button>
       </form>
+      <div className="c-forms__table">
+        <Input
+          placeholder="Pesquise pelo nome da matéria"
+          icon={<FaSearch />}
+          value={pesquisa}
+          onChange={(e) => setPesquisa(e.target.value)}
+          id="pesquisa"
+          className="c-forms__inputSearch"
+        />   
+
       <Table
         colunas={colunas}
         linhas={linhas || []}
@@ -326,6 +339,7 @@ export default function FormularioMateria() {
         }}
         functionUpdate={update}
       />
+      </div>
       <div id="backdrop"></div>
     </section>
   );
