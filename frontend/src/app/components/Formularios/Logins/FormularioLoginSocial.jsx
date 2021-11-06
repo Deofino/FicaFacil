@@ -1,9 +1,35 @@
-import React, { Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "../../../../img/project/logo-branca.png";
+import axios from "axios";
+
+function useQuery() {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 export default function FormularioLoginSocial() {
+  const [facebookUrl, setFacebookUrl] = useState("");
+  const [facebookToken, setFacebookToken] = useState("");
+  let query = useQuery();
+  useEffect(() => {
+    if (query.get("code")) {
+      let code = query.get("code");
+      axios
+        .post(
+          `${process.env.REACT_APP_API}/cliente/getFacebookToken?code=${code}`
+        )
+        .then((val) => {setFacebookToken(val.data)})
+        .finally(() => {
+          query.delete("code");
+        });
+    }
+   
+    axios
+      .get(`${process.env.REACT_APP_API}/cliente/getFacebookUrl/`)
+      .then((val) => setFacebookUrl(val.data));
+  }, [query, facebookToken]);
   return (
     <Fragment>
       <section className="login-main">
@@ -13,16 +39,15 @@ export default function FormularioLoginSocial() {
           </div>
           <h3 className="login_field__title">Novo por aqui? Entre agora!</h3>
           <div className="login_field facebook">
-            <Link className="login_field__link" to="#">
-              {" "}
-              {/* NÃO SEI COMO VÃO FAZER O BACK, MAS QUALQUER COISA MUDA PRA BUTTON */}
+            <a className="login_field__link" href={facebookUrl}>
               <FaFacebook />
               <span>Entrar com Facebook</span>
-            </Link>
+            </a>
           </div>
           <div className="login_field google">
             <Link className="login_field__link" to="#">
               <FaGoogle />
+              {/* vai koezin */}
               <span>Entrar com Google</span>
             </Link>
           </div>
@@ -40,8 +65,7 @@ export default function FormularioLoginSocial() {
             </Link>
           </div>
 
-          <Link to="#" className="login_field__terms">
-          </Link>
+          <Link to="#" className="login_field__terms"></Link>
         </div>
         <div className="wave">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">

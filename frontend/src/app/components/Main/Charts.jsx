@@ -10,7 +10,6 @@ import {
   CartesianGrid,
   PieChart,
   Pie,
-  Sector,
   Cell,
   Area,
   AreaChart,
@@ -64,7 +63,7 @@ export const ChartBar = (props) => {
           margin={props.margin !== undefined ? props.margin : {}}
         >
           <XAxis
-            dataKey="name"
+            dataKey={props.dataName !== undefined ? props.dataName : "name"}
             scale="point"
             padding={
               props.padding !== undefined
@@ -124,6 +123,7 @@ export const ChartPie = (props) => {
               <Cell key={`cell-${index}`} fill={data[index].color || "#34f"} />
             ))}
           </Pie>
+          {/* <Legend /> */}
           <Tooltip />
         </PieChart>
       </ResponsiveContainer>
