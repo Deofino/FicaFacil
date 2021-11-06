@@ -43,18 +43,22 @@ class UniversidadeModel
     }
 
 
-    public function get($params = null)
+    public function get($params = null,  $where = '', $send = [], $inner = '')
     {
         try {
             $con = Connection::getConn();
-            if ($params === null) {
-                $stmt = $con->prepare("SELECT * FROM tb_universidade order by nomeUniversidade");
-            } else {
-                $stmt = $con->prepare("SELECT * FROM tb_universidade WHERE idUniversidade = ?  order by nomeUniversidade");
-                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
-            }
+            $query = "SELECT * FROM tb_universidade $inner";
 
-            if ($stmt->execute()) {
+            if ($where === '' && $send == []) {
+                $stmt = $con->prepare($query);
+            } else if (isset($send['id'])) {
+                $stmt = $con->prepare($query . ' WHERE idUniversidade = ?');
+                $send = [(int)$send['id']];
+            } else {
+                $stmt = $con->prepare($query . $where);
+            }
+            //daqui pra baixo
+            if ($stmt->execute($send)) {
                 return $stmt->rowCount() == 0 ?
                     Response::warning("Nenhuma Universidade encontrada...", 404) :
                     Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));

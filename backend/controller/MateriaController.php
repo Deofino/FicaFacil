@@ -15,20 +15,23 @@ class MateriaController
             $where = '';
             $send = [];
             $inner = '';
-
             if (isset($_GET['materia'])) {
                 if ($_GET['materia'] > 0) {
-                    $where .= ' WHERE idmateria = :materia AND';
+                    $where .= '  WHERE tb_area_materia.idMateria = :materia AND';
                     $send[':materia']
                         = (int) $_GET['materia'];
+                    $inner .= 'INNER JOIN tb_area_materia on tb_area_materia.idAreaMateria = tb_materia.idAssuntoMateria INNER JOIN tb_materia on tb_area_materia.idMateria = tb_materia.idMateria';
                 }
+            }
+            if (isset($params[0])) {
+                $where .= ' WHERE idMateria = :id AND';
+                $send[':id'] = (int) $params[0];
             }
 
             if (isset($_GET['pesquisa'])) {
-                $where .= ' WHERE  nomeAreaMateria LIKE :pesquisa ';
+                $where .= ' WHERE nomeMateria LIKE :pesquisa AND';
                 $send[':pesquisa'] = "%" . $_GET['pesquisa'] . "%";
             }
-
             $pos = (strpos($where, 'WHERE'));
             $str_before = substr($where, 0, $pos + 6);
             $str_after = str_replace('WHERE', '', substr($where, $pos, strlen($where)));

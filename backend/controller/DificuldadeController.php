@@ -12,21 +12,38 @@ class DificuldadeController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new DificuldadeModel();
-            echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
-            return;
-        }
-        echo Response::warning('Metodo não encontrado', 404);
-    }
+            $where = '';
+            $send = [];
+            $inner = '';
 
-    public function create() // parametro do file_get_contents
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
-            $data = json_decode(file_get_contents('php://input'));
-            $model = new DificuldadeModel();
-            if (isset($data->dificuldade)) {
-                $model->setNivel(trim($data->dificuldade)); // insere aqui pra passar pelas verificacoes de dados
-                echo $model->post();
-            } else echo Response::warning('Parametro `dificuldade` não encontrado ou vazio/nulo', 404);
+            if (isset($_GET['Dificuldade'])) {
+                if ($_GET['Dificuldade'] > 0) {
+                    $where .= ' WHERE idDificuldade = :Dificuldade AND';
+                    $send[':Dificuldade']
+                        = (int) $_GET['Dificuldade'];
+                }
+            }
+
+            if (isset($_GET['pesquisa'])) {
+                $where .= ' WHERE nivelDificuldade LIKE :pesquisa AND';
+                $send[':pesquisa'] = "%" . $_GET['pesquisa'] . "%";
+            }
+
+            $pos = (strpos($where, 'WHERE'));
+            $str_before = substr($where, 0, $pos + 6);
+            $str_after = str_replace('WHERE', '', substr($where, $pos, strlen($where)));
+            $where = $str_before . $str_after;
+            if (substr($where, strlen($where) - 4, strlen($where)) == ' AND') {
+                $where =  substr($where, 0, strlen($where) - 4);
+            };
+            if (isset($_GET['random'])) {
+                $where .= ' ORDER BY RAND() ';
+            }
+            if (isset($_GET['limit'])) {
+                $where .= ' LIMIT ' . $_GET['limit'];
+            }
+            // aqui
+            echo $model->get('',$where,$send,$inner);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
