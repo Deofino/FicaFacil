@@ -1,9 +1,6 @@
 <?php
 
-use Helper\Response;
 use Helper\JWT;
-
-use function PHPSTORM_META\type;
 
 define(
     "PROJECT_NAME",
@@ -12,10 +9,10 @@ define(
 define(
     "FACEBOOK",
     [
-        'clientId'          => '297518861925944',
-        'clientSecret'      => 'a526b3822fc57bb337cdee78473e33fd',
-        'redirectUri'       => 'https://localhost/FicaFacil/backend/api/cliente/facebook/',
-        'graphApiVersion'   => 'v2.10',
+        'ID'          => '297518861925944',
+        'SECRET'      => 'a526b3822fc57bb337cdee78473e33fd',
+        'REDIRECT'       => 'https://localhost:3000/entrar',
+        'GRAPH'   => 'v2.10',
     ]
 );
 define(
