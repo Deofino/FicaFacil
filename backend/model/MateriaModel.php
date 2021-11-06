@@ -90,9 +90,27 @@ class MateriaModel
             }
             //daqui pra baixo
             if ($stmt->execute($send)) {
-                return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhuma Materia encontrada...", 404) :
-                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+                $area = (new AreaMateriaModel)->get();
+                if ($stmt->rowCount() === 0) {
+                    return Response::warning([
+                        "Nenhuma area materia encontrada...",
+                        "area" => json_decode($area)->data
+                    ], 200);
+                }
+                if ($stmt->rowCount() === 1) {
+                    $materia = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    $area = (new AreaMateriaModel)->get(['id' => $materia[0]['idAreaMateria']]);
+                    return Response::success([
+                        "materia" => $materia,
+                        "area" => json_decode($area)->data
+                    ]);
+                }
+                if ($stmt->rowCount() > 1) {
+                    return Response::success([
+                        "materia" => $stmt->fetchAll(\PDO::FETCH_ASSOC),
+                        "area" => json_decode($area)->data
+                    ]);
+                }
             }
             return Response::error("Erro ao selecionar Materia");
         } catch (\Throwable $th) {

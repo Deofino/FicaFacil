@@ -74,24 +74,28 @@ class AssuntoMateriaModel
     }
 
 
-    public function get($params = null)
+    public function get($params = null,  $where = '', $send = [], $inner = '')
     {
         try {
             $con = Connection::getConn();
-            if ($params === null) {
-                $stmt = $con->prepare("SELECT * FROM tb_assunto_materia  order by nomeAssuntoMateria");
-            } else {
-                $stmt = $con->prepare("SELECT * FROM tb_assunto_materia WHERE idAssuntoMateria = ?  order by nomeAssuntoMateria");
-                $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
-            }
+            $query = "SELECT * FROM tb_assunto_materia $inner";
 
-            if ($stmt->execute()) {
+            if ($where === '' && $send == []) {
+                $stmt = $con->prepare($query);
+            } else if (isset($send['id'])) {
+                $stmt = $con->prepare($query . ' WHERE idAssuntoMateria = ?');
+                $send = [(int)$send['id']];
+            } else {
+                $stmt = $con->prepare($query . $where);
+            }
+            //daqui pra baixo
+            if ($stmt->execute($send)) {
                 $materia = (new MateriaModel)->get();
                 if ($stmt->rowCount() === 0) {
                     return Response::warning([
                         "Nenhuma materia encontrada...",
                         "materia" => json_decode($materia)->data
-                    ], 404);
+                    ], 200);
                 }
                 if ($stmt->rowCount() === 1) {
                     $assuntoMateria = $stmt->fetchAll(\PDO::FETCH_ASSOC);

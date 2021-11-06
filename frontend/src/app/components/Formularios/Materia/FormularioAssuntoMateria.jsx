@@ -5,7 +5,7 @@ import { Input, Select, MenuItem, Button, Table } from "../../Form/";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
-import { FaTimes, FaBookOpen } from "react-icons/fa";
+import { FaTimes, FaBookOpen, FaSearch } from "react-icons/fa";
 
 const Backdrop = (props) => {
   const [attAssuntoMateria, setAttAssuntoMateria] = useState(
@@ -154,6 +154,9 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioAssuntoMateria() {
+
+  const [pesquisa, setPesquisa] = useState("");
+
   const [materias, setMaterias] = useState([]);
   const [selectedMateria, setSelectedMateria] = useState(0);
 
@@ -181,7 +184,7 @@ export default function FormularioAssuntoMateria() {
       .catch((error) => ToastError({ text: error || "Error" }));
 
     axios
-      .get(`${process.env.REACT_APP_API}/assuntoMateria/index/`, {
+      .get(`${process.env.REACT_APP_API}/assuntoMateria/index/?pesquisa=${pesquisa}`, {
         headers: {
           Authorization: `Bearer ${
             localStorage.getItem("auth") || localStorage.getItem("user")
@@ -194,7 +197,7 @@ export default function FormularioAssuntoMateria() {
         }
       })
       .catch((error) => ToastError({ text: error || "Error" }));
-  }, []);
+  }, [pesquisa]);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -334,6 +337,16 @@ export default function FormularioAssuntoMateria() {
           Cadastrar
         </Button>
       </form>
+      <div className="c-forms__table">
+        <Input
+          placeholder="Pesquise pelo assunto matéria ou matéria"
+          icon={<FaSearch />}
+          value={pesquisa}
+          onChange={(e) => setPesquisa(e.target.value)}
+          id="pesquisa"
+          className="c-forms__inputSearch"
+        />        
+
       <Table
         colunas={colunas}
         linhas={linhas}
@@ -344,6 +357,7 @@ export default function FormularioAssuntoMateria() {
         }}
         functionUpdate={update}
       />
+      </div>
       <div id="backdrop"></div>
     </section>
   );
