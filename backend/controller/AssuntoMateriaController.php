@@ -12,22 +12,34 @@ class AssuntoMateriaController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
             $model = new AssuntoMateriaModel();
-            echo count($params) !== 0 ? $model->get(array('id' => $params[0])) : $model->get(null);
-            return;
-        }
-        echo Response::warning('Metodo não encontrado', 404);
-    }
+            $where = '';
+            $send = [];
+            $inner = '';
+        
+            if (isset($params[0])) {
+                $where .= ' WHERE idAssuntoMateria = :id AND';
+                $send[':id'] = (int) $params[0];
+            }
 
-    public function create() // parametro do file_get_contents
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
-            $data = json_decode(file_get_contents('php://input', true));
-            $model = new AssuntoMateriaModel();
-            if (isset($data->assuntoMateria) && isset($data->materia)) {
-                $model->setNome(trim($data->assuntoMateria));
-                $model->setMateria($data->materia);
-                echo $model->post();
-            } else echo Response::warning('Parametro `assuntoMateria` ou `materia` não encontrado ou vazio/nulo', 404);
+            if (isset($_GET['pesquisa'])) {
+                $where .= ' WHERE nomeAssuntoMateria LIKE :pesquisa OR nomeMateria LIKE :pesquisa AND';
+                $send[':pesquisa'] = "%" . $_GET['pesquisa'] . "%";
+                $inner .= 'INNER JOIN tb_materia on tb_materia.idMateria = tb_assunto_materia.idMateria';
+            }
+            $pos = (strpos($where, 'WHERE'));
+            $str_before = substr($where, 0, $pos + 6);
+            $str_after = str_replace('WHERE', '', substr($where, $pos, strlen($where)));
+            $where = $str_before . $str_after;
+            if (substr($where, strlen($where) - 4, strlen($where)) == ' AND') {
+                $where =  substr($where, 0, strlen($where) - 4);
+            };
+            if (isset($_GET['random'])) {
+                $where .= ' ORDER BY RAND() ';
+            }
+            if (isset($_GET['limit'])) {
+                $where .= ' LIMIT ' . $_GET['limit'];
+            }
+            echo $model->get(null, $where, $send, $inner);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);

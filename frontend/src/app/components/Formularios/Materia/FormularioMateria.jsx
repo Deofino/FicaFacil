@@ -169,7 +169,7 @@ export default function FormularioMateria() {
       .catch((error) => ToastError({ text: error || "Error" }));
 
     axios
-      .get(`${process.env.REACT_APP_API}/materia/index/`, {
+      .get(`${process.env.REACT_APP_API}/materia/index/?pesquisa=${pesquisa}`, {
         headers: {
           Authorization: `Bearer ${
             localStorage.getItem("auth") || localStorage.getItem("user")
@@ -182,7 +182,7 @@ export default function FormularioMateria() {
         }
       })
       .catch((error) => ToastError({ text: error || "Error" }));
-  }, []);
+  }, [pesquisa]);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -321,7 +321,7 @@ export default function FormularioMateria() {
       </form>
       <div className="c-forms__table">
         <Input
-          placeholder="Pesquise pelo nome da matéria"
+          placeholder="Pesquise pelo nome da matéria ou área"
           icon={<FaSearch />}
           value={pesquisa}
           onChange={(e) => setPesquisa(e.target.value)}

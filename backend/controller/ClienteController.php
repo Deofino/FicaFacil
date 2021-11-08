@@ -9,6 +9,20 @@ use Helper\JWT;
 class ClienteController
 {
 
+    private $provider = null;
+
+    public function __construct()
+    {
+        if ($this->provider == null) {
+            $this->provider = new \League\OAuth2\Client\Provider\Facebook([
+                'clientId'          => FACEBOOK['ID'],
+                'clientSecret'      => FACEBOOK['SECRET'],
+                'redirectUri'       => FACEBOOK['REDIRECT'],
+                'graphApiVersion'   => FACEBOOK['GRAPH'],
+            ]);
+        }
+    }
+
     public function index($params) // parametros daqui sao da URL
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
@@ -101,34 +115,33 @@ class ClienteController
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
-    public function facebook($params)
+    public function getFacebookUrl()
     {
-        session_start();
-        /**
-         * AUTH FACEBOOK
-         */
-        $facebook = new \League\OAuth2\Client\Provider\Facebook(FACEBOOK);
-        if (!isset($_SESSION['facebook'])) {
-            $authurl = $facebook->getAuthorizationUrl([
-                'scope' => ['email']
-            ]);
-
-            echo "<a href='$authurl'
-            >Login</a>";
-
-            $queryString = (explode('?', $_SERVER["REQUEST_URI"]));
-            array_shift($queryString);
-            if (count($queryString) !== 0) {
-                $res = explode('=', $queryString[0])[0];
-                if ($res === 'code') {
-                    dd('ok Passou!!', false);
-                    $token = explode('=', $queryString[0])[1];
-                    $data = $facebook->getResourceOwner($token);
-                    dd($data);
-                } else {
-                    dd('Nao autorizado');
-                }
+        $authUrl = $this->provider->getAuthorizationUrl([
+            'scope' => ['email'],
+        ]);
+        echo $authUrl;
+    }
+    private function getFacebookData()
+    {
+        if (isset($_GET['token'])) {
+            try {
+            } catch (\Throwable $th) {
+                Response::error($th->getMessage());
             }
         }
+    }
+    public function loginFacebook()
+    {
+        if (isset($_GET['code'])) {
+            $token = $this->provider->getAccessToken('authorization_code', [
+                'code' => $_GET['code']
+            ]);
+            
+            dd($this->provider->getResourceOwner($_GET['token']));
+            echo $token;
+            return;
+        }
+        echo Response::error('Nao autorizado ou sem parametros...');
     }
 }

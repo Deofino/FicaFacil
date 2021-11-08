@@ -15,22 +15,16 @@ class MateriaController
             $where = '';
             $send = [];
             $inner = '';
-            if (isset($_GET['materia'])) {
-                if ($_GET['materia'] > 0) {
-                    $where .= '  WHERE tb_area_materia.idMateria = :materia AND';
-                    $send[':materia']
-                        = (int) $_GET['materia'];
-                    $inner .= 'INNER JOIN tb_area_materia on tb_area_materia.idAreaMateria = tb_materia.idAssuntoMateria INNER JOIN tb_materia on tb_area_materia.idMateria = tb_materia.idMateria';
-                }
-            }
+        
             if (isset($params[0])) {
                 $where .= ' WHERE idMateria = :id AND';
                 $send[':id'] = (int) $params[0];
             }
 
             if (isset($_GET['pesquisa'])) {
-                $where .= ' WHERE nomeMateria LIKE :pesquisa AND';
+                $where .= ' WHERE nomeMateria LIKE :pesquisa OR nomeAreaMateria LIKE :pesquisa AND';
                 $send[':pesquisa'] = "%" . $_GET['pesquisa'] . "%";
+                $inner .= 'INNER JOIN tb_area_materia on tb_area_materia.idAreaMateria = tb_materia.idAreaMateria';
             }
             $pos = (strpos($where, 'WHERE'));
             $str_before = substr($where, 0, $pos + 6);
@@ -45,7 +39,7 @@ class MateriaController
             if (isset($_GET['limit'])) {
                 $where .= ' LIMIT ' . $_GET['limit'];
             }
-            echo $model->get($where, $send, $inner);
+            echo $model->get(null, $where, $send, $inner);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
