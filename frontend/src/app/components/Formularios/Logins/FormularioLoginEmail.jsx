@@ -82,7 +82,6 @@ export default function FormularioLoginEmail() {
                 title="Senha"
                 id="passw"
                 name="password"
-                type="password"
                 type={!olhoL ? "password" : "text"}
                   iconEnd={
                     !olhoL ? (

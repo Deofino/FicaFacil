@@ -10,6 +10,7 @@ import {
   FaSignOutAlt,
   FaEdit,
 } from "react-icons/fa";
+import axios from "axios";
 
 export function parseJwt(token) {
   var base64Url = token.split(".")[1];
@@ -27,11 +28,12 @@ export function parseJwt(token) {
 }
 
 export default function NavbarUser() {
-  const [user, setUser] = React.useState({ nomeCliente: "Visitante" });
+  const [user, setUser] = React.useState({ nome: "Visitante" });
 
   React.useEffect(() => {
     if (localStorage.getItem("user")) {
       let user = parseJwt(localStorage.getItem("user"));
+      // console.log(user);
       setUser(user);
     }
   }, []);
@@ -99,10 +101,14 @@ export default function NavbarUser() {
         </li>
         <li className="c-navbar__profile">
           <div className="c-navbar__image-profile">
-            {user !== "" && user.nomeCliente.charAt(0).toUpperCase()}
+            {user !== "" && user.foto !== "" && user.foto !== undefined ? (
+              <img src={user.foto} alt={user.nome} />
+            ) : (
+              user.nome.charAt(0).toUpperCase()
+            )}
           </div>
           <div className="c-navbar__name-job">
-            <div className="name">{user.nomeCliente.split(" ")[0]}</div>
+            <div className="name">{user.nome.split(" ")[0]}</div>
           </div>
           <Tooltip
             title="Sair"
@@ -112,12 +118,24 @@ export default function NavbarUser() {
             <IconButton
               style={{ background: "transparent" }}
               onClick={() => {
-                if (user.idCliente !== undefined) {
+                if (user.id !== undefined) {
+                  if (user.facebook !== undefined) {
+                    axios
+                      .post(
+                        `${process.env.REACT_APP_API}/cliente/logoutFacebook?email=${user.email}`
+                      )
+                      .then((val) => console.log(val))
+                      .finally(() => {
+                        localStorage.removeItem("auth");
+                        localStorage.removeItem("user");
+                        window.location.reload();
+                      });
+                  }
                   localStorage.removeItem("auth");
                   localStorage.removeItem("user");
                   window.location.reload();
                 } else {
-                  setUser({ nomeCliente: "Visitante" });
+                  setUser({ nome: "Visitante" });
                 }
               }}
             >

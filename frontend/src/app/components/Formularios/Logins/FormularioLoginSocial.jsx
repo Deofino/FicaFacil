@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { ToastWarning } from "../../Alert/Toast";
 import Logo from "../../../../img/project/logo-branca.png";
 import axios from "axios";
 
@@ -11,25 +12,34 @@ function useQuery() {
 
 export default function FormularioLoginSocial() {
   const [facebookUrl, setFacebookUrl] = useState("");
-  const [facebookToken, setFacebookToken] = useState("");
   let query = useQuery();
   useEffect(() => {
     if (query.get("code")) {
       let code = query.get("code");
       axios
-        .post(
-          `${process.env.REACT_APP_API}/cliente/getFacebookToken?code=${code}`
-        )
-        .then((val) => {setFacebookToken(val.data)})
+        .post(`${process.env.REACT_APP_API}/cliente/loginFacebook?code=${code}`)
+        .then((val) => {
+          if (val.data.data !== undefined) {
+            localStorage.removeItem("auth");
+            localStorage.removeItem("user");
+
+            localStorage.setItem("user", val.data.data.token);
+            window.location.reload();
+          }
+        })
         .finally(() => {
           query.delete("code");
         });
     }
-   
+
     axios
       .get(`${process.env.REACT_APP_API}/cliente/getFacebookUrl/`)
       .then((val) => setFacebookUrl(val.data));
-  }, [query, facebookToken]);
+
+    return () => {
+      setFacebookUrl("");
+    };
+  }, [query]);
   return (
     <Fragment>
       <section className="login-main">

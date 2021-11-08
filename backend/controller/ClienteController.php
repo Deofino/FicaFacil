@@ -122,26 +122,41 @@ class ClienteController
         ]);
         echo $authUrl;
     }
-    private function getFacebookData()
-    {
-        if (isset($_GET['token'])) {
-            try {
-            } catch (\Throwable $th) {
-                Response::error($th->getMessage());
-            }
-        }
-    }
     public function loginFacebook()
     {
         if (isset($_GET['code'])) {
             $token = $this->provider->getAccessToken('authorization_code', [
                 'code' => $_GET['code']
             ]);
-            
-            dd($this->provider->getResourceOwner($_GET['token']));
-            echo $token;
+            $user = ($this->provider->getResourceOwner($token));
+            $data = [
+                'id' => $user->getEmail(),
+                'nome' => $user->getFirstName() . " " . $user->getLastName(),
+                'email' => $user->getEmail(),
+                'foto' => $user->getPictureUrl(),
+                'facebook' => true,
+            ];
+
+            $model = new ClienteModel();
+            if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data[0]->tem)) {
+                $model->delete(['email' => $user->getEmail()]);
+            };
+            $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
+            $model->setEmail(trim($user->getEmail()));
+            $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
+            $model->post();
+
+            $jwt = JWT::createJWT($data);
+            echo Response::success(['token' => $jwt]);
             return;
         }
         echo Response::error('Nao autorizado ou sem parametros...');
+    }
+    public function logoutFacebook()
+    {
+        if (isset($_GET['email'])) {
+            echo (new ClienteModel)->delete(['email' => $_GET['email']]);
+            return;
+        }
     }
 }

@@ -120,6 +120,9 @@ class ClienteModel extends UserModel
             $con = Connection::getConn();
             if ($params === null) {
                 $stmt = $con->prepare("SELECT * FROM tb_cliente");
+            } else if (isset($params['email'])) {
+                $stmt = $con->prepare("SELECT 'tem' FROM tb_cliente where emailCliente like ?");
+                $stmt->bindValue(1, $params['email'], PDO::PARAM_STR);
             } else {
                 $stmt = $con->prepare("SELECT * FROM tb_cliente WHERE idCliente = ?");
                 $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
@@ -153,8 +156,17 @@ class ClienteModel extends UserModel
     public function put($id)
     {
     }
-    public function delete($id)
+    public function delete($params)
     {
+        if (isset($params['email'])) {
+            $con = Connection::getConn();
+
+            $stmt = $con->prepare('DELETE FROM tb_cliente WHERE emailCliente LIKE ?');
+            $stmt->bindParam(1, $params['email'], PDO::PARAM_STR);
+            if ($stmt->execute()) {
+                return  Response::success('Cliente deletado com sucesso');
+            }
+        }
     }
 
 
@@ -170,11 +182,10 @@ class ClienteModel extends UserModel
                     if ((password_verify($senha, $user['senhaCliente']))) {
                         return Response::success([
                             "cliente" => json_encode([
-                                'idCliente' => $user['idCliente'],
-                                'nomeCliente' => $user['nomeCompletoCliente'],
-                                'emailCliente' => $user['emailCliente'],
-                                'senhaCliente' => $user['senhaCliente'],
-                                'fotoCliente' => $user['fotoCliente'],
+                                'id' => $user['idCliente'],
+                                'nome' => $user['nomeCompletoCliente'],
+                                'email' => $user['emailCliente'],
+                                'foto' => $user['fotoCliente'],
                             ])
                         ]);
                     }
