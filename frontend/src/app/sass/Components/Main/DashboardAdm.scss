@@ -1,0 +1,15 @@
+.dashboardAdm{
+    background-color: red;
+    h1{
+        font-size: rem(28);
+    }
+
+    &__left{
+        background-color: green
+    }
+
+    &__right{
+        background-color: blue;
+    }
+    
+}

@@ -3,6 +3,7 @@ import ComponentTermos from "./ComponentTermos";
 import FormularioDificuldade from "./FormularioDificuldade";
 import FormularioUniversidade from "./FormularioUniversidade";
 import NotFound from "./NotFound";
+import DashboardAdm from "./DashboardAdm";
 
 export {
   ComponentCookie,
@@ -10,4 +11,5 @@ export {
   FormularioDificuldade,
   FormularioUniversidade,
   NotFound,
+  DashboardAdm
 };

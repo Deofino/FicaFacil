@@ -1,4 +1,3 @@
-import React, { Fragment } from "react";
 import reactDOM from "react-dom";
 import { Button } from "../../Form";
 import Cookie from "../../../../img/project/cookie.png";
