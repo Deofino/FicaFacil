@@ -81,12 +81,12 @@ class AssuntoMateriaModel
             $query = "SELECT * FROM tb_assunto_materia $inner";
 
             if ($where === '' && $send == []) {
-                $stmt = $con->prepare($query);
+                $stmt = $con->prepare($query. 'ORDER BY nomeAssuntoMateria');
             } else if (isset($send['id'])) {
-                $stmt = $con->prepare($query . ' WHERE idAssuntoMateria = ?');
+                $stmt = $con->prepare($query . ' WHERE idAssuntoMateria = ? ORDER BY nomeAssuntoMateria');
                 $send = [(int)$send['id']];
             } else {
-                $stmt = $con->prepare($query . $where);
+                $stmt = $con->prepare($query . $where . ' ORDER BY nomeAssuntoMateria');
             }
             //daqui pra baixo
             if ($stmt->execute($send)) {

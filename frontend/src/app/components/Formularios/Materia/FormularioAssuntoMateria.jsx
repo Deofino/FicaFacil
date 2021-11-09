@@ -242,6 +242,7 @@ export default function FormularioAssuntoMateria() {
               window.location.reload();
             }, 4000);
           } else {
+            console.log(data.data);
             AlertError({
               text: "Ops... Erros encontrados",
               title: "Erro!!",

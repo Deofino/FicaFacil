@@ -45,6 +45,21 @@ class AssuntoMateriaController
         echo Response::warning('Metodo não encontrado', 404);
     }
 
+ public function create() // parametro do file_get_contents
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
+            $data = json_decode(file_get_contents('php://input', true));
+            $model = new AssuntoMateriaModel();
+            if (isset($data->assuntoMateria) && isset($data->materia)) {
+                $model->setNome(trim($data->assuntoMateria));
+                $model->setMateria($data->materia);
+                echo $model->post();
+            } else echo Response::warning('Parametro `assuntoMateria` ou `materia` não encontrado ou vazio/nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+
     public function update() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT' && auth()) { // verificar se eh post

@@ -49,6 +49,20 @@ class DificuldadeController
         echo Response::warning('Metodo não encontrado', 404);
     }
 
+ public function create() // parametro do file_get_contents
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) {
+            $data = json_decode(file_get_contents('php://input'));
+            $model = new DificuldadeModel();
+            if (isset($data->dificuldade)) {
+                $model->setNivel(trim($data->dificuldade)); // insere aqui pra passar pelas verificacoes de dados
+                echo $model->post();
+            } else echo Response::warning('Parametro `dificuldade` não encontrado ou vazio/nulo', 404);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+
     public function update() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT' && auth()) { // verificar se eh post

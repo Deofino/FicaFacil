@@ -50,12 +50,12 @@ class UniversidadeModel
             $query = "SELECT * FROM tb_universidade $inner";
 
             if ($where === '' && $send == []) {
-                $stmt = $con->prepare($query);
+                $stmt = $con->prepare($query . ' ORDER BY nomeUniversidade');
             } else if (isset($send['id'])) {
-                $stmt = $con->prepare($query . ' WHERE idUniversidade = ?');
+                $stmt = $con->prepare($query . ' WHERE idUniversidade = ? ORDER BY nomeUniversidade');
                 $send = [(int)$send['id']];
             } else {
-                $stmt = $con->prepare($query . $where);
+                $stmt = $con->prepare($query . $where . ' ORDER BY nomeUniversidade');
             }
             //daqui pra baixo
             if ($stmt->execute($send)) {
