@@ -12,6 +12,7 @@ function useQuery() {
 
 export default function FormularioLoginSocial() {
   const [facebookUrl, setFacebookUrl] = useState("");
+  const [googleUrl, setGoogleUrl] = useState("");
   let query = useQuery();
   useEffect(() => {
     if (query.get("code")) {
@@ -40,6 +41,34 @@ export default function FormularioLoginSocial() {
       setFacebookUrl("");
     };
   }, [query]);
+
+  useEffect(() => {
+    if (query.get("code")) {
+      let code = query.get("code");
+      axios
+        .post(`${process.env.REACT_APP_API}/cliente/loginGoogle?code=${code}`)
+        .then((val) => {
+          if (val.data.data !== undefined) {
+            localStorage.removeItem("auth");
+            localStorage.removeItem("user");
+
+            localStorage.setItem("user", val.data.data.token);
+            window.location.reload();
+          }
+        })
+        .finally(() => {
+          query.delete("code");
+        });
+    }
+
+    axios
+      .get(`${process.env.REACT_APP_API}/cliente/getGoogleUrl/`)
+      .then((val) => setGoogleUrl(val.data));
+
+    return () => {
+      setGoogleUrl("");
+    };
+  }, [query]);
   return (
     <Fragment>
       <section className="login-main">
@@ -55,7 +84,7 @@ export default function FormularioLoginSocial() {
             </a>
           </div>
           <div className="login_field google">
-            <Link className="login_field__link" to="#">
+            <Link className="login_field__link" href={googleUrl}>
               <FaGoogle />
               {/* vai koezin */}
               <span>Entrar com Google</span>
@@ -86,3 +115,4 @@ export default function FormularioLoginSocial() {
     </Fragment>
   );
 }
+

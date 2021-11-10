@@ -23,6 +23,18 @@ class ClienteController
         }
     }
 
+    public function __constructGoogle()
+    {
+        if ($this->provider == null) {
+            $this->provider = new \League\OAuth2\Client\Provider\Google([
+                'clientId'          => GOOGLE['ID'],
+                'clientSecret'      => GOOGLE['SECRET'],
+                'redirectUri'       => GOOGLE['REDIRECT'],
+                'graphApiVersion'   => GOOGLE['GRAPH'],
+            ]);
+        }
+    }
+
     public function index($params) // parametros daqui sao da URL
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
@@ -122,6 +134,43 @@ class ClienteController
         ]);
         echo $authUrl;
     }
+    public function getGoogleUrl()
+    {
+        $authUrl = $this->provider->getAuthorizationUrl([
+            'scope' => ['email'],
+        ]);
+        echo $authUrl;
+    }
+    public function loginGoogle()
+    {
+        if (isset($_GET['code'])) {
+            $token = $this->provider->getAccessToken('authorization_code', [
+                'code' => $_GET['code']
+            ]);
+            $user = ($this->provider->getResourceOwner($token));
+            $data = [
+                'id' => $user->getEmail(),
+                'nome' => $user->getFirstName() . " " . $user->getLastName(),
+                'email' => $user->getEmail(),
+                'foto' => $user->getPictureUrl(),
+                'google' => true,
+            ];
+
+            $model = new ClienteModel();
+            if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data[0]->tem)) {
+                $model->delete(['email' => $user->getEmail()]);
+            };
+            $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
+            $model->setEmail(trim($user->getEmail()));
+            $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
+            $model->post();
+
+            $jwt = JWT::createJWT($data);
+            echo Response::success(['token' => $jwt]);
+            return;
+        }
+        echo Response::error('Nao autorizado ou sem parametros...');
+    }
     public function loginFacebook()
     {
         if (isset($_GET['code'])) {
@@ -153,6 +202,13 @@ class ClienteController
         echo Response::error('Nao autorizado ou sem parametros...');
     }
     public function logoutFacebook()
+    {
+        if (isset($_GET['email'])) {
+            echo (new ClienteModel)->delete(['email' => $_GET['email']]);
+            return;
+        }
+    }
+    public function logoutGoogle()
     {
         if (isset($_GET['email'])) {
             echo (new ClienteModel)->delete(['email' => $_GET['email']]);

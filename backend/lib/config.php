@@ -7,6 +7,15 @@ define(
     "FICA FACIL"
 );
 define(
+    "GOOGLE",
+    [
+        'ID'          => '499470742922-ctf5t544papcbp1179moih9sl3ifdoho.apps.googleusercontent.com',
+        'SECRET'      => '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',
+        'REDIRECT'       => 'https://localhost:3000/entrar',
+        'GRAPH'   => 'v2.10',
+    ]
+);
+define(
     "FACEBOOK",
     [
         'ID'          => '297518861925944',
