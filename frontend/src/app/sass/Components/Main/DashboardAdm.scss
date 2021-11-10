@@ -1,15 +1,48 @@
-.dashboardAdm{
-    background-color: red;
+.dashboard{
     h1{
-        font-size: rem(28);
+        font-size: rem(30);
     }
+    &__c{
+        display: flex;
+        &__left{
+            flex-basis: 65%;
+            padding: rem(40);
+            &__um{
+                padding: rem(50);
+                background-color: purple;
+                border-radius: rem(25);
+            }
+            &__dois{
+                margin-top: rem(20);
+                padding: rem(80);
+                background-color: pink;
+                border-radius: rem(25);
+            }
+            &__et{
+                display: flex;
+                margin-top: rem(20);
+                &__tres{
+                flex-basis: 44%;
+                padding: rem(40);
+                background-color: white;
+                border-radius: rem(25);
+                }
+                &__quatro{
+                flex-basis: 54%;
+                padding: rem(40);
+                background-color: green;
+                border-radius: rem(25);
+                }
+        }
 
-    &__left{
-        background-color: green
-    }
+        &__right{
+            flex-basis: 35%;
+            padding: rem(40);
+            background-color: blue;
 
-    &__right{
-        background-color: blue;
+           
+            }
+        } 
     }
     
 }
