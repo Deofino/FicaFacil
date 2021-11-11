@@ -5,11 +5,12 @@ namespace Controller;
 use Helper\Response;
 use Model\ClienteModel;
 use Helper\JWT;
-
+use League\OAuth2\Client\Provider\GoogleUser;
 class ClienteController
 {
 
     private $provider = null;
+    private $google = null;
 
     public function __construct()
     {
@@ -21,16 +22,11 @@ class ClienteController
                 'graphApiVersion'   => FACEBOOK['GRAPH'],
             ]);
         }
-    }
-
-    public function __constructGoogle()
-    {
-        if ($this->provider == null) {
-            $this->provider = new \League\OAuth2\Client\Provider\Google([
+        if ($this->google == null) {
+            $this->google = new \League\OAuth2\Client\Provider\Google([
                 'clientId'          => GOOGLE['ID'],
                 'clientSecret'      => GOOGLE['SECRET'],
                 'redirectUri'       => GOOGLE['REDIRECT'],
-                'graphApiVersion'   => GOOGLE['GRAPH'],
             ]);
         }
     }
@@ -136,7 +132,7 @@ class ClienteController
     }
     public function getGoogleUrl()
     {
-        $authUrl = $this->provider->getAuthorizationUrl([
+        $authUrl = $this->google->getAuthorizationUrl([
             'scope' => ['email'],
         ]);
         echo $authUrl;
@@ -144,15 +140,19 @@ class ClienteController
     public function loginGoogle()
     {
         if (isset($_GET['code'])) {
-            $token = $this->provider->getAccessToken('authorization_code', [
+            $token = $this->google->getAccessToken('authorization_code', [
                 'code' => $_GET['code']
             ]);
-            $user = ($this->provider->getResourceOwner($token));
+            /* 
+            @var $user League\OAuth2\Client\Provider\GoogleUser
+                */
+            $user = $this->google->getResourceOwner($token);
+            // dd($user);
             $data = [
                 'id' => $user->getEmail(),
                 'nome' => $user->getFirstName() . " " . $user->getLastName(),
                 'email' => $user->getEmail(),
-                'foto' => $user->getPictureUrl(),
+                'foto' => $user->getAvatar(),
                 'google' => true,
             ];
 

@@ -48,10 +48,10 @@ export default function FormularioLoginSocial() {
       axios
         .post(`${process.env.REACT_APP_API}/cliente/loginGoogle?code=${code}`)
         .then((val) => {
+          console.log(val.data);
           if (val.data.data !== undefined) {
             localStorage.removeItem("auth");
             localStorage.removeItem("user");
-
             localStorage.setItem("user", val.data.data.token);
             window.location.reload();
           }
@@ -84,11 +84,10 @@ export default function FormularioLoginSocial() {
             </a>
           </div>
           <div className="login_field google">
-            <Link className="login_field__link" href={googleUrl}>
+            <a className="login_field__link" href={googleUrl}>
               <FaGoogle />
-              {/* vai koezin */}
               <span>Entrar com Google</span>
-            </Link>
+            </a>
           </div>
 
           <h5 className="login_field__line">ou</h5>
