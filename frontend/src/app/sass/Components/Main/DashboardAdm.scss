@@ -5,44 +5,146 @@
     &__c{
         display: flex;
         &__left{
-            flex-basis: 65%;
+            flex-basis: 70%;
             padding: rem(40);
             &__um{
                 padding: rem(50);
-                background-color: purple;
+                background-color: $dash-light;
                 border-radius: rem(25);
+                border: 1px solid #899fff;
+                @include darkMode{
+                    background-color: $dash-dark;
+                    border: 1px solid $black;
+                }
             }
             &__dois{
                 margin-top: rem(20);
                 padding: rem(80);
-                background-color: pink;
+                background-color: $dash-light;
                 border-radius: rem(25);
+                border: 1px solid #899fff;
+                @include darkMode{
+                    background-color: $dash-dark;
+                    border: 1px solid $black;
+                }
             }
             &__et{
                 display: flex;
                 margin-top: rem(20);
-                &__tres{
-                flex-basis: 44%;
-                padding: rem(40);
-                background-color: white;
-                border-radius: rem(25);
-                }
-                &__quatro{
-                flex-basis: 54%;
-                padding: rem(40);
-                background-color: green;
-                border-radius: rem(25);
-                }
+                    &__tres{
+                        flex-basis: 44%;
+                        padding: rem(40);
+                        background-color: $dash-light;
+                        border-radius: rem(25);
+                        border: 1px solid #899fff;
+                        @include darkMode{
+                            background-color: $dash-dark;
+                            border: 1px solid $black;
+                        }
+                    }
+                    &__quatro{
+                        flex-basis: 54%;
+                        padding: rem(40);
+                        background-color: $dash-light;
+                        border-radius: rem(25);
+                        margin-left: rem(20);
+                        border: 1px solid #899fff;
+                        @include darkMode{
+                            background-color: $dash-dark;
+                            border: 1px solid $black;
+                        }
+                    }
         }
-
-        &__right{
-            flex-basis: 35%;
-            padding: rem(40);
-            background-color: blue;
-
-           
-            }
+     
         } 
+        &__right{
+            flex-basis: 30%;
+            background-color: $dash-light;
+            border-radius: rem(25);
+            border: 1px solid #899fff;
+                @include darkMode{
+                    background-color: $dash-dark;
+                    border: 1px solid $black;
+                }
+            
+            &__profile{
+                 border-bottom: 1px solid $primary;
+                 @include darkMode{
+                    border-bottom: 1px solid $black;
+                }
+
+                &__p{
+                    min-height: 100%;
+                    height: rem(70);
+                    padding: rem(20);
+                    background-color: $primary;
+                    border-radius: rem(25) rem(25) rem(0) rem(0);
+                    @include darkMode{
+                        background-color: $accent;
+                    }
+                    
+                    &__circle{
+                        margin-top: rem(-32);
+                        margin-left: rem(20);
+                        width: rem(70);
+                        height: rem(70);
+                        background-color: $dash-light;
+                        border-radius: rem(100);
+                        border: 2px solid $white;
+                        @include darkMode{
+                            background-color: $dash-dark;
+                            border: 2px solid $white;
+                        }
+                    }
+
+                    &__icon{
+                        float: right;
+                        font-size: rem(22);
+                        margin-top: rem(-50);
+                        margin-right: rem(20);
+                        color: white;
+                    }
+                    &__title{
+                        font-size: rem(19);
+                        text-align: left;
+                        margin-left: rem(20);
+                        margin-bottom: rem(10);
+                        margin-top: rem(6);
+                    }
+                }
+
+            }
+            &__statistics{
+                width: 100%;
+                &__title{
+                    font-size: rem(21);
+                    margin: rem(20);
+                }
+                &__datas{
+                    margin: rem(20);
+                    padding: rem(10);
+                    background-color: #dbdbf8;
+                    border-right: 4px;
+                    border-radius: rem(15);
+                    border-left: 10px solid $primary;
+                    &__title{
+                        font-size: rem(18);
+                        color: $primary;
+                        @include darkMode{
+                            color: $accent;
+                        }
+                    }
+                    &__num{
+                        font-size: rem(16);
+                    }                
+                    @include darkMode{
+                        background-color: #2D2A32;
+                        border-left: 10px solid $accent;
+                    }
+                }
+            }
+        }
+        
     }
     
 }

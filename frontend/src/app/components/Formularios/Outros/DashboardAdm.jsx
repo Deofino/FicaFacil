@@ -1,4 +1,5 @@
 import React, { } from "react";
+import { FaEdit } from "react-icons/fa";
 
 export default function DashboardAdm() {
     return (
@@ -22,15 +23,23 @@ export default function DashboardAdm() {
                     </div>
                 </div>
                 <div className="dashboard__c__right">
-
                     <div className="dashboard__c__right__profile">
+                    <div className="dashboard__c__right__profile__p"></div>
+                        <div className="dashboard__c__right__profile__p__circle"></div>
+                            <FaEdit className="dashboard__c__right__profile__p__icon" />
+                            <h3 className="dashboard__c__right__profile__p__title">Vitória</h3>
+                         </div>
+                    <div className="dashboard__c__right__statistics">
+                        <h3 className="dashboard__c__right__statistics__title">Estatísticas</h3>
+                    </div>
+                    <div className="dashboard__c__right__statistics__datas">
+                        <h2 className="dashboard__c__right__statistics__datas__title">Bugs reportados</h2>
+                        <p className="dashboard__c__right__statistics__datas__num">45</p>
 
                     </div>
-                    <div className="dashboard__c__right__statics">
-
-                    </div>
-                    <div className="dashboard__c__right__statics">
-
+                    <div className="dashboard__c__right__statistics__datas">
+                    <h2 className="dashboard__c__right__statistics__datas__title">Permanência no sistema</h2>
+                    <p className="dashboard__c__right__statistics__datas__num">2:45:21</p>
                     </div>
                 </div>
             </div>
