@@ -197,12 +197,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
         <a href="https://www.github.com/RuyMene">@Ruy Barbosa</a>
       </sub>
     </td>
-    <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/92266712?v=4" width="160px" alt="Foto do Fernando"/><br>
-      <sub>
-        <a href="https://github.com/LItilo">@Fernando</a>
-      </sub>
-    </td>
   </tr>
 </table>
 
