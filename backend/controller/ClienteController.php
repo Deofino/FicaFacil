@@ -5,7 +5,7 @@ namespace Controller;
 use Helper\Response;
 use Model\ClienteModel;
 use Helper\JWT;
-use League\OAuth2\Client\Provider\GoogleUser;
+
 class ClienteController
 {
 
@@ -146,14 +146,14 @@ class ClienteController
             /* 
             @var $user League\OAuth2\Client\Provider\GoogleUser
                 */
-            $user = $this->google->getResourceOwner($token);
+            $user = ($this->google->getResourceOwner($token));
             // dd($user);
             $data = [
                 'id' => $user->getEmail(),
                 'nome' => $user->getFirstName() . " " . $user->getLastName(),
                 'email' => $user->getEmail(),
                 'foto' => $user->getAvatar(),
-                'google' => true,
+                'facebook' => true,
             ];
 
             $model = new ClienteModel();
@@ -202,13 +202,6 @@ class ClienteController
         echo Response::error('Nao autorizado ou sem parametros...');
     }
     public function logoutFacebook()
-    {
-        if (isset($_GET['email'])) {
-            echo (new ClienteModel)->delete(['email' => $_GET['email']]);
-            return;
-        }
-    }
-    public function logoutGoogle()
     {
         if (isset($_GET['email'])) {
             echo (new ClienteModel)->delete(['email' => $_GET['email']]);

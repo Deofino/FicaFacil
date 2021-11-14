@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the league/oauth2-client library
  *
@@ -762,7 +763,7 @@ abstract class AbstractProvider
      * @param  AccessToken $token
      * @return ResourceOwnerInterface
      */
-    public function getResourceOwner(AccessToken $token)
+    public function getResourceOwner(AccessToken $token): GoogleUser | FacebookUser
     {
         $response = $this->fetchResourceOwnerDetails($token);
 

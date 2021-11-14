@@ -20,6 +20,7 @@ export default function FormularioLoginSocial() {
       axios
         .post(`${process.env.REACT_APP_API}/cliente/loginFacebook?code=${code}`)
         .then((val) => {
+          // console.log(val.data);
           if (val.data.data !== undefined) {
             localStorage.removeItem("auth");
             localStorage.removeItem("user");
@@ -114,4 +115,3 @@ export default function FormularioLoginSocial() {
     </Fragment>
   );
 }
-
