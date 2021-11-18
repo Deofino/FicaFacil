@@ -59,7 +59,7 @@ export const ChartBar = (props) => {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={props.data !== undefined ? props.data : data}
-          barSize={props.barSize !== undefined ? props.barSize : 20}
+          barSize={props.barSize !== undefined ? props.barSize : 25}
           margin={props.margin !== undefined ? props.margin : {}}
         >
           <XAxis
@@ -68,7 +68,10 @@ export const ChartBar = (props) => {
             padding={
               props.padding !== undefined
                 ? props.padding
-                : { left: 20, right: 20 }
+                : { left: 30, right: 30 }
+            }
+            width={
+              props.width !== undefined ? props.width : {Maxwidth: 100}
             }
           />
           <YAxis />
@@ -125,6 +128,7 @@ export const ChartPie = (props) => {
           </Pie>
           {/* <Legend /> */}
           <Tooltip />
+          <Legend />
         </PieChart>
       </ResponsiveContainer>
     </section>
@@ -151,7 +155,7 @@ export const ChartArea = (props) => {
           <Tooltip />
           <YAxis />
           <Legend />
-          <Area type="monotone" dataKey={keyData} fill={color} stroke={color} />
+          <Area type="natural" dataKey={keyData} fill={color} stroke={color} />
         </AreaChart>
       </ResponsiveContainer>
     </section>

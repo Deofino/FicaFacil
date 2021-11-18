@@ -4,54 +4,129 @@
     }
     &__c{
         display: flex;
+        flex-direction: row-reverse;
+        @include breakpoint(medium){
+            display: block; 
+        }
         &__left{
             flex-basis: 70%;
             padding: rem(40);
+            @include breakpoint(smallmin){
+                padding: rem(5);
+            } 
             &__um{
-                padding: rem(50);
+                padding: rem(20);
                 background-color: $dash-light;
                 border-radius: rem(25);
                 border: 1px solid #899fff;
+                box-shadow: 0 rem(2) rem(4) var(--color-shadow);
                 @include darkMode{
                     background-color: $dash-dark;
                     border: 1px solid $black;
                 }
+                @include breakpoint(smallmin){
+                    padding: rem(1);
+                }
+                &__title{
+                    @include breakpoint(medium){
+                        text-align: center;
+                    }
+                    @include breakpoint(small){
+                        padding-top: rem(5);
+                    } 
+                    @include breakpoint(smallmin){
+                        font-size: rem(15);
+                    }
+                }
+
             }
             &__dois{
                 margin-top: rem(20);
-                padding: rem(80);
+                padding: rem(20);
                 background-color: $dash-light;
                 border-radius: rem(25);
                 border: 1px solid #899fff;
+                box-shadow: 0 rem(2) rem(4) var(--color-shadow);
                 @include darkMode{
                     background-color: $dash-dark;
                     border: 1px solid $black;
+                }
+                
+                @include breakpoint(medium){
+                    text-align: center;
+                }
+                @include breakpoint(smallmin){
+                    font-size: rem(14);
+                    padding: rem(1);
+                }
+                &__title{
+                    @include breakpoint(smallmin){
+                        font-size: rem(15);
+                    }
                 }
             }
             &__et{
                 display: flex;
                 margin-top: rem(20);
+                @include breakpoint(small){
+                    display: block;
+                }
                     &__tres{
-                        flex-basis: 44%;
-                        padding: rem(40);
+                        flex-basis: 49%;
                         background-color: $dash-light;
                         border-radius: rem(25);
                         border: 1px solid #899fff;
+                        box-shadow: 0 rem(2) rem(4) var(--color-shadow);
                         @include darkMode{
                             background-color: $dash-dark;
                             border: 1px solid $black;
                         }
+                        @include breakpoint(medium){
+                            text-align: center;
+                        }
+                        @include breakpoint(small){
+                            flex-basis: 100%;
+                            margin-bottom: rem(20);
+                        }
+                        
+                        &__title{
+                            margin: rem(30) rem(0) rem(0) rem(30);
+                            @include breakpoint(medium){
+                                margin: 0 auto;
+                                margin-top: rem(15);
+                                text-align: center;
+                            }
+                            @include breakpoint(smallmin){
+                                font-size: rem(15);
+                            }
+                        }
                     }
                     &__quatro{
-                        flex-basis: 54%;
-                        padding: rem(40);
+                        flex-basis: 49%;
                         background-color: $dash-light;
                         border-radius: rem(25);
                         margin-left: rem(20);
                         border: 1px solid #899fff;
+                        box-shadow: 0 rem(2) rem(4) var(--color-shadow);
                         @include darkMode{
                             background-color: $dash-dark;
                             border: 1px solid $black;
+                        }
+                        @include breakpoint(small){
+                            flex-basis: 100%;
+                            margin-left: rem(0);
+                        }
+                    
+                        &__title{
+                            margin: rem(30) rem(0) rem(0) rem(30);
+                            @include breakpoint(medium){
+                                margin: 0 auto;
+                                margin-top: rem(15);
+                                text-align: center;
+                            }
+                            @include breakpoint(smallmin){
+                                font-size: rem(15);
+                            }
                         }
                     }
         }
@@ -61,7 +136,14 @@
             flex-basis: 30%;
             background-color: $dash-light;
             border-radius: rem(25);
+            margin: rem(0) rem(40) rem(0) rem(40);
+            max-height: rem(580);
+            margin-top: rem(40);
             border: 1px solid #899fff;
+            box-shadow: 0 rem(2) rem(4) var(--color-shadow);
+            @include breakpoint(smallmin){
+                margin: rem(5);
+            } 
                 @include darkMode{
                     background-color: $dash-dark;
                     border: 1px solid $black;
@@ -110,6 +192,12 @@
                         margin-left: rem(20);
                         margin-bottom: rem(10);
                         margin-top: rem(6);
+                        @include breakpoint(medium){
+                            font-size: rem(17);
+                        }
+                        @include breakpoint(smallmin){
+                            font-size: rem(15);
+                        }
                     }
                 }
 
@@ -119,6 +207,9 @@
                 &__title{
                     font-size: rem(21);
                     margin: rem(20);
+                    @include breakpoint(medium){
+                        font-size: rem(18);
+                    }
                 }
                 &__datas{
                     margin: rem(20);
@@ -128,10 +219,16 @@
                     border-radius: rem(15);
                     border-left: 10px solid $primary;
                     &__title{
-                        font-size: rem(18);
+                        font-size: rem(16);
                         color: $primary;
                         @include darkMode{
                             color: $accent;
+                        }
+                        @include breakpoint(large){
+                            font-size: rem(15);
+                        }
+                        @include breakpoint(medium){
+                            font-size: rem(14);
                         }
                     }
                     &__num{
