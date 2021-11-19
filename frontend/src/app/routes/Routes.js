@@ -17,20 +17,20 @@ import {
   FormularioLoginAdm,
   FormularioLoginEmail,
   FormularioLoginSocial,
+  ComponentRedefinirSenha
 } from "../components/Formularios/Logins";
 import { FormularioMaterias } from "../components/Formularios/Materia";
 import {
   FormularioDificuldade,
   FormularioUniversidade,
   NotFound,
-  DashboardAdm
+  DashboardAdm,
 } from "../components/Formularios/Outros";
 
 import ComponentHome from "../components/Main/ComponentHome";
 
 import { FormularioQuestao } from "../components/Formularios/Questao";
 import { Simulado } from "../components/Formularios/Simulado";
-
 
 export default function Routes () {
   return (
@@ -43,6 +43,15 @@ export default function Routes () {
             <HeaderUser />
           ) }
           <ComponentHome />
+          <Footer />
+        </Route>
+        <Route path='/user/redefinir' >
+          { localStorage.getItem("auth") !== null ? (
+            <Header />
+          ) : (
+            <HeaderUser />
+          ) }
+          <ComponentRedefinirSenha />
           <Footer />
         </Route>
         <PrivateRoute path="/questao">
