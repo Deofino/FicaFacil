@@ -61,7 +61,7 @@ export default function Navbar() {
           <span className="c-navbar__tooltip">Ver Acessos</span>
         </li>
         <li className="c-navbar__menu-item">
-          <Link to="/dashboard">
+          <Link to="/dashboardAdm">
             <div className="space">
               <FaChartPie className="icon" />
               <span className="c-navbar__links-name">Dashboard</span>

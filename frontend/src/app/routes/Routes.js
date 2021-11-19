@@ -25,6 +25,7 @@ import {
   FormularioUniversidade,
   NotFound,
   DashboardAdm,
+  DashboardUser,
 } from "../components/Formularios/Outros";
 
 import ComponentHome from "../components/Main/ComponentHome";
@@ -75,6 +76,9 @@ export default function Routes () {
           <SimuladoProvider>
             <Simulado />
           </SimuladoProvider>
+        </UserRoute>
+        <UserRoute path="/dashboard">
+          <DashboardUser />
         </UserRoute>
         <GuestRoute path="/entrar/email">
           <FormularioLoginEmail />

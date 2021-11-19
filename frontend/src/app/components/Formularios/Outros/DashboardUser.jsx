@@ -3,35 +3,45 @@ import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
 import { FaEdit } from "react-icons/fa";
 
 export default function DashboardAdm() {
-  let dataExemplo = [
+  let dataMaterias = [
     {
-      name: "Exatas",
-      Acertos: 5,
+      name: "Física",
+      Acertos: 10,
       color: "#00aced",
     },
     {
-      name: "Humanas",
-      Acertos: 10,
+      name: "Matemática",
+      Acertos: 90,
       color: "#6610f2",
     },
     {
-      name: "Biológicas",
-      Acertos: 20,
-      color: "#513487",
+      name: "Biologia",
+      Acertos: 5,
+      color: "#6f42c1",
     },
+    {
+        name: "Artes",
+        Acertos: 2,
+        color: "#513487",
+      },
+      {
+        name: "Filosofia",
+        Acertos: 20,
+        color: "#007bff",
+      },
     
   ];
-  let dataEntradas = [
+  let dataAcertos = [
     {
-      name: "Total Entradas",
-      Acertos: 120,
+      name: "Acertos",
+      Acertos: 45,
       color: "#4746B0",
     }
   ];
-  let dataSimulados = [
+  let dataMateria = [
     {
-      name: "Total Simulados",
-      Acertos: 200,
+      name: "Matemática",
+      Acertos: 90,
       color: "#513487",
     }
   ];
@@ -54,25 +64,39 @@ export default function DashboardAdm() {
           </div>
           <div className="dashboard__c__right__statistics__datas">
             <h2 className="dashboard__c__right__statistics__datas__title">
-              Bugs reportados
+              Simulados realizados
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">45</p>
           </div>
           <div className="dashboard__c__right__statistics__datas">
             <h2 className="dashboard__c__right__statistics__datas__title">
-              Permanência no sistema
+              Tempo médio por simulado
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">
               2:45:21
             </p>
           </div>
+          <div className="dashboard__c__right__statistics__datas">
+            <h2 className="dashboard__c__right__statistics__datas__title">
+              Qual matéria evoluir
+            </h2>
+            <p className="dashboard__c__right__statistics__datas__num">Filosofia</p>
+          </div>
+          <div className="dashboard__c__right__statistics__datas">
+            <h2 className="dashboard__c__right__statistics__datas__title">
+              Máx.Acertos por simulado
+            </h2>
+            <p className="dashboard__c__right__statistics__datas__num">45</p>
+          </div>
         </div>
+
+
         <div className="dashboard__c__left">
           <div className="dashboard__c__left__um">
             <h3 className="dashboard__c__left__um__title">
-            Taxa de acertos
+                Melhores Matérias
             </h3>
-              <ChartBar data={dataExemplo} dataKey="Acertos" />
+              <ChartPie data={dataMaterias} dataKey="Acertos" outerRadius={90} innerRadius={65}/>
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
@@ -112,15 +136,15 @@ export default function DashboardAdm() {
           <div className="dashboard__c__left__et">
             <div className="dashboard__c__left__et__tres">
             <h3 className="dashboard__c__left__et__tres__title">
-                Total de Entradas
+                Último simulado
               </h3>
-            <ChartPie data={dataEntradas} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+            <ChartPie data={dataAcertos} dataKey="Acertos" outerRadius={90} innerRadius={65} />
             </div>
             <div className="dashboard__c__left__et__quatro">
               <h3 className="dashboard__c__left__et__quatro__title">
                 Total de Simulados
               </h3>
-              <ChartPie data={dataSimulados} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+              <ChartPie data={dataMateria} dataKey="Acertos" outerRadius={90} innerRadius={65} />
             </div>
           </div>
         </div>

@@ -53,7 +53,7 @@ export default function NavbarUser() {
           <span className="c-navbar__tooltip">Pesquisar</span>
         </li>
         <li className="c-navbar__menu-item">
-          <Link to="/desempenho">
+          <Link to="/dashboard">
             <div className="space">
               <FaChartLine className="icon" />
               <span className="c-navbar__links-name">Desempenho</span>
