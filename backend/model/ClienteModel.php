@@ -121,12 +121,29 @@ class ClienteModel extends UserModel
             if ($params === null) {
                 $stmt = $con->prepare("SELECT * FROM tb_cliente");
             } else if (isset($params['email'])) {
-                $stmt = $con->prepare("SELECT 'tem' FROM tb_cliente where emailCliente like ?");
-                $stmt->bindValue(1, $params['email'], PDO::PARAM_STR);
+                $stmt = $con->prepare("SELECT * FROM tb_cliente where emailCliente like ?");
+                $stmt->bindValue(1, trim($params['email']));
             } else {
                 $stmt = $con->prepare("SELECT * FROM tb_cliente WHERE idCliente = ?");
                 $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
+            if ($stmt->execute()) {
+                return $stmt->rowCount() == 0 ?
+                    Response::warning("Nenhuma cliente encontrada...", 404) :
+                    Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
+            }
+            return Response::error("Erro ao selecionar cliente");
+        } catch (\Throwable $th) {
+            return Response::error("Error: $th");
+        }
+    }
+    public function getIds()
+    {
+        try {
+            $con = Connection::getConn();
+
+            $stmt = $con->prepare("SELECT idCliente as id FROM tb_cliente");
+
             if ($stmt->execute()) {
                 return $stmt->rowCount() == 0 ?
                     Response::warning("Nenhuma cliente encontrada...", 404) :
@@ -153,8 +170,17 @@ class ClienteModel extends UserModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($id)
+    public function put($params)
     {
+        if (isset($params['senha'])) {
+            $con = Connection::getConn();
+            $stmt = $con->prepare('UPDATE tb_cliente set senhaCliente = ? WHERE idCliente LIKE ?');
+            $stmt->bindParam(1, $params['senha'], PDO::PARAM_STR);
+            $stmt->bindParam(2, $params['id'], PDO::PARAM_INT);
+            if ($stmt->execute()) {
+                return  Response::success('Senha alterada com sucesso com sucesso');
+            }
+        }
     }
     public function delete($params)
     {
