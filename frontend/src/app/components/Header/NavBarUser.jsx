@@ -61,15 +61,6 @@ export default function NavbarUser() {
           </Link>
           <span className="c-navbar__tooltip">Desempenho</span>
         </li>
-        <li className="c-navbar__menu-item">
-          <Link to="/metricas">
-            <div className="space">
-              <FaChartPie className="icon" />
-              <span className="c-navbar__links-name">Métricas</span>
-            </div>
-          </Link>
-          <span className="c-navbar__tooltip">Métricas</span>
-        </li>
         <li className="c-navbar__dropdown">
           <div className="c-navbar__menu-item">
             <Link to="/simulado">
