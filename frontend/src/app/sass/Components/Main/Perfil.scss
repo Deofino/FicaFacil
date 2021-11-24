@@ -1,0 +1,128 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+
+.capa{
+    background-color: #4a64d9; 
+    /*#513487 DARK*/
+    width: 100%;
+    height: 150px;
+
+    @include darkMode{
+        background-color: #513487;
+    }
+}
+
+.infos{
+    width: 100%;
+    height: 150px;
+    background-color: transparent;
+    margin-top: -5% !important;
+    display: flex;
+    padding-left: 150px !important;
+
+    &__foto{
+        width: 150px;
+        height: 150px;
+        background-color: #383838;
+        border: 2px solid #ffffff;
+        border-radius: 100px;
+    }
+
+    &__texto{
+        background-color: transparent;
+        height: 75px;
+        margin-top: 66px !important;
+        padding-left: 30px !important;
+        flex-direction: column;
+
+        &__nome{
+            .txtNome{
+                color: #242424;
+                font-size: 30px;
+                font-weight: bold;
+                @include darkMode{
+                    color: #FFF;
+                }
+            }
+        }
+
+        &__aluno{
+            .txtAluno{
+                color: #242424;
+                font-size: 13px;
+                @include darkMode{
+                    color: #FFF;
+                }
+            }
+        }
+    }
+}
+
+.card{
+    margin-top: 30px !important;
+    width: 100%;
+    background-color: transparent;
+    
+
+    &__body{
+        width: 80%;
+        height: auto;
+        background-color: #FFF;
+        margin: 0 auto !important;
+        padding: 30px !important;
+        border-radius: 10px;
+        box-shadow: 10px 10px 10px #0000004d;
+        @include darkMode{
+            background-color: #1a1d20;
+        }
+
+        .meusDados{
+            background-color: transparent;
+            padding-bottom: 30px;
+
+            p{
+                color: #242424;
+                font-size: 25px;
+                font-weight: bold;
+                @include darkMode{
+                    color: #FFF;
+                }
+            }
+        }
+        .dados{
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+
+            .nomeUsuario, .emailUsuario, .dataNascUsuario{
+                .fixo{
+                    color: #0f0f0f;
+                    font-size: 22px;
+                    @include darkMode{
+                        color: #FFF;
+                    }
+                }
+                .var{
+                    color: #242424;
+                    font-size: 15px;
+                    @include darkMode{
+                        color: #FFF;
+                    }
+                }
+            }
+
+            .btnEditar{
+               /*Fazer o botão*/
+            }
+        }
+
+
+        
+    }
+}
+
+

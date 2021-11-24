@@ -25,6 +25,7 @@ import {
   FormularioUniversidade,
   NotFound,
   DashboardAdm,
+  Perfil,
   DashboardUser,
 } from "../components/Formularios/Outros";
 
@@ -46,6 +47,10 @@ export default function Routes () {
           <ComponentHome />
           <Footer />
         </Route>
+
+        <UserRoute path="/perfil">
+            <Perfil />
+        </UserRoute>
         <Route path='/user/redefinir' >
           { localStorage.getItem("auth") !== null ? (
             <Header />

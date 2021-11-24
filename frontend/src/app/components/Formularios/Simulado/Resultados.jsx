@@ -18,10 +18,15 @@ export default function Resultados(props) {
     let user = 0;
     if (localStorage.getItem("user")) {
       let data = parseJwt(localStorage.getItem("user"));
-      user = data.idCliente || 0;
+      user =
+        data.idCliente !== undefined
+          ? data.idCliente
+          : data.id !== undefined
+          ? data.id
+          : 0;
     }
-
-    if (user > 0) {
+    if (user !== 0) {
+      console.log(user);
       axios
         .post(
           process.env.REACT_APP_API + `/simulado/create/`,
@@ -41,7 +46,7 @@ export default function Resultados(props) {
         )
         .then((val) => console.log(val.data))
         .finally(() => {
-          setSair(true);
+          // setSair(true);
         });
     }
   };
@@ -61,7 +66,12 @@ export default function Resultados(props) {
         Parabéns, você realizou um Simulado de {quantidade} questões!
       </h2>
       <div className="c-results__headline__frame">
-          <iframe className="c-results__headline__frame__conf" frameborder="0" allowfullscreen src="https://embed.lottiefiles.com/animation/7893" ></iframe>
+        <iframe
+          className="c-results__headline__frame__conf"
+          frameborder="0"
+          allowfullscreen
+          src="https://embed.lottiefiles.com/animation/7893"
+        ></iframe>
       </div>
       <div className="c-results__headline__img">
         <img src={Smiley} alt="Imagem Sorrindo" />
