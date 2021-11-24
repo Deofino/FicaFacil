@@ -23,7 +23,8 @@ import {
   FormularioDificuldade,
   FormularioUniversidade,
   NotFound,
-  DashboardAdm
+  DashboardAdm,
+  Perfil
 } from "../components/Formularios/Outros";
 
 import ComponentHome from "../components/Main/ComponentHome";
@@ -45,6 +46,10 @@ export default function Routes () {
           <ComponentHome />
           <Footer />
         </Route>
+
+        <UserRoute path="/perfil">
+            <Perfil />
+        </UserRoute>
         <PrivateRoute path="/questao">
           <QuestaoProvider>
             <FormularioQuestao />
