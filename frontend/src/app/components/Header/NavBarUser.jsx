@@ -53,22 +53,13 @@ export default function NavbarUser() {
           <span className="c-navbar__tooltip">Pesquisar</span>
         </li>
         <li className="c-navbar__menu-item">
-          <Link to="/desempenho">
+          <Link to="/dashboard">
             <div className="space">
               <FaChartLine className="icon" />
               <span className="c-navbar__links-name">Desempenho</span>
             </div>
           </Link>
           <span className="c-navbar__tooltip">Desempenho</span>
-        </li>
-        <li className="c-navbar__menu-item">
-          <Link to="/metricas">
-            <div className="space">
-              <FaChartPie className="icon" />
-              <span className="c-navbar__links-name">Métricas</span>
-            </div>
-          </Link>
-          <span className="c-navbar__tooltip">Métricas</span>
         </li>
         <li className="c-navbar__dropdown">
           <div className="c-navbar__menu-item">

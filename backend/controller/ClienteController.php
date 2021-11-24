@@ -5,11 +5,13 @@ namespace Controller;
 use Helper\Response;
 use Model\ClienteModel;
 use Helper\JWT;
+use Controller\EmailController;
 
 class ClienteController
 {
 
     private $provider = null;
+    private $google = null;
 
     public function __construct()
     {
@@ -21,16 +23,11 @@ class ClienteController
                 'graphApiVersion'   => FACEBOOK['GRAPH'],
             ]);
         }
-    }
-
-    public function __constructGoogle()
-    {
-        if ($this->provider == null) {
-            $this->provider = new \League\OAuth2\Client\Provider\Google([
+        if ($this->google == null) {
+            $this->google = new \League\OAuth2\Client\Provider\Google([
                 'clientId'          => GOOGLE['ID'],
                 'clientSecret'      => GOOGLE['SECRET'],
                 'redirectUri'       => GOOGLE['REDIRECT'],
-                'graphApiVersion'   => GOOGLE['GRAPH'],
             ]);
         }
     }
@@ -136,7 +133,7 @@ class ClienteController
     }
     public function getGoogleUrl()
     {
-        $authUrl = $this->provider->getAuthorizationUrl([
+        $authUrl = $this->google->getAuthorizationUrl([
             'scope' => ['email'],
         ]);
         echo $authUrl;
@@ -144,16 +141,20 @@ class ClienteController
     public function loginGoogle()
     {
         if (isset($_GET['code'])) {
-            $token = $this->provider->getAccessToken('authorization_code', [
+            $token = $this->google->getAccessToken('authorization_code', [
                 'code' => $_GET['code']
             ]);
-            $user = ($this->provider->getResourceOwner($token));
+            /* 
+            @var $user League\OAuth2\Client\Provider\GoogleUser
+                */
+            $user = ($this->google->getResourceOwner($token));
+            // dd($user);
             $data = [
                 'id' => $user->getEmail(),
                 'nome' => $user->getFirstName() . " " . $user->getLastName(),
                 'email' => $user->getEmail(),
-                'foto' => $user->getPictureUrl(),
-                'google' => true,
+                'foto' => $user->getAvatar(),
+                'facebook' => true,
             ];
 
             $model = new ClienteModel();
@@ -178,22 +179,22 @@ class ClienteController
                 'code' => $_GET['code']
             ]);
             $user = ($this->provider->getResourceOwner($token));
-            $data = [
-                'id' => $user->getEmail(),
-                'nome' => $user->getFirstName() . " " . $user->getLastName(),
-                'email' => $user->getEmail(),
-                'foto' => $user->getPictureUrl(),
-                'facebook' => true,
-            ];
 
             $model = new ClienteModel();
-            if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data[0]->tem)) {
+            if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data)) {
                 $model->delete(['email' => $user->getEmail()]);
             };
             $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
             $model->setEmail(trim($user->getEmail()));
             $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
             $model->post();
+            $data = [
+                'id' => json_decode($model->get(['email' => $user->getEmail()]))->data[0]->idCliente,
+                'nome' => $user->getFirstName() . " " . $user->getLastName(),
+                'email' => $user->getEmail(),
+                'foto' => $user->getPictureUrl(),
+                'facebook' => true,
+            ];
 
             $jwt = JWT::createJWT($data);
             echo Response::success(['token' => $jwt]);
@@ -204,15 +205,72 @@ class ClienteController
     public function logoutFacebook()
     {
         if (isset($_GET['email'])) {
-            echo (new ClienteModel)->delete(['email' => $_GET['email']]);
+            // echo (new ClienteModel)->delete(['email' => $_GET['email']]);
             return;
         }
     }
-    public function logoutGoogle()
+
+    public function resendPassword()
     {
-        if (isset($_GET['email'])) {
-            echo (new ClienteModel)->delete(['email' => $_GET['email']]);
+        $data = json_decode(file_get_contents('php://input'));
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($data->email)) {
+            $user = json_decode((new ClienteModel)->get(['email' => $data->email]));
+            if ($user->status_code === 200) {
+                $user = $user->data[0];
+
+                $link = 'https://localhost:3000/user/redefinir?auth=' . md5($user->idCliente);
+                $body =
+                    "
+                <div style='display: block; background: #5770dc22; border-radius: 4px;text-align: center;padding: 8px'>
+                    <div style='margin: 0 auto;max-width: 500px;'>
+                        <h1>Fica Fácil</h1>
+                        <hr style='width: 100%; margin: 0' />
+                        <h3>Esqueceu sua senha?</h3>
+                        <span style='font-size: 13px'>Está tudo bem " . $user->nomeCompletoCliente . "! A equipe do Fica Fácil ja providênciou para você redefinir ela!</span>
+                        <span style='font-size: 14px; margin-top: 8px'>De maneira segura, rápida e inteligente! Apenas clique neste <a href='$link'>link</a> e você será redirecionada para criar uma nova senha.</span>
+                    </div>
+                    <div style='margin-top: 20px; width: 100%; margin-bottom: 8px'>
+                        <span style='font-size: 13px'>
+                            Copyright &copy; 2021 Fica Fácil  
+                        </span >
+                        <span style='font-size: 13px; display:block'>Todos os dirieto reservados.</span>
+                    </div>
+                </div>
+            ";
+                echo Response::success((new EmailController)->send(
+                    'Esqueci minha senha',
+                    $user->emailCliente,
+                    $user->nomeCompletoCliente,
+                    $body
+                ));
+                return;
+            }
+        }
+        echo Response::error('Email nao enviado.');
+        return;
+    }
+    public function redefinir()
+    {
+        $data = json_decode(file_get_contents('php://input'));
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($data->senha) && isset($data->auth)) {
+
+            $ids = json_decode((new ClienteModel)->getIds());
+            if ($ids->status_code === 200) {
+                $ids = $ids->data;
+                foreach ($ids as $id) {
+                    if (md5($id->id) === $data->auth) {
+                        echo (new ClienteModel)->put(['senha' => password_hash($data->senha, PASSWORD_DEFAULT), 'id' => $id->id]);
+                        return;
+                    }
+                }
+                echo Response::warning("Autorizacao negada.", 401);
+                return;
+            }
+
+            echo Response::error("Ops, ocorreu um erro interno no sistema...");
             return;
         }
+        echo Response::error('Metodo nao encontrado ou parametros nulos/vazios.');
+        return;
     }
 }

@@ -9,7 +9,7 @@
             color: $primary;
             fill: $primary;
             @include darkMode {
-                fill: $primary;
+                fill: $accent;
             }
         }
         @include breakpoint(small) {

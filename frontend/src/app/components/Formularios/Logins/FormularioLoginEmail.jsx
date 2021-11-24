@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Input, Button } from "../../Form";
-import { FaAt, FaLock, FaArrowLeft,  FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaAt, FaLock, FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../../../../img/project/logo-branca.png";
 import axios from "axios";
@@ -24,7 +24,7 @@ export default function FormularioLoginEmail() {
    */
   const login = (e) => {
     e.preventDefault();
-    if (regexEmail.test(email) && senha >= 4) {
+    if (regexEmail.test(email) && senha.length >= 4) {
       axios
         .post(
           `${process.env.REACT_APP_API}/cliente/login/`,
@@ -83,13 +83,13 @@ export default function FormularioLoginEmail() {
                 id="passw"
                 name="password"
                 type={!olhoL ? "password" : "text"}
-                  iconEnd={
-                    !olhoL ? (
-                      <FaEye onClick={() => setOlhoL(!olhoL)} />
-                    ) : (
-                      <FaEyeSlash onClick={() => setOlhoL(!olhoL)} />
-                    )
-                  }
+                iconEnd={
+                  !olhoL ? (
+                    <FaEye onClick={() => setOlhoL(!olhoL)} />
+                  ) : (
+                    <FaEyeSlash onClick={() => setOlhoL(!olhoL)} />
+                  )
+                }
                 icon={<FaLock />}
                 value={senha}
                 error={Errorsenha}
@@ -104,7 +104,7 @@ export default function FormularioLoginEmail() {
                   value.length === 0 && setErrorSenha(null);
                 }}
               />
-              <Link to="#" className="login_field__esenha">
+              <Link to="/user/redefinir" className="login_field__esenha">
                 Esqueceu a senha? clique aqui!
               </Link>
               <Button className="login_field__button btn" type="submit">

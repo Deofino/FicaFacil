@@ -9,7 +9,6 @@ import Cookie from "../../../img/project/cookie.svg";
 const Backdrop = () => {
   console.log("ejfeijfe");
   
-
   const close = () => {
     let backdrop = document.querySelector("#backdrop");
     backdrop.classList.toggle("open");

@@ -5,7 +5,11 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
+<<<<<<< HEAD
         'reference' => 'c316417852431ad222ee64a76959beec7a30bf0c',
+=======
+        'reference' => 'dbdd581e03861e8be5c8c229370723cc9e6197ba',
+>>>>>>> ecd5aa8a9d7d72420f3ab8990b78ac7e69dbabff
         'name' => 'tcc/fica-facil',
         'dev' => true,
     ),
@@ -151,7 +155,11 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
+<<<<<<< HEAD
             'reference' => 'c316417852431ad222ee64a76959beec7a30bf0c',
+=======
+            'reference' => 'dbdd581e03861e8be5c8c229370723cc9e6197ba',
+>>>>>>> ecd5aa8a9d7d72420f3ab8990b78ac7e69dbabff
             'dev_requirement' => false,
         ),
     ),

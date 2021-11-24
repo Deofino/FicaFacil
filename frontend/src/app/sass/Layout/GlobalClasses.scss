@@ -7,7 +7,10 @@
   margin: $global-margin;
 }
 .mt {
-  margin-top: rem(12);
+  margin-top: rem(12) !important;
+}
+.mb {
+  margin-bottom: rem(12) !important;
 }
 .padding {
   padding: $global-padding;

@@ -169,7 +169,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       </sub>
     </td>
     <td align="center">
-      <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/170773506_1428336254168780_2505519453599439054_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEx_ysTBH1RnKkrfjEjU_DOdx35aQSUezx3HflpBJR7PMqIh12OOUgVofWmY52XBzK2hXm70mb2P6nPBhwNbvBg&_nc_ohc=1BGUYgHbQUYAX-KyQP0&_nc_ht=scontent.fcgh5-1.fna&oh=f14559800603e2620d4a5fbf9876f8e7&oe=618B78B7" width="160px" alt="Foto do Paulo"/><br>
+      <img src="https://scontent.fgru17-1.fna.fbcdn.net/v/t39.30808-6/240768844_1524462347889503_6323374058340623662_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeElkGSt0HxLRoqmMCDvg2DUtLaXhZl29qC0tpeFmXb2oI0YQvVw0mSXta4qzoKdPFKBDDmFQMB1zwyRLoyZtIXZ&_nc_ohc=dxCIFtFgI-8AX9aM4jR&_nc_zt=23&_nc_ht=scontent.fgru17-1.fna&oh=574dc7a06f605284502e891265a17b46&oe=619DCD65" width="160px" alt="Foto do Paulo"/><br>
       <sub>
         <a href="https://www.github.com/PauloWarren">@Paulo Moreira</a>
       </sub>
@@ -180,27 +180,21 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <table align="center">
   <tr>    
     <td align="center">
-      <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/132781006_963077914220239_8002631034904586864_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeFDWhJAy9KlpQF-zFkh60G3CjkgV67CYLAKOSBXrsJgsKLtTlt2A8DQ71baH25xdogtvdEK54z9PwEcR0BgVtIC&_nc_ohc=DUNNc-znFHMAX8nkENs&_nc_ht=scontent.fcgh5-1.fna&oh=2d5bfcc8a9efb437a3735e0c2e0613b1&oe=6188A9D9" width="160px" alt="Foto da Gabrielly"/><br>
+      <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/132744154_963077917553572_378258341595064382_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeFLbBlz_FIi6RBTI8Ay2phfo0MKN8GwbhKjQwo3wbBuEnzi3Gah7nXZSnaR_Hl8Hqq3Yy9n5kfcMhORqULk7HqI&_nc_ohc=E0K20rJgSYEAX_nGP1h&tn=np09y7gEvo2woQYG&_nc_ht=scontent.fcgh5-1.fna&oh=5f401c0de8a6099eecf66b8f106ba8a0&oe=61B26581" width="160px" alt="Foto da Gabrielly"/><br>
       <sub>
         <a href="https://www.github.com/Gabriely-BMO">@Gabrielly Brito</a>
       </sub>
     </td>
         <td align="center">
-      <img src="https://scontent.fcgh4-1.fna.fbcdn.net/v/t1.6435-9/79423415_1222808767930280_3257655921475584000_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEvMzGhm2tOEOhD1nPOcVlScSW4CapiqW5xJbgJqmKpbsKlLzPgB_x_ar7XY6ZEaeW8bJKlmAI7NxyGi-R8x_80&_nc_ohc=uTRGeT8kvvEAX_oX8ug&_nc_ht=scontent.fcgh4-1.fna&oh=9e14f51dc765c846cdf5935a41f94844&oe=6188F855" width="160px" alt="Foto da Camylly"/><br>
+      <img src="https://scontent.fgru17-1.fna.fbcdn.net/v/t39.30808-6/257124624_1795586460652505_7771577132485693283_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeEI_c_KEPQ9R7NI2oA0x5ABQpO-tvEkNVVCk7628SQ1VWDSPlSaLrNW4oZxw0WHZ07EbknXEK2sJU1x2j0zh2t1&_nc_ohc=8iQ-XcdwsHsAX_Bz-xt&_nc_zt=23&_nc_ht=scontent.fgru17-1.fna&oh=32528cb84a3f7a9f185dc6227e3c3a31&oe=619C6139" width="160px" alt="Foto da Camylly"/><br>
       <sub>
         <a href="https://www.github.com/CamyLima09">@Camylly</a>
       </sub>
     </td>
     <td align="center">
-      <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/141584922_2841416389463503_5836222047454229139_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeGOuszxEGBN38M85pBtvS-M4RLrtYzpcPThEuu1jOlw9CLk3s6OPitkFbjc8H_jcqFsrBpsEd4EpzIxblE-mwI1&_nc_ohc=utt8iKi0Tg4AX8DtP84&_nc_ht=scontent.fcgh5-1.fna&oh=40a708fabf61da1a6cc8ae3b3a51454a&oe=61898EFF" width="160px" alt="Foto do Ruy"/><br>
+      <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/141584922_2841416389463503_5836222047454229139_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeGOuszxEGBN38M85pBtvS-M4RLrtYzpcPThEuu1jOlw9CLk3s6OPitkFbjc8H_jcqFsrBpsEd4EpzIxblE-mwI1&_nc_ohc=iZhfeiSBduUAX-5lG6r&tn=np09y7gEvo2woQYG&_nc_ht=scontent.fcgh5-1.fna&oh=c68bf217632eaaa9c20c7fc065b6fe07&oe=61B11BFF" width="160px" alt="Foto do Ruy"/><br>
       <sub>
         <a href="https://www.github.com/RuyMene">@Ruy Barbosa</a>
-      </sub>
-    </td>
-    <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/92266712?v=4" width="160px" alt="Foto do Fernando"/><br>
-      <sub>
-        <a href="https://github.com/LItilo">@Fernando</a>
       </sub>
     </td>
   </tr>

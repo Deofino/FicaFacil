@@ -105,11 +105,11 @@ export function Simulado(props) {
                     certeza de que está errada (essa opção não é absoluta, pode
                     fazer quando e em quantas quiser).
                   </p>
-                  <p className="l-simulado__instructions__icons__txt">
+                 {/*  <p className="l-simulado__instructions__icons__txt">
                     <MdBugReport className="l-simulado__instructions__icons__txt__e" />
                     - Caso encontre algum erro na questão ou no próprio sistema,
                     pode reportá-lo.
-                  </p>
+                  </p> */}
                   <p className="l-simulado__instructions__icons__txt">
                     <FaCircle className="l-simulado__instructions__icons__txt__g" />
                     <FaCircle className="l-simulado__instructions__icons__txt__o" />
