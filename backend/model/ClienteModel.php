@@ -123,7 +123,7 @@ class ClienteModel extends UserModel
             } else if (isset($params['email'])) {
                 $stmt = $con->prepare("SELECT * FROM tb_cliente where emailCliente like ?");
                 $stmt->bindValue(1, trim($params['email']));
-            } else {
+            } else if (isset($params['id'])) {
                 $stmt = $con->prepare("SELECT * FROM tb_cliente WHERE idCliente = ?");
                 $stmt->bindValue(1, $params['id'], PDO::PARAM_INT);
             }
