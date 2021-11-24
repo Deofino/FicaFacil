@@ -16,7 +16,7 @@ const Backdrop = (props) => {
     if (
       attUniversidade !== null &&
       attUniversidade !== "" &&
-      attUniversidade.length > 3
+      attUniversidade.length > 1
     ) {
       // verificacao dos campos
       axios
@@ -52,7 +52,7 @@ const Backdrop = (props) => {
         .catch((error) => ToastError({ text: error })); // caso backend retorne erro aparece aqui
     } else {
       // previne e coloca os erros
-      seterrAttUniversidade("O campo tem que ter no minimo 3 caracteres");
+      seterrAttUniversidade("O campo tem que ter no minimo 2 caracteres");
     }
   };
   const close = () => {
@@ -189,7 +189,7 @@ export default function FormularioUniversidade() {
             if (refUniversidade !== null) {
               if (
                 refUniversidade.current.value.trim() !== "" &&
-                refUniversidade.current.value.trim().length > 3
+                refUniversidade.current.value.trim().length > 1
               ) {
                 setErroUniversidade(null);
                 axios
@@ -227,7 +227,7 @@ export default function FormularioUniversidade() {
                   })
                   .catch((err) => AlertError({ title: "Erro!!", text: err }));
               } else {
-                setErroUniversidade("O campo tem que ser maior que 3");
+                setErroUniversidade("O campo tem que ser maior que 1");
               }
             } else {
               setErroUniversidade("O campo não pode estar vazio");

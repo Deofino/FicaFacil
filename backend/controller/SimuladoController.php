@@ -5,6 +5,8 @@ namespace Controller;
 use DateTime;
 use Helper\Response;
 use Model\SimuladoModel;
+use Helper\Connection;
+use PDO;
 use Model\UniversidadeModel;
 
 class SimuladoController
@@ -32,6 +34,10 @@ class SimuladoController
 
                 echo $model->post();
             }
+            $con = Connection::getConn();
+            $stmt = $con->prepare("UPDATE tb_cliente SET simuladosFeitos = simuladosFeitos + 1 WHERE idCliente = ?");
+            $stmt->bindValue(1,($data->user), PDO::PARAM_INT);
+            $stmt->execute();
             // json($item);
             exit;
         }
