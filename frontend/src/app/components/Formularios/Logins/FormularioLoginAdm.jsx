@@ -97,10 +97,6 @@ export default function FormularioLoginAdm() {
                 icon={<FaLock />}
               />
 
-              <Link to="#" className="login_field__esenha">
-                Esqueceu a senha? clique aqui!
-              </Link>
-
               <Button className="login_field__button" type="submit">
                 Entrar
               </Button>

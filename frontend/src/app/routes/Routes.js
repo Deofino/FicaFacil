@@ -17,6 +17,7 @@ import {
   FormularioLoginAdm,
   FormularioLoginEmail,
   FormularioLoginSocial,
+  ComponentRedefinirSenha
 } from "../components/Formularios/Logins";
 import { FormularioMaterias } from "../components/Formularios/Materia";
 import {
@@ -24,14 +25,14 @@ import {
   FormularioUniversidade,
   NotFound,
   DashboardAdm,
-  Perfil
+  Perfil,
+  DashboardUser,
 } from "../components/Formularios/Outros";
 
 import ComponentHome from "../components/Main/ComponentHome";
 
 import { FormularioQuestao } from "../components/Formularios/Questao";
 import { Simulado } from "../components/Formularios/Simulado";
-
 
 export default function Routes () {
   return (
@@ -50,6 +51,15 @@ export default function Routes () {
         <UserRoute path="/perfil">
             <Perfil />
         </UserRoute>
+        <Route path='/user/redefinir' >
+          { localStorage.getItem("auth") !== null ? (
+            <Header />
+          ) : (
+            <HeaderUser />
+          ) }
+          <ComponentRedefinirSenha />
+          <Footer />
+        </Route>
         <PrivateRoute path="/questao">
           <QuestaoProvider>
             <FormularioQuestao />
@@ -71,6 +81,9 @@ export default function Routes () {
           <SimuladoProvider>
             <Simulado />
           </SimuladoProvider>
+        </UserRoute>
+        <UserRoute path="/dashboard">
+          <DashboardUser />
         </UserRoute>
         <GuestRoute path="/entrar/email">
           <FormularioLoginEmail />

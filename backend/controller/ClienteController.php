@@ -5,6 +5,7 @@ namespace Controller;
 use Helper\Response;
 use Model\ClienteModel;
 use Helper\JWT;
+use Controller\EmailController;
 
 class ClienteController
 {
@@ -207,5 +208,69 @@ class ClienteController
             echo (new ClienteModel)->delete(['email' => $_GET['email']]);
             return;
         }
+    }
+
+    public function resendPassword()
+    {
+        $data = json_decode(file_get_contents('php://input'));
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($data->email)) {
+            $user = json_decode((new ClienteModel)->get(['email' => $data->email]));
+            if ($user->status_code === 200) {
+                $user = $user->data[0];
+
+                $link = 'https://localhost:3000/user/redefinir?auth=' . md5($user->idCliente);
+                $body =
+                    "
+                <div style='display: block; background: #5770dc22; border-radius: 4px;text-align: center;padding: 8px'>
+                    <div style='margin: 0 auto;max-width: 500px;'>
+                        <h1>Fica Fácil</h1>
+                        <hr style='width: 100%; margin: 0' />
+                        <h3>Esqueceu sua senha?</h3>
+                        <span style='font-size: 13px'>Está tudo bem " . $user->nomeCompletoCliente . "! A equipe do Fica Fácil ja providênciou para você redefinir ela!</span>
+                        <span style='font-size: 14px; margin-top: 8px'>De maneira segura, rápida e inteligente! Apenas clique neste <a href='$link'>link</a> e você será redirecionada para criar uma nova senha.</span>
+                    </div>
+                    <div style='margin-top: 20px; width: 100%; margin-bottom: 8px'>
+                        <span style='font-size: 13px'>
+                            Copyright &copy; 2021 Fica Fácil  
+                        </span >
+                        <span style='font-size: 13px; display:block'>Todos os dirieto reservados.</span>
+                    </div>
+                </div>
+            ";
+                echo Response::success((new EmailController)->send(
+                    'Esqueci minha senha',
+                    $user->emailCliente,
+                    $user->nomeCompletoCliente,
+                    $body
+                ));
+                return;
+            }
+        }
+        echo Response::error('Email nao enviado.');
+        return;
+    }
+    public function redefinir()
+    {
+        $data = json_decode(file_get_contents('php://input'));
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($data->senha) && isset($data->auth)) {
+
+            $ids = json_decode((new ClienteModel)->getIds());
+            if ($ids->status_code === 200) {
+                $ids = $ids->data;
+                foreach ($ids as $id) {
+                    if (md5($id->id) === $data->auth) {
+                        echo (new ClienteModel)->put(['senha'=>password_hash($data->senha,PASSWORD_DEFAULT), 'id'=>$id->id]);
+                        return;
+                    }
+                }
+                echo Response::warning("Autorizacao negada.", 401);
+                return;
+            }
+
+            echo Response::error("Ops, ocorreu um erro interno no sistema...");
+            return;
+        }
+        echo Response::error('Metodo nao encontrado ou parametros nulos/vazios.');
+        return;
     }
 }

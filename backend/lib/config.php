@@ -53,7 +53,7 @@ define(
 );
 define(
     "EMAIL_HOST",
-    "https://localhost:3000/"
+    "smtp.gmail.com"
 );
 define(
     "EMAIL_TYPE",
@@ -61,11 +61,19 @@ define(
 );
 define(
     "EMAIL_NAME",
-    "email@example.com.br"
+    "auracompany.guaianases@gmail.com"
+);
+define(
+    "EMAIL_PORT",
+    587
+);
+define(
+    "EMAIL_FICAFACIL",
+    'auracompany.guaianases@gmail.com'
 );
 define(
     "EMAIL_PASSWORD",
-    "senhacriptografada123"
+    "08tcc01fica2004"
 );
 
 define(

@@ -5,6 +5,7 @@ import FormularioUniversidade from "./FormularioUniversidade";
 import NotFound from "./NotFound";
 import DashboardAdm from "./DashboardAdm";
 import Perfil from "./Perfil";
+import DashboardUser from "./DashboardUser";
 
 export {
   ComponentCookie,
@@ -13,5 +14,6 @@ export {
   FormularioUniversidade,
   NotFound,
   DashboardAdm,
-  Perfil
+  Perfil,
+  DashboardUser,
 };
