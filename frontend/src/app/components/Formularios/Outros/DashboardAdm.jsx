@@ -21,16 +21,21 @@ export default function DashboardAdm() {
     },
     
   ];
-  let dataEntradas = [
+  let dataDesempenho = [
     {
-      name: "Total Entradas",
+      name: "Erros",
+      Acertos: 40,
+      color: "#4746B0",
+    },
+    {
+      name: "Acertos",
       Acertos: 120,
       color: "#4746B0",
     }
   ];
-  let dataSimulados = [
+  let dataQuestoes = [
     {
-      name: "Total Simulados",
+      name: "Total Questoes",
       Acertos: 200,
       color: "#513487",
     }
@@ -38,7 +43,7 @@ export default function DashboardAdm() {
 
   return (
     <section className="dashboard">
-      <h1 className="dashboard__title">Métricas</h1>
+      <h1 className="dashboard__title">Dashboard</h1>
       <div className="dashboard__c">
         <div className="dashboard__c__right">
           <div className="dashboard__c__right__profile">
@@ -54,16 +59,16 @@ export default function DashboardAdm() {
           </div>
           <div className="dashboard__c__right__statistics__datas">
             <h2 className="dashboard__c__right__statistics__datas__title">
-              Bugs reportados
+              Clientes cadastrados
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">45</p>
           </div>
           <div className="dashboard__c__right__statistics__datas">
             <h2 className="dashboard__c__right__statistics__datas__title">
-              Permanência no sistema
+              Simulados feitos
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">
-              2:45:21
+              130
             </p>
           </div>
         </div>
@@ -76,16 +81,16 @@ export default function DashboardAdm() {
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
-              Entradas Diárias
+              Questões por dia
             </h3>
             <ChartArea data = {[
                 {
                   dia: "Seg",
-                  entradas: 5,
+                  entradas: 15,
                 },
                 {
                   dia: "Ter",
-                  entradas: 2,
+                  entradas: 32,
                 },
                 {
                   dia: "Qua",
@@ -93,34 +98,34 @@ export default function DashboardAdm() {
                 },
                 {
                   dia: "Qui",
-                  entradas: 8,
+                  entradas: 18,
                 },
                 {
                   dia: "Sex",
-                  entradas: 3,
+                  entradas: 43,
                 },
                 {
                   dia: "Sab",
-                  entradas: 2,
+                  entradas: 32,
                 },
                 {
                   dia: "Dom",
-                  entradas: 5,
+                  entradas: 25,
                 },
             ]}  keyData="entradas" keyName="dia" /* color="#513487" *//>
           </div>
           <div className="dashboard__c__left__et">
             <div className="dashboard__c__left__et__tres">
             <h3 className="dashboard__c__left__et__tres__title">
-                Total de Entradas
+                Desempenho
               </h3>
-            <ChartPie data={dataEntradas} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+            <ChartPie data={dataDesempenho} dataKey="Acertos" outerRadius={90} innerRadius={65} />
             </div>
             <div className="dashboard__c__left__et__quatro">
               <h3 className="dashboard__c__left__et__quatro__title">
-                Total de Simulados
+                Total de Questões
               </h3>
-              <ChartPie data={dataSimulados} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+              <ChartPie data={dataQuestoes} dataKey="Acertos" outerRadius={90} innerRadius={65} />
             </div>
           </div>
         </div>
