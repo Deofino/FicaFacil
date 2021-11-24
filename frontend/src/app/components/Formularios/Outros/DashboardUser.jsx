@@ -48,7 +48,7 @@ export default function DashboardAdm() {
 
   return (
     <section className="dashboard">
-      <h1 className="dashboard__title">Métricas</h1>
+      <h1 className="dashboard__title">Dashboard</h1>
       <div className="dashboard__c">
         <div className="dashboard__c__right">
           <div className="dashboard__c__right__profile">
@@ -100,7 +100,7 @@ export default function DashboardAdm() {
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
-              Entradas Diárias
+              Questões por dia
             </h3>
             <ChartArea data = {[
                 {
