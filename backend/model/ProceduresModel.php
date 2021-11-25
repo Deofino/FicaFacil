@@ -9,12 +9,11 @@ use Helper\Connection;
 class ProceduresModel{
 
 public function getTodosAcertos(
-        $dentro = ':cliente, :inicio, :fim, :materia',
+        $dentro = ':cliente, :inicio, :fim',
         $parametros = [
             ':cliente' => null,
             ':inicio' => null,
             ':fim' => null,
-            ':materia' => null,
         ] 
     ){
         try {
@@ -30,12 +29,11 @@ public function getTodosAcertos(
     } 
     
     public function getTodosErros(
-        $dentro = ':cliente, :inicio, :fim, :materia',
+        $dentro = ':cliente, :inicio, :fim',
         $parametros = [
             ':cliente' => null,
             ':inicio' => null,
             ':fim' => null,
-            ':materia' => null,
         ] 
     ){
         try {
@@ -49,12 +47,14 @@ public function getTodosAcertos(
             throw new \Exception($th->getMessage(), 500);
         }
     }
+
     public function getQuantidadeQuestoesPorCliente(
-        $dentro = ':cliente, :inicio, :fim',
+        $dentro = ':cliente, :inicio, :fim, :materia',
         $parametros = [
             ':cliente' => null,
             ':inicio' => null,
             ':fim' => null,
+            ':materia' => null,
         ] 
     ){
         try {
@@ -68,6 +68,7 @@ public function getTodosAcertos(
             throw new \Exception($th->getMessage(), 500);
         }
     }
+
     public function getSimuladosRefazer(
         $dentro = ':cliente, :inicio, :fim',
         $parametros = [
@@ -87,6 +88,7 @@ public function getTodosAcertos(
             throw new \Exception($th->getMessage(), 500);
         }
     }
+
     public function getSimuladosPorCliente(
         $dentro = ':cliente, :inicio',
         $parametros = [
