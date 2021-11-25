@@ -169,7 +169,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       </sub>
     </td>
     <td align="center">
-      <img src="![image](https://user-images.githubusercontent.com/56116607/143507161-a064e682-4859-4fa9-8858-0ab246c7fbce.png)" width="160px" alt="Foto do Paulo"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56117238?v=4" width="160px" alt="Foto do Paulo"/><br>
       <sub>
         <a href="https://www.github.com/PauloWarren">@Paulo Moreira</a>
       </sub>
@@ -186,7 +186,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       </sub>
     </td>
         <td align="center">
-      <img src="![image](https://user-images.githubusercontent.com/56116607/143507140-aeb9773b-a2dc-4d59-b1e2-a4e545fdd121.png)" width="160px" alt="Foto da Camylly"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56116752?v=4" width="160px" alt="Foto da Camylly"/><br>
       <sub>
         <a href="https://www.github.com/CamyLima09">@Camylly</a>
       </sub>
