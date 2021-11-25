@@ -23,12 +23,30 @@
     display: flex;
     padding-left: 150px !important;
 
+    @media (max-width: 1050px){
+        padding-left: 50px !important;
+    }
+    @media (max-width: 427px){
+        padding-left: 0px !important;
+    }
+
     &__foto{
         width: 150px;
         height: 150px;
         background-color: #383838;
         border: 2px solid #ffffff;
         border-radius: 100px;
+
+        @media (max-width: 427px){
+            width: 120px;
+            height: 120px;
+            transition: .5s;
+        }
+        @media (max-width: 350px){
+            width: 90px;
+            height: 90px;
+            transition: .5s;
+        }
     }
 
     &__texto{
@@ -37,6 +55,13 @@
         margin-top: 66px !important;
         padding-left: 30px !important;
         flex-direction: column;
+
+        @media (max-width: 475px){
+            margin-top: 50px !important;
+        }
+        @media (max-width: 350px){
+            margin-top: 20px !important;
+        }
 
         &__nome{
             .txtNome{
@@ -118,6 +143,85 @@
             .btnEditar{
                /*Fazer o botão*/
             }
+
+        }
+
+        .itensAparencia{
+            font-size: 22px;
+            color: #000;
+            @include darkMode{
+                color: #FFF;
+            }
+        }
+
+        .aparencia{
+
+            .radioGrupo{
+                
+                
+                .radio{
+                    font-size: 15px;
+                    font-weight: 500;
+                    display: flex;
+                    color: #0f0f0f;
+                    position: relative;
+                    background-color: #ececec;
+                    padding: 10px;
+                    border: 2px #FFF solid;
+                    border-radius: 10px;
+                    @include darkMode{
+                        color: #FFF;
+                        border: 2px #1a1d20 solid;
+                        background-color: #0f0f0f;
+                    }
+
+                    p{
+                        padding-left: 30px;
+                    }
+
+                    input[type="radio"]{
+                        display: none;
+
+                        &:checked ~ span:after{
+                            transform: translate(-50%, -50%) scale(1);
+                        }
+                    }
+
+                    span{
+                        margin-top: 6px;
+                        margin-left: 10px;
+                        height: 14px;
+                        width: 14px;
+                        border-radius: 50%;
+                        border: 2px solid #4a64d9;
+                        display: block;
+                        position: absolute;
+                        left: 0;
+                        top: 7px;
+
+                        &:after{
+                            content: "";
+                            height: 7px;
+                            width: 7px;
+                            background-color: #4a64d9;
+                            display: block;
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%, -50%) scale(0);
+                            border-radius: 50%;
+                            transition: 300ms ease-in-out 0s;
+                        }
+
+                    }
+                }
+            }
+
+           
+            
+                
+                
+            
         }
 
 

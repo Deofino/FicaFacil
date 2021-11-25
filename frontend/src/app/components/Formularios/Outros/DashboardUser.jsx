@@ -38,11 +38,16 @@ export default function DashboardAdm() {
       color: "#4746B0",
     }
   ];
-  let dataMateria = [
+  let dataDesem = [
     {
-      name: "Matemática",
-      Acertos: 90,
+      name: "Acertos",
+      Acertos: 20,
       color: "#513487",
+    },
+    {
+      name: "Erros",
+      Acertos: 90,
+      color: "#4746B0",
     }
   ];
 
@@ -142,9 +147,9 @@ export default function DashboardAdm() {
             </div>
             <div className="dashboard__c__left__et__quatro">
               <h3 className="dashboard__c__left__et__quatro__title">
-                Total de Simulados
+                Desempenho geral
               </h3>
-              <ChartPie data={dataMateria} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+              <ChartPie data={dataDesem} dataKey="Acertos" outerRadius={90} innerRadius={65} />
             </div>
           </div>
         </div>

@@ -70,6 +70,36 @@ export default function Perfil(){
 
             </div>
 
+            <div className="card">
+                <div className="card__body">
+                    <div className="meusDados">
+                        <p>Aparência</p>
+                    </div>
+                    <p className="itensAparencia">Tema</p>
+                    <div className="aparencia">
+                        <div className="radioGrupo">
+                            <label className="radio">
+                                <input type="radio" value="claro" name="tema" />
+                                <p>Claro</p>
+                                <span></span>
+                            </label>
+                           
+                            <label className="radio">
+                                <input type="radio" value="escuro" name="tema" />
+                                <p>Escuro</p>
+                                <span></span>
+                            </label>
+                        </div>
+                        
+                    </div>
+                    <br/>
+                    <p className="itensAparencia">Visual</p>
+
+
+                </div>
+
+            </div>
+
         </div>
     )
 }
