@@ -68,8 +68,7 @@ export default function Resultados(props) {
       <div className="c-results__headline__frame">
         <iframe
           className="c-results__headline__frame__conf"
-          frameborder="0"
-          allowfullscreen
+          title="confete"
           src="https://embed.lottiefiles.com/animation/7893"
         ></iframe>
       </div>
