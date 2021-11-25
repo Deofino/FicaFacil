@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Exception;
 use Model\UserModel;
 use PDO;
 use Helper\Response;
@@ -195,7 +196,6 @@ class ClienteModel extends UserModel
         }
     }
 
-
     public function login($email, $senha)
     {
         try {
@@ -225,4 +225,27 @@ class ClienteModel extends UserModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
+
+    public function getTodosAcertos(
+        $dentro = ':cliente, :inicio, :fim, :materia',
+        $parametros = [
+            ':cliente' => null,
+            ':inicio' => null,
+            ':fim' => null,
+            ':materia' => null,
+        ] 
+    ){
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getAcertos($dentro)");
+            if($stmt->execute($parametros)){
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    
 }
