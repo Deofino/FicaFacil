@@ -126,7 +126,7 @@ $ cd lib
 $ composer install
 ```
 
-Entre na pasta:
+Logo depois, Entre na pasta frontend:
 ```bash
 $ cd frontend
 ```
