@@ -118,6 +118,13 @@ Para começar:
 # Clone o repositório
 $ git clone https://github.com/Deofino/FicaFacil.git
 ```
+Precisamos instalar em primeiro na pasta lib o composer:
+```bash
+# Instale as dependências
+$ cd backend
+$ cd lib
+$ composer install
+```
 
 Entre na pasta:
 ```bash
@@ -131,16 +138,6 @@ $ yarn install
 # Você pode startar estando dentro da pasta frontend
 $ yarn start
 ```
-
-Precisamos instalar na pasta lib também:
-```bash
-# Instale as dependências
-$ cd ..
-$ cd lib
-$ composer install
-```
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
 
 <br>
 
