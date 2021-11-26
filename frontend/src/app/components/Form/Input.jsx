@@ -73,6 +73,7 @@ const Input = forwardRef((props, ref) => (
         <p className="c-input__icon">{props.iconEnd}</p>
       ) : null,
     }}
+
     multiline={props.multiline ? true : false}
   />
 ));

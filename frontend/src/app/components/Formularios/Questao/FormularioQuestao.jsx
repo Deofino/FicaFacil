@@ -5,6 +5,7 @@ import {
   FaAlignJustify,
   FaFont,
   FaImages,
+  FaPlus,
   FaPlusCircle,
   FaSearch,
   FaTimes,
@@ -17,8 +18,7 @@ import {
   ToastWarning,
 } from "../../Alert/Toast";
 import { Link } from "react-router-dom";
-import { Button, Input, MenuItem, Select, Table, Radio } from "../../Form";
-// import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
+import { Button, Input, option, Select, Table, Radio } from "../../Form";
 import FormularioResposta from "./FormularioResposta";
 import { UseQuestion } from "../../Context/QuestaoContext";
 import { IconButton, RadioGroup, Tooltip } from "@material-ui/core";
@@ -304,12 +304,12 @@ const Backdrop = (props) => {
             }}
             value={selectUniversidade}
           >
-            <MenuItem value={-1}>Selecione</MenuItem>
+            <option value={-1}>Selecione</option>
             {questoes.universidade !== undefined &&
               questoes.universidade.map((el, i) => (
-                <MenuItem key={i} value={el["idUniversidade"]}>
-                  {el["nomeUniversidade"]}
-                </MenuItem>
+                <option key={i} value={el["idUniversidade"]}>
+                  {el["idUniversidade"] + " - " + el["nomeUniversidade"]}
+                </option>
               ))}
           </Select>
 
@@ -322,12 +322,12 @@ const Backdrop = (props) => {
             }}
             value={selectDificuldade}
           >
-            <MenuItem value={-1}>Selecione</MenuItem>
+            <option value={-1}>Selecione</option>
             {questoes.dificuldade !== undefined &&
               questoes.dificuldade.map((el, i) => (
-                <MenuItem key={i} value={el["idDificuldade"]}>
-                  {el["nivelDificuldade"]}
-                </MenuItem>
+                <option key={i} value={el["idDificuldade"]}>
+                  {el["idDificuldade"] + " - " + el["nivelDificuldade"]}
+                </option>
               ))}
           </Select>
           <Select
@@ -339,12 +339,12 @@ const Backdrop = (props) => {
             }}
             value={selectAssuntoMateria}
           >
-            <MenuItem value={-1}>Selecione</MenuItem>
+            <option value={-1}>Selecione</option>
             {questoes.assuntoMateria !== undefined &&
               questoes.assuntoMateria.assuntoMateria.map((el, i) => (
-                <MenuItem key={i} value={el["idAssuntoMateria"]}>
-                  {el["nomeAssuntoMateria"]}
-                </MenuItem>
+                <option key={i} value={el["idAssuntoMateria"]}>
+                  {el["idAssuntoMateria"] + " - " + el["nomeAssuntoMateria"]}
+                </option>
               ))}
           </Select>
         </div>
@@ -813,20 +813,24 @@ export default function FormularioQuestao() {
                 label="Universidades: *"
                 id="universidade"
                 name="universidade"
-                helper={<Link to="/universidade">Nova universidade</Link>}
+                helper={
+                  <Link to="/universidade">
+                    <FaPlus title="Nova universidade" />
+                  </Link>
+                }
                 error={ErroUniversidade}
                 onChange={(e) => {
                   setselectUniversidade(e.target.value);
                 }}
                 value={selectUniversidade}
               >
-                <MenuItem value={-1}>Selecione</MenuItem>
+                <option value={-1}>Selecione</option>
                 {questoes.universidade !== undefined &&
                   questoes.universidade.map &&
                   questoes.universidade.map((el, i) => (
-                    <MenuItem key={i} value={el["idUniversidade"]}>
-                      {el["nomeUniversidade"]}
-                    </MenuItem>
+                    <option key={i} value={el["idUniversidade"]}>
+                      {el["idUniversidade"] + " - " + el["nomeUniversidade"]}
+                    </option>
                   ))}
               </Select>
 
@@ -835,18 +839,22 @@ export default function FormularioQuestao() {
                 id="dificuldades"
                 name="dificuldade"
                 error={ErroDificuldade}
-                helper={<Link to="/dificuldade">Nova dificuldade</Link>}
+                helper={
+                  <Link to="/dificuldade">
+                    <FaPlus title="Nova dificuldade" />
+                  </Link>
+                }
                 onChange={(e) => {
                   setselectDificuldade(e.target.value);
                 }}
                 value={selectDificuldade}
               >
-                <MenuItem value={-1}>Selecione</MenuItem>
+                <option value={-1}>Selecione</option>
                 {questoes.dificuldade !== undefined &&
                   questoes.dificuldade.map((el, i) => (
-                    <MenuItem key={i} value={el["idDificuldade"]}>
-                      {el["nivelDificuldade"]}
-                    </MenuItem>
+                    <option key={i} value={el["idDificuldade"]}>
+                      {el["idDificuldade"] + " - " + el["nivelDificuldade"]}
+                    </option>
                   ))}
               </Select>
             </div>
@@ -860,15 +868,22 @@ export default function FormularioQuestao() {
                   setselectAssuntoMateria(e.target.value);
                 }}
                 value={selectAssuntoMateria}
-                helper={<Link to="/materias">Novo Assunto</Link>}
+                helper={
+                  <Link to="/materias">
+                    {" "}
+                    <FaPlus title="Novo assunto" />
+                  </Link>
+                }
               >
-                <MenuItem value={-1}>Selecione</MenuItem>
+                <option value={-1}>Selecione</option>
                 {questoes.assuntoMateria !== undefined &&
                   questoes.assuntoMateria.assuntoMateria !== undefined &&
                   questoes.assuntoMateria.assuntoMateria.map((el, i) => (
-                    <MenuItem key={i} value={el["idAssuntoMateria"]}>
-                      {el["nomeAssuntoMateria"]}
-                    </MenuItem>
+                    <option key={i} value={el["idAssuntoMateria"]}>
+                      {el["idAssuntoMateria"] +
+                        " - " +
+                        el["nomeAssuntoMateria"]}
+                    </option>
                   ))}
               </Select>
             </div>

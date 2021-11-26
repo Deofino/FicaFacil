@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { Input, Select, MenuItem, Button, Table } from "../../Form/";
+import { Input, Select, Button, Table } from "../../Form/";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
@@ -122,12 +122,12 @@ const Backdrop = (props) => {
           error={errAttAreaMateria}
           onChange={({ target }) => setAttAreaMateria(target.value)}
         >
-          <MenuItem value={-1}>Selecione</MenuItem>
+          <option value={-1}>Selecione</option>
           {attReqMateria.area !== undefined &&
             attReqMateria.area.map((item) => (
-              <MenuItem value={item.idAreaMateria} key={item.idAreaMateria}>
-                {item.nomeAreaMateria}
-              </MenuItem>
+              <option value={item.idAreaMateria} key={item.idAreaMateria}>
+                {item.idAreaMateria + " - " + item.nomeAreaMateria}
+              </option>
             ))}
         </Select>
         <Button type="submit" className="c-formularioUpdate__item">
@@ -301,15 +301,16 @@ export default function FormularioMateria() {
           error={ErroAreaMateria}
           onChange={({ target }) => setSelectedAreaMateria(target.value)}
         >
-          <MenuItem value="0">Selecione</MenuItem>
+          <option value="0">Selecione</option>
           {areasMaterias !== [] &&
             areasMaterias.map &&
             areasMaterias.map((item) => (
-              <MenuItem value={item.idAreaMateria} key={item.idAreaMateria}>
-                {item.nomeAreaMateria}
-              </MenuItem>
+              <option value={item.idAreaMateria} key={item.idAreaMateria}>
+                {item.idAreaMateria + " - " + item.nomeAreaMateria}
+              </option>
             ))}
         </Select>
+
         <Button
           className="c-formMateria__submit"
           styleButton={{ marginTop: 20 }}
