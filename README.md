@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="350" src="https://github.com/Deofino/FicaFacil/blob/master/frontend/src/img/project/logo-colorida.png?raw=true" border="0">
+  <img width="200" src="https://github.com/Deofino/FicaFacil/blob/master/frontend/src/img/project/logo-colorida.png?raw=true" border="0">
 </div>
 
 <br>
