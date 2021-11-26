@@ -39,9 +39,16 @@
 //? IMPORT COMPONENTS
 @import "./app/sass/Components/Header/Header.scss";
 
+@import "./app/sass/Components/Form/Button.scss";
+@import "./app/sass/Components/Form/Input.scss";
+@import "./app/sass/Components/Form/Checkbox.scss";
+@import "./app/sass/Components/Form/Select.scss";
+@import "./app/sass/Components/Form/Radio.scss";
+@import "./app/sass/Components/Form/Table.scss";
+@import "./app/sass/Components/Main/Slider.scss";
+
 @import "./app/sass/Components/Main/NotFound.scss";
 @import "./app/sass/Components/Main/Main.scss";
-@import "./app/sass/Components/Main/Slider.scss";
 @import "./app/sass/Components/Main/Login.scss";
 @import "./app/sass/Components/Main/Formulario.scss";
 @import "./app/sass/Components/Main/FormQuestao.scss";
@@ -51,15 +58,8 @@
 @import "./app/sass/Components/Main/Questoes.scss";
 @import "./app/sass/Components/Main/Chart.scss";
 @import "./app/sass/Components/Main/Perfil.scss";
-
-
 @import "./app/sass/Components/Main/Dashboards.scss";
-@import "./app/sass/Components/Form/Button.scss";
-@import "./app/sass/Components/Form/Input.scss";
-@import "./app/sass/Components/Form/Checkbox.scss";
-@import "./app/sass/Components/Form/Select.scss";
-@import "./app/sass/Components/Form/Radio.scss";
-@import "./app/sass/Components/Form/Table.scss";
+
 
 @import "./app/sass/Components/Alert/Modal.scss";
 @import "./app/sass/Components/Alert/Toast.scss";

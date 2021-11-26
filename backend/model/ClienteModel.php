@@ -85,7 +85,7 @@ class ClienteModel extends UserModel
     {
         $this->dataAniversario = $dataAniversarioCliente;
     }
-    public function setFotoDataAniversario(string $fotoCliente): void
+    public function setFoto(string $fotoCliente): void
     {
         $this->foto = $fotoCliente;
     }
@@ -159,10 +159,11 @@ class ClienteModel extends UserModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("INSERT INTO tb_cliente(nomeCompletoCliente, emailCliente, senhaCliente) values(?, ?, ?)");
+            $stmt = $con->prepare("INSERT INTO tb_cliente(nomeCompletoCliente, emailCliente, senhaCliente, fotoCliente) values(?, ?, ?,?)");
             $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getEmail()), PDO::PARAM_STR);
             $stmt->bindValue(3, trim($this->getSenha()), PDO::PARAM_STR);
+            $stmt->bindValue(4, trim($this->getFoto()), PDO::PARAM_STR);
             if ($stmt->execute()) {
                 return Response::success("Cliente `{$this->getNome()}` inserido com sucesso, id=" . $con->lastInsertId());
             }
@@ -246,12 +247,12 @@ class ClienteModel extends UserModel
             ':inicio' => null,
             ':fim' => null,
             ':materia' => null,
-        ] 
-    ){
+        ]
+    ) {
         try {
             $con = Connection::getConn();
             $stmt = $con->prepare("call sp_getAcertos($dentro)");
-            if($stmt->execute($parametros)){
+            if ($stmt->execute($parametros)) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
             }
@@ -259,6 +260,4 @@ class ClienteModel extends UserModel
             throw new \Exception($th->getMessage(), 500);
         }
     }
-
-    
 }

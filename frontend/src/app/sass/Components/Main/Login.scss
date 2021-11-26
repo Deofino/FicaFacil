@@ -40,8 +40,11 @@
       margin: 0 rem(8);
     }
   }
-  &__input {
+  & .c-input {
     margin-top: rem(10) !important;
+    svg {
+      fill: $dark !important;
+    }
   }
   &__title {
     font-weight: 300;
@@ -49,6 +52,10 @@
     text-align: center;
     @include breakpoint(small) {
       font-size: rem(12);
+    }
+
+    svg {
+      color: $black !important;
     }
   }
   &__button {
@@ -106,8 +113,10 @@
         font-size: rem(20);
       }
     }
-    .c-input svg {
-      color: $black;
+    .c-input__icon {
+      svg {
+        color: $black !important;
+      }
     }
     span {
       align-self: flex-start;
