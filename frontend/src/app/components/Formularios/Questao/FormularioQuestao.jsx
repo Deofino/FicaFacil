@@ -16,11 +16,13 @@ import {
   ToastSuccess,
   ToastWarning,
 } from "../../Alert/Toast";
+import { Link } from "react-router-dom";
 import { Button, Input, MenuItem, Select, Table, Radio } from "../../Form";
-import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
+// import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
 import FormularioResposta from "./FormularioResposta";
 import { UseQuestion } from "../../Context/QuestaoContext";
 import { IconButton, RadioGroup, Tooltip } from "@material-ui/core";
+import { parseJwt } from "../../Header/NavBarUser";
 
 const Backdrop = (props) => {
   const [alternativas, setalternativas] = useState([]);
@@ -91,10 +93,6 @@ const Backdrop = (props) => {
     questoes.dificuldade.find((e) => e.nivelDificuldade === props.data[5])
       .idDificuldade || 0
   );
-  const [selectAdministrador, setselectAdministrador] = useState(
-    questoes.administrador.find((e) => e.nomeAdministrador === props.data[7])
-      .idAdministrador || 0
-  );
 
   const [QtdeImgsSelect, setQtdeImgsSelect] = useState(
     JSON.parse(props.data[3]).length || 0
@@ -144,12 +142,14 @@ const Backdrop = (props) => {
     }
     formData.append("correta", correta);
     formData.append("id", props.data[0] || 0);
-
+    formData.append(
+      "administrador",
+      parseJwt(localStorage.getItem("auth")).idAdministrador
+    );
     if (
       correta.length > 3 &&
       titulo.length >= 4 &&
       texto.length >= 4 &&
-      selectAdministrador > 0 &&
       selectAssuntoMateria > 0 &&
       selectDificuldade > 0 &&
       selectUniversidade > 0
@@ -180,6 +180,7 @@ const Backdrop = (props) => {
             },
           })
           .then((el) => {
+            // console.log(el.data);
             if (el.data.status_code === 200) {
               ToastSuccess({ text: "Questao atualizada com sucesso!" });
               setTimeout(() => {
@@ -346,23 +347,6 @@ const Backdrop = (props) => {
                 </MenuItem>
               ))}
           </Select>
-          <Select
-            label="Administrador: *"
-            id="administrador"
-            name="administrador"
-            onChange={(e) => {
-              setselectAdministrador(e.target.value);
-            }}
-            value={selectAdministrador}
-          >
-            <MenuItem value={-1}>Selecione</MenuItem>
-            {questoes.administrador !== undefined &&
-              questoes.administrador.map((el, i) => (
-                <MenuItem key={i} value={el["idAdministrador"]}>
-                  {el["nomeAdministrador"]}
-                </MenuItem>
-              ))}
-          </Select>
         </div>
         <h2>Alternativas</h2>
         <p>Selecione a correta.</p>
@@ -486,7 +470,6 @@ export default function FormularioQuestao() {
   const [selectUniversidade, setselectUniversidade] = useState(0);
   const [selectAssuntoMateria, setselectAssuntoMateria] = useState(0);
   const [selectDificuldade, setselectDificuldade] = useState(0);
-  const [selectAdministrador, setselectAdministrador] = useState(0);
 
   const [QtdeImgsSelect, setQtdeImgsSelect] = useState(0);
   const [ImgsSelect, setImgsSelect] = useState(null);
@@ -502,7 +485,6 @@ export default function FormularioQuestao() {
   const [ErroUniversidade, setErroUniversidade] = useState(null);
   const [ErroAssuntoMateria, setErroAssuntoMateria] = useState(null);
   const [ErroDificuldade, setErroDificuldade] = useState(null);
-  const [ErroAdministrador, setErroAdministrador] = useState(null);
 
   const errorMsg = "O campo precisa ter mais de 4 caracteres";
 
@@ -555,7 +537,6 @@ export default function FormularioQuestao() {
       [selectUniversidade, setErroUniversidade, setselectUniversidade],
       [selectDificuldade, setErroDificuldade, setselectDificuldade],
       [selectAssuntoMateria, setErroAssuntoMateria, setselectAssuntoMateria],
-      [selectAdministrador, setErroAdministrador, setselectAdministrador],
     ];
 
     // Inputs obrigatorios
@@ -632,6 +613,10 @@ export default function FormularioQuestao() {
         el[1](null);
       });
 
+      formData.append(
+        "administrador",
+        parseJwt(localStorage.getItem("auth")).idAdministrador
+      );
       formData.append("correta", alternativa.correta);
       alternativa.alternativas.length > 0 &&
         formData.append(
@@ -828,6 +813,7 @@ export default function FormularioQuestao() {
                 label="Universidades: *"
                 id="universidade"
                 name="universidade"
+                helper={<Link to="/universidade">Nova universidade</Link>}
                 error={ErroUniversidade}
                 onChange={(e) => {
                   setselectUniversidade(e.target.value);
@@ -849,6 +835,7 @@ export default function FormularioQuestao() {
                 id="dificuldades"
                 name="dificuldade"
                 error={ErroDificuldade}
+                helper={<Link to="/dificuldade">Nova dificuldade</Link>}
                 onChange={(e) => {
                   setselectDificuldade(e.target.value);
                 }}
@@ -873,6 +860,7 @@ export default function FormularioQuestao() {
                   setselectAssuntoMateria(e.target.value);
                 }}
                 value={selectAssuntoMateria}
+                helper={<Link to="/materias">Novo Assunto</Link>}
               >
                 <MenuItem value={-1}>Selecione</MenuItem>
                 {questoes.assuntoMateria !== undefined &&
@@ -880,24 +868,6 @@ export default function FormularioQuestao() {
                   questoes.assuntoMateria.assuntoMateria.map((el, i) => (
                     <MenuItem key={i} value={el["idAssuntoMateria"]}>
                       {el["nomeAssuntoMateria"]}
-                    </MenuItem>
-                  ))}
-              </Select>
-              <Select
-                label="Administrador: *"
-                id="administrador"
-                name="administrador"
-                error={ErroAdministrador}
-                onChange={(e) => {
-                  setselectAdministrador(e.target.value);
-                }}
-                value={selectAdministrador}
-              >
-                <MenuItem value={-1}>Selecione</MenuItem>
-                {questoes.administrador !== undefined &&
-                  questoes.administrador.map((el, i) => (
-                    <MenuItem key={i} value={el["idAdministrador"]}>
-                      {el["nomeAdministrador"]}
                     </MenuItem>
                   ))}
               </Select>

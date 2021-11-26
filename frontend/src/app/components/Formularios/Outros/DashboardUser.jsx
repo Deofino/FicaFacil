@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
+import { parseJwt } from "../../Header/NavBarUser";
 
 export default function DashboardAdm() {
-  const [cliente, setCliente] = useState(4);
+  const [cliente, setCliente] = useState(
+    parseJwt(localStorage.getItem("user")).id || null
+  );
   const [inicio, setInicio] = useState(null);
   const [fim, setFim] = useState(null);
 
@@ -18,7 +21,6 @@ export default function DashboardAdm() {
       );
       let res = await req.data.data;
 
-      console.log(res);
       if (+Object.values(res[0])[0] === 404) {
         console.error("Erro na requisicao");
       } else setAcertos(+res[0].acertos);

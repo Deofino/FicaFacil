@@ -24,7 +24,7 @@ const Backdrop = (props) => {
         },
       })
       .then((value) => {
-        if(value.data.status_code === 200){
+        if (value.data.status_code === 200) {
           setattReqMateria(value.data.data);
           setAttAreaMateria(
             value.data.data.area.find(
@@ -139,7 +139,6 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioMateria() {
-
   const [pesquisa, setPesquisa] = useState("");
 
   const [areasMaterias, setAreasMaterias] = useState([]);
@@ -327,18 +326,18 @@ export default function FormularioMateria() {
           onChange={(e) => setPesquisa(e.target.value)}
           id="pesquisa"
           className="c-forms__inputSearch"
-        />   
+        />
 
-      <Table
-        colunas={colunas}
-        linhas={linhas || []}
-        tabela="materia"
-        nome="Matéria"
-        style={{
-          marginTop: 20,
-        }}
-        functionUpdate={update}
-      />
+        <Table
+          colunas={colunas}
+          linhas={linhas || []}
+          tabela="materia"
+          nome="Matéria"
+          style={{
+            marginTop: 20,
+          }}
+          functionUpdate={update}
+        />
       </div>
       <div id="backdrop"></div>
     </section>
