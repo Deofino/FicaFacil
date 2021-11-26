@@ -6,42 +6,174 @@ use PDO;
 use Helper\Response;
 use Helper\Connection;
 
-class ProceduresModel{
+class ProceduresModel
+{
 
-public function getTodosAcertos(
-        $dentro = ':cliente, :inicio, :fim, :materia',
-        $parametros = [
+    public function getTodosAcertos(
+        array $parametros = [
             ':cliente' => null,
             ':inicio' => null,
             ':fim' => null,
-            ':materia' => null,
-        ] 
-    ){
+        ]
+    ) {
         try {
+            $dentro = ':cliente, :inicio, :fim';
             $con = Connection::getConn();
             $stmt = $con->prepare("call sp_getAcertos($dentro)");
-            if($stmt->execute($parametros)){
+            if ($stmt->execute($parametros)) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
             }
         } catch (\Throwable $th) {
             throw new \Exception($th->getMessage(), 500);
         }
-    } 
-    
+    }
+
     public function getTodosErros(
-        $dentro = ':cliente, :inicio, :fim, :materia',
-        $parametros = [
+        
+        array $parametros = [
             ':cliente' => null,
             ':inicio' => null,
             ':fim' => null,
-            ':materia' => null,
-        ] 
-    ){
+        ]
+    ) {
         try {
+            $dentro = ':cliente, :inicio, :fim';
             $con = Connection::getConn();
             $stmt = $con->prepare("call sp_getErros($dentro)");
-            if($stmt->execute($parametros)){
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getQuantidadeQuestoesPorCliente(
+
+        array $parametros = [
+            ':cliente' => null,
+            ':inicio' => null,
+            ':fim' => null,
+        ]
+    ) {
+        try {
+            $dentro = ':cliente, :inicio, :fim';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getQuantidadeQuestoesPorCliente($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getSimuladosRefazer( 
+
+        array $parametros = [
+            ':inicio' => null,
+            ':fim' => null,
+            ':cliente' => null,
+        ]
+    ) {
+        try {
+            $dentro = ':inicio, :fim, :cliente';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getSimuladosPorCliente(
+        
+        array $parametros = [
+            ':inicio' => null,
+            ':fim' => null,
+
+        ]
+    ) {
+        try {
+            $dentro = ':inicio, :fim';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getAcertosPorMateria(
+        
+        array $parametros = [
+            ':cliente' => null,
+            ':materia' => null,
+            ':inicio' => null,
+            ':fim' => null,
+
+        ]
+    ) {
+        try {
+            $dentro = ':cliente, :materia, :inicio, :fim';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getErrosPorMateria(
+        
+        array $parametros = [
+            ':cliente' => null,
+            ':materia' => null,
+            ':inicio' => null,
+            ':fim' => null,
+
+        ]
+    ) {
+        try {
+            $dentro = ':cliente, :materia, :inicio, :fim';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getQtdePorMateria(
+        
+        array $parametros = [
+            ':cliente' => null,
+            ':materia' => null,
+            ':inicio' => null,
+            ':fim' => null,
+
+        ]
+    ) {
+        try {
+            $dentro = ':cliente, :materia, :inicio, :fim';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            if ($stmt->execute($parametros)) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
             }
@@ -50,4 +182,3 @@ public function getTodosAcertos(
         }
     }
 }
-?>

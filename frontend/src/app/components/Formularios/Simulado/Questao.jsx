@@ -5,7 +5,7 @@ import songErro from "../../../../audio/errada.mp3";
 import { useSimulado } from "../../Context/SImuladoContext";
 import { Button, Radio, RadioGroup } from "../../Form";
 // import { ToastError } from "../../Alert/Toast";
-import { MdContentCut, MdBugReport } from "react-icons/md";
+import { MdContentCut, } from "react-icons/md";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { ToastInformation } from "../../Alert/Toast";
 const lorem =

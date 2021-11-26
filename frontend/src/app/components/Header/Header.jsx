@@ -1,5 +1,4 @@
 import React from "react";
-import {Link} from "react-router-dom"; 
 import Navbar from "./Navbar";
 import { Switch, FormControlLabel, Tooltip } from "@material-ui/core";
 import logo from "../../../img/project/logo-branca.png";

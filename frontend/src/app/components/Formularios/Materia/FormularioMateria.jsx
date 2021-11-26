@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { Input, Select, MenuItem, Button, Table } from "../../Form/";
+import { Input, Select, Button, Table } from "../../Form/";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
@@ -24,7 +24,7 @@ const Backdrop = (props) => {
         },
       })
       .then((value) => {
-        if(value.data.status_code === 200){
+        if (value.data.status_code === 200) {
           setattReqMateria(value.data.data);
           setAttAreaMateria(
             value.data.data.area.find(
@@ -122,12 +122,12 @@ const Backdrop = (props) => {
           error={errAttAreaMateria}
           onChange={({ target }) => setAttAreaMateria(target.value)}
         >
-          <MenuItem value={-1}>Selecione</MenuItem>
+          <option value={-1}>Selecione</option>
           {attReqMateria.area !== undefined &&
             attReqMateria.area.map((item) => (
-              <MenuItem value={item.idAreaMateria} key={item.idAreaMateria}>
-                {item.nomeAreaMateria}
-              </MenuItem>
+              <option value={item.idAreaMateria} key={item.idAreaMateria}>
+                {item.idAreaMateria + " - " + item.nomeAreaMateria}
+              </option>
             ))}
         </Select>
         <Button type="submit" className="c-formularioUpdate__item">
@@ -139,7 +139,6 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioMateria() {
-
   const [pesquisa, setPesquisa] = useState("");
 
   const [areasMaterias, setAreasMaterias] = useState([]);
@@ -302,15 +301,16 @@ export default function FormularioMateria() {
           error={ErroAreaMateria}
           onChange={({ target }) => setSelectedAreaMateria(target.value)}
         >
-          <MenuItem value="0">Selecione</MenuItem>
+          <option value="0">Selecione</option>
           {areasMaterias !== [] &&
             areasMaterias.map &&
             areasMaterias.map((item) => (
-              <MenuItem value={item.idAreaMateria} key={item.idAreaMateria}>
-                {item.nomeAreaMateria}
-              </MenuItem>
+              <option value={item.idAreaMateria} key={item.idAreaMateria}>
+                {item.idAreaMateria + " - " + item.nomeAreaMateria}
+              </option>
             ))}
         </Select>
+
         <Button
           className="c-formMateria__submit"
           styleButton={{ marginTop: 20 }}
@@ -327,18 +327,18 @@ export default function FormularioMateria() {
           onChange={(e) => setPesquisa(e.target.value)}
           id="pesquisa"
           className="c-forms__inputSearch"
-        />   
+        />
 
-      <Table
-        colunas={colunas}
-        linhas={linhas || []}
-        tabela="materia"
-        nome="Matéria"
-        style={{
-          marginTop: 20,
-        }}
-        functionUpdate={update}
-      />
+        <Table
+          colunas={colunas}
+          linhas={linhas || []}
+          tabela="materia"
+          nome="Matéria"
+          style={{
+            marginTop: 20,
+          }}
+          functionUpdate={update}
+        />
       </div>
       <div id="backdrop"></div>
     </section>

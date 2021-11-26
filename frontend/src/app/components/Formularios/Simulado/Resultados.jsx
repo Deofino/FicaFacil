@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { } from "react";
 import axios from "axios";
 import Smiley from "../../../../img/project/smiley.svg";
 import song from "../../../../audio/fim_simulado.mp3";
@@ -8,7 +8,7 @@ import { parseJwt } from "../../Header/NavBarUser";
 import { useSimulado } from "../../Context/SImuladoContext";
 
 export default function Resultados(props) {
-  const { quantidade, comeco, fim, reqQuestao } = props;
+  const { quantidade, comeco, fim, /* reqQuestao */ } = props;
   let { acertos, erros, questoesSimulado } = useSimulado();
   const [Sair, setSair] = React.useState(false);
   const [Refazer, setRefazer] = React.useState(false);
@@ -68,8 +68,7 @@ export default function Resultados(props) {
       <div className="c-results__headline__frame">
         <iframe
           className="c-results__headline__frame__conf"
-          frameborder="0"
-          allowfullscreen
+          title="confete"
           src="https://embed.lottiefiles.com/animation/7893"
         ></iframe>
       </div>

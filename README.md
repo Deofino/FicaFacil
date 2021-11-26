@@ -169,7 +169,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       </sub>
     </td>
     <td align="center">
-      <img src="https://scontent.fgru17-1.fna.fbcdn.net/v/t39.30808-6/240768844_1524462347889503_6323374058340623662_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeElkGSt0HxLRoqmMCDvg2DUtLaXhZl29qC0tpeFmXb2oI0YQvVw0mSXta4qzoKdPFKBDDmFQMB1zwyRLoyZtIXZ&_nc_ohc=dxCIFtFgI-8AX9aM4jR&_nc_zt=23&_nc_ht=scontent.fgru17-1.fna&oh=574dc7a06f605284502e891265a17b46&oe=619DCD65" width="160px" alt="Foto do Paulo"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56117238?v=4" width="160px" alt="Foto do Paulo"/><br>
       <sub>
         <a href="https://www.github.com/PauloWarren">@Paulo Moreira</a>
       </sub>
@@ -186,7 +186,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       </sub>
     </td>
         <td align="center">
-      <img src="https://scontent.fgru17-1.fna.fbcdn.net/v/t39.30808-6/257124624_1795586460652505_7771577132485693283_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeEI_c_KEPQ9R7NI2oA0x5ABQpO-tvEkNVVCk7628SQ1VWDSPlSaLrNW4oZxw0WHZ07EbknXEK2sJU1x2j0zh2t1&_nc_ohc=8iQ-XcdwsHsAX_Bz-xt&_nc_zt=23&_nc_ht=scontent.fgru17-1.fna&oh=32528cb84a3f7a9f185dc6227e3c3a31&oe=619C6139" width="160px" alt="Foto da Camylly"/><br>
+      <img src="https://avatars.githubusercontent.com/u/56116752?v=4" width="160px" alt="Foto da Camylly"/><br>
       <sub>
         <a href="https://www.github.com/CamyLima09">@Camylly</a>
       </sub>

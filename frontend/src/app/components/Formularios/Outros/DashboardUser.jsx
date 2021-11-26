@@ -1,8 +1,57 @@
-import React from "react";
-import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
+import React, { useEffect, useState } from "react";
+import { ChartPie, ChartArea, /* ChartBar  */} from "../../Main/Charts";
 import { FaEdit } from "react-icons/fa";
+import axios from "axios";
+import { parseJwt } from "../../Header/NavBarUser";
 
 export default function DashboardAdm() {
+  const [inicio, setInicio] = useState(null);
+  const [fim, setFim] = useState(null);
+
+  const [acertos, setAcertos] = useState(0);
+  const [erros, setErros] = useState(0);
+  const [cliente, setCliente] = useState(
+    parseJwt(localStorage.getItem("user")).id || null
+  );
+  const [simuladosPCliente, setSimuladosPCliente] = useState(0);
+    
+  useEffect(() => {
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getAcertos?cliente=${cliente}&inicio=${inicio}&fim=${fim}`
+      );
+      let res = await req.data.data;
+      /* console.log(res); */
+      if (+Object.values(res[0])[0] === 404) {
+        console.error("Erro na requisição Acertos");
+      } else setAcertos(+res[0].acertos);
+    })();
+
+
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getErros?cliente=${cliente}&inicio=${inicio}&fim=${fim}`
+      );
+      let res = await req.data.data;
+      /* console.log(res); */
+      if (+Object.values(res[0])[0] === 404) {
+        console.error("Erro na requisição Erros");
+      } else setErros(+res[0].erros);
+    })();
+
+   /*  (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getSimuladosPorCliente?cliente=${cliente}&inicio=${inicio}`
+      );
+      let res = await req.data.data;
+       console.log(res); 
+      if (+Object.values(res[0])[0] === 404) {
+        console.error("Erro na requisição Simulados");
+      } else setSimuladosPCliente(+res[0].simuladosPCliente);
+    })(); */
+  }, [cliente, inicio, fim]);
+
+
   let dataMaterias = [
     {
       name: "Física",
@@ -20,35 +69,34 @@ export default function DashboardAdm() {
       color: "#6f42c1",
     },
     {
-        name: "Artes",
-        Acertos: 2,
-        color: "#513487",
-      },
-      {
-        name: "Filosofia",
-        Acertos: 20,
-        color: "#007bff",
-      },
-    
+      name: "Artes",
+      Acertos: 2,
+      color: "#513487",
+    },
+    {
+      name: "Filosofia",
+      Acertos: 20,
+      color: "#007bff",
+    },
   ];
   let dataAcertos = [
     {
       name: "Acertos",
-      Acertos: 45,
+      Acertos: acertos,
       color: "#4746B0",
-    }
+    },
   ];
   let dataDesem = [
     {
       name: "Acertos",
-      Acertos: 20,
-      color: "#513487",
+      Acertos: acertos,
+      color: "#216E80",
     },
     {
       name: "Erros",
-      Acertos: 90,
-      color: "#4746B0",
-    }
+      Acertos: erros,
+      color: "#2F823B",
+    },
   ];
 
   return (
@@ -85,7 +133,9 @@ export default function DashboardAdm() {
             <h2 className="dashboard__c__right__statistics__datas__title">
               Qual matéria evoluir
             </h2>
-            <p className="dashboard__c__right__statistics__datas__num">Filosofia</p>
+            <p className="dashboard__c__right__statistics__datas__num">
+              Filosofia
+            </p>
           </div>
           <div className="dashboard__c__right__statistics__datas">
             <h2 className="dashboard__c__right__statistics__datas__title">
@@ -95,19 +145,22 @@ export default function DashboardAdm() {
           </div>
         </div>
 
-
         <div className="dashboard__c__left">
           <div className="dashboard__c__left__um">
-            <h3 className="dashboard__c__left__um__title">
-                Melhores Matérias
-            </h3>
-              <ChartPie data={dataMaterias} dataKey="Acertos" outerRadius={90} innerRadius={65}/>
+            <h3 className="dashboard__c__left__um__title">Melhores Matérias</h3>
+            <ChartPie
+              data={dataMaterias}
+              dataKey="Acertos"
+              outerRadius={90}
+              innerRadius={65}
+            />
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
               Questões por dia
             </h3>
-            <ChartArea data = {[
+            <ChartArea
+              data={[
                 {
                   dia: "Seg",
                   entradas: 5,
@@ -136,24 +189,36 @@ export default function DashboardAdm() {
                   dia: "Dom",
                   entradas: 5,
                 },
-            ]}  keyData="entradas" keyName="dia" /* color="#513487" *//>
+              ]}
+              keyData="entradas"
+              keyName="dia" /* color="#513487" */
+            />
           </div>
           <div className="dashboard__c__left__et">
             <div className="dashboard__c__left__et__tres">
-            <h3 className="dashboard__c__left__et__tres__title">
+              <h3 className="dashboard__c__left__et__tres__title">
                 Último simulado
               </h3>
-            <ChartPie data={dataAcertos} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+              <ChartPie
+                data={dataAcertos}
+                dataKey="Acertos"
+                outerRadius={90}
+                innerRadius={65}
+              />
             </div>
             <div className="dashboard__c__left__et__quatro">
               <h3 className="dashboard__c__left__et__quatro__title">
                 Desempenho geral
               </h3>
-              <ChartPie data={dataDesem} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+              <ChartPie
+                data={dataDesem}
+                dataKey="Acertos"
+                outerRadius={90}
+                innerRadius={65}
+              />
             </div>
           </div>
         </div>
-        
       </div>
     </section>
   );

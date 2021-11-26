@@ -9,23 +9,25 @@ import TextField from "@material-ui/core/TextField";
  * @param children: JSX MENUITEM ou Value -- children Menu Items do select
  */
 const CustomSelect = React.forwardRef((props, ref) => (
-  <TextField
-    select
-    helperText={props.error || null}
-    error={props.error ? true : false}
-    id={props.id || null}
-    name={props.name || null}
-    innerRef={ref}
-    value={props.value || ""}
-    label={props.label || "Selecione:"}
-    variant="filled"
-    className={`c-select ${props.class || ""} ${
-      props.error && " c-select--error"
-    }`}
-    onChange={props.onChange || null}
-  >
-    {props.children}
-  </TextField>
+  <div className="select">
+    <label htmlFor={props.id}>{props.label || "Selecione:"}</label>
+    <div
+      className={`c-select ${props.class || ""} ${
+        props.error && " c-select--error"
+      }`}
+    >
+      {props.helper && <div className="c-select__icon">{props.helper}</div>}
+      <input
+        id={props.id || null}
+        name={props.name || null}
+        list={props.id + "list"}
+        value={props.value || ""}
+        onChange={props.onChange || null}
+      />
+    </div>
+    {props.error && <small className="select--error">{props.error}</small>}
+    <datalist id={props.id + "list"}>{props.children}</datalist>
+  </div>
 ));
 
 export default CustomSelect;

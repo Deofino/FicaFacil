@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { Input, Select, MenuItem, Button, Table } from "../../Form/";
+import { Input, Select, option, Button, Table } from "../../Form/";
 import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { ToastError, ToastSuccess, ToastWarning } from "../../Alert/Toast";
@@ -137,12 +137,12 @@ const Backdrop = (props) => {
           error={errAttMateria}
           onChange={({ target }) => setAttMateria(target.value)}
         >
-          <MenuItem value={-1}>Selecione</MenuItem>
+          <option value={-1}>Selecione</option>
           {attReqAssuntoMateria.materia !== undefined &&
             attReqAssuntoMateria.materia.materia.map((item) => (
-              <MenuItem value={item.idMateria} key={item.idMateria}>
-                {item.nomeMateria}
-              </MenuItem>
+              <option value={item.idMateria} key={item.idMateria}>
+                {item.idMateria + " - " + item.nomeMateria}
+              </option>
             ))}
         </Select>
         <Button type="submit" className="c-formularioUpdate__item">
@@ -154,7 +154,6 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioAssuntoMateria() {
-
   const [pesquisa, setPesquisa] = useState("");
 
   const [materias, setMaterias] = useState([]);
@@ -184,13 +183,16 @@ export default function FormularioAssuntoMateria() {
       .catch((error) => ToastError({ text: error || "Error" }));
 
     axios
-      .get(`${process.env.REACT_APP_API}/assuntoMateria/index/?pesquisa=${pesquisa}`, {
-        headers: {
-          Authorization: `Bearer ${
-            localStorage.getItem("auth") || localStorage.getItem("user")
-          }`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API}/assuntoMateria/index/?pesquisa=${pesquisa}`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        }
+      )
       .then((value) => {
         if (value.data.status_code === 200) {
           setAssuntoMateria(value.data.data);
@@ -322,12 +324,12 @@ export default function FormularioAssuntoMateria() {
           error={ErroMateria}
           onChange={({ target }) => setSelectedMateria(target.value)}
         >
-          <MenuItem value="0">Selecione</MenuItem>
+          <option value="0">Selecione</option>
           {materias.materia !== undefined &&
             materias.materia.map((item) => (
-              <MenuItem value={item.idMateria} key={item.idMateria}>
-                {item.nomeMateria}
-              </MenuItem>
+              <option value={item.idMateria} key={item.idMateria}>
+                {item.idMateria + " - " + item.nomeMateria}
+              </option>
             ))}
         </Select>
         <Button
@@ -346,18 +348,18 @@ export default function FormularioAssuntoMateria() {
           onChange={(e) => setPesquisa(e.target.value)}
           id="pesquisa"
           className="c-forms__inputSearch"
-        />        
+        />
 
-      <Table
-        colunas={colunas}
-        linhas={linhas}
-        tabela="assuntoMateria"
-        nome="Assunto Matéria"
-        style={{
-          marginTop: 20,
-        }}
-        functionUpdate={update}
-      />
+        <Table
+          colunas={colunas}
+          linhas={linhas}
+          tabela="assuntoMateria"
+          nome="Assunto Matéria"
+          style={{
+            marginTop: 20,
+          }}
+          functionUpdate={update}
+        />
       </div>
       <div id="backdrop"></div>
     </section>
