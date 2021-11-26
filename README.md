@@ -128,6 +128,7 @@ $ composer install
 
 Logo depois, Entre na pasta frontend:
 ```bash
+$ cd ../../
 $ cd frontend
 ```
 
