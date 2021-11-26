@@ -130,7 +130,7 @@ class ClienteModel extends UserModel
             }
             if ($stmt->execute()) {
                 return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhuma cliente encontrada...", 404) :
+                    Response::warning("Nenhuma cliente encontrada...", 200) :
                     Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
             return Response::error("Erro ao selecionar cliente");
