@@ -8,53 +8,53 @@ use Model\ProceduresModel;
 class ProceduresController
 {
 
-    public function sp_getAcertos($params) // parametros daqui sao da URL
+    public function sp_getAcertos() // parametros daqui sao da URL
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
             $model = new ProceduresModel();
-            $dentro = '';
             $parametros = [];
-            
+
+            $parametros[':cliente'] = null;
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
+
+
             if (isset($_GET['cliente'])) {
-                $dentro .= ':cliente,';
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
-              if (isset($_GET['inicio'])) {
-                $dentro .= ':inicio,';
+            if (isset($_GET['inicio'])) {
                 $parametros[':inicio'] = (int) $_GET['inicio'];
             }
-              if (isset($_GET['fim'])) {
-                $dentro .= ':fim,';
+            if (isset($_GET['fim'])) {
                 $parametros[':fim'] = (int) $_GET['fim'];
             }
-            $dentro =  substr($dentro, 0, strlen($dentro)-1);
-            echo $model->getTodosAcertos($dentro,$parametros);
+            echo $model->getTodosAcertos($parametros);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
 
-    public function sp_getErros($params) // parametros daqui sao da URL
+    public function sp_getErros() // parametros daqui sao da URL
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
             $model = new ProceduresModel();
             $dentro = '';
             $parametros = [];
-            
+
             if (isset($_GET['cliente'])) {
                 $dentro .= ':cliente,';
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
-              if (isset($_GET['inicio'])) {
+            if (isset($_GET['inicio'])) {
                 $dentro .= ':inicio,';
                 $parametros[':inicio'] = (int) $_GET['inicio'];
             }
-              if (isset($_GET['fim'])) {
+            if (isset($_GET['fim'])) {
                 $dentro .= ':fim,';
                 $parametros[':fim'] = (int) $_GET['fim'];
             }
-            $dentro =  substr($dentro, 0, strlen($dentro)-1);
-            echo $model->getTodosAcertos($dentro,$parametros);
+            $dentro =  substr($dentro, 0, strlen($dentro) - 1);
+            echo $model->getTodosErros($dentro, $parametros);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
@@ -66,16 +66,16 @@ class ProceduresController
             $model = new ProceduresModel();
             $dentro = '';
             $parametros = [];
-            
+
             if (isset($_GET['cliente'])) {
                 $dentro .= ':cliente,';
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
-              if (isset($_GET['inicio'])) {
+            if (isset($_GET['inicio'])) {
                 $dentro .= ':inicio,';
                 $parametros[':inicio'] = (int) $_GET['inicio'];
             }
-              if (isset($_GET['fim'])) {
+            if (isset($_GET['fim'])) {
                 $dentro .= ':fim,';
                 $parametros[':fim'] = (int) $_GET['fim'];
             }
@@ -83,8 +83,8 @@ class ProceduresController
                 $dentro .= ':materia,';
                 $parametros[':materia'] = (int) $_GET['materia'];
             }
-            $dentro =  substr($dentro, 0, strlen($dentro)-1);
-            echo $model->getTodosAcertos($dentro,$parametros);
+            $dentro =  substr($dentro, 0, strlen($dentro) - 1);
+            echo $model->getTodosErros($dentro, $parametros);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
@@ -96,21 +96,21 @@ class ProceduresController
             $model = new ProceduresModel();
             $dentro = '';
             $parametros = [];
-            
+
             if (isset($_GET['cliente'])) {
                 $dentro .= ':cliente,';
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
-              if (isset($_GET['inicio'])) {
+            if (isset($_GET['inicio'])) {
                 $dentro .= ':inicio,';
                 $parametros[':inicio'] = (int) $_GET['inicio'];
             }
-              if (isset($_GET['fim'])) {
+            if (isset($_GET['fim'])) {
                 $dentro .= ':fim,';
                 $parametros[':fim'] = (int) $_GET['fim'];
             }
-            $dentro =  substr($dentro, 0, strlen($dentro)-1);
-            echo $model->getTodosAcertos($dentro,$parametros);
+            $dentro =  substr($dentro, 0, strlen($dentro) - 1);
+            echo $model->getTodosErros($dentro, $parametros);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
@@ -122,17 +122,17 @@ class ProceduresController
             $model = new ProceduresModel();
             $dentro = '';
             $parametros = [];
-            
+
             if (isset($_GET['cliente'])) {
                 $dentro .= ':cliente,';
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
-              if (isset($_GET['inicio'])) {
+            if (isset($_GET['inicio'])) {
                 $dentro .= ':inicio,';
                 $parametros[':inicio'] = (int) $_GET['inicio'];
             }
-            $dentro =  substr($dentro, 0, strlen($dentro)-1);
-            echo $model->getTodosAcertos($dentro,$parametros);
+            $dentro =  substr($dentro, 0, strlen($dentro) - 1);
+            echo $model->getTodosErros($dentro, $parametros);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
