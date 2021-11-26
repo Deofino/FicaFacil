@@ -180,7 +180,7 @@ $ yarn start
     <td align="center">
       <img src="https://scontent.fcgh5-1.fna.fbcdn.net/v/t1.6435-9/132744154_963077917553572_378258341595064382_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeFLbBlz_FIi6RBTI8Ay2phfo0MKN8GwbhKjQwo3wbBuEnzi3Gah7nXZSnaR_Hl8Hqq3Yy9n5kfcMhORqULk7HqI&_nc_ohc=E0K20rJgSYEAX_nGP1h&tn=np09y7gEvo2woQYG&_nc_ht=scontent.fcgh5-1.fna&oh=5f401c0de8a6099eecf66b8f106ba8a0&oe=61B26581" width="160px" alt="Foto da Gabriely"/><br>
       <sub>
-        <a href="https://www.github.com/Gabriely-BMO">@Gabrielly Brito</a>
+        <a href="https://www.github.com/Gabriely-BMO">@Gabriely Brito</a>
       </sub>
     </td>
         <td align="center">
