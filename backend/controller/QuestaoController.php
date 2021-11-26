@@ -165,14 +165,14 @@ class QuestaoController
                 }
 
                 // Sugestao
-                if (isset($_POST['tituloSugestao']) && isset($_POST['thumbnail']) && isset($_POST['url'])) {
-                    $sugestao = new SugestaoVideoModel();
-                    $sugestao->setTitulo(trim($_POST['tituloSugestao']));
-                    $sugestao->setThumbnailVideo(trim($_POST['thumbnail']));
-                    $sugestao->setUrlVideo(trim($_POST['url']));
-                    $sugestao->setQuestao($idInserted);
-                    $sugestao->post();
-                }
+                // if (isset($_POST['tituloSugestao']) && isset($_POST['thumbnail']) && isset($_POST['url'])) {
+                //     $sugestao = new SugestaoVideoModel();
+                //     $sugestao->setTitulo(trim($_POST['tituloSugestao']));
+                //     $sugestao->setThumbnailVideo(trim($_POST['thumbnail']));
+                //     $sugestao->setUrlVideo(trim($_POST['url']));
+                //     $sugestao->setQuestao($idInserted);
+                //     $sugestao->post();
+                // }
                 echo Response::success("Questao inserida com sucesso");
             } else echo Response::warning('Parametros não encontrado ou vazio/nulo', 404);
             return;
@@ -231,22 +231,22 @@ class QuestaoController
                                 $model->setImagem($namesImages);
 
                                 //sugestao
-                                if (
-                                    trim($_POST['tituloSugestao']) !== '' && trim($_POST['thumb']) !== '' && trim($_POST['url']) !== ''
-                                ) {
-                                    $sugestao = new SugestaoVideoModel();
-                                    $sugestao->setTitulo(trim($_POST['tituloSugestao']));
-                                    $sugestao->setThumbnailVideo(trim($_POST['thumb']));
-                                    $sugestao->setUrlVideo(trim($_POST['url']));
-                                    $sugestao->setQuestao($_POST['id']);
-                                    $idSugestao = json_decode($sugestao->get(['id' => $_POST['id']]))->data;
-                                    if (isset($idSugestao->sugestaoVideo)) {
-                                        $idSugestao = (int)$idSugestao->sugestaoVideo[0]->idSugestaoVideo;
-                                        $sugestao->put($idSugestao);
-                                    } else {
-                                        $sugestao->post();
-                                    }
-                                }
+                                // if (
+                                //     trim($_POST['tituloSugestao']) !== '' && trim($_POST['thumb']) !== '' && trim($_POST['url']) !== ''
+                                // ) {
+                                //     $sugestao = new SugestaoVideoModel();
+                                //     $sugestao->setTitulo(trim($_POST['tituloSugestao']));
+                                //     $sugestao->setThumbnailVideo(trim($_POST['thumb']));
+                                //     $sugestao->setUrlVideo(trim($_POST['url']));
+                                //     $sugestao->setQuestao($_POST['id']);
+                                //     $idSugestao = json_decode($sugestao->get(['id' => $_POST['id']]))->data;
+                                //     if (isset($idSugestao->sugestaoVideo)) {
+                                //         $idSugestao = (int)$idSugestao->sugestaoVideo[0]->idSugestaoVideo;
+                                //         $sugestao->put($idSugestao);
+                                //     } else {
+                                //         $sugestao->post();
+                                //     }
+                                // }
                                 // alternativas
                                 if (isset($_FILES['alternativas'])) {
                                     // alternativas com imagem

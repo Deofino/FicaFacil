@@ -30,7 +30,10 @@
             font-size: $global-font-size-sm;
         }
     }
-
+    p > a {
+        font-weight: 900 !important;
+        font-size: rem(12);
+    }
     > div {
         border: rem(1) solid rgba($color: $primary, $alpha: 0.4);
         border-bottom: none;
