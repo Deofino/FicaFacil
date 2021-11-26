@@ -13,11 +13,14 @@
     @include darkMode{
         background-color: #513487;
     }
+    @media (max-width: 327px){
+        height: 100px;
+    }
 }
 
 .infos{
     width: 100%;
-    height: 150px;
+    height: auto;
     background-color: transparent;
     margin-top: -5% !important;
     display: flex;
@@ -29,6 +32,13 @@
     @media (max-width: 427px){
         padding-left: 0px !important;
     }
+    @media (max-width: 327px){
+        flex-direction: column;
+        margin: 0 auto;
+        display: flex;
+    }
+    
+    
 
     &__foto{
         width: 150px;
@@ -47,6 +57,11 @@
             height: 90px;
             transition: .5s;
         }
+        @media (max-width: 327px){
+            width: 120px !important;
+            height: 120px !important;
+            margin: 0 auto !important;
+        }
     }
 
     &__texto{
@@ -61,6 +76,8 @@
         }
         @media (max-width: 350px){
             margin-top: 20px !important;
+            margin: 0 auto;
+            padding-left: 0 !important;
         }
 
         &__nome{
@@ -115,6 +132,10 @@
                 @include darkMode{
                     color: #FFF;
                 }
+
+                @media (max-width: 516px){
+                    font-size: 20px;
+                }
             }
         }
         .dados{
@@ -122,6 +143,9 @@
             justify-content: space-between;
             padding-top: 10px !important;
             padding-bottom: 10px !important;
+            @media (max-width: 516px){
+                flex-direction: column;
+            }
 
             .nomeUsuario, .emailUsuario, .dataNascUsuario{
                 .fixo{
@@ -130,6 +154,9 @@
                     @include darkMode{
                         color: #FFF;
                     }
+                    @media (max-width: 516px){
+                        font-size: 17px;
+                    }
                 }
                 .var{
                     color: #242424;
@@ -137,11 +164,33 @@
                     @include darkMode{
                         color: #FFF;
                     }
+                    @media (max-width: 382px){
+                        font-size: 13px;
+                    }
                 }
             }
 
             .btnEditar{
-               /*Fazer o botão*/
+               background-color: #5666CF;
+               justify-content: center;
+               text-align: center;
+               height: 30px;
+               padding-left: 15px;
+               padding-right: 15px;
+               padding-top: 5px;
+               padding-bottom: 5px;
+               border-radius: 3px;
+               cursor: pointer;
+
+               &:hover{
+                   background-color: #909adb;
+               }
+               
+               //Aqui pode alterar para <a>, <span> ou sla oq
+               p{
+                font-weight: bold;
+                color: #FFF;
+               }
             }
 
         }

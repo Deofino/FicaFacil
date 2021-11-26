@@ -5,11 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-<<<<<<< HEAD
-        'reference' => 'c316417852431ad222ee64a76959beec7a30bf0c',
-=======
-        'reference' => 'dbdd581e03861e8be5c8c229370723cc9e6197ba',
->>>>>>> ecd5aa8a9d7d72420f3ab8990b78ac7e69dbabff
+        'reference' => 'fc279556158d9f67a2cabed818413ca10025e385',
         'name' => 'tcc/fica-facil',
         'dev' => true,
     ),
@@ -78,12 +74,12 @@
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
-            'pretty_version' => 'v6.5.1',
-            'version' => '6.5.1.0',
+            'pretty_version' => 'v6.5.3',
+            'version' => '6.5.3.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
-            'reference' => 'dd803df5ad7492e1b40637f7ebd258fee5ca7355',
+            'reference' => 'baeb7cde6b60b1286912690ab0693c7789a31e71',
             'dev_requirement' => false,
         ),
         'psr/http-client' => array(
@@ -155,11 +151,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-<<<<<<< HEAD
-            'reference' => 'c316417852431ad222ee64a76959beec7a30bf0c',
-=======
-            'reference' => 'dbdd581e03861e8be5c8c229370723cc9e6197ba',
->>>>>>> ecd5aa8a9d7d72420f3ab8990b78ac7e69dbabff
+            'reference' => 'fc279556158d9f67a2cabed818413ca10025e385',
             'dev_requirement' => false,
         ),
     ),
