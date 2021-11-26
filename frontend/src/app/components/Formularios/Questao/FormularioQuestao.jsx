@@ -18,7 +18,7 @@ import {
   ToastWarning,
 } from "../../Alert/Toast";
 import { Link } from "react-router-dom";
-import { Button, Input, option, Select, Table, Radio } from "../../Form";
+import { Button, Input,  Select, Table, Radio } from "../../Form";
 import FormularioResposta from "./FormularioResposta";
 import { UseQuestion } from "../../Context/QuestaoContext";
 import { IconButton, RadioGroup, Tooltip } from "@material-ui/core";

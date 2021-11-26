@@ -149,7 +149,6 @@ class ClienteController
                 */
             $user = ($this->google->getResourceOwner($token));
             // dd($user);
-            
             $model = new ClienteModel();
             if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data)) {
                 $model->delete(['email' => $user->getEmail()]);
