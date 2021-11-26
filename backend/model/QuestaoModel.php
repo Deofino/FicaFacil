@@ -4,7 +4,7 @@ namespace Model;
 
 use Helper\Connection;
 use Helper\Response;
-use Model\AdministradorModel; //fazer Model ADM e Controller ADM(Aí é com você Delfs)
+use Model\AdministradorModel;
 use Model\DificuldadeModel;
 use Model\AssuntoMateriaModel;
 use Model\UniversidadeModel;

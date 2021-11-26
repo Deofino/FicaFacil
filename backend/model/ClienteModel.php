@@ -171,25 +171,38 @@ class ClienteModel extends UserModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
-        if (isset($params['senha'])) {
+        try{
             $con = Connection::getConn();
-            $stmt = $con->prepare('UPDATE tb_cliente set senhaCliente = ? WHERE idCliente LIKE ?');
-            $stmt->bindParam(1, $params['senha'], PDO::PARAM_STR);
-            $stmt->bindParam(2, $params['id'], PDO::PARAM_INT);
+            $stmt = $con->prepare('UPDATE tb_cliente set nomeCompletoCliente = ? , emailCliente = ? , senhaCliente = ? , dataAniversarioCliente = ? , fotoCliente = ? WHERE idCliente LIKE ?');
+            $stmt->bindParam(1, $this->getNome(), PDO::PARAM_STR);
+            $stmt->bindParam(2, $this->getEmail(), PDO::PARAM_STR);
+            $stmt->bindParam(3, $this->getSenha(), PDO::PARAM_STR);
+            $stmt->bindParam(4, $this->getDataAniversario(), PDO::PARAM_STR);
+            $stmt->bindParam(5, $id, PDO::PARAM_INT);
+
             if ($stmt->execute()) {
-                return  Response::success('Senha alterada com sucesso com sucesso');
+                return  Response::success('Dados alterados com sucesso');
             }
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
         }
     }
     public function delete($params)
     {
         if (isset($params['email'])) {
             $con = Connection::getConn();
-
             $stmt = $con->prepare('DELETE FROM tb_cliente WHERE emailCliente LIKE ?');
             $stmt->bindParam(1, $params['email'], PDO::PARAM_STR);
+            if ($stmt->execute()) {
+                return  Response::success('Cliente deletado com sucesso');
+            }
+        }
+        if (isset($params['id'])) {
+            $con = Connection::getConn();
+            $stmt = $con->prepare('DELETE FROM tb_cliente WHERE idCliente LIKE ?');
+            $stmt->bindParam(1, $params['id'], PDO::PARAM_STR);
             if ($stmt->execute()) {
                 return  Response::success('Cliente deletado com sucesso');
             }
