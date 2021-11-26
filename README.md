@@ -118,7 +118,7 @@ Para começar:
 # Clone o repositório
 $ git clone https://github.com/Deofino/FicaFacil.git
 ```
-Precisamos instalar em primeiro na pasta lib o composer:
+Precisamos instalar em primeiro lugar o composer:
 ```bash
 # Instale as dependências
 $ cd backend
