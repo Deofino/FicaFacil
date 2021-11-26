@@ -186,7 +186,7 @@ $ yarn start
         <td align="center">
       <img src="https://avatars.githubusercontent.com/u/56116752?v=4" width="160px" alt="Foto da Camylly"/><br>
       <sub>
-        <a href="https://www.github.com/CamyLima09">@Camylly</a>
+        <a href="https://www.github.com/CamyLima09">@Camylly Lima</a>
       </sub>
     </td>
     <td align="center">
