@@ -17,7 +17,6 @@ import {
   ToastWarning,
 } from "../../Alert/Toast";
 import { Button, Input, MenuItem, Select, Table, Radio } from "../../Form";
-import FormularioSugestaoVideo from "./FormularioSugestaoVideo";
 import FormularioResposta from "./FormularioResposta";
 import { UseQuestion } from "../../Context/QuestaoContext";
 import { IconButton, RadioGroup, Tooltip } from "@material-ui/core";

@@ -4,7 +4,7 @@ import { SimuladoProvider, useSimulado } from "../../Context/SImuladoContext";
 import { Questoes } from "./Questoes";
 import { Backdrop } from "@material-ui/core";
 import { AlertWarning } from "../../Alert/Modal";
-import { MdContentCut, MdBugReport } from "react-icons/md";
+import { MdContentCut, } from "react-icons/md";
 import { FaCircle, FaDotCircle, FaArrowRight } from "react-icons/fa";
 
 /**

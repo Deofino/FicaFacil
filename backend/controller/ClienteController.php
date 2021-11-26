@@ -149,22 +149,24 @@ class ClienteController
                 */
             $user = ($this->google->getResourceOwner($token));
             // dd($user);
-            $data = [
-                'id' => $user->getEmail(),
-                'nome' => $user->getFirstName() . " " . $user->getLastName(),
-                'email' => $user->getEmail(),
-                'foto' => $user->getAvatar(),
-                'facebook' => true,
-            ];
 
             $model = new ClienteModel();
-            if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data[0]->tem)) {
+            if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data)) {
                 $model->delete(['email' => $user->getEmail()]);
             };
             $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
             $model->setEmail(trim($user->getEmail()));
             $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
             $model->post();
+
+            $data = [
+                'id' =>
+                json_decode($model->get(['email' => $user->getEmail()]))->data[0]->idCliente,
+                'nome' => $user->getFirstName() . " " . $user->getLastName(),
+                'email' => $user->getEmail(),
+                'foto' => $user->getAvatar(),
+                'facebook' => true,
+            ];
 
             $jwt = JWT::createJWT($data);
             echo Response::success(['token' => $jwt]);

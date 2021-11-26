@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import { ToastWarning } from "../../Alert/Toast";
 import Logo from "../../../../img/project/logo-branca.png";
 import axios from "axios";
 

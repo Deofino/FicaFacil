@@ -1,29 +1,56 @@
 import React, { useEffect, useState } from "react";
-import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
+import { ChartPie, ChartArea, /* ChartBar  */} from "../../Main/Charts";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
+import { parseJwt } from "../../Header/NavBarUser";
 
 export default function DashboardAdm() {
-  const [cliente, setCliente] = useState(4);
   const [inicio, setInicio] = useState(null);
   const [fim, setFim] = useState(null);
 
   const [acertos, setAcertos] = useState(0);
-  const [erros, setErros] = useState(10);
-
+  const [erros, setErros] = useState(0);
+  const [cliente, setCliente] = useState(
+    parseJwt(localStorage.getItem("user")).id || null
+  );
+  const [simuladosPCliente, setSimuladosPCliente] = useState(0);
+    
   useEffect(() => {
     (async function () {
       let req = await axios.get(
         `${process.env.REACT_APP_API}/procedures/sp_getAcertos?cliente=${cliente}&inicio=${inicio}&fim=${fim}`
       );
       let res = await req.data.data;
-
-      console.log(res);
+      /* console.log(res); */
       if (+Object.values(res[0])[0] === 404) {
-        console.error("Erro na requisicao");
+        console.error("Erro na requisição Acertos");
       } else setAcertos(+res[0].acertos);
     })();
+
+
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getErros?cliente=${cliente}&inicio=${inicio}&fim=${fim}`
+      );
+      let res = await req.data.data;
+      /* console.log(res); */
+      if (+Object.values(res[0])[0] === 404) {
+        console.error("Erro na requisição Erros");
+      } else setErros(+res[0].erros);
+    })();
+
+   /*  (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getSimuladosPorCliente?cliente=${cliente}&inicio=${inicio}`
+      );
+      let res = await req.data.data;
+       console.log(res); 
+      if (+Object.values(res[0])[0] === 404) {
+        console.error("Erro na requisição Simulados");
+      } else setSimuladosPCliente(+res[0].simuladosPCliente);
+    })(); */
   }, [cliente, inicio, fim]);
+
 
   let dataMaterias = [
     {

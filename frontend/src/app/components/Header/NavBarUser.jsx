@@ -4,7 +4,6 @@ import { Tooltip, IconButton, Zoom } from "@material-ui/core";
 import {
   FaSearch,
   FaChartLine,
-  FaChartPie,
   FaUserAlt,
   FaCog,
   FaSignOutAlt,
