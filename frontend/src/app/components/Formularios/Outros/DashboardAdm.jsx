@@ -71,6 +71,14 @@ export default function DashboardAdm() {
               130
             </p>
           </div>
+          <div className="dashboard__c__right__statistics__datas">
+            <h2 className="dashboard__c__right__statistics__datas__title">
+              Questões cadastradas
+            </h2>
+            <p className="dashboard__c__right__statistics__datas__num">
+            333
+            </p>
+          </div>
         </div>
         <div className="dashboard__c__left">
           <div className="dashboard__c__left__um">
