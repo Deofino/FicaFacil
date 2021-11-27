@@ -285,10 +285,10 @@ body {
         }
         &__image-profile {
             display: none;
-            svg{
+            svg {
                 font-size: rem(20);
                 margin-right: rem(-5);
-                @include breakpoint (small){
+                @include breakpoint(small) {
                     font-size: rem(15);
                 }
             }
@@ -711,7 +711,7 @@ body {
                         fill: $white;
                     }
                 }
-            } 
+            }
         }
         &__input-search {
             font-size: $global-font-size;
@@ -1008,4 +1008,9 @@ body {
             left: 80%;
         }
     }
+}
+
+#attribution_block {
+    display: none !important;
+    opacity: 0 !important;
 }
