@@ -45,11 +45,6 @@ export default function Perfil() {
     storage === "true" ? 2 : 1 || 1
   );
 
-  const dark = (e) => {
-    setDark(e.target.checked);
-    localStorage.setItem("dark", e.target.checked);
-  };
-
   React.useEffect(() => {
     isDark === 2
       ? document.querySelector("html").classList.add("dark")
