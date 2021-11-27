@@ -133,7 +133,7 @@ export default function Perfil() {
                     <br>
                     </br>
                     <p className="fonte">Escala de fonte</p>
-                    <Box sx={{ width: 860 }}>
+                    <Box sx={{ width: '100%' }}>
                         <Slider
                             aria-label="Custom marks"
                             defaultValue={30}
