@@ -30,7 +30,6 @@ class ProceduresModel
     }
 
     public function getTodosErros(
-        
         array $parametros = [
             ':cliente' => null,
             ':inicio' => null,
@@ -51,7 +50,6 @@ class ProceduresModel
     }
 
     public function getQuantidadeQuestoesPorCliente(
-
         array $parametros = [
             ':cliente' => null,
             ':inicio' => null,
@@ -72,7 +70,6 @@ class ProceduresModel
     }
 
     public function getSimuladosRefazer( 
-
         array $parametros = [
             ':inicio' => null,
             ':fim' => null,
@@ -93,11 +90,9 @@ class ProceduresModel
     }
 
     public function getSimuladosPorCliente(
-        
         array $parametros = [
             ':inicio' => null,
             ':fim' => null,
-
         ]
     ) {
         try {
@@ -114,19 +109,17 @@ class ProceduresModel
     }
 
     public function getAcertosPorMateria(
-        
         array $parametros = [
             ':cliente' => null,
             ':materia' => null,
             ':inicio' => null,
             ':fim' => null,
-
         ]
     ) {
         try {
             $dentro = ':cliente, :materia, :inicio, :fim';
             $con = Connection::getConn();
-            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            $stmt = $con->prepare("call sp_getAcertosPorMateria($dentro)");
             if ($stmt->execute($parametros)) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
@@ -137,19 +130,17 @@ class ProceduresModel
     }
 
     public function getErrosPorMateria(
-        
         array $parametros = [
             ':cliente' => null,
             ':materia' => null,
             ':inicio' => null,
             ':fim' => null,
-
         ]
     ) {
         try {
             $dentro = ':cliente, :materia, :inicio, :fim';
             $con = Connection::getConn();
-            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            $stmt = $con->prepare("call sp_getErrosPorMateria($dentro)");
             if ($stmt->execute($parametros)) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
@@ -160,19 +151,17 @@ class ProceduresModel
     }
 
     public function getQtdePorMateria(
-        
         array $parametros = [
             ':cliente' => null,
             ':materia' => null,
             ':inicio' => null,
             ':fim' => null,
-
         ]
     ) {
         try {
             $dentro = ':cliente, :materia, :inicio, :fim';
             $con = Connection::getConn();
-            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            $stmt = $con->prepare("call sp_getQtdePorMateria($dentro)");
             if ($stmt->execute($parametros)) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;

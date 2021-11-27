@@ -137,10 +137,13 @@
             background-color: $dash-light;
             border-radius: rem(25);
             margin: rem(0) rem(40) rem(0) rem(40);
-            max-height: rem(580);
+            max-height: rem(500);
             margin-top: rem(40);
             border: 1px solid #899fff;
             box-shadow: 0 rem(2) rem(4) var(--color-shadow);
+            @include breakpoint(large){
+               margin: rem(0);
+            } 
             @include breakpoint(smallmin){
                 margin: rem(5);
             } 
@@ -207,8 +210,11 @@
                 &__title{
                     font-size: rem(21);
                     margin: rem(20);
+                    @include breakpoint(large){
+                        font-size: rem(17);
+                    }
                     @include breakpoint(medium){
-                        font-size: rem(18);
+                        font-size: rem(16);
                     }
                 }
                 &__datas{
@@ -218,6 +224,11 @@
                     border-right: 4px;
                     border-radius: rem(15);
                     border-left: 10px solid $primary;
+                    
+                    @include breakpoint(large){
+                        margin: rem(10) rem(20);
+                    }
+
                     &__title{
                         font-size: rem(16);
                         color: $primary;

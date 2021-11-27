@@ -40,6 +40,10 @@ class ProceduresController
             $model = new ProceduresModel();
             $parametros = [];
 
+            $parametros[':cliente'] = null;
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
+
             if (isset($_GET['cliente'])) {
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
@@ -61,6 +65,10 @@ class ProceduresController
             $model = new ProceduresModel();
             $parametros = [];
 
+            $parametros[':cliente'] = null;
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
+
             if (isset($_GET['cliente'])) {
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
@@ -81,6 +89,10 @@ class ProceduresController
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
             $model = new ProceduresModel();
             $parametros = [];
+            
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
+            $parametros[':cliente'] = null;
 
             if (isset($_GET['inicio'])) {
                 $parametros[':inicio'] = (int) $_GET['inicio'];
@@ -103,6 +115,12 @@ class ProceduresController
             $model = new ProceduresModel();
             $parametros = [];
 
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
+
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
+
             if (isset($_GET['inicio'])) {
                 $parametros[':inicio'] = (int) $_GET['inicio'];
             }
@@ -120,6 +138,11 @@ class ProceduresController
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
             $model = new ProceduresModel();
             $parametros = [];
+
+            $parametros[':cliente'] = null;
+            $parametros[':materia'] = null;
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
 
             if (isset($_GET['cliente'])) {
                 $parametros[':cliente'] = (int) $_GET['cliente'];
@@ -145,6 +168,11 @@ class ProceduresController
             $model = new ProceduresModel();
             $parametros = [];
 
+            $parametros[':cliente'] = null;
+            $parametros[':materia'] = null;
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
+
             if (isset($_GET['cliente'])) {
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
@@ -168,6 +196,11 @@ class ProceduresController
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
             $model = new ProceduresModel();
             $parametros = [];
+
+            $parametros[':cliente'] = null;
+            $parametros[':materia'] = null;
+            $parametros[':inicio'] = null;
+            $parametros[':fim'] = null;
 
             if (isset($_GET['cliente'])) {
                 $parametros[':cliente'] = (int) $_GET['cliente'];
