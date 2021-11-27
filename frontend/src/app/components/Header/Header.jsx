@@ -5,8 +5,8 @@ import logo from "../../../img/project/logo-branca.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Header() {
+  // logica darkMode
   const storage = localStorage.getItem("dark");
-
   const [isDark, setDark] = React.useState(
     storage === "true" ? true : false || false
   );
@@ -22,6 +22,8 @@ export default function Header() {
       : document.querySelector("html").classList.remove("dark");
   }, [isDark]);
 
+  //fim logica darkMode
+
   const [isOpen, setOpen] = React.useState("");
   const handle = () => {
     setOpen(isOpen === "" ? "l-header--open" : "");
@@ -30,7 +32,7 @@ export default function Header() {
     <header className={"l-header " + isOpen}>
       <div className="l-header__logo">
         <div className="l-header__image">
-            <img src={logo} alt="Logotipo, Fica Facil"/>
+          <img src={logo} alt="Logotipo, Fica Facil" />
         </div>
         {isOpen === "" ? (
           <FaBars className="l-header__menu icon" onClick={() => handle()} />
@@ -48,6 +50,7 @@ export default function Header() {
             arrow
             placement="top"
           >
+            {/* switch pra trocar, dai voces fazem a logica, vejam como funciona o radio button componente que eu criei */}
             <Switch
               inputProps={{ "aria-label": "DarkMode" }}
               checked={isDark}

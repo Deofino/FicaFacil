@@ -1,24 +1,28 @@
-*{
+* {
     margin: 0;
     padding: 0;
-
 }
-
-.capa{
-    background-color: #4a64d9; 
+.MuiSlider-markLabelActive,
+.MuiSlider-markLabel {
+    @include darkMode {
+        color: $light !important;
+    }
+}
+.capa {
+    background-color: $primary;
     /*#513487 DARK*/
     width: 100%;
     height: 150px;
 
-    @include darkMode{
+    @include darkMode {
         background-color: #513487;
     }
-    @media (max-width: 327px){
+    @media (max-width: 327px) {
         height: 100px;
     }
 }
 
-.infos{
+.infos {
     width: 100%;
     height: auto;
     background-color: transparent;
@@ -26,256 +30,213 @@
     display: flex;
     padding-left: 150px !important;
 
-    @media (max-width: 1050px){
+    @media (max-width: 1050px) {
         padding-left: 50px !important;
     }
-    @media (max-width: 427px){
+    @media (max-width: 427px) {
         padding-left: 0px !important;
     }
-    @media (max-width: 327px){
+    @media (max-width: 327px) {
         flex-direction: column;
         margin: 0 auto;
         display: flex;
     }
-    
-    
 
-    &__foto{
+    &__foto {
+        cursor: pointer;
+        @include flex(center);
+        svg {
+            opacity: 0.8;
+            transition: 0.5s all ease;
+            font-size: rem(40);
+            &:hover {
+                opacity: 1;
+            }
+        }
         width: 150px;
         height: 150px;
-        background-color: #383838;
-        border: 2px solid #ffffff;
+        background-color: $gray-dark;
+        border: 2px solid $white;
         border-radius: 100px;
 
-        @media (max-width: 427px){
+        @media (max-width: 427px) {
             width: 120px;
             height: 120px;
-            transition: .5s;
+            transition: 0.5s;
         }
-        @media (max-width: 350px){
+        @media (max-width: 350px) {
             width: 90px;
             height: 90px;
-            transition: .5s;
+            transition: 0.5s;
         }
-        @media (max-width: 327px){
+        @media (max-width: 327px) {
             width: 120px !important;
             height: 120px !important;
             margin: 0 auto !important;
         }
     }
 
-    &__texto{
+    &__texto {
         background-color: transparent;
         height: 75px;
         margin-top: 66px !important;
         padding-left: 30px !important;
         flex-direction: column;
 
-        @media (max-width: 475px){
+        @media (max-width: 475px) {
             margin-top: 50px !important;
         }
-        @media (max-width: 350px){
+        @media (max-width: 350px) {
             margin-top: 20px !important;
             margin: 0 auto;
             padding-left: 0 !important;
         }
 
-        &__nome{
-            .txtNome{
-                color: #242424;
+        &__nome {
+            .txtNome {
+                color: $dark;
                 font-size: 30px;
                 font-weight: bold;
-                @include darkMode{
-                    color: #FFF;
+                @include darkMode {
+                    color: $white;
                 }
             }
         }
 
-        &__aluno{
-            .txtAluno{
-                color: #242424;
+        &__aluno {
+            .txtAluno {
+                color: $dark;
                 font-size: 13px;
-                @include darkMode{
-                    color: #FFF;
+                @include darkMode {
+                    color: $white;
                 }
             }
         }
     }
 }
 
-.card{
+.card {
     margin-top: 30px !important;
     width: 100%;
     background-color: transparent;
-    
 
-    &__body{
+    &__body {
         width: 80%;
         height: auto;
-        background-color: #FFF;
+        background-color: $white;
         margin: 0 auto !important;
         padding: 30px !important;
         border-radius: 10px;
-        box-shadow: 10px 10px 10px #0000004d;
-        @include darkMode{
-            background-color: #1a1d20;
+        box-shadow: 2px 2px 10px var(--color-shadow);
+        @include darkMode {
+            background-color: darken($color: $dark, $amount: 3%);
         }
 
-        .meusDados{
+        .meusDados {
             background-color: transparent;
             padding-bottom: 30px;
 
-            p{
+            p {
                 color: #242424;
                 font-size: 25px;
                 font-weight: bold;
-                @include darkMode{
-                    color: #FFF;
+                @include darkMode {
+                    color: $white;
                 }
 
-                @media (max-width: 516px){
-                    font-size: 20px;
+                @media (max-width: 516px) {
+                    font-size: $global-font-size-xlg;
                 }
             }
         }
-        .dados{
+        .dados {
             display: flex;
             justify-content: space-between;
             padding-top: 10px !important;
             padding-bottom: 10px !important;
-            @media (max-width: 516px){
+            @media (max-width: 516px) {
                 flex-direction: column;
             }
 
-            .nomeUsuario, .emailUsuario, .dataNascUsuario{
-                .fixo{
-                    color: #0f0f0f;
-                    font-size: 22px;
-                    @include darkMode{
-                        color: #FFF;
+            .nomeUsuario,
+            .emailUsuario,
+            .dataNascUsuario {
+                .fixo {
+                    color: $black;
+                    font-size: $global-font-size-lg;
+                    @include darkMode {
+                        color: $light;
                     }
-                    @media (max-width: 516px){
+                    @media (max-width: 516px) {
                         font-size: 17px;
                     }
                 }
-                .var{
+                .var {
                     color: #242424;
-                    font-size: 15px;
-                    @include darkMode{
-                        color: #FFF;
+                    font-size: $global-font-size;
+                    @include darkMode {
+                        color: $light;
                     }
-                    @media (max-width: 382px){
-                        font-size: 13px;
+                    @media (max-width: 382px) {
+                        font-size: $global-font-size-sm;
                     }
                 }
             }
 
-            .btnEditar{
-               background-color: #5666CF;
-               justify-content: center;
-               text-align: center;
-               height: 30px;
-               padding-left: 15px;
-               padding-right: 15px;
-               padding-top: 5px;
-               padding-bottom: 5px;
-               border-radius: 3px;
-               cursor: pointer;
+            .btnEditar {
+                display: flex;
+                background-color: #5666cf;
+                justify-content: center;
+                text-align: center;
+                align-items: center;
+                cursor: pointer;
+                height: rem(20);
+                padding: rem(16);
+                border-radius: rem(4);
 
-               &:hover{
-                   background-color: #909adb;
-               }
-               
-               //Aqui pode alterar para <a>, <span> ou sla oq
-               p{
-                font-weight: bold;
-                color: #FFF;
-               }
+                &:hover {
+                    background-color: #909adb;
+                }
+
+                //Aqui pode alterar para <a>, <span> ou sla oq
+                p {
+                    font-weight: bold;
+                    color: $white;
+                }
             }
-
         }
 
-        .itensAparencia{
+        .itensAparencia {
             font-size: 22px;
-            color: #000;
-            @include darkMode{
-                color: #FFF;
+            color: $black;
+            @include darkMode {
+                color: $white;
             }
         }
 
-        .aparencia{
-
-            .radioGrupo{
-                
-                
-                .radio{
-                    font-size: 15px;
-                    font-weight: 500;
-                    display: flex;
-                    color: #0f0f0f;
-                    position: relative;
-                    background-color: #ececec;
-                    padding: 10px;
-                    border: 2px #FFF solid;
-                    border-radius: 10px;
-                    @include darkMode{
-                        color: #FFF;
-                        border: 2px #1a1d20 solid;
-                        background-color: #0f0f0f;
+        .aparencia {
+            .c-radio {
+                background-color: darken($color: $light, $amount: 5%);
+                & > span:first-child {
+                    color: $accent !important;
+                    padding: rem(4) !important;
+                    &:hover {
+                        transition: 0.3s ease;
+                        background-color: rgba($color: $accent, $alpha: 0.075) !important;
                     }
-
-                    p{
-                        padding-left: 30px;
-                    }
-
-                    input[type="radio"]{
-                        display: none;
-
-                        &:checked ~ span:after{
-                            transform: translate(-50%, -50%) scale(1);
-                        }
-                    }
-
-                    span{
-                        margin-top: 6px;
-                        margin-left: 10px;
-                        height: 14px;
-                        width: 14px;
-                        border-radius: 50%;
-                        border: 2px solid #4a64d9;
-                        display: block;
-                        position: absolute;
-                        left: 0;
-                        top: 7px;
-
-                        &:after{
-                            content: "";
-                            height: 7px;
-                            width: 7px;
-                            background-color: #4a64d9;
-                            display: block;
-                            position: absolute;
-                            left: 50%;
-                            top: 50%;
-                            transform: translate(-50%, -50%) scale(0);
-                            border-radius: 50%;
-                            transition: 300ms ease-in-out 0s;
-                        }
-
+                    span:hover,
+                    span:active {
+                        color: $accent !important;
                     }
                 }
+                @include darkMode {
+                    background-color: darken($color: $dark, $amount: 5%);
+                    color: $white;
+                }
+                margin-top: rem(4);
+                padding: rem(4);
+                border-radius: rem(8);
             }
-
-           
-            
-                
-                
-            
         }
-
-
-        
     }
 }
-
-

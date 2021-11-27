@@ -72,7 +72,7 @@ export default function NavbarUser() {
           </div>
         </li>
         <li className="c-navbar__menu-item">
-          <Link to="/entrar">
+          <Link to="/perfil">
             <div className="space">
               <FaUserAlt className="icon" />
               <span className="c-navbar__links-name">Perfil</span>

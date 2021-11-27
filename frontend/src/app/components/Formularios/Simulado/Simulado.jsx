@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Button, Select, MenuItem } from "../../Form";
+import { Button, Select, option } from "../../Form";
 import { SimuladoProvider, useSimulado } from "../../Context/SImuladoContext";
 import { Questoes } from "./Questoes";
 import { Backdrop } from "@material-ui/core";
 import { AlertWarning } from "../../Alert/Modal";
-import { MdContentCut, } from "react-icons/md";
+import { MdContentCut } from "react-icons/md";
 import { FaCircle, FaDotCircle, FaArrowRight } from "react-icons/fa";
 
 /**
@@ -28,8 +28,8 @@ export function Simulado(props) {
   const [universidade, setUniversidade] = useState(null);
   const [materia, setMateria] = useState(null);
   const [assunto, setAssunto] = useState(null);
-
-  if (reqQuestao !== []) {
+  console.log(reqQuestao);
+  if (reqQuestao !== [] && reqQuestao !== undefined) {
     return (
       <SimuladoProvider>
         <section className="l-simulado">
@@ -105,7 +105,7 @@ export function Simulado(props) {
                     certeza de que está errada (essa opção não é absoluta, pode
                     fazer quando e em quantas quiser).
                   </p>
-                 {/*  <p className="l-simulado__instructions__icons__txt">
+                  {/*  <p className="l-simulado__instructions__icons__txt">
                     <MdBugReport className="l-simulado__instructions__icons__txt__e" />
                     - Caso encontre algum erro na questão ou no próprio sistema,
                     pode reportá-lo.
@@ -135,23 +135,25 @@ export function Simulado(props) {
                   value={quantidade}
                   onChange={({ target }) => {
                     setQuantidade(target.value);
-                    if (filter.includes("limit")) {
-                      setFilter(
-                        RemoveParameterFromUrl("?" + filter, "limit") +
-                        `&limit=${target.value}`
-                      );
-                    } else {
-                      if (target.value > 0) {
-                        setFilter(`${filter}&limit=${target.value}`);
-                        return;
+                    if (target.value) {
+                      if (filter.includes("limit")) {
+                        setFilter(
+                          RemoveParameterFromUrl("?" + filter, "limit") +
+                            `&limit=${target.value}`
+                        );
+                      } else {
+                        if (target.value.length > 1) {
+                          setFilter(`${filter}&limit=${target.value}`);
+                          return;
+                        }
                       }
                     }
                   }}
                 >
-                  <MenuItem value={-1}>Selecione</MenuItem>
-                  <MenuItem value={10}>10 questões - 1:30 horas</MenuItem>
-                  <MenuItem value={15}>15 questões - 3:00 horas</MenuItem>
-                  <MenuItem value={20}>20 questões - 4:30 horas</MenuItem>
+                  <option value={-1}>Selecione</option>
+                  <option value={15}>10 questões</option>
+                  <option value={20}>15 questões</option>
+                  <option value={30}>20 questões</option>
                 </Select>
                 <Select
                   label="Dificuldade"
@@ -162,7 +164,7 @@ export function Simulado(props) {
                     if (filter.includes("dificuldade")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "dificuldade") +
-                        `&dificuldade=${target.value}`
+                          `&dificuldade=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
@@ -172,16 +174,14 @@ export function Simulado(props) {
                     }
                   }}
                 >
-                  <MenuItem value={-1}>Aleatória</MenuItem>
-                  {reqQuestao !== [] &&
+                  <option value={-1}>Aleatória</option>
+                  {reqQuestao !== undefined &&
+                    reqQuestao !== [] &&
                     reqQuestao.dificuldade !== undefined &&
                     reqQuestao.dificuldade.map((el) => (
-                      <MenuItem
-                        value={+el.idDificuldade}
-                        key={el.idDificuldade}
-                      >
-                        {el.nivelDificuldade}
-                      </MenuItem>
+                      <option value={+el.idDificuldade} key={el.idDificuldade}>
+                        {el.idDificuldade + " - " + el.nivelDificuldade}
+                      </option>
                     ))}
                 </Select>
                 <Select
@@ -193,7 +193,7 @@ export function Simulado(props) {
                     if (filter.includes("universidade")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "universidade") +
-                        `&universidade=${target.value}`
+                          `&universidade=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
@@ -203,16 +203,13 @@ export function Simulado(props) {
                     }
                   }}
                 >
-                  <MenuItem value={-1}>Aleatória</MenuItem>
-                  {reqQuestao !== [] &&
+                  <option value={-1}>Aleatória</option>
+                  {(reqQuestao !== undefined && reqQuestao) !== [] &&
                     reqQuestao.universidade !== undefined &&
                     reqQuestao.universidade.map((el) => (
-                      <MenuItem
-                        value={el.idUniversidade}
-                        key={el.idUniversidade}
-                      >
-                        {el.nomeUniversidade}
-                      </MenuItem>
+                      <option value={el.idUniversidade} key={el.idUniversidade}>
+                        {el.idUniversidade + " - " + el.nomeUniversidade}
+                      </option>
                     ))}
                 </Select>
                 <Select
@@ -224,7 +221,7 @@ export function Simulado(props) {
                     if (filter.includes("materia")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "materia") +
-                        `&materia=${target.value}`
+                          `&materia=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
@@ -234,14 +231,15 @@ export function Simulado(props) {
                     }
                   }}
                 >
-                  <MenuItem value={-1}>Aleatória</MenuItem>
-                  {reqQuestao !== [] &&
+                  <option value={-1}>Aleatória</option>
+                  {reqQuestao !== undefined &&
+                    reqQuestao !== [] &&
                     reqQuestao.assuntoMateria !== undefined &&
                     reqQuestao.assuntoMateria.materia !== undefined &&
                     reqQuestao.assuntoMateria.materia.materia.map((el) => (
-                      <MenuItem value={el.idMateria} key={el.idMateria}>
-                        {el.nomeMateria}
-                      </MenuItem>
+                      <option value={el.idMateria} key={el.idMateria}>
+                        {el.idMateria + " - " + el.nomeMateria}
+                      </option>
                     ))}
                 </Select>
                 <Select
@@ -253,7 +251,7 @@ export function Simulado(props) {
                     if (filter.includes("assunto")) {
                       setFilter(
                         RemoveParameterFromUrl("?" + filter, "assunto") +
-                        `&assunto=${target.value}`
+                          `&assunto=${target.value}`
                       );
                     } else {
                       if (target.value > 0) {
@@ -263,17 +261,18 @@ export function Simulado(props) {
                     }
                   }}
                 >
-                  <MenuItem value={-1}>Aleatória</MenuItem>
-                  {reqQuestao !== [] &&
+                  <option value={-1}>Aleatória</option>
+                  {reqQuestao !== undefined &&
+                    reqQuestao !== [] &&
                     reqQuestao.assuntoMateria !== undefined &&
                     reqQuestao.assuntoMateria.assuntoMateria !== undefined &&
                     reqQuestao.assuntoMateria.assuntoMateria.map((el) => (
-                      <MenuItem
+                      <option
                         value={el.idAssuntoMateria}
                         key={el.idAssuntoMateria}
                       >
-                        {el.nomeAssuntoMateria}
-                      </MenuItem>
+                        {el.idAssuntoMateria + " - " + el.nomeAssuntoMateria}
+                      </option>
                     ))}
                 </Select>
                 <Button

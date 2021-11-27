@@ -40,10 +40,10 @@
                 max-width: 50%;
             }
         }
-        &__frame{
+        &__frame {
             height: 0;
-        
-            &__conf{
+
+            &__conf {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -107,16 +107,21 @@
 }
 
 .l-simulado {
+    .select {
+        margin-bottom: rem(12);
+        margin-right: rem(4);
+    }
     &__filtro {
         @include flex(space-around);
         flex-wrap: wrap;
         > div,
         > button {
-            margin-bottom: rem(4);
+            margin-top: rem(12);
             flex-grow: 1;
             height: rem(50);
             max-width: rem(350);
             @include breakpoint(small) {
+                margin-right: 0;
                 max-width: 100%;
             }
         }
