@@ -28,7 +28,6 @@ export function Simulado(props) {
   const [universidade, setUniversidade] = useState(null);
   const [materia, setMateria] = useState(null);
   const [assunto, setAssunto] = useState(null);
-  console.log(reqQuestao);
   if (reqQuestao !== [] && reqQuestao !== undefined) {
     return (
       <SimuladoProvider>
@@ -130,6 +129,7 @@ export function Simulado(props) {
               <h2>Filtrar Simulado</h2>
               <div className="l-simulado__filtro">
                 <Select
+                  id="qtde"
                   label="Quantidade de Questões *"
                   className="l-simulado__select"
                   value={quantidade}
@@ -157,6 +157,7 @@ export function Simulado(props) {
                 </Select>
                 <Select
                   label="Dificuldade"
+                  id="dificuldade"
                   className="l-simulado__select"
                   value={dificuldade}
                   onChange={({ target }) => {
@@ -175,9 +176,7 @@ export function Simulado(props) {
                   }}
                 >
                   <option value={-1}>Aleatória</option>
-                  {reqQuestao !== undefined &&
-                    reqQuestao !== [] &&
-                    reqQuestao.dificuldade !== undefined &&
+                  {reqQuestao.dificuldade !== undefined &&
                     reqQuestao.dificuldade.map((el) => (
                       <option value={+el.idDificuldade} key={el.idDificuldade}>
                         {el.idDificuldade + " - " + el.nivelDificuldade}
@@ -186,6 +185,7 @@ export function Simulado(props) {
                 </Select>
                 <Select
                   label="Universidade"
+                  id="universidade"
                   className="l-simulado__select"
                   value={universidade}
                   onChange={({ target }) => {
@@ -214,6 +214,7 @@ export function Simulado(props) {
                 </Select>
                 <Select
                   label="Materia"
+                  id="materia"
                   className="l-simulado__select"
                   value={materia}
                   onChange={({ target }) => {
@@ -245,6 +246,7 @@ export function Simulado(props) {
                 <Select
                   label="Assunto Materia"
                   className="l-simulado__select"
+                  id="assunto"
                   value={assunto}
                   onChange={({ target }) => {
                     setAssunto(target.value);

@@ -46,6 +46,7 @@
         cursor: pointer;
         @include flex(center);
         svg {
+            fill: $light;
             opacity: 0.8;
             transition: 0.5s all ease;
             font-size: rem(40);

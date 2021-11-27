@@ -1,4 +1,4 @@
-import React, { } from "react";
+import React, { useCallback } from "react";
 import axios from "axios";
 import Smiley from "../../../../img/project/smiley.svg";
 import song from "../../../../audio/fim_simulado.mp3";
@@ -8,13 +8,13 @@ import { parseJwt } from "../../Header/NavBarUser";
 import { useSimulado } from "../../Context/SImuladoContext";
 
 export default function Resultados(props) {
-  const { quantidade, comeco, fim, /* reqQuestao */ } = props;
+  const { quantidade, comeco, fim /* reqQuestao */ } = props;
   let { acertos, erros, questoesSimulado } = useSimulado();
   const [Sair, setSair] = React.useState(false);
   const [Refazer, setRefazer] = React.useState(false);
   document.querySelector("audio").play();
-
-  const inserir = () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const inserir = useCallback(() => {
     let user = 0;
     if (localStorage.getItem("user")) {
       let data = parseJwt(localStorage.getItem("user"));
@@ -49,14 +49,21 @@ export default function Resultados(props) {
           // setSair(true);
         });
     }
-  };
+  });
+
+  React.useEffect(() => {
+    return () => {
+      setSair(true);
+    };
+  }, []);
   if (Refazer) {
     // refazer as questoes
+    axios.get(`${process.env.REACT_APP_API}procedures/sp_getSimuladosRefazer?cliente=5&inicio=7&fim=fim`)
+    console.log(new Date());
   }
   if (Sair) {
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
+    inserir();
+    window.location.reload();
   }
 
   return (
@@ -89,7 +96,7 @@ export default function Resultados(props) {
         <Button
           className="c-results__dados__btns__s__b"
           onClick={() => {
-            inserir();
+            setSair(true);
           }}
         >
           Sair <FaArrowRight style={{ marginLeft: 10 }} />

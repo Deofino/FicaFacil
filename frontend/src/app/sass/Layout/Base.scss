@@ -65,6 +65,8 @@ th,
 td,
 input,
 button {
+  // font-size: 90% !important;
+
   margin: 0;
   padding: 0;
   border: 0;
@@ -184,8 +186,8 @@ sub {
 
 body {
   line-height: $global-line-height;
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, avenir next, avenir,
-    segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica,
+    Ubuntu, roboto, noto, arial, sans-serif;
   min-height: 100vh;
   height: 100%;
   padding-right: 0 !important;
