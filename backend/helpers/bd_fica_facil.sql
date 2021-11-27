@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Nov-2021 às 00:02
--- Versão do servidor: 10.4.18-MariaDB
--- versão do PHP: 8.0.3
+-- Tempo de geração: 27-Nov-2021 às 01:14
+-- Versão do servidor: 10.4.19-MariaDB
+-- versão do PHP: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -155,6 +155,24 @@ count(tb_simulado.idSimulado) as erros
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getMateriaEvoluir` (IN `cliente` INT)  begin 
+	if EXISTS (SELECT 1 from tb_cliente where idCliente = cliente) THEN
+    select 
+nomeMateria as materia,
+count(tb_simulado.idSimulado) as total
+from tb_simulado
+INNER join tb_questao on tb_questao.idQuestao = tb_simulado.idQuestao
+INNER JOIN tb_assunto_materia on tb_assunto_materia.idAssuntoMateria = tb_questao.idAssuntoMateria
+inner join tb_materia on tb_materia.idMateria = tb_assunto_materia.idMateria
+where tb_simulado.acertouQuestao = 0 and idCliente = cliente
+group by materia
+ORDER by total desc
+limit 5;
+    ELSE
+    	SELECT "404" as erro;
+    end if;
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getQtdePorMateria` (IN `cliente` INT, IN `materia` INT, IN `inicio` DATETIME, IN `fim` DATETIME)  BEGIN
 	set @nulo = '0000-00-00 00:00:00';
     IF(select 1 from tb_materia where idMateria = materia)
@@ -197,6 +215,27 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getQtdePorMateria` (IN `cliente`
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getQtdePorMateriaAgrupada` (IN `cliente` INT)  BEGIN
+ IF EXISTS (select 1 from tb_cliente WHERE idCliente = cliente) then
+ 	select count(idSimulado) as quantidade, nomeMateria from tb_simulado 
+inner join tb_questao on tb_questao.idQuestao = tb_simulado.idQuestao
+inner join tb_assunto_materia on tb_assunto_materia.idAssuntoMateria = tb_questao.idAssuntoMateria
+inner join tb_materia on tb_materia.idMateria = tb_assunto_materia.idMateria
+where idCliente = cliente
+group by nomeMateria 
+order by quantidade desc
+limit 5;
+ ELSE
+ 	select count(idSimulado) as quantidade, nomeMateria from tb_simulado 
+inner join tb_questao on tb_questao.idQuestao = tb_simulado.idQuestao
+inner join tb_assunto_materia on tb_assunto_materia.idAssuntoMateria = tb_questao.idAssuntoMateria
+inner join tb_materia on tb_materia.idMateria = tb_assunto_materia.idMateria
+group by nomeMateria 
+order by quantidade desc
+limit 5;
+ END if;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getQuantidadeQuestoesPorCliente` (IN `cliente` INT, IN `tempo1` DATETIME, IN `tempo2` DATETIME)  BEGIN
 	IF EXISTS(SELECT 1 FROM tb_cliente where tb_cliente.idCliente = cliente) THEN
         IF (tempo1 <> '0000-00-00 00:00:00' and tempo2 <> '0000-00-00 00:00:00')
@@ -220,6 +259,14 @@ IF tempo1 != '0000-00-00 00:00:00' THEN
 ELSE
 	select COUNT(idSimulado) as qtde, tb_cliente.nomeCompletoCliente as cliente from tb_simulado inner join tb_cliente on tb_cliente.idCliente = tb_simulado.idCliente GROUP BY tb_simulado.idCliente; 
 end IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getSimuladosRealizados` (IN `cliente` INT)  BEGIN
+	if EXISTS (select 1 from tb_cliente where idCliente = cliente) THEN
+    	select count(DISTINCT tb_simulado.DataInicioSimulado) from tb_simulado where idCliente = cliente;
+    ELSE	
+    	SELECT "404" as erro;
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getSimuladosRefazer` (IN `tempo1` DATETIME, IN `tempo2` DATETIME, IN `cliente` INT)  BEGIN
@@ -398,7 +445,8 @@ CREATE TABLE `tb_cliente` (
 
 INSERT INTO `tb_cliente` (`idCliente`, `nomeCompletoCliente`, `emailCliente`, `senhaCliente`, `dataAniversarioCliente`, `fotoCliente`, `simuladosFeitos`, `simuladosRefeitos`, `acertos`, `erros`, `videosAssistidos`) VALUES
 (2, 'Kauê Loviz de Oliveira', 'klovizoliveira@gmail.com', '$2y$10$DzgLZVVrZF75XAMmRfLO4.Sn.cmvqvsb41DpUjzVkWBIQnUWQ8dYO', '0000-00-00', '', 0, 0, 0, 0, 0),
-(4, 'Guilherme Delfino', 'guilhermedelfino25@gmail.com', '$2y$10$5e3YXjQfHH5oDneSpHhEkOTvNaoXC2jkuDAOE6A3a37eD422qHWlO', '0000-00-00', '', 0, 0, 0, 0, 0);
+(11, 'Guilherme Narciso', 'guihb2003@hotmail.com', '$2y$10$GZOwKR7U3ocj6tdcH6ctDOJfZRo1N/oxY2kbfbnBvPjhB9VMd.kiS', '0000-00-00', 'https://scontent.fgru6-1.fna.fbcdn.net/v/t1.30497-1/c59.0.200.200a/p200x200/84628273_176159830277856', 3, 0, 6, 24, 0),
+(14, 'Andre', 'guilhermedelfino25@gmail.com', '$2y$10$lpsEDQzZ0iqcfjJQoIs7g.aEEN5RoBuUIZTKElzrm4uzhy/3W8Ms2', '0000-00-00', '', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -475,7 +523,7 @@ CREATE TABLE `tb_questao` (
 --
 
 INSERT INTO `tb_questao` (`idQuestao`, `tituloQuestao`, `textoQuestao`, `imagensQuestao`, `idAdministrador`, `idDificuldade`, `idAssuntoMateria`, `idUniversidade`) VALUES
-(5, 'Percebe-se que a classe gramatical das palavras se altera em função da ordem que elas assumem na exp', 'Durante uma Copa do Mundo, foi veiculada, em programa esportivo de uma emissora de TV, a notícia de que um apostador inglês acertou o resultado de uma partida, porque seguiu os prognósticos de seu burro de estimação. Um dos comentaristas fez, então, a seguinte observação:\r\n\"Já vi muito comentarista burro, mas burro comentarista é a primeira vez.\"', '[]', 6, 3, 1, 11),
+(5, 'Percebe-se que a classe gramatical das palavras se altera em função da ordem que elas assumem na exp', 'Durante uma Copa do Mundo, foi veiculada, em programa esportivo de uma emissora de TV, a notícia de que um apostador inglês acertou o resultado de uma partida, porque seguiu os prognósticos de seu burro de estimação. Um dos comentaristas fez, então, a seguinte observação:\r\n\"Já vi muito comentarista burro, mas burro comentarista é a primeira vez.\"', '[]', 7, 3, 1, 11),
 (6, 'Assinale a alternativa que preencha corretamente as lacunas da frase ao lado:', '\"............................ da terra natal, ....................... para as antigas sensações .......................  estavam adormecidas.\"', '[]', 6, 3, 1, 10),
 (7, 'Nessa questão da prova de Matemática, as alternativas correspondem a um numeral. Qual é o tipo desse', 'Numa escola com 1 200 alunos foi realizada uma pesquisa sobre o conhecimento desses em duas línguas estrangeiras, inglês e espanhol.\r\nNessa pesquisa constatou-se que 600 alunos falam inglês, 500 falam espanhol e 300 não falam qualquer um desses idiomas.\r\nEscolhendo-se um aluno dessa escola ao acaso e sabendo-se que ele não fala inglês, qual a probabilidade de que esse aluno fale espanhol?\r\n1/4\r\n5/', '[]', 6, 1, 1, 3),
 (8, 'Responda o que se pede:', 'O plural dos nomes compostos está correto em todas as alternativas, exceto:', '[]', 6, 2, 1, 31),
@@ -2691,16 +2739,36 @@ CREATE TABLE `tb_simulado` (
 --
 
 INSERT INTO `tb_simulado` (`idSimulado`, `DataInicioSimulado`, `DataTerminoSimulado`, `idCliente`, `idQuestao`, `acertouQuestao`) VALUES
-(3, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 51, b'0'),
-(4, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 44, b'0'),
-(5, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 29, b'0'),
-(6, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 6, b'0'),
-(7, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 26, b'0'),
-(8, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 34, b'1'),
-(9, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 25, b'1'),
-(10, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 56, b'1'),
-(11, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 57, b'1'),
-(12, '2021-10-29 20:24:12', '2021-10-29 20:24:39', 4, 59, b'0');
+(38, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 102, b'0'),
+(39, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 38, b'0'),
+(40, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 268, b'0'),
+(41, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 373, b'0'),
+(42, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 312, b'0'),
+(43, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 106, b'0'),
+(44, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 126, b'0'),
+(45, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 218, b'0'),
+(46, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 282, b'0'),
+(47, '2021-11-26 19:23:31', '2021-11-26 19:24:00', 11, 128, b'0'),
+(48, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 369, b'1'),
+(49, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 73, b'0'),
+(50, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 141, b'1'),
+(51, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 201, b'0'),
+(52, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 331, b'0'),
+(53, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 158, b'0'),
+(54, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 46, b'0'),
+(55, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 20, b'0'),
+(56, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 151, b'1'),
+(57, '2021-11-26 19:24:11', '2021-11-26 19:28:46', 11, 26, b'0'),
+(58, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 113, b'0'),
+(59, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 79, b'0'),
+(60, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 159, b'0'),
+(61, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 236, b'0'),
+(62, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 174, b'0'),
+(63, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 220, b'1'),
+(64, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 369, b'0'),
+(65, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 279, b'0'),
+(66, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 22, b'1'),
+(67, '2021-11-26 19:53:55', '2021-11-26 19:55:23', 11, 136, b'1');
 
 --
 -- Acionadores `tb_simulado`
@@ -2708,7 +2776,7 @@ INSERT INTO `tb_simulado` (`idSimulado`, `DataInicioSimulado`, `DataTerminoSimul
 DELIMITER $$
 CREATE TRIGGER `Tgr_SimuladoErros_Insert` AFTER INSERT ON `tb_simulado` FOR EACH ROW BEGIN
     UPDATE tb_cliente SET tb_cliente.erros = tb_cliente.erros + 1
-WHERE tb_cliente.idCliente = NEW.idCliente;
+WHERE tb_cliente.idCliente = NEW.idCliente AND NEW.acertouQuestao = 0;
 END
 $$
 DELIMITER ;
@@ -2965,7 +3033,7 @@ ALTER TABLE `tb_assunto_materia`
 -- AUTO_INCREMENT de tabela `tb_cliente`
 --
 ALTER TABLE `tb_cliente`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `tb_dificuldade`
@@ -2977,25 +3045,25 @@ ALTER TABLE `tb_dificuldade`
 -- AUTO_INCREMENT de tabela `tb_materia`
 --
 ALTER TABLE `tb_materia`
-  MODIFY `idMateria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idMateria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `tb_questao`
 --
 ALTER TABLE `tb_questao`
-  MODIFY `idQuestao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=383;
+  MODIFY `idQuestao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=384;
 
 --
 -- AUTO_INCREMENT de tabela `tb_resposta`
 --
 ALTER TABLE `tb_resposta`
-  MODIFY `idResposta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1906;
+  MODIFY `idResposta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1911;
 
 --
 -- AUTO_INCREMENT de tabela `tb_simulado`
 --
 ALTER TABLE `tb_simulado`
-  MODIFY `idSimulado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idSimulado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT de tabela `tb_sugestao_video`
