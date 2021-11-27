@@ -170,4 +170,58 @@ class ProceduresModel
             throw new \Exception($th->getMessage(), 500);
         }
     }
+
+    public function getMateriaEvoluir(
+        array $parametros = [
+            ':cliente' => null,
+        ]
+    ) {
+        try {
+            $dentro = ':cliente';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getMateriaEvoluir($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getQtdePorMateriaAgrupada(
+        array $parametros = [
+            ':cliente' => null,
+        ]
+    ) {
+        try {
+            $dentro = ':cliente';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getQtdePorMateriaAgrupada($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getSimuladosRealizados(
+        array $parametros = [
+            ':cliente' => null,
+        ]
+    ) {
+        try {
+            $dentro = ':cliente';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getSimuladosRealizados($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
 }
