@@ -89,20 +89,21 @@ class ProceduresController
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
             $model = new ProceduresModel();
             $parametros = [];
-            
+
             $parametros[':inicio'] = null;
             $parametros[':fim'] = null;
             $parametros[':cliente'] = null;
 
             if (isset($_GET['inicio'])) {
-                $parametros[':inicio'] = (int) $_GET['inicio'];
+                $parametros[':inicio'] = $_GET['inicio'];
             }
             if (isset($_GET['fim'])) {
-                $parametros[':fim'] = (int) $_GET['fim'];
+                $parametros[':fim'] = $_GET['fim'];
             }
             if (isset($_GET['cliente'])) {
                 $parametros[':cliente'] = (int) $_GET['cliente'];
             }
+            // dd($parametros);
             echo $model->getSimuladosRefazer($parametros);
             return;
         }

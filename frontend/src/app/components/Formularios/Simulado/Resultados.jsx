@@ -11,6 +11,7 @@ export default function Resultados(props) {
   const { quantidade, comeco, fim /* reqQuestao */ } = props;
   let { acertos, erros, questoesSimulado } = useSimulado();
   const [Sair, setSair] = React.useState(false);
+  console.log(props);
   const [Refazer, setRefazer] = React.useState(false);
   document.querySelector("audio").play();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,7 +28,7 @@ export default function Resultados(props) {
     }
     if (user !== 0) {
       console.log(user);
-      axios
+      return axios
         .post(
           process.env.REACT_APP_API + `/simulado/create/`,
           JSON.stringify({
@@ -44,10 +45,7 @@ export default function Resultados(props) {
             },
           }
         )
-        .then((val) => console.log(val.data))
-        .finally(() => {
-          // setSair(true);
-        });
+        .then((val) => console.log(val.data));
     }
   });
 
@@ -57,12 +55,27 @@ export default function Resultados(props) {
     };
   }, []);
   if (Refazer) {
-    // refazer as questoes
-    axios.get(`${process.env.REACT_APP_API}procedures/sp_getSimuladosRefazer?cliente=5&inicio=7&fim=fim`)
-    console.log(new Date());
+    let user = parseJwt(localStorage.getItem("user"));
+    let fim =
+      new Date().toISOString().split("T")[0] +
+      " " +
+      new Date().toTimeString().split(" ")[0];
+    if (user.id !== undefined) {
+      inserir().finally(() => {
+        setTimeout(() => {
+          axios
+            .get(
+              `${process.env.REACT_APP_API}/procedures/sp_getSimuladosRefazer?cliente=${user.id}&inicio=${props.comeco}&fim=${fim}`
+            )
+            .then((val) => {
+              console.log(val.data);
+            });
+        }, 2000);
+      });
+    }
   }
   if (Sair) {
-    inserir();
+    inserir().then((val) => console.log(val));
     window.location.reload();
   }
 
