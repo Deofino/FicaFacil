@@ -69,7 +69,7 @@ class ProceduresModel
         }
     }
 
-    public function getSimuladosRefazer( 
+    public function getSimuladosRefazer(
         array $parametros = [
             ':inicio' => null,
             ':fim' => null,
@@ -79,7 +79,7 @@ class ProceduresModel
         try {
             $dentro = ':inicio, :fim, :cliente';
             $con = Connection::getConn();
-            $stmt = $con->prepare("call sp_getSimuladosPorCliente($dentro)");
+            $stmt = $con->prepare("call sp_getSimuladosRefazer($dentro)");
             if ($stmt->execute($parametros)) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
