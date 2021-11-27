@@ -5,7 +5,6 @@ import {
   FaSearch,
   FaChartLine,
   FaUserAlt,
-  FaCog,
   FaSignOutAlt,
   FaEdit,
 } from "react-icons/fa";
@@ -79,15 +78,6 @@ export default function NavbarUser() {
             </div>
           </Link>
           <span className="c-navbar__tooltip">Perfil</span>
-        </li>
-        <li className="c-navbar__menu-item">
-          <Link to="/configuracoes">
-            <div className="space">
-              <FaCog className="icon" />
-              <span className="c-navbar__links-name">Configuração</span>
-            </div>
-          </Link>
-          <span className="c-navbar__tooltip">Configuração</span>
         </li>
         <li className="c-navbar__profile">
           <div className="c-navbar__image-profile">

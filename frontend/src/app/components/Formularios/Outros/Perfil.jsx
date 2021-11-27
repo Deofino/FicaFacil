@@ -40,9 +40,22 @@ function valuetext(value) {
 }
 
 export default function Perfil() {
-  const [dark, setDark] = React.useState(1);
+  const storage = localStorage.getItem("dark"); 
+  const [isDark, setDark] = React.useState(
+    storage === "true" ? 2 : 1 || 1
+  );
 
-  React.useEffect(() => {}, [dark]);
+  const dark = (e) => {
+    setDark(e.target.checked);
+    localStorage.setItem("dark", e.target.checked);
+  };
+
+  React.useEffect(() => {
+    isDark === 2
+      ? document.querySelector("html").classList.add("dark")
+      : document.querySelector("html").classList.remove("dark");
+  }, [isDark]);
+
   return (
     <div>
       <div className="capa"></div>
@@ -118,9 +131,9 @@ export default function Perfil() {
           <div className="aparencia">
             <RadioGroup
               className="radioGrupo"
-              value={dark}
+              value={isDark}
               onChange={() => {
-                setDark(dark === 1 ? 2 : 1);
+                setDark(isDark === 1 ? 2 : 1);
               }}
             >
               <Radio value={1} className="aparencia__radio" label="Claro" />

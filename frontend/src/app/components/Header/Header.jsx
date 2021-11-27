@@ -5,25 +5,7 @@ import logo from "../../../img/project/logo-branca.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Header() {
-  // logica darkMode
-  const storage = localStorage.getItem("dark");
-  const [isDark, setDark] = React.useState(
-    storage === "true" ? true : false || false
-  );
-
-  const dark = (e) => {
-    setDark(e.target.checked);
-    localStorage.setItem("dark", e.target.checked);
-  };
-
-  React.useEffect(() => {
-    isDark
-      ? document.querySelector("html").classList.add("dark")
-      : document.querySelector("html").classList.remove("dark");
-  }, [isDark]);
-
-  //fim logica darkMode
-
+  
   const [isOpen, setOpen] = React.useState("");
   const handle = () => {
     setOpen(isOpen === "" ? "l-header--open" : "");
@@ -43,24 +25,6 @@ export default function Header() {
           />
         )}
       </div>
-      <FormControlLabel
-        control={
-          <Tooltip
-            title="Habilitar/desabilitar modo escuro"
-            arrow
-            placement="top"
-          >
-            {/* switch pra trocar, dai voces fazem a logica, vejam como funciona o radio button componente que eu criei */}
-            <Switch
-              inputProps={{ "aria-label": "DarkMode" }}
-              checked={isDark}
-              className="c-switch"
-              onChange={(e) => dark(e)}
-            />
-          </Tooltip>
-        }
-        label="Modo escuro"
-      />
       <Navbar />
     </header>
   );
