@@ -85,7 +85,7 @@ class ClienteModel extends UserModel
     {
         $this->dataAniversario = $dataAniversarioCliente;
     }
-    public function setFotoDataAniversario(string $fotoCliente): void
+    public function setFoto(string $fotoCliente): void
     {
         $this->foto = $fotoCliente;
     }
@@ -130,7 +130,7 @@ class ClienteModel extends UserModel
             }
             if ($stmt->execute()) {
                 return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhuma cliente encontrada...", 404) :
+                    Response::warning("Nenhuma cliente encontrada...", 200) :
                     Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
             return Response::error("Erro ao selecionar cliente");
@@ -159,10 +159,11 @@ class ClienteModel extends UserModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("INSERT INTO tb_cliente(nomeCompletoCliente, emailCliente, senhaCliente) values(?, ?, ?)");
+            $stmt = $con->prepare("INSERT INTO tb_cliente(nomeCompletoCliente, emailCliente, senhaCliente, fotoCliente) values(?, ?, ?,?)");
             $stmt->bindValue(1, trim($this->getNome()), PDO::PARAM_STR);
             $stmt->bindValue(2, trim($this->getEmail()), PDO::PARAM_STR);
             $stmt->bindValue(3, trim($this->getSenha()), PDO::PARAM_STR);
+            $stmt->bindValue(4, trim($this->getFoto()), PDO::PARAM_STR);
             if ($stmt->execute()) {
                 return Response::success("Cliente `{$this->getNome()}` inserido com sucesso, id=" . $con->lastInsertId());
             }
@@ -171,25 +172,38 @@ class ClienteModel extends UserModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
-    public function put($params)
+    public function put($id)
     {
-        if (isset($params['senha'])) {
+        try{
             $con = Connection::getConn();
-            $stmt = $con->prepare('UPDATE tb_cliente set senhaCliente = ? WHERE idCliente LIKE ?');
-            $stmt->bindParam(1, $params['senha'], PDO::PARAM_STR);
-            $stmt->bindParam(2, $params['id'], PDO::PARAM_INT);
+            $stmt = $con->prepare('UPDATE tb_cliente set nomeCompletoCliente = ? , emailCliente = ? , senhaCliente = ? , dataAniversarioCliente = ? , fotoCliente = ? WHERE idCliente LIKE ?');
+            $stmt->bindParam(1, $this->getNome(), PDO::PARAM_STR);
+            $stmt->bindParam(2, $this->getEmail(), PDO::PARAM_STR);
+            $stmt->bindParam(3, $this->getSenha(), PDO::PARAM_STR);
+            $stmt->bindParam(4, $this->getDataAniversario(), PDO::PARAM_STR);
+            $stmt->bindParam(5, $id, PDO::PARAM_INT);
+
             if ($stmt->execute()) {
-                return  Response::success('Senha alterada com sucesso com sucesso');
+                return  Response::success('Dados alterados com sucesso');
             }
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
         }
     }
     public function delete($params)
     {
         if (isset($params['email'])) {
             $con = Connection::getConn();
-
             $stmt = $con->prepare('DELETE FROM tb_cliente WHERE emailCliente LIKE ?');
             $stmt->bindParam(1, $params['email'], PDO::PARAM_STR);
+            if ($stmt->execute()) {
+                return  Response::success('Cliente deletado com sucesso');
+            }
+        }
+        if (isset($params['id'])) {
+            $con = Connection::getConn();
+            $stmt = $con->prepare('DELETE FROM tb_cliente WHERE idCliente LIKE ?');
+            $stmt->bindParam(1, $params['id'], PDO::PARAM_STR);
             if ($stmt->execute()) {
                 return  Response::success('Cliente deletado com sucesso');
             }
@@ -233,12 +247,12 @@ class ClienteModel extends UserModel
             ':inicio' => null,
             ':fim' => null,
             ':materia' => null,
-        ] 
-    ){
+        ]
+    ) {
         try {
             $con = Connection::getConn();
             $stmt = $con->prepare("call sp_getAcertos($dentro)");
-            if($stmt->execute($parametros)){
+            if ($stmt->execute($parametros)) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
             }
@@ -246,6 +260,4 @@ class ClienteModel extends UserModel
             throw new \Exception($th->getMessage(), 500);
         }
     }
-
-    
 }

@@ -50,7 +50,8 @@ class ClienteController
             if (isset($data->email) && isset($data->nome) && isset($data->senha)) {
                 $model->setNome(trim($data->nome));
                 $model->setEmail(trim($data->email));
-                $model->setSenha(trim(password_hash($data->senha, PASSWORD_DEFAULT))); // insere aqui pra passar pelas verificacoes de dados
+                $model->setSenha(trim(password_hash($data->senha, PASSWORD_DEFAULT))); // insere aqui pra passar pelas verificacoes 
+                $model->setFoto('');
                 echo $model->post();
             } else echo Response::warning('Parametro `email/nome/senha` não encontrado ou vazio/nulo', 404);
             return;
@@ -150,22 +151,29 @@ class ClienteController
             $user = ($this->google->getResourceOwner($token));
             // dd($user);
             $model = new ClienteModel();
-            if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data)) {
-                $model->delete(['email' => $user->getEmail()]);
+            if (json_decode($model->get(['email' => $user->getEmail()]))->status_code === 200) {
+                $req = json_decode($model->get(['email' => $user->getEmail()]));
+                $data = [
+                    'id' => $req->data[0]->idCliente,
+                    'nome' => $req->data[0]->nomeCompletoCliente,
+                    'email' => $req->data[0]->emailCliente,
+                    'foto' => $user->getAvatar(),
+                    'facebook' => true,
+                ];
+            } else {
+                $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
+                $model->setEmail(trim($user->getEmail()));
+                $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
+                $model->setFoto(trim($user->getAvatar()));
+                $model->post();
+                $data = [
+                    'id' => json_decode($model->get(['email' => $user->getEmail()]))->data[0]->idCliente,
+                    'nome' => $user->getFirstName() . " " . $user->getLastName(),
+                    'email' => $user->getEmail(),
+                    'foto' => $user->getAvatar(),
+                    'facebook' => true,
+                ];
             };
-            $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
-            $model->setEmail(trim($user->getEmail()));
-            $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
-            $model->post();
-
-            $data = [
-                'id' =>
-                json_decode($model->get(['email' => $user->getEmail()]))->data[0]->idCliente,
-                'nome' => $user->getFirstName() . " " . $user->getLastName(),
-                'email' => $user->getEmail(),
-                'foto' => $user->getAvatar(),
-                'facebook' => true,
-            ];
 
             $jwt = JWT::createJWT($data);
             echo Response::success(['token' => $jwt]);
@@ -180,22 +188,30 @@ class ClienteController
                 'code' => $_GET['code']
             ]);
             $user = ($this->provider->getResourceOwner($token));
-
             $model = new ClienteModel();
-            if (isset(json_decode($model->get(['email' => $user->getEmail()]))->data)) {
-                $model->delete(['email' => $user->getEmail()]);
+            if (json_decode($model->get(['email' => $user->getEmail()]))->status_code === 200) {
+                $req = json_decode($model->get(['email' => $user->getEmail()]));
+                $data = [
+                    'id' => $req->data[0]->idCliente,
+                    'nome' => $req->data[0]->nomeCompletoCliente,
+                    'email' => $req->data[0]->emailCliente,
+                    'foto' => $user->getPictureUrl(),
+                    'facebook' => true,
+                ];
+            } else {
+                $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
+                $model->setEmail(trim($user->getEmail()));
+                $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
+                $model->setFoto(trim($user->getPictureUrl()));
+                $model->post();
+                $data = [
+                    'id' => json_decode($model->get(['email' => $user->getEmail()]))->data[0]->idCliente,
+                    'nome' => $user->getFirstName() . " " . $user->getLastName(),
+                    'email' => $user->getEmail(),
+                    'foto' => $user->getPictureUrl(),
+                    'facebook' => true,
+                ];
             };
-            $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
-            $model->setEmail(trim($user->getEmail()));
-            $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
-            $model->post();
-            $data = [
-                'id' => json_decode($model->get(['email' => $user->getEmail()]))->data[0]->idCliente,
-                'nome' => $user->getFirstName() . " " . $user->getLastName(),
-                'email' => $user->getEmail(),
-                'foto' => $user->getPictureUrl(),
-                'facebook' => true,
-            ];
 
             $jwt = JWT::createJWT($data);
             echo Response::success(['token' => $jwt]);

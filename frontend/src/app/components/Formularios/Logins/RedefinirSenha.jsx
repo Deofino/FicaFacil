@@ -143,7 +143,7 @@ export default function ComponentRedefinirSenha() {
     <Main style={{ maxWidth: 690, paddingTop: 30, paddingBottom: 30 }}>
       <form onSubmit={(e) => update(e)}>
         <h1 className="mb">
-          Digite uma nova senha bem segura agora, mas não a esqueca viu!!
+          Digite uma nova senha segura
         </h1>
         <Input
           title="Nova senha"
