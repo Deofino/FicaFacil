@@ -12,7 +12,7 @@ class QuestaoController
 
     public function index($params) // GET-->PEGAR
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && auth()) { // Verifica o metodo
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o metodo
             $model = new QuestaoModel();
             $where = '';
             $send = [];
@@ -44,6 +44,24 @@ class QuestaoController
                         = (int) $_GET['dificuldade'];
                 }
             }
+            if (isset($_GET['cliente']) || isset($_GET['refazer'])) {
+                if (isset($_GET['refazer']) && isset($_GET['inicio'])) {
+                    $where .= ' WHERE idCliente = :cliente AND DataInicioSimulado = :inicio';
+                    $send[':cliente']
+                        = (int) $_GET['refazer'];
+                    $send[':inicio'] = $_GET['inicio'];
+                    $inner .= 'INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao';
+                } else if (isset($_GET['cliente'])) {
+                    $where .= ' WHERE idCliente != :cliente AND';
+                    $send[':cliente']
+                        = (int) $_GET['cliente'];
+                    $inner .= 'INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao';
+                }
+            }
+
+            // echo Response::success([$where, $send, $inner]);
+            // return;
+
             if (isset($_GET['assunto'])) {
                 if ($_GET['assunto'] > 0) {
                     if ($inner === '') {

@@ -6,12 +6,13 @@ import { Button } from "../../Form";
 import { FaArrowRight, FaHistory } from "react-icons/fa";
 import { parseJwt } from "../../Header/NavBarUser";
 import { useSimulado } from "../../Context/SImuladoContext";
+import { ToastError } from "../../Alert/Toast";
 
 export default function Resultados(props) {
   const { quantidade, comeco, fim /* reqQuestao */ } = props;
-  let { acertos, erros, questoesSimulado } = useSimulado();
+  let { acertos, erros, questoesSimulado, set } = useSimulado();
   const [Sair, setSair] = React.useState(false);
-  console.log(props);
+  // console.log(props);
   const [Refazer, setRefazer] = React.useState(false);
   document.querySelector("audio").play();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,7 +28,7 @@ export default function Resultados(props) {
           : 0;
     }
     if (user !== 0) {
-      console.log(user);
+      // console.log(user);
       return axios
         .post(
           process.env.REACT_APP_API + `/simulado/create/`,
@@ -45,7 +46,7 @@ export default function Resultados(props) {
             },
           }
         )
-        .then((val) => console.log(val.data));
+        .then((val) => val.data);
     }
   });
 
@@ -55,22 +56,11 @@ export default function Resultados(props) {
     };
   }, []);
   if (Refazer) {
+    console.log(props.reqQuestao);
     let user = parseJwt(localStorage.getItem("user"));
-    let fim =
-      new Date().toISOString().split("T")[0] +
-      " " +
-      new Date().toTimeString().split(" ")[0];
     if (user.id !== undefined) {
       inserir().finally(() => {
-        setTimeout(() => {
-          axios
-            .get(
-              `${process.env.REACT_APP_API}/procedures/sp_getSimuladosRefazer?cliente=${user.id}&inicio=${props.comeco}&fim=${fim}`
-            )
-            .then((val) => {
-              console.log(val.data);
-            });
-        }, 2000);
+          
       });
     }
   }

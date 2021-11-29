@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useState, useContext } from "react";
 import { ToastError } from "../Alert/Toast";
+import { parseJwt } from "../Header/NavBarUser";
 
 export const propsContextSimulado = {
   reqQuestao: null,
@@ -51,13 +52,14 @@ export const SimuladoProvider = (props) => {
   };
 
   React.useEffect(() => {
+    let user = parseJwt(localStorage.getItem("user")).id;
     if (!isTerminado) {
       axios
         .get(
           `${process.env.REACT_APP_API}/questao/index?${filter.replace(
             "?",
             ""
-          )}&random=true`,
+          )}&cliente=${user}&random=true`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -67,6 +69,7 @@ export const SimuladoProvider = (props) => {
           }
         )
         .then((value) => {
+          // console.log(value.data);
           if (value.data.status_code === 200) {
             setReqQuestao(value.data.data);
           } else {
