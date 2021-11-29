@@ -130,7 +130,7 @@ class ClienteModel extends UserModel
             }
             if ($stmt->execute()) {
                 return $stmt->rowCount() == 0 ?
-                    Response::warning("Nenhuma cliente encontrada...", 200) :
+                    Response::warning("Nenhuma cliente encontrada...", 404) :
                     Response::success($stmt->fetchAll(\PDO::FETCH_ASSOC));
             }
             return Response::error("Erro ao selecionar cliente");
@@ -174,7 +174,7 @@ class ClienteModel extends UserModel
     }
     public function put($id)
     {
-        try{
+        try {
             $con = Connection::getConn();
             $stmt = $con->prepare('UPDATE tb_cliente set nomeCompletoCliente = ? , emailCliente = ? , senhaCliente = ? , dataAniversarioCliente = ? , fotoCliente = ? WHERE idCliente LIKE ?');
             $stmt->bindParam(1, $this->getNome(), PDO::PARAM_STR);
