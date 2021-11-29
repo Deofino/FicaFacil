@@ -1,6 +1,36 @@
 :root {
   scroll-behavior: smooth;
 }
+html.small,
+html.small body,
+html.small :root {
+  font-size: 80%;
+}
+html.medium,
+html.medium body,
+html.medium :root {
+  font-size: 100%;
+}
+html.large,
+html.large body,
+html.large :root {
+  font-size: 120%;
+}
+html.zoom-small,
+html.zoom-small body,
+html.zoom-small :root {
+  zoom: 80%;
+}
+html.zoom-medium,
+html.zoom-medium body,
+html.zoom-medium :root {
+  zoom: 100%;
+}
+html.zoom-large,
+html.zoom-large body,
+html.zoom-large :root {
+  zoom: 120%;
+}
 html,
 body,
 div,

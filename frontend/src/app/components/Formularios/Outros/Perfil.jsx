@@ -45,11 +45,58 @@ export default function Perfil() {
     storage === "true" ? 2 : 1 || 1
   );
 
-  React.useEffect(() => {
+  const fonte = localStorage.getItem("fonte");
+  const [isFont, setFont] = React.useState(
+    fonte || 100
+  );
+
+  const zoom = localStorage.getItem("zoom");
+  const [isZoom, setZoom] = React.useState(
+    zoom || 100
+  );
+
+    React.useEffect(() => {
     isDark === 2
       ? document.querySelector("html").classList.add("dark")
       : document.querySelector("html").classList.remove("dark");
   }, [isDark]);
+
+  
+  React.useEffect(() => {
+    isFont === 80
+      ? document.querySelector("html").classList.add("small")
+      : document.querySelector("html").classList.remove("small");
+  }, [isFont]);
+
+  React.useEffect(() => {
+    isFont === 100
+      ? document.querySelector("html").classList.add("medium")
+      : document.querySelector("html").classList.remove("medium");
+  }, [isFont]);
+
+  React.useEffect(() => {
+    isFont === 120
+      ? document.querySelector("html").classList.add("large")
+      : document.querySelector("html").classList.remove("large");
+  }, [isFont]);
+
+  React.useEffect(() => {
+    isZoom === 80
+      ? document.querySelector("html").classList.add("zoom-small")
+      : document.querySelector("html").classList.remove("zoom-small");
+  }, [isZoom]);
+
+  React.useEffect(() => {
+    isZoom === 100
+      ? document.querySelector("html").classList.add("zoom-medium")
+      : document.querySelector("html").classList.remove("zoom-medium");
+  }, [isZoom]);
+
+  React.useEffect(() => {
+    isZoom === 120
+      ? document.querySelector("html").classList.add("zoom-large")
+      : document.querySelector("html").classList.remove("zoom-large");
+  }, [isZoom]);
 
   return (
     <div>
@@ -129,6 +176,7 @@ export default function Perfil() {
               value={isDark}
               onChange={() => {
                 setDark(isDark === 1 ? 2 : 1);
+                localStorage.setItem("dark", isDark === 2 ? "true" : "false");
               }}
             >
               <Radio value={1} className="aparencia__radio" label="Claro" />
@@ -141,8 +189,21 @@ export default function Perfil() {
           <p className="fonte">Escala de fonte</p>
           <Box sx={{ width: "100%" }}>
             <Slider
+              onChange={(val, number) => {
+                if(number===80){
+                  setFont(80);
+                  localStorage.setItem('fonte', 80);
+                }else if(number===100){
+                  setFont(100);
+                  localStorage.setItem('fonte', 100);
+                }else {
+                  setFont(120);
+                  localStorage.setItem('fonte', 120);
+                }
+                console.log(number);
+              }}
               aria-label="Custom marks"
-              defaultValue={30}
+              // defaultValue={localStorage.getItem('fonte') || 100}
               valueLabelDisplay="auto"
               step={20}
               min={80}
@@ -154,8 +215,21 @@ export default function Perfil() {
             <br></br>
             <p className="fonte">Zoom</p>
             <Slider
+              onChange={(val, number) => {
+                if(number===80){
+                  setZoom(80);
+                  localStorage.setItem('zoom', 80);
+                }else if(number===100){
+                  setZoom(100);
+                  localStorage.setItem('zoom', 100);
+                }else {
+                  setZoom(120);
+                  localStorage.setItem('zoom', 120);
+                }
+                console.log(number);
+              }}
               aria-label="Custom marks"
-              defaultValue={30}
+              // defaultValue={localStorage.getItem('fonte') || 100}
               valueLabelDisplay="auto"
               getAriaValueText={valuetext}
               step={20}
