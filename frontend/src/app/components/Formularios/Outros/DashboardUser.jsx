@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ChartPie, ChartArea, /* ChartBar  */} from "../../Main/Charts";
+import { ChartPie, ChartArea, ChartBar} from "../../Main/Charts";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { parseJwt } from "../../Header/NavBarUser";
 import { Select,} from "../../Form/";
 import { ToastError, } from "../../Alert/Toast";
+import {Link} from 'react-router-dom';
+import { Avatar } from "@material-ui/core";
 
 export default function DashboardAdm() {
   
@@ -18,13 +20,22 @@ export default function DashboardAdm() {
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
   
-  const [simuladosPCliente, setSimuladosPCliente] = useState(0);
+  const [quantidadeQuestoesPorCliente, setQuantidadeQuestoesPorCliente] = useState(0);
 
   const [acertosPMateria, setAcertosPMateria] = useState(0);
   const [nomePorMateria, setNomePorMateria] = useState("Portugues");
   const [errosPMateria, setErrosPMateria] = useState(0);
   const [selectedMateria ,setSelectedMateria] = useState(1);
+  const [simuladosRealizados ,setSimuladosRealizados] = useState(0);
+  const [evoluirMateria, setEvoluirMateria] = useState("sem questões para análise");
+  const [acUltimosSimulados, setAcUltimosSimulados] = useState();
 
+  const colors = ['#00aced','#6610f2','#6f42c1','#513487','#007bff'];
+  const jwt = localStorage.getItem('user');
+  const user = parseJwt(jwt);
+
+  const [qtdMateriasAgrupadas, setQtdMateriasAgrupadas] = useState([]);
+  const [reqMateria, setReqMateria] = useState([]); 
   const [acertosMateria, setAcertosMaterias] = useState(
     [
       {
@@ -54,9 +65,6 @@ export default function DashboardAdm() {
     ] 
   );
 
-
-  const [reqMateria, setReqMateria] = useState([]); 
-
   useEffect(() => {
      axios
     .get(`${process.env.REACT_APP_API}/materia/index/`, {
@@ -80,6 +88,7 @@ export default function DashboardAdm() {
       let res = await req.data.data;
       /* console.log(res); */
       if (+Object.values(res[0])[0] === 404) {
+        console.log(res)
         console.log("Erro na requisição Acertos");
       } else setAcertos(+res[0].acertos);
     })();
@@ -97,16 +106,17 @@ export default function DashboardAdm() {
     })();
 
 
-   /*   (async function () {
+      (async function () {
       let req = await axios.get(
-        `${process.env.REACT_APP_API}/procedures/sp_getSimuladosPorCliente?inicio=${inicio}&fim=${fim}`
+        `${process.env.REACT_APP_API}/procedures/sp_getQuantidadesQuestoesPorCliente?cliente=${cliente}&inicio=${inicio}&fim=${fim}`
       );
       let res = await req.data.data;
 
-      if (+Object.values(res[0])[0] === 404) {
+
+      if(+Object.values(res[0])[0] === 404) {
         console.log("Erro na requisição Simulados");
-      } else setSimuladosPCliente(+res[0].qtde);
-    })();  */
+      } else setQuantidadeQuestoesPorCliente(+res[0].qtde);
+    })();  
  
 
       (async function () {
@@ -135,37 +145,73 @@ export default function DashboardAdm() {
       };  
     })(); 
 
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getSimuladosRealizados?cliente=${cliente}`
+      );
+      let res = await req.data.data;
+        console.log(+Object.values(res[0])[0]);
+      if (+Object.values(res[0])[0] === 404) {
+        console.log("Erro na requisição Simulados");
+      } else setSimuladosRealizados(+Object.values(res[0])[0]);
+    })();  
+
+
+
+  (async function(){
+    let req  = await axios.get(
+      `${process.env.REACT_APP_API}/procedures/sp_getMateriaEvoluir?cliente=${cliente}`
+      );
+      let res = await req.data.data;
+      if (+Object.values(res[0])[0] === 404) {
+        console.log("Erro na requisição Evoluir Matéria");
+      } else setEvoluirMateria(Object.values(res[0])[0]);
+    })();  
+
+    (async function(){
+      let req  = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getQtdePorMateriaAgrupada?cliente=${cliente}`
+        );
+        let res = await req.data.data;
+        if (+Object.values(res[0])[0] === 404) {
+          console.log("Erro na requisição Por Materia Agrupada");
+          // }
+        } else{
+          let data = res.map((val,i)=>{
+            return {
+              Quantidade: +val.quantidade,
+              name: val.nomeMateria,
+              color: colors[i]
+            };
+          })
+          setQtdMateriasAgrupadas(data);
+        } 
+      })();  
+
+      (async function(){
+        let req  = await axios.get(
+          `${process.env.REACT_APP_API}/procedures/sp_getAcertosUltimoSimulado?cliente=${cliente}`
+          );
+          let res = await req.data.data;
+          
+          if (+Object.values(res[0])[0] === 404) {
+            console.log("Erro na requisição Acertos Últimos Simulados");
+            // }
+          } else{
+            let data = res.map((val,i)=>{
+              return {
+                Acertos: +val.qtde,
+                inicio: 'Simulado '+(i+1) ,
+              };
+            })
+            setAcUltimosSimulados(data);
+            console.log(data);
+          } 
+        })();
+  
 
   }, [cliente, materia, inicio, fim, selectedMateria]);
 
-
-  let dataMaterias = [
-    {
-      name: "Física",
-      Acertos: 10,
-      color: "#00aced",
-    },
-    {
-      name: "Matemática",
-      Acertos: 90,
-      color: "#6610f2",
-    },
-    {
-      name: "Biologia",
-      Acertos: 5,
-      color: "#6f42c1",
-    },
-    {
-      name: "Artes",
-      Acertos: 2,
-      color: "#513487",
-    },
-    {
-      name: "Filosofia",
-      Acertos: 20,
-      color: "#007bff",
-    },
-  ];
 
   useEffect(()=>{
     setAcertosMaterias([
@@ -203,9 +249,20 @@ export default function DashboardAdm() {
         <div className="dashboard__c__right">
           <div className="dashboard__c__right__profile">
             <div className="dashboard__c__right__profile__p"></div>
-            <div className="dashboard__c__right__profile__p__circle"></div>
-            <FaEdit className="dashboard__c__right__profile__p__icon" />
-            <h3 className="dashboard__c__right__profile__p__title">Vitória</h3>
+            <div className="dashboard__c__right__profile__p__profile">
+            <div className="dashboard__c__right__profile__p__circle">{user !== "" && user.foto !== "" && user.foto !== undefined ? (
+              <img src={user.foto} alt={user.nome} />
+            ) : (
+                 <div className="dashboard__c__right__profile__p__circle__title">
+                {user.nome.charAt(0).toUpperCase()}
+                </div>
+              
+            )}</div>
+          </div>
+            <Link to='/perfil'>
+            <FaEdit className="dashboard__c__right__profile__p__icon"/>
+            </Link>
+            <h3 className="dashboard__c__right__profile__p__title">{user.nome}</h3>
           </div>
           <div className="dashboard__c__right__statistics">
             <h3 className="dashboard__c__right__statistics__title">
@@ -217,7 +274,7 @@ export default function DashboardAdm() {
               Simulados realizados
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">
-              3
+              {simuladosRealizados}
             </p>
           </div>
           <div className="dashboard__c__right__statistics__datas">
@@ -225,7 +282,7 @@ export default function DashboardAdm() {
               Questões realizadas
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">
-            {simuladosPCliente}
+            {quantidadeQuestoesPorCliente}
             </p>
           </div>
           <div className="dashboard__c__right__statistics__datas">
@@ -233,7 +290,7 @@ export default function DashboardAdm() {
               Evoluir matéria
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">
-              Filosofia
+              {evoluirMateria}
             </p>
           </div>
         </div>
@@ -243,49 +300,20 @@ export default function DashboardAdm() {
             <h3 className="dashboard__c__left__um__title">Melhores Matérias</h3>
            
             <ChartPie
-              data={dataMaterias}
-              dataKey="Acertos"
+              data={qtdMateriasAgrupadas}
+              dataKey="Quantidade"
               outerRadius={90}
               innerRadius={65}
             />
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
-              Questões por dia
+              Acertos dos últimos simulados
             </h3>
-            <ChartArea
-              data={[
-                {
-                  dia: "Seg",
-                  entradas: 5,
-                },
-                {
-                  dia: "Ter",
-                  entradas: 2,
-                },
-                {
-                  dia: "Qua",
-                  entradas: 2,
-                },
-                {
-                  dia: "Qui",
-                  entradas: 8,
-                },
-                {
-                  dia: "Sex",
-                  entradas: 3,
-                },
-                {
-                  dia: "Sab",
-                  entradas: 2,
-                },
-                {
-                  dia: "Dom",
-                  entradas: 5,
-                },
-              ]}
-              keyData="entradas"
-              keyName="dia" /* color="#513487" */
+            <ChartBar
+              data={acUltimosSimulados}
+              dataKey="Acertos"
+              dataName="inicio" /* color="#513487" */
             />
           </div>
           <div className="dashboard__c__left__et">
@@ -309,16 +337,23 @@ export default function DashboardAdm() {
                     </option>
             ))}
             </Select>
-
-            <h3>{nomePorMateria}</h3>
+              {acertosMateria[0].Acertos > 0 && acertosMateria[1].Acertos > 0 ? (
+                <React.Fragment>
+              <h3>{nomePorMateria}</h3>
               <ChartPie
                 data={acertosMateria}
                 dataKey="Acertos"
                 outerRadius={90}
                 innerRadius={65}
-              />
-            </div>
+              />    
+                </React.Fragment>
+              ):(<h3>Sem dados</h3>)}
+            
+            </div>           
             <div className="dashboard__c__left__et__quatro">
+            {acertos[0] !== undefined && acertos[0].acertos  > 0 && erros[1].erros > 0 ? (
+             
+                <React.Fragment>
               <h3 className="dashboard__c__left__et__quatro__title">
                 Desempenho geral
               </h3>
@@ -328,6 +363,9 @@ export default function DashboardAdm() {
                 outerRadius={90}
                 innerRadius={65}
               />
+                </React.Fragment>
+              ):(<h3>Sem dados</h3>)}
+            
             </div>
           </div>
         </div>

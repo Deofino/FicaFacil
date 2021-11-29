@@ -189,8 +189,9 @@ class ClienteController
             ]);
             $user = ($this->provider->getResourceOwner($token));
             $model = new ClienteModel();
-            if (json_decode($model->get(['email' => $user->getEmail()]))->status_code === 200) {
-                $req = json_decode($model->get(['email' => $user->getEmail()]));
+            $req = json_decode($model->get(['email' => $user->getEmail()]));
+            if ($req->status_code == 200) {
+                dd($req);
                 $data = [
                     'id' => $req->data[0]->idCliente,
                     'nome' => $req->data[0]->nomeCompletoCliente,

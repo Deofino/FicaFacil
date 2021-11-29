@@ -76,7 +76,9 @@ export default function Resultados(props) {
   }
   if (Sair) {
     inserir().then((val) => console.log(val));
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   }
 
   return (

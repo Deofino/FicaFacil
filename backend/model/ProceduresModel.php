@@ -224,4 +224,22 @@ class ProceduresModel
             throw new \Exception($th->getMessage(), 500);
         }
     }
+
+    public function getAcertosUltimoSimulado(
+        array $parametros = [
+            ':cliente' => null,
+        ]
+    ) {
+        try {
+            $dentro = ':cliente';
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getAcertosUltimoSimulado($dentro)");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
 }

@@ -169,17 +169,28 @@
                     }
                     
                     &__circle{
-                        margin-top: rem(-32);
-                        margin-left: rem(20);
-                        width: rem(70);
-                        height: rem(70);
-                        background-color: $dash-light;
-                        border-radius: rem(100);
-                        border: 2px solid $white;
-                        @include darkMode{
-                            background-color: $dash-dark;
+                            margin-top: rem(-32);
+                            margin-left: rem(20);
+                            overflow: hidden;
+                            display: block;
+                            width: rem(70);
+                            height: rem(70);
+                            font-size: rem(25);
+                            text-align: center;
+                            color: $primary;
+                            background-color: $dash-light;
+                            border-radius: rem(100);
                             border: 2px solid $white;
-                        }
+                            @include darkMode{
+                                background-color: $dash-dark;
+                                border: 2px solid $white;
+                            }
+                            &__title{
+                                text-align: center;  
+                                margin-top: rem(15); 
+                                font-weight: bold;
+                                font-size: rem(25);
+                            }
                     }
 
                     &__icon{
@@ -190,7 +201,7 @@
                         color: white;
                     }
                     &__title{
-                        font-size: rem(19);
+                        font-size: rem(16);
                         text-align: left;
                         margin-left: rem(20);
                         margin-bottom: rem(10);
