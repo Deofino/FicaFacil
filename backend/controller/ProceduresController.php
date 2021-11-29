@@ -271,4 +271,21 @@ class ProceduresController
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
+
+    public function sp_getAcertosUltimoSimulado() // parametros daqui sao da URL
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
+            $model = new ProceduresModel();
+            $parametros = [];
+
+            $parametros[':cliente'] = null;
+
+            if (isset($_GET['cliente'])) {
+                $parametros[':cliente'] = (int) $_GET['cliente'];
+            }
+            echo $model->getAcertosUltimoSimulado($parametros);
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
 }

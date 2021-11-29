@@ -24,23 +24,6 @@
     justify-content: $place;
   }
 }
-//função fonte perfil
-@mixin font($point) {
-  @if $point == small {
-    @media (font-size: 80%) {
-      @content;
-    }
-  }  @if $point == medium {
-    @media (font-size: 100%) {
-      @content;
-    }
-  }  @if $point == large {
-    @media (font-size: 120%) {
-      @content;
-    }
-  }
-}
-
 @mixin breakpoint($point) {
   @if $point == small {
     @media (max-width: 37.5em) {
