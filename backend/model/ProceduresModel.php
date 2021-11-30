@@ -243,11 +243,53 @@ class ProceduresModel
         }
     }
 
-    public function getTodasQuestao(
-    ) {
+    public function getTodasQuestao()
+    {
         try {
             $con = Connection::getConn();
             $stmt = $con->prepare("call sp_getTodasQuestao()");
+            if ($stmt->execute()) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getTotalClientes()
+    {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getTotalClientes()");
+            if ($stmt->execute()) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getTotalQuestoesCadastradas()
+    {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getTotalQuestoesCadastradas()");
+            if ($stmt->execute()) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getTotalSimuladosFeitos()
+    {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getTotalSimuladosFeitos()");
             if ($stmt->execute()) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
