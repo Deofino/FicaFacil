@@ -142,7 +142,7 @@ export default function Perfil() {
               <p className="fixo">Nome de Usuário</p>
               <p className="var">Paulo Moreira #2323</p>
             </div>
-            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <Button className="bt" onClick={() => alterarBackdrop()}>alterar</Button>
             <CustomAlertInput dnone={dnone}>
               <form action="">
                 <Input

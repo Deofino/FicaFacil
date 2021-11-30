@@ -2,7 +2,8 @@
     background-color: #efe7ff;
     padding: rem(20);
     border-radius: rem(8);
-    width: 70%;
+    width: 100%;
+    height: 100%;
     display: block;
     text-align: center;
     margin: 0 auto;
@@ -55,52 +56,72 @@
     &__dados {
         background-color: #b9c4ff;
         border-radius: rem(8);
+        display: flex;
+        justify-content: center;
+        width: 100%;
         padding: rem(10);
+
         @include darkMode {
             background-color: #333039;
         }
         &__title {
             font-size: rem(20);
-            font-weight: 500;
+            font-weight: bold;
             @include breakpoint(small) {
                 font-size: rem(18);
             }
             @include breakpoint(smallmin) {
                 font-size: rem(14);
             }
+            transform: translateY(24px); 
+            z-index: 999;
         }
-        &__btns {
-            display: flex;
-            width: 100%;
-            margin: 0 auto;
-            padding: rem(15);
-            justify-content: space-around;
-            @include breakpoint(smallmin) {
-                padding: rem(10);
-                display: block;
-            }
-            > button {
-                margin: 0 rem(10);
-            }
+       
+        .esquerda{
+            @include flex(start);
+            flex-direction: column;
+            width: 50%;
+            position: relative;
+        }
 
-            &__s {
-                width: 45%;
-                @include breakpoint(smallmin) {
-                    width: 100%;
-                    margin-bottom: rem(5);
-                }
-                svg {
-                    margin-left: rem(5);
-                }
+        .direita{          
+             @include flex(center);
+            flex-direction: column;
+            width: 50%;
+
+            .c-button{
+                margin-top: rem(25);
+                max-width: rem(300);
             }
-            &__r {
-                width: 45%;
-                @include breakpoint(smallmin) {
-                    width: 100%;
-                }
-                svg {
-                    margin-left: rem(5);
-                }
+        }
+        
+        .dash{
+            @include flex(center);
+            margin-top: rem(25);
+            background-color: $primary;
+            border-radius: rem(8);
+            width: 70px;
+            height: 50px;
+            svg{
+             fill: $white;   
+            }
+        }
+
+        .erro{
+            width: min-content;
+            position: absolute;
+            top: 54%;
+            background-color: transparent;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            display: block;
+            .grande{
+                font-size: rem(28);
+                font-weight: 900;
+            }
+            .pequeno{
+                font-size: rem(14);
+                font-weight: 400;
             }
         }
     }

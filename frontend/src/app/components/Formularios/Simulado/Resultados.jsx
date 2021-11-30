@@ -1,12 +1,14 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Smiley from "../../../../img/project/smiley.svg";
 import song from "../../../../audio/fim_simulado.mp3";
 import { Button } from "../../Form";
+import { Link } from "react-router-dom";
 import { FaArrowRight, FaHistory } from "react-icons/fa";
 import { parseJwt } from "../../Header/NavBarUser";
 import { useSimulado } from "../../Context/SImuladoContext";
-import { ToastError } from "../../Alert/Toast";
+import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
+import { FaChartPie } from "react-icons/fa";
 
 export default function Resultados(props) {
   const { quantidade, comeco, fim /* reqQuestao */ } = props;
@@ -24,8 +26,8 @@ export default function Resultados(props) {
         data.idCliente !== undefined
           ? data.idCliente
           : data.id !== undefined
-          ? data.id
-          : 0;
+            ? data.id
+            : 0;
     }
     if (user !== 0) {
       // console.log(user);
@@ -40,9 +42,8 @@ export default function Resultados(props) {
           }),
           {
             headers: {
-              Authorization: `Bearer ${
-                localStorage.getItem("auth") || localStorage.getItem("user")
-              }`,
+              Authorization: `Bearer ${localStorage.getItem("auth") || localStorage.getItem("user")
+                }`,
             },
           }
         )
@@ -60,7 +61,7 @@ export default function Resultados(props) {
     let user = parseJwt(localStorage.getItem("user"));
     if (user.id !== undefined) {
       inserir().finally(() => {
-          
+
       });
     }
   }
@@ -70,6 +71,36 @@ export default function Resultados(props) {
       window.location.reload();
     }, 2000);
   }
+
+  const [acertosTotal, setAcertosTotal] = useState(
+    [
+      {
+        acertos: 1,
+        name: 'Acertos'
+      },
+
+      {
+        acertos: 1,
+        name: 'Erros'
+      },
+
+    ]
+  );
+
+  useEffect(() => {
+    setAcertosTotal([
+      {
+        name: "Acertos",
+        Acertos: acertos || 0,
+        color: "#5f76de",
+      },
+      {
+        name: "Erros",
+        Acertos: erros || 0,
+        color: "#51348766",
+      },
+    ]);
+  }, [acertosTotal])
 
   return (
     <section className="c-results">
@@ -89,31 +120,47 @@ export default function Resultados(props) {
       </div>
       <br />
       <div className="c-results__dados">
-        <h2 className="c-results__dados__title"> ~ Dados ~ </h2>
-        <span className="c-results__dados acerto">
-          Acertos: {acertos} / {quantidade}{" "}
-        </span>
-        <span className="c-results__dados erro">
-          Erros: {erros} / {quantidade}{" "}
-        </span>
-      </div>
-      <div className="c-results__dados__btns">
-        <Button
-          className="c-results__dados__btns__s__b"
-          onClick={() => {
-            setSair(true);
-          }}
-        >
-          Sair <FaArrowRight style={{ marginLeft: 10 }} />
-        </Button>
-        <Button
-          className="c-results__dados__btns__r__b"
-          onClick={() => {
-            setRefazer(true);
-          }}
-        >
-          Refazer <FaHistory style={{ marginLeft: 10 }} />
-        </Button>
+        <div className="esquerda">
+          <h2 className="c-results__dados__title"> Meus Resultados: </h2>
+          <span className="c-results__dados acerto">
+            {/* Acertos: {acertos} / {quantidade}{" "} */}
+            <ChartPie
+              data={acertosTotal}
+              dataKey="Acertos"
+              outerRadius={90}
+              innerRadius={65}
+            />
+          </span>
+          <div className="c-results__dados erro">
+            <span className="grande">
+              {acertos / quantidade * 100}{"%"}
+            </span>
+            <span className="pequeno">
+              {acertos + "/" + (acertos + erros)}
+            </span>
+          </div>
+        </div>
+        <div className="direita">
+          <Button
+            className="c-results__dados__btns__r__b"
+            onClick={() => {
+              setRefazer(true);
+            }}
+          >
+            Refazer <FaHistory style={{ marginLeft: 10 }} />
+          </Button>
+          <Button
+            className="c-results__dados__btns__s__b"
+            onClick={() => {
+              setSair(true);
+            }}
+          >
+            Sair <FaArrowRight style={{ marginLeft: 10 }} />
+          </Button>
+          <Link className="dash" to="/dashboard">
+            <FaChartPie className="icon" />
+          </Link>
+        </div>
       </div>
     </section>
   );
