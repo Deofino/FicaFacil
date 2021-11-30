@@ -10,9 +10,9 @@ function App() {
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
     ) {
-      localStorage.setItem("dark", true);
+      localStorage.setItem("dark", "true");
     } else {
-      localStorage.setItem("dark", false);
+      localStorage.setItem("dark", "false");
     }
   }
 

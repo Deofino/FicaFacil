@@ -4,32 +4,32 @@
 html.small,
 html.small body,
 html.small :root {
-  font-size: 80%;
+  font-size: 80% !important;
 }
 html.medium,
 html.medium body,
 html.medium :root {
-  font-size: 100%;
+  font-size: 100% !important;
 }
 html.large,
 html.large body,
 html.large :root {
-  font-size: 120%;
+  font-size: 120% !important;
 }
 html.zoom-small,
 html.zoom-small body,
 html.zoom-small :root {
-  zoom: 80%;
-}
-html.zoom-medium,
-html.zoom-medium body,
-html.zoom-medium :root {
-  zoom: 100%;
+  zoom: 80% !important;
 }
 html.zoom-large,
 html.zoom-large body,
 html.zoom-large :root {
-  zoom: 120%;
+  zoom: 120% !important;
+}
+html.zoom-medium,
+html.zoom-medium body,
+html.zoom-medium :root {
+  zoom: 100% !important;
 }
 html,
 body,
@@ -95,7 +95,6 @@ th,
 td,
 input,
 button {
-
   //font-size: 90% !important;
 
   margin: 0;

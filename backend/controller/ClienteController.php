@@ -191,7 +191,7 @@ class ClienteController
             $model = new ClienteModel();
             $req = json_decode($model->get(['email' => $user->getEmail()]));
             if ($req->status_code == 200) {
-                dd($req);
+                // dd($req);
                 $data = [
                     'id' => $req->data[0]->idCliente,
                     'nome' => $req->data[0]->nomeCompletoCliente,
