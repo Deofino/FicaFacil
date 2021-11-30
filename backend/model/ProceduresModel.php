@@ -242,4 +242,19 @@ class ProceduresModel
             throw new \Exception($th->getMessage(), 500);
         }
     }
+
+    public function getTodasQuestao(
+        array $parametros = []
+    ) {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getTodasQuestao()");
+            if ($stmt->execute($parametros)) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
 }

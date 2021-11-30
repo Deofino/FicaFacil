@@ -1,6 +1,12 @@
 import React from "react";
 import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
 import { FaEdit } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import { parseJwt } from "../../Header/NavBarUser";
+
+const jwt = localStorage.getItem('auth');
+const adm = parseJwt(jwt);
+console.log(adm);
 
 export default function DashboardAdm() {
   let dataExemplo = [
@@ -19,7 +25,7 @@ export default function DashboardAdm() {
       Acertos: 20,
       color: "#513487",
     },
-    
+
   ];
   let dataDesempenho = [
     {
@@ -48,9 +54,20 @@ export default function DashboardAdm() {
         <div className="dashboard__c__right">
           <div className="dashboard__c__right__profile">
             <div className="dashboard__c__right__profile__p"></div>
-            <div className="dashboard__c__right__profile__p__circle"></div>
-            <FaEdit className="dashboard__c__right__profile__p__icon" />
-            <h3 className="dashboard__c__right__profile__p__title">Vitória</h3>
+            <div className="dashboard__c__right__profile__p__profile">
+              <div className="dashboard__c__right__profile__p__circle">{adm !== "" && adm.foto !== "" && adm.foto !== undefined ? (
+                <img src={adm.foto} alt={adm.nome} />
+              ) : (
+                <div className="dashboard__c__right__profile__p__circle__title">
+                  {adm.nomeAdministrador.charAt(0).toUpperCase()}
+                </div>
+
+              )}</div>
+            </div>
+       {/*      <Link to='/perfil'>
+              <FaEdit className="dashboard__c__right__profile__p__icon" />
+            </Link> */}
+            <h3 className="dashboard__c__right__profile__p__title">{adm.nomeAdministrador}</h3>
           </div>
           <div className="dashboard__c__right__statistics">
             <h3 className="dashboard__c__right__statistics__title">
@@ -76,58 +93,58 @@ export default function DashboardAdm() {
               Questões cadastradas
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">
-            333
+              333
             </p>
           </div>
         </div>
         <div className="dashboard__c__left">
           <div className="dashboard__c__left__um">
             <h3 className="dashboard__c__left__um__title">
-            Taxa de acertos
+              Taxa de acertos
             </h3>
-              <ChartBar data={dataExemplo} dataKey="Acertos" />
+            <ChartBar data={dataExemplo} dataKey="Acertos" />
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
               Questões por dia
             </h3>
-            <ChartArea data = {[
-                {
-                  dia: "Seg",
-                  entradas: 15,
-                },
-                {
-                  dia: "Ter",
-                  entradas: 32,
-                },
-                {
-                  dia: "Qua",
-                  entradas: 2,
-                },
-                {
-                  dia: "Qui",
-                  entradas: 18,
-                },
-                {
-                  dia: "Sex",
-                  entradas: 43,
-                },
-                {
-                  dia: "Sab",
-                  entradas: 32,
-                },
-                {
-                  dia: "Dom",
-                  entradas: 25,
-                },
-            ]}  keyData="entradas" keyName="dia" /* color="#513487" *//>
+            <ChartArea data={[
+              {
+                dia: "Seg",
+                entradas: 15,
+              },
+              {
+                dia: "Ter",
+                entradas: 32,
+              },
+              {
+                dia: "Qua",
+                entradas: 2,
+              },
+              {
+                dia: "Qui",
+                entradas: 18,
+              },
+              {
+                dia: "Sex",
+                entradas: 43,
+              },
+              {
+                dia: "Sab",
+                entradas: 32,
+              },
+              {
+                dia: "Dom",
+                entradas: 25,
+              },
+            ]} keyData="entradas" keyName="dia" /* color="#513487" */ />
           </div>
           <div className="dashboard__c__left__et">
             <div className="dashboard__c__left__et__tres">
-            <h3 className="dashboard__c__left__et__tres__title">
+              <h3 className="dashboard__c__left__et__tres__title">
                 Desempenho
               </h3>
-            <ChartPie data={dataDesempenho} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+              <ChartPie data={dataDesempenho} dataKey="Acertos" outerRadius={90} innerRadius={65} />
             </div>
             <div className="dashboard__c__left__et__quatro">
               <h3 className="dashboard__c__left__et__quatro__title">
@@ -137,8 +154,8 @@ export default function DashboardAdm() {
             </div>
           </div>
         </div>
-        
       </div>
+
     </section>
   );
 }
