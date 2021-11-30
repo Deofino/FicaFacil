@@ -88,6 +88,10 @@
                             flex-basis: 100%;
                             margin-bottom: rem(20);
                         }
+
+                        &__mate{
+                            margin: rem(20) rem(0) rem(-10) rem(20);
+                        }
                         
                         &__title{
                             margin: rem(30) rem(0) rem(0) rem(30);
@@ -121,7 +125,7 @@
                         }
                     
                         &__title{
-                            margin: rem(30) rem(0) rem(0) rem(30);
+                            margin: rem(30) rem(0) rem(20) rem(30);
                             @include breakpoint(medium){
                                 margin: 0 auto;
                                 margin-top: rem(15);
@@ -145,7 +149,7 @@
             border: 1px solid #899fff;
             box-shadow: 0 rem(2) rem(4) var(--color-shadow);
             @include breakpoint(large){
-               margin: rem(0);
+               margin: rem(0) rem(40) rem(0) rem(40);
             } 
             @include breakpoint(smallmin){
                 margin: rem(5);
