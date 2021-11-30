@@ -244,12 +244,11 @@ class ProceduresModel
     }
 
     public function getTodasQuestao(
-        array $parametros = []
     ) {
         try {
             $con = Connection::getConn();
             $stmt = $con->prepare("call sp_getTodasQuestao()");
-            if ($stmt->execute($parametros)) {
+            if ($stmt->execute()) {
                 return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
                 die;
             }

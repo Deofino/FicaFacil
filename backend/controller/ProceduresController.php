@@ -293,9 +293,8 @@ class ProceduresController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
             $model = new ProceduresModel();
-            $parametros = [];
 
-            echo $model->getTodasQuestao($parametros);
+            echo $model->getTodasQuestao();
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
