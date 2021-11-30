@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "@material-ui/core/Slider";
-import { Radio } from "../../Form";
+import { Radio, Button, Input } from "../../Form";
 import { RadioGroup } from "@material-ui/core";
 import { FaPen } from "react-icons/fa";
 
@@ -34,6 +34,18 @@ const marksZoom = [
   },
 ];
 
+export function CustomAlertInput(props) {
+  const { titulo, children, className, dnone } = props;
+  return (
+    <section
+      className={`c-alertInput ${!dnone && "active"} ` + className || ""}
+    >
+      <h3 className="c-alertInput__span">{titulo || "Titulo Do alert"}</h3>
+      {children}
+    </section>
+  );
+}
+
 export default function Perfil() {
   const [isDark, setDark] = React.useState(1);
 
@@ -42,6 +54,11 @@ export default function Perfil() {
   const [isZoom, setZoom] = React.useState(100);
 
   const html = document.querySelector("html");
+
+  const [dnone, setDnone] = React.useState(true);
+  function alterarBackdrop() {
+    setDnone(!dnone);
+  }
 
   React.useEffect(() => {
     let fonte = +localStorage.getItem("fonte") || 100;
@@ -52,7 +69,7 @@ export default function Perfil() {
     setZoom(zoom);
   }, []);
 
-  
+
   React.useEffect(() => {
     if (isDark === 1) {
       html.classList.remove("dark");
@@ -125,9 +142,25 @@ export default function Perfil() {
               <p className="fixo">Nome de Usuário</p>
               <p className="var">Paulo Moreira #2323</p>
             </div>
-            <div className="btnEditar">
-              <p>Alterar</p>
-            </div>
+            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <CustomAlertInput dnone={dnone}>
+              <form action="">
+                <Input
+                  title={"Nome"}
+                  id={"id"}
+                  label="foasae"
+                  className=""
+                  name={"nome"}
+                  type={"text"}
+                  onChange={(e) => {
+                  }}
+                  inputMode="text"
+                />
+                <Button type="submit" className="mt">
+                  Atualizar Nome
+                </Button>
+              </form>
+            </CustomAlertInput>
           </div>
 
           <div className="dados">
@@ -135,9 +168,25 @@ export default function Perfil() {
               <p className="fixo">Email</p>
               <p className="var">nagatogts@hotmail.com</p>
             </div>
-            <div className="btnEditar">
-              <p>Alterar</p>
-            </div>
+            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <CustomAlertInput dnone={dnone}>
+              <form action="">
+                <Input
+                  title={"E-mail"}
+                  id={"id"}
+                  label="foasae"
+                  className=""
+                  name={"email"}
+                  type={"email"}
+                  onChange={(e) => {
+                  }}
+                  inputMode="text"
+                />
+                <Button type="submit" className="mt">
+                  Atualizar E-mail
+                </Button>
+              </form>
+            </CustomAlertInput>
           </div>
 
           <div className="dados">
@@ -145,9 +194,25 @@ export default function Perfil() {
               <p className="fixo">Data de Nascimento</p>
               <p className="var">08/01/2004</p>
             </div>
-            <div className="btnEditar">
-              <p>Alterar</p>
-            </div>
+            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <CustomAlertInput dnone={dnone}>
+              <form action="">
+                <Input
+                  title={"Nascimento"}
+                  id={"id"}
+                  label="foasae"
+                  className=""
+                  name={"datanasc"}
+                  type={"datanasc"}
+                  onChange={(e) => {
+                  }}
+                  inputMode="text"
+                />
+                <Button type="submit" className="mt">
+                  Atualizar Data nasc.
+                </Button>
+              </form>
+            </CustomAlertInput>
           </div>
 
           <div className="dados">
@@ -155,9 +220,25 @@ export default function Perfil() {
               <p className="fixo">Senha da Conta</p>
               <p className="var">Altere sua senha</p>
             </div>
-            <div className="btnEditar">
-              <p>Alterar</p>
-            </div>
+            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <CustomAlertInput dnone={dnone}>
+              <form action="">
+                <Input
+                  title={"Senha"}
+                  id={"id"}
+                  label="foasae"
+                  className=""
+                  name={"Senha"}
+                  type={"senha"}
+                  onChange={(e) => {
+                  }}
+                  inputMode="text"
+                />
+                <Button type="submit" className="mt">
+                  Atualizar Senha
+                </Button>
+              </form>
+            </CustomAlertInput>
           </div>
         </div>
       </div>
