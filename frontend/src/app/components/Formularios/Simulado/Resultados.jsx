@@ -133,7 +133,7 @@ export default function Resultados(props) {
           </span>
           <div className="c-results__dados erro">
             <span className="grande">
-              {acertos / quantidade * 100}{"%"}
+              {Math.ceil(acertos / quantidade * 100)}{"%"}
             </span>
             <span className="pequeno">
               {acertos + "/" + (acertos + erros)}
