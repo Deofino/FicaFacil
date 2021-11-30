@@ -1,0 +1,22 @@
+.c-alertInput {
+    background-color: #ccc;
+    padding: rem(8) rem(4);
+    min-width: rem(500);
+    box-shadow: 0 rem(2) rem(4) var(--color-shadow);
+    min-height: rem(150);
+
+    z-index: $z-above;
+    position: fixed;
+    top: 50%;
+    left: -100%;
+    transform: translate(-50%, -50%);
+    transition: 0.6s all $t-elastic;
+    h3 {
+        font-size: $global-font-size-lg;
+        margin-bottom: rem(8);
+    }
+
+    &.active {
+        left: 50%;
+    }
+}

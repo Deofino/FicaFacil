@@ -4,6 +4,8 @@ import { QuestaoProvider } from "../components/Context/QuestaoContext";
 import { SimuladoProvider } from "../components/Context/SImuladoContext";
 import { ProvideAuth } from "../components/Context/AuthContext";
 
+import CustomAlertInput, { TesteAlert } from "../components/Alert/CustomAlertInput";
+
 import { GuestRoute, UserRoute, PrivateRoute } from "./CustomRoutes";
 import { Route, Switch } from "react-router-dom";
 // Components
@@ -34,6 +36,7 @@ import ComponentHome from "../components/Main/ComponentHome";
 import { FormularioQuestao } from "../components/Formularios/Questao";
 import { Simulado } from "../components/Formularios/Simulado";
 
+
 export default function Routes () {
   return (
     <ProvideAuth>
@@ -49,7 +52,7 @@ export default function Routes () {
         </Route>
 
         <UserRoute path="/perfil">
-            <Perfil />
+          <Perfil />
         </UserRoute>
         <Route path='/user/redefinir' >
           { localStorage.getItem("auth") !== null ? (
@@ -100,6 +103,9 @@ export default function Routes () {
         <GuestRoute path="/entrar/administrador">
           <FormularioLoginAdm />
         </GuestRoute>
+        <Route path="/backdrop">
+          <TesteAlert />
+        </Route>
         <Route path="*">
           <NotFound />
         </Route>

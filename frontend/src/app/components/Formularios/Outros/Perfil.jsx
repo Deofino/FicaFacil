@@ -52,6 +52,7 @@ export default function Perfil() {
     setZoom(zoom);
   }, []);
 
+  
   React.useEffect(() => {
     if (isDark === 1) {
       html.classList.remove("dark");
