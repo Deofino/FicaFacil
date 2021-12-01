@@ -13,44 +13,18 @@ export default function DashboardAdm() {
   const [totalClientes, setTotalClientes] = useState();
   const [totalSimuladosFeitos, setTotalSimuladosFeitos] = useState();
   const [totalQuestoesCadastradas, setTotalQuestoesCadastradas] = useState();
+  const [questoesPorDia, setQuestoesPorDia] = useState([]);
+  const [questoesPorMateria, setQuestoesPorMateria] = useState([]);
+  const [qPorMateriaAgrupada, setQPorMateriaAgrupada] = useState([]);
+  const [acertosUniversidade, setAcertosUniversidade] = useState([]);
 
-  let dataExemplo = [
-    {
-      name: "Exatas",
-      Acertos: 5,
-      color: "#00aced",
-    },
-    {
-      name: "Humanas",
-      Acertos: 10,
-      color: "#6610f2",
-    },
-    {
-      name: "Biológicas",
-      Acertos: 20,
-      color: "#513487",
-    },
+  const [acertosTotais, setAcertosTotais] = useState(0);
+  const [errosTotais, setErrosTotais] = useState(0);
+  const [dataDesempenho, setDataDesempenho] = useState([]);
 
-  ];
-  let dataDesempenho = [
-    {
-      name: "Erros",
-      Acertos: 40,
-      color: "#4746B0",
-    },
-    {
-      name: "Acertos",
-      Acertos: 120,
-      color: "#4746B0",
-    }
-  ];
-  let dataQuestoes = [
-    {
-      name: "Total Questoes",
-      Acertos: 200,
-      color: "#513487",
-    }
-  ];
+
+  const colors = ['#00aced', '#6610f2', '#6f42c1', '#513487', '#007bff'];
+
 
   useEffect(() => {
     (async function () {
@@ -64,7 +38,7 @@ export default function DashboardAdm() {
     })();
 
 
-     (async function () {
+    (async function () {
       let req = await axios.get(
         `${process.env.REACT_APP_API}/procedures/sp_getTotalSimuladosFeitos`
       );
@@ -72,10 +46,8 @@ export default function DashboardAdm() {
       if (res.length > 0) {
         setTotalSimuladosFeitos(+res[0].total);
       }
-    })(); 
-
-
-     (async function () {
+    })();
+    (async function () {
       let req = await axios.get(
         `${process.env.REACT_APP_API}/procedures/sp_getTotalQuestoesCadastradas`
       );
@@ -83,9 +55,94 @@ export default function DashboardAdm() {
       if (res.length > 0) {
         setTotalQuestoesCadastradas(+res[0].total);
       }
-    })(); 
-    
-  });
+    })();
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getQuestoesPorDia`
+      );
+      let res = await req.data.data;
+      if (res.length > 0) {
+        let data = res.map((valor, index) => {
+          return {
+            name: valor.dia,
+            Quantidade: +valor.qtde,
+          }
+        })
+        setQuestoesPorDia(data);
+      }
+    })();
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getQtdePorMateriaAgrupada`
+      );
+      let res = await req.data.data;
+      if (res.length > 0) {
+        let data = res.map((valor, index) => {
+          return {
+            name: valor.nomeMateria,
+            Quantidade: +valor.quantidade,
+          }
+        })
+        setQPorMateriaAgrupada(data);
+      }
+    })();
+
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getAcertosPorUniversidade`
+      );
+      let res = await req.data.data;
+      console.log(res)
+      if (res.length > 0) {
+        let data = res.map((valor, index) => {
+          return {
+            name: valor.universidade,
+            Quantidade: +valor.qtde,
+            color: colors[index]
+          }
+        })
+        setAcertosUniversidade(data);
+      }
+    })();
+
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getErrosTotais`
+      );
+      let res = await req.data.data;
+      if (res.length > 0) {
+        setErrosTotais(+res[0].erros);
+      }
+    })();
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getAcertosTotais`
+      );
+      let res = await req.data.data;
+      if (res.length > 0) {
+        setAcertosTotais(+res[0].acertos)
+      }
+    })();
+
+  }, []);
+
+
+  useEffect(() => {
+    setDataDesempenho([
+      {
+        name: "Acertos",
+        Quantidade: acertosTotais || 0,
+        color: "#007bff",
+      },
+      {
+        name: "Erros",
+        Quantidade: errosTotais || 0,
+        color: "#4746B0",
+      },
+    ]);
+
+  }, [errosTotais, acertosTotais])
+
 
 
   return (
@@ -105,9 +162,7 @@ export default function DashboardAdm() {
 
               )}</div>
             </div>
-            {/*      <Link to='/perfil'>
-              <FaEdit className="dashboard__c__right__profile__p__icon" />
-            </Link> */}
+
             <h3 className="dashboard__c__right__profile__p__title">{adm.nomeAdministrador}</h3>
           </div>
           <div className="dashboard__c__right__statistics">
@@ -143,55 +198,26 @@ export default function DashboardAdm() {
             <h3 className="dashboard__c__left__um__title">
               Questoes realizadas por materia
             </h3>
-            <ChartBar data={dataExemplo} dataKey="Acertos" />
+            {qPorMateriaAgrupada.length > 0 ? <ChartBar data={qPorMateriaAgrupada} dataKey="Quantidade" dataName='name' /> : <h2>Sem dados</h2>}
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
               Questões por dia
             </h3>
-            <ChartArea data={[
-              {
-                dia: "Seg",
-                entradas: 15,
-              },
-              {
-                dia: "Ter",
-                entradas: 32,
-              },
-              {
-                dia: "Qua",
-                entradas: 2,
-              },
-              {
-                dia: "Qui",
-                entradas: 18,
-              },
-              {
-                dia: "Sex",
-                entradas: 43,
-              },
-              {
-                dia: "Sab",
-                entradas: 32,
-              },
-              {
-                dia: "Dom",
-                entradas: 25,
-              },
-            ]} keyData="entradas" keyName="dia" /* color="#513487" */ />
+            {questoesPorDia.length > 0 ? <ChartArea data={questoesPorDia} keyData="Quantidade" keyName="name" /> : <h2>Sem dados</h2>}
           </div>
           <div className="dashboard__c__left__et">
             <div className="dashboard__c__left__et__tres">
               <h3 className="dashboard__c__left__et__tres__title">
-                Desempenho
+                Desempenho geral
               </h3>
-              <ChartPie data={dataDesempenho} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+              {dataDesempenho.length > 0 ? <ChartPie data={dataDesempenho} dataKey="Quantidade" outerRadius={90} innerRadius={65} /> : <h2>Sem dados</h2>}
             </div>
             <div className="dashboard__c__left__et__quatro">
               <h3 className="dashboard__c__left__et__quatro__title">
-                Questões universidade
+                Acertos de Universidade
               </h3>
-              <ChartPie data={dataQuestoes} dataKey="Acertos" outerRadius={90} innerRadius={65} />
+              {acertosUniversidade.length > 0 ? <ChartPie data={acertosUniversidade} dataKey="Quantidade" outerRadius={90} innerRadius={65} /> : <h2>Sem dados</h2>}
             </div>
           </div>
         </div>

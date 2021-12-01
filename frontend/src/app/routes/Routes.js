@@ -28,6 +28,7 @@ import {
   NotFound,
   DashboardAdm,
   Perfil,
+  ConfigAdm,
   DashboardUser,
 } from "../components/Formularios/Outros";
 
@@ -37,16 +38,16 @@ import { FormularioQuestao } from "../components/Formularios/Questao";
 import { Simulado } from "../components/Formularios/Simulado";
 
 
-export default function Routes () {
+export default function Routes() {
   return (
     <ProvideAuth>
       <Switch>
         <Route exact path="/">
-          { localStorage.getItem("auth") !== null ? (
+          {localStorage.getItem("auth") !== null ? (
             <Header />
           ) : (
             <HeaderUser />
-          ) }
+          )}
           <ComponentHome />
           <Footer />
         </Route>
@@ -54,12 +55,15 @@ export default function Routes () {
         <UserRoute path="/perfil">
           <Perfil />
         </UserRoute>
+        <PrivateRoute path="/configAdm">
+          <ConfigAdm />
+        </PrivateRoute>
         <Route path='/user/redefinir' >
-          { localStorage.getItem("auth") !== null ? (
+          {localStorage.getItem("auth") !== null ? (
             <Header />
           ) : (
             <HeaderUser />
-          ) }
+          )}
           <ComponentRedefinirSenha />
           <Footer />
         </Route>

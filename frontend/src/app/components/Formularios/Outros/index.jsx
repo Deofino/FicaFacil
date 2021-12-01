@@ -5,6 +5,7 @@ import FormularioUniversidade from "./FormularioUniversidade";
 import NotFound from "./NotFound";
 import DashboardAdm from "./DashboardAdm";
 import Perfil from "./Perfil";
+import ConfigAdm from "./ConfigAdm";
 import DashboardUser from "./DashboardUser";
 
 export {
@@ -15,5 +16,6 @@ export {
   NotFound,
   DashboardAdm,
   Perfil,
+  ConfigAdm,
   DashboardUser,
 };
