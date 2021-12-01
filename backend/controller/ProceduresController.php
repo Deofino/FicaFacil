@@ -345,6 +345,18 @@ class ProceduresController
         echo Response::warning('Metodo não encontrado', 404);
     }
 
+    public function sp_getErrosPorUniversidade() // parametros daqui sao da URL
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
+            $model = new ProceduresModel();
+
+            echo $model->getErrosPorUniversidade();
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+
+
     public function sp_getAcertosTotais() // parametros daqui sao da URL
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método

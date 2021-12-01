@@ -313,6 +313,20 @@ class ProceduresModel
         }
     }
 
+    public function getErrosPorUniversidade()
+    {
+        try {
+            $con = Connection::getConn();
+            $stmt = $con->prepare("call sp_getErrosPorUniversidade()");
+            if ($stmt->execute()) {
+                return Response::success($stmt->fetchAll(PDO::FETCH_ASSOC));
+                die;
+            }
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage(), 500);
+        }
+    }
+
     public function getAcertosTotais()
     {
         try {
