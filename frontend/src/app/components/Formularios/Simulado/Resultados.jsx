@@ -11,9 +11,8 @@ import { ChartPie } from "../../Main/Charts";
 import { FaChartPie } from "react-icons/fa";
 
 export default function Resultados(props) {
-  const { quantidade, comeco, fim, reqQuestao } = props;
-  let { acertos, erros, questoesSimulado, setRefazer, setTerminado } =
-    useSimulado();
+  const { quantidade, comeco, fim } = props;
+  let { acertos, erros, questoesSimulado, setTerminado } = useSimulado();
   const [Sair, setSair] = React.useState(false);
   // console.log(props);
   const [Refazer, setRefazerS] = React.useState(false);
@@ -64,7 +63,7 @@ export default function Resultados(props) {
       inserir().finally(() => {
         // console.log({ reqQuestao });
         setTerminado(false);
-        setRefazer(true);
+        // setRefazer(true);
       });
     }
   }

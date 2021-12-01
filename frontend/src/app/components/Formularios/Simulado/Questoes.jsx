@@ -6,7 +6,7 @@ import { FaClock } from "react-icons/fa";
 import { Backdrop } from "@material-ui/core";
 
 export const Questoes = (props) => {
-  let { isTerminado, setTerminado, refazer } = useSimulado();
+  let { isTerminado, setTerminado } = useSimulado();
   let quantidade = props.quantidade;
   let reqQuestao = props.questoes;
   const comeco = props.comeco || "";
@@ -35,7 +35,7 @@ export const Questoes = (props) => {
     }
   }, [tempo, minutos, setTerminado, isTerminado]);
 
-  if (isTerminado && refazer !== true) {
+  if (isTerminado) {
     return (
       <Resultados
         quantidade={quantidade}

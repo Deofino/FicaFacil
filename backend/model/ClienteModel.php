@@ -221,7 +221,7 @@ class ClienteModel extends UserModel
     {
         try {
             $con = Connection::getConn();
-            $stmt = $con->prepare("SELECT idCliente, nomeCompletoCliente, emailCliente, senhaCliente, fotoCliente FROM tb_cliente WHERE emailCliente = ?");
+            $stmt = $con->prepare("SELECT idCliente, nomeCompletoCliente, emailCliente, senhaCliente, fotoCliente, dataAniversarioCliente FROM tb_cliente WHERE emailCliente = ?");
             $stmt->bindValue(1, $email);
             if ($stmt->execute()) {
                 if ($stmt->rowCount() > 0) {
@@ -233,6 +233,7 @@ class ClienteModel extends UserModel
                                 'nome' => $user['nomeCompletoCliente'],
                                 'email' => $user['emailCliente'],
                                 'foto' => $user['fotoCliente'],
+                                'nascimento' => $user['dataAniversarioCliente'],
                             ])
                         ]);
                     }

@@ -1,8 +1,6 @@
 import React from "react";
-import reactDom from "react-dom";
 import { Input, Button } from "../Form";
-import { FaTimes, } from "react-icons/fa";
-import ReactDOM from "react-dom";
+import { FaTimes } from "react-icons/fa";
 import { IconButton, Tooltip } from "@material-ui/core";
 /**
  * @description
@@ -16,7 +14,9 @@ export default function CustomAlertInput(props) {
   const { titulo, children, className, dnone, close } = props;
 
   return (
-    <section className={`c-alertInput ${!dnone && "active"} ` + className || ""} >
+    <section
+      className={`c-alertInput ${!dnone && "active"} ` + className || ""}
+    >
       <div className={`c-alertInput__alert`}>
         <h3 className="c-alertInput__span">{titulo || "Atualizar"}</h3>
         {children}

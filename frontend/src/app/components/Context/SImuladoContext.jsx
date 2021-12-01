@@ -45,7 +45,7 @@ export const SimuladoProvider = (props) => {
   const [questaoAtual, setQuestaoAtual] = useState(0);
   const [tempo, setTempo] = useState(30);
   const [isTerminado, setTerminado] = useState(false);
-  const [refazer, setRefazer] = useState(false);
+  // const [refazer, setRefazer] = useState(false);
 
   const AcertarQuestao = () => {
     setAcertos(acertos + 1);
@@ -72,7 +72,7 @@ export const SimuladoProvider = (props) => {
           }
         )
         .then((value) => {
-          // console.log(value.data);
+          console.log(value.data);
           if (value.data.status_code === 200) {
             setReqQuestao(value.data.data);
           } else {
@@ -81,20 +81,19 @@ export const SimuladoProvider = (props) => {
         })
         .catch((err) => ToastError(err));
     }
-    if (refazer) {
-      setAcertos(0);
-      setErros(0);
-      setQuestaoAtual(0);
-      setQuestoesSimulado([]);
-      setTerminado();
-    }
-  }, [filter, isTerminado, refazer]);
+    // if (refazer) {
+    //   setAcertos(0);
+    //   setErros(0);
+    //   setQuestaoAtual(0);
+    //   setQuestoesSimulado([]);
+    // }
+  }, [filter, isTerminado]);
 
   return (
     <contextSimulado.Provider
       value={{
-        refazer: refazer,
-        setRefazer: setRefazer,
+        // refazer: refazer,
+        // setRefazer: setRefazer,
         filter: filter,
         setFilter: setFilter,
         reqQuestao: reqQuestao,

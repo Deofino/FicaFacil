@@ -9,7 +9,7 @@ use PDO;
 
 class AdministradorModel extends UserModel
 {
-    public function setEmail(string $email): void
+    public function setEmail(string $email, bool $verificar  = true): void
     {
         // Verificar se adm tem email igual, se sim nao pode deixar entrar
         if (

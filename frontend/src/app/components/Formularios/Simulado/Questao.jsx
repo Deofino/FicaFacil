@@ -31,8 +31,8 @@ export const Questao = (props) => {
     setTerminado,
     setQuestoesSimulado,
     questoesSimulado,
-    refazer,
-    setRefazer,
+    // refazer,
+    // setRefazer,
   } = useSimulado();
 
   // if (refazer) {
@@ -199,7 +199,7 @@ export const Questao = (props) => {
           className="prox"
           onClick={() => {
             if (isAcertou === "" && +Selected !== -1) {
-              setRefazer(false);
+              // setRefazer(false);
               if (+Selected === CertaResposta) {
                 AcertarQuestao();
                 setAcertou("correct");

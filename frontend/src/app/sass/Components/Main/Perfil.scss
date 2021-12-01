@@ -1,14 +1,17 @@
-* {
-    margin: 0;
-    padding: 0;
-}
 .MuiSlider-markLabelActive,
 .MuiSlider-markLabel {
     @include darkMode {
         color: $light !important;
     }
 }
+.l-perfil {
+    box-shadow: 0 0 rem(8) var(--color-shadow);
+    border-radius: rem(8);
+    padding-bottom: rem(20);
+}
 .capa {
+    border-top-left-radius: rem(8);
+    border-top-right-radius: rem(8);
     background-color: $primary;
     /*#513487 DARK*/
     width: 100%;
@@ -23,7 +26,11 @@
 }
 
 .c-button.pequeno {
-    max-width: rem(180) !important;
+    max-width: rem(140) !important;
+    @include breakpoint(small) {
+        margin-top: rem(4);
+        max-width: 100% !important;
+    }
 }
 .infos {
     width: 100%;
@@ -40,6 +47,7 @@
         padding-left: 0px !important;
     }
     @media (max-width: 327px) {
+        padding: 0;
         flex-direction: column;
         margin: 0 auto;
         display: flex;
@@ -136,6 +144,11 @@
         @include darkMode {
             background-color: darken($color: $dark, $amount: 3%);
         }
+        @include breakpoint(small) {
+            width: 100%;
+            box-shadow: none !important;
+            padding: rem(20) 12px !important;
+        }
 
         .meusDados {
             background-color: transparent;
@@ -159,7 +172,7 @@
             justify-content: space-between;
             padding-top: 10px !important;
             padding-bottom: 10px !important;
-            @media (max-width: 516px) {
+            @include breakpoint(small) {
                 flex-direction: column;
             }
 

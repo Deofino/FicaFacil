@@ -6,7 +6,13 @@ import { FaPen } from "react-icons/fa";
 import CustomAlertInput from "../../Alert/CustomAlertInput";
 import axios from "axios";
 import { parseJwt } from "../../Header/NavBarUser";
-import { ToastInformation } from "../../Alert/Toast";
+import {
+  ToastError,
+  ToastInformation,
+  ToastSuccess,
+  ToastWarning,
+} from "../../Alert/Toast";
+import { regexEmail } from "../Logins/FormularioLoginAdm";
 const marks = [
   {
     value: 80,
@@ -54,9 +60,142 @@ export default function Perfil() {
   const [alertEmail, setAlertEmail] = React.useState(true);
   const [alertSenha, setAlertSenha] = React.useState(true);
   const [alertNascimento, setAlertNascimento] = React.useState(true);
+
+  const [idUser, setIdUser] = React.useState(0);
+
+  const [nomeUser, setnomeUser] = React.useState("");
+  const [emailUser, setemailUser] = React.useState("");
+  const [nascUser, setnascUser] = React.useState("");
+  const [senhaUser, setsenhaUser] = React.useState("");
+  const [confirmSenhaUser, setconfirmSenhaUser] = React.useState("");
+  const [senhaAntiga, setsenhaAntiga] = React.useState("");
+
   // const [aler, setDnone] = React.useState(true);
   function alterarBackdrop(value, setter) {
     setter(!value);
+  }
+  function alterarNome(ev) {
+    ev.preventDefault();
+
+    let { nome } = ev.target;
+
+    if (nome.value.trim() !== null && nome.value.trim().length > 3) {
+      let formData = new FormData(ev.target);
+
+      axios
+        .post(`${process.env.REACT_APP_API}/cliente/update/`, formData, {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        })
+        .then((val) =>
+          ToastSuccess({
+            text: "Atualizado com sucesso, entre novamente no site para atualizar os dados!",
+          })
+        )
+        .catch((err) => ToastError({ text: err }));
+    } else {
+      ToastWarning({ text: "Preencha o campo corretamente." });
+    }
+  }
+  function alterarEmail(ev) {
+    ev.preventDefault();
+
+    let { email } = ev.target;
+    if (
+      email.value.trim() !== null &&
+      email.value.trim().length > 5 &&
+      regexEmail.test(email.value.trim())
+    ) {
+      let formData = new FormData(ev.target);
+
+      axios
+        .post(`${process.env.REACT_APP_API}/cliente/update/`, formData, {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        })
+        .then((val) =>
+          ToastSuccess({
+            text: "Atualizado com sucesso, entre novamente no site para atualizar os dados!",
+          })
+        )
+        .catch((err) => ToastError({ text: err }));
+    } else {
+      ToastWarning({ text: "Preencha o campo corretamente." });
+    }
+  }
+  function alterarSenha(ev) {
+    ev.preventDefault();
+
+    let { old_senha, conf_senha, senha } = ev.target;
+    if (
+      old_senha.value.trim() !== null &&
+      old_senha.value.trim().length >= 5 &&
+      conf_senha.value.trim() !== null &&
+      conf_senha.value.trim().length >= 5 &&
+      senha.value.trim() !== null &&
+      senha.value.trim().length >= 5
+    ) {
+      if (conf_senha.value.trim() === senha.value.trim()) {
+        let formData = new FormData(ev.target);
+
+        axios
+          .post(`${process.env.REACT_APP_API}/cliente/update/`, formData, {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
+            },
+          })
+          .then((val) => {
+            console.log(val);
+            ToastSuccess({
+              text: "Atualizado com sucesso, entre novamente no site para atualizar os dados!",
+            });
+          })
+          .catch((err) => ToastError({ text: err }));
+      } else {
+        ToastWarning({ text: "Confirmação de senha incorreta." });
+      }
+    } else {
+      ToastWarning({ text: "Preencha o campo corretamente." });
+    }
+  }
+  function alterarNasc(ev) {
+    ev.preventDefault();
+
+    let { datanasc } = ev.target;
+
+    let date = new Date(datanasc.value);
+    if (
+      datanasc.value !== null &&
+      datanasc.value.length > 3 &&
+      date < new Date()
+    ) {
+      let formData = new FormData(ev.target);
+
+      axios
+        .post(`${process.env.REACT_APP_API}/cliente/update/`, formData, {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        })
+        .then((val) =>
+          ToastSuccess({
+            text: "Atualizado com sucesso, entre novamente no site para atualizar os dados!",
+          })
+        )
+        .catch((err) => ToastError({ text: err }));
+    } else {
+      ToastWarning({ text: "Preencha o campo corretamente." });
+    }
   }
 
   React.useEffect(() => {
@@ -68,15 +207,21 @@ export default function Perfil() {
     setDark(storage === "true" ? 2 : 1);
     setFont(fonte);
     setZoom(zoom);
-    parseJwt(userjwt).foto !== "" && setImagePreview(parseJwt(userjwt).foto);
+    userjwt = parseJwt(userjwt);
+    userjwt.foto !== "" && setImagePreview(userjwt.foto);
+    userjwt.nome !== "" && setnomeUser(userjwt.nome);
+    userjwt.email !== "" && setemailUser(userjwt.email);
+    userjwt.nascimento !== "" && setnascUser(userjwt.nascimento);
+    userjwt.id !== "" && setIdUser(userjwt.id);
   }, []);
 
   React.useEffect(() => {
-    if (isDark === 1) {
+    html.classList.remove("dark");
+    if (+isDark === 1) {
       html.classList.remove("dark");
       localStorage.setItem("dark", "false");
     }
-    if (isDark === 2) {
+    if (+isDark === 2) {
       html.classList.add("dark");
       localStorage.setItem("dark", "true");
     }
@@ -117,7 +262,7 @@ export default function Perfil() {
   if (user === undefined) return <h1>Carregando...</h1>;
   else
     return (
-      <div>
+      <section className="l-perfil">
         <div className="capa"></div>
         <div className="infos">
           <div className="infos__foto">
@@ -126,7 +271,7 @@ export default function Perfil() {
                 name="id"
                 type="text"
                 className="d-none"
-                defaultValue={user.id}
+                defaultValue={idUser || user.id}
               />
               <input
                 type="file"
@@ -153,8 +298,12 @@ export default function Perfil() {
                         },
                       }
                     )
-                    .then((val) => console.log(val.data))
-                    .catch((err) => console.log(err));
+                    .then((val) =>
+                      ToastSuccess({
+                        text: "Atualizado com sucesso, entre novamente no site para atualizar os dados!",
+                      })
+                    )
+                    .catch((err) => ToastError({ text: err }));
 
                   ToastInformation({
                     text: "Entre e saia da sua conta para atualizar a foto de perfil!",
@@ -173,10 +322,10 @@ export default function Perfil() {
           </div>
           <div className="infos__texto">
             <div className="infos__texto__nome">
-              <p className="txtNome">Paulo</p>
+              <p className="txtNome">{nomeUser || "NOME"}</p>
             </div>
             <div className="infos__texto__aluno">
-              <p className="txtAluno">Aluno desde 11/11/2021</p>
+              {/* <p className="txtAluno">Aluno desde 11/11/2021</p> */}
             </div>
           </div>
         </div>
@@ -190,7 +339,9 @@ export default function Perfil() {
             <div className="dados">
               <div className="nomeUsuario">
                 <p className="fixo">Nome de Usuário</p>
-                <p className="var">Paulo Moreira #2323</p>
+                <p className="var">
+                  {nomeUser || ""} #{idUser || user.id}
+                </p>
               </div>
               <Button
                 className="pequeno"
@@ -200,17 +351,24 @@ export default function Perfil() {
               </Button>
               <CustomAlertInput
                 dnone={alertNome}
-                close={() => setAlertNome(false)}
+                close={() => setAlertNome(true)}
               >
-                <form action="">
+                <form action="" onSubmit={(e) => alterarNome(e)}>
+                  <input
+                    name="id"
+                    type="text"
+                    className="d-none"
+                    defaultValue={idUser || user.id}
+                  />
                   <Input
                     title={"Nome"}
                     id={"nome"}
-                    label="foasae"
-                    className=""
                     name={"nome"}
+                    value={nomeUser || ""}
                     type={"text"}
-                    onChange={(e) => {}}
+                    onChange={(e) => {
+                      setnomeUser(e.target.value);
+                    }}
                     inputMode="text"
                   />
                   <Button type="submit" className="mt">
@@ -223,25 +381,37 @@ export default function Perfil() {
             <div className="dados">
               <div className="emailUsuario">
                 <p className="fixo">Email</p>
-                <p className="var">nagatogts@hotmail.com</p>
+                <p className="var">{user.email}</p>
               </div>
               <Button
-                className="mt"
+                className="pequeno"
                 onClick={() => alterarBackdrop(alertEmail, setAlertEmail)}
               >
                 alterar
               </Button>
-              <CustomAlertInput dnone={alertEmail}>
-                <form action="">
+              <CustomAlertInput
+                dnone={alertEmail}
+                close={() => {
+                  setAlertEmail(true);
+                }}
+              >
+                <form action="" onSubmit={(e) => alterarEmail(e)}>
+                  <input
+                    name="id"
+                    type="text"
+                    className="d-none"
+                    defaultValue={idUser || user.id}
+                  />
                   <Input
                     title={"E-mail"}
                     id={"email"}
-                    label="foasae"
-                    className=""
                     name={"email"}
+                    value={emailUser || ""}
                     type={"email"}
-                    onChange={(e) => {}}
-                    inputMode="text"
+                    onChange={(e) => {
+                      setemailUser(e.target.value);
+                    }}
+                    inputMode="email"
                   />
                   <Button type="submit" className="mt">
                     Atualizar E-mail
@@ -253,29 +423,46 @@ export default function Perfil() {
             <div className="dados">
               <div className="dataNascUsuario">
                 <p className="fixo">Data de Nascimento</p>
-                <p className="var">08/01/2004</p>
+                <p className="var">
+                  {nascUser.replaceAll("-", "/") ||
+                  user.nascimento !== undefined
+                    ? user.nascimento.replaceAll("-", "/")
+                    : "0000/00/00"}
+                </p>
               </div>
               <Button
-                className="mt"
+                className="pequeno"
                 onClick={() =>
                   alterarBackdrop(alertNascimento, setAlertNascimento)
                 }
               >
                 alterar
               </Button>
-              <CustomAlertInput dnone={alertNascimento}>
-                <form action="">
-                  <Input
-                    title={"Nascimento"}
-                    id={"datanasc"}
-                    label="foasae"
-                    className=""
-                    name={"datanasc"}
-                    type={"datanasc"}
-                    onChange={(e) => {}}
-                    inputMode="text"
+              <CustomAlertInput
+                dnone={alertNascimento}
+                close={() => {
+                  setAlertNascimento(true);
+                }}
+              >
+                <form action="" onSubmit={(e) => alterarNasc(e)}>
+                  <input
+                    name="id"
+                    type="text"
+                    className="d-none"
+                    defaultValue={idUser || user.id}
                   />
-                  <Button type="submit" className="pequeno">
+                  <Input
+                    // title={"Nascimento"}
+                    id={"datanasc"}
+                    value={nascUser || ""}
+                    name={"datanasc"}
+                    type={"date"}
+                    onChange={(e) => {
+                      setnascUser(e.target.value);
+                    }}
+                    inputMode="date"
+                  />
+                  <Button type="submit" className="mt">
                     Atualizar Data nasc.
                   </Button>
                 </form>
@@ -288,22 +475,58 @@ export default function Perfil() {
                 <p className="var">Altere sua senha</p>
               </div>
               <Button
-                className="mt"
+                className="pequeno"
                 onClick={() => alterarBackdrop(alertSenha, setAlertSenha)}
               >
                 alterar
               </Button>
-              <CustomAlertInput dnone={alertSenha}>
-                <form action="">
+              <CustomAlertInput
+                dnone={alertSenha}
+                close={() => {
+                  setAlertSenha(true);
+                }}
+              >
+                <form action="" onSubmit={(e) => alterarSenha(e)}>
+                  <input
+                    name="id"
+                    type="text"
+                    className="d-none"
+                    defaultValue={idUser || user.id}
+                  />
+                  <Input
+                    title={"Senha antiga"}
+                    id={"old_senha"}
+                    name={"old_senha"}
+                    type={"password"}
+                    value={senhaAntiga || ""}
+                    onChange={(e) => {
+                      setsenhaAntiga(e.target.value);
+                    }}
+                    inputMode="password"
+                  />
                   <Input
                     title={"Senha"}
                     id={"senha"}
-                    label="foasae"
-                    className=""
-                    name={"Senha"}
-                    type={"senha"}
-                    onChange={(e) => {}}
-                    inputMode="text"
+                    className="mt"
+                    name={"senha"}
+                    type={"password"}
+                    value={senhaUser || ""}
+                    onChange={(e) => {
+                      setsenhaUser(e.target.value);
+                    }}
+                    inputMode="password"
+                  />
+                  <Input
+                    title={"Confirmar"}
+                    id={"conf_senha"}
+                    className="mt"
+                    value={confirmSenhaUser || ""}
+                    name={"conf_senha"}
+                    type={"password"}
+                    onChange={(e) => {
+                      setconfirmSenhaUser(e.target.value);
+                    }}
+                    inputMode="password"
                   />
                   <Button type="submit" className="mt">
                     Atualizar Senha
@@ -323,9 +546,9 @@ export default function Perfil() {
             <div className="aparencia">
               <RadioGroup
                 className="radioGrupo"
-                value={isDark}
-                onChange={() => {
-                  setDark(isDark === 1 ? 2 : 1);
+                defaultValue={isDark}
+                onChange={(e) => {
+                  setDark(+e.target.value);
                 }}
               >
                 <Radio value={1} className="aparencia__radio" label="Claro" />
@@ -346,13 +569,13 @@ export default function Perfil() {
                   } else {
                     setFont(120);
                   }
-                  console.log(number);
+                  ToastError({ text: number });
                 }}
                 step={20}
                 min={80}
                 max={120}
                 marks={marks}
-                value={isFont}
+                defaultValue={isFont}
                 color="primary"
               />
               <br></br>
@@ -367,18 +590,18 @@ export default function Perfil() {
                   } else {
                     setZoom(120);
                   }
-                  console.log(number);
+                  ToastError({ text: number });
                 }}
                 step={20}
                 min={80}
                 max={120}
-                value={isZoom}
+                defaultValue={isZoom}
                 marks={marksZoom}
                 color="primary"
               />
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
 }

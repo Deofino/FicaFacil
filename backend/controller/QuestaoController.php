@@ -44,22 +44,22 @@ class QuestaoController
                         = (int) $_GET['dificuldade'];
                 }
             }
-            if (isset($_GET['cliente']) || isset($_GET['refazer'])) {
-                if (isset($_GET['refazer']) && isset($_GET['inicio'])) {
-                    $where .= ' WHERE idCliente = :cliente AND DataInicioSimulado = :inicio AND';
-                    $send[':cliente']
-                        = (int) $_GET['refazer'];
-                    $send[':inicio'] = $_GET['inicio'];
-                    $inner .= ' INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao ';
-                    // dd([$send, $where, $inner]);
-                } else if (isset($_GET['cliente'])) {
-                    $where .= ' WHERE idCliente not in(:cliente) AND';
-                    $send[':cliente']
-                        = (int) $_GET['cliente'];
-                    $inner .= ' INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao ';
-                    // dd([$send, $where, $inner]); 
-                }
-            }
+            // if (isset($_GET['cliente']) || isset($_GET['refazer'])) {
+            //     if (isset($_GET['refazer']) && isset($_GET['inicio'])) {
+            //         // $where .= ' WHERE idCliente = :cliente AND DataInicioSimulado = :inicio AND';
+            //         // $send[':cliente']
+            //         //     = (int) $_GET['refazer'];
+            //         // $send[':inicio'] = $_GET['inicio'];
+            //         // $inner .= ' INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao ';
+            //         // dd([$send, $where, $inner]);
+            //     } else if (isset($_GET['cliente'])) {
+            //         // $where .= ' WHERE idCliente not in(:cliente) AND';
+            //         // $send[':cliente']
+            //         //     = (int) $_GET['cliente'];
+            //         // $inner .= ' INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao ';
+            //         // dd([$send, $where, $inner]); 
+            //     }
+            // }
 
             // echo Response::success([$where, $send, $inner]);
             // return;

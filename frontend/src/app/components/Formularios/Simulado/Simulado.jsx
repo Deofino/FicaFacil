@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Select, option } from "../../Form";
+import { Button, Select } from "../../Form";
 import { SimuladoProvider, useSimulado } from "../../Context/SImuladoContext";
 import { Questoes } from "./Questoes";
 import { Backdrop } from "@material-ui/core";

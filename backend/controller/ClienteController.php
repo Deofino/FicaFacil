@@ -6,6 +6,7 @@ use Helper\Response;
 use Model\ClienteModel;
 use Helper\JWT;
 use Controller\EmailController;
+use Exception;
 
 class ClienteController
 {
@@ -62,21 +63,16 @@ class ClienteController
     public function update() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) { // verificar se eh post
-
-
-
-
-            if ($_POST['id']) {
+            if (isset($_POST['id'])) {
                 // base
                 $model = new ClienteModel();
                 $user = json_decode($model->get(['id' => $_POST['id']]))->data[0];
+                // dd($_POST);
                 $model->setNome($user->nomeCompletoCliente);
                 $model->setSenha($user->senhaCliente);
                 $model->setDataAniversario($user->dataAniversarioCliente);
                 $model->setEmail($user->emailCliente, false);
                 $model->setFoto($user->fotoCliente);
-
-
                 // pra cada campo que querer
                 if (isset($_FILES['imagem']) && isset($_POST['id'])) {
                     if ($user->fotoCliente !== '') {
@@ -96,6 +92,26 @@ class ClienteController
                     move_uploaded_file($variavel, $path . $name);
 
                     $model->setFoto($url);
+                }
+                if (isset($_POST['nome']) && isset($_POST['id'])) {
+                    $model->setNome(trim($_POST['nome']));
+                }
+                if (isset($_POST['email']) && isset($_POST['id'])) {
+                    $model->setEmail(trim($_POST['email']));
+                }
+                if (isset($_POST['datanasc']) && isset($_POST['id'])) {
+                    $model->setDataAniversario(trim($_POST['datanasc']));
+                }
+                if (isset($_POST['senha']) && isset($_POST['old_senha']) && isset($_POST['id'])) {
+                    //veriricar se bate
+                    // dd($user);
+                    if (password_verify($_POST['old_senha'], $user->senhaCliente)) {
+                        // dd('passou');
+                        $model->setSenha(password_hash(trim($_POST['senha']), PASSWORD_DEFAULT));
+                    } else {
+                        http_response_code(404);
+                        return throw new Exception('Senha antiga invalida', 404);
+                    }
                 }
 
                 echo $model->put($_POST['id']);

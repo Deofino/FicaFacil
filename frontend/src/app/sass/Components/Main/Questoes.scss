@@ -73,53 +73,53 @@
             @include breakpoint(smallmin) {
                 font-size: rem(14);
             }
-            transform: translateY(24px); 
+            transform: translateY(24px);
             z-index: 999;
         }
-       
-        .esquerda{
+
+        .esquerda {
             @include flex(start);
             flex-direction: column;
             width: 50%;
             position: relative;
         }
 
-        .direita{          
-             @include flex(center);
+        .direita {
+            @include flex(center);
             flex-direction: column;
             width: 50%;
 
-            .c-button{
+            .c-button {
                 margin-top: rem(25);
                 max-width: rem(300);
             }
         }
-        
-        .dash{
+
+        .dash {
             @include flex(center);
             margin-top: rem(25);
             background-color: $primary;
             border-radius: rem(8);
             width: 70px;
             height: 50px;
-            svg{
-             fill: $white;   
+            svg {
+                fill: $white;
             }
         }
 
-        .erro{
+        .erro {
             width: min-content;
             position: absolute;
-            top: 54%;
+            top: 50%;
             background-color: transparent;
             left: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
             display: block;
-            .grande{
+            .grande {
                 font-size: rem(28);
                 font-weight: 900;
             }
-            .pequeno{
+            .pequeno {
                 font-size: rem(14);
                 font-weight: 400;
             }
