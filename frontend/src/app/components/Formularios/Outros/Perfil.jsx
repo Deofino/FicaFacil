@@ -226,7 +226,7 @@ export default function Perfil() {
                 <p className="var">nagatogts@hotmail.com</p>
               </div>
               <Button
-                className="pequeno"
+                className="mt"
                 onClick={() => alterarBackdrop(alertEmail, setAlertEmail)}
               >
                 alterar
@@ -256,7 +256,7 @@ export default function Perfil() {
                 <p className="var">08/01/2004</p>
               </div>
               <Button
-                className="pequeno"
+                className="mt"
                 onClick={() =>
                   alterarBackdrop(alertNascimento, setAlertNascimento)
                 }
@@ -288,7 +288,7 @@ export default function Perfil() {
                 <p className="var">Altere sua senha</p>
               </div>
               <Button
-                className="pequeno"
+                className="mt"
                 onClick={() => alterarBackdrop(alertSenha, setAlertSenha)}
               >
                 alterar

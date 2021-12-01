@@ -1,6 +1,9 @@
 import React from "react";
 import reactDom from "react-dom";
 import { Input, Button } from "../Form";
+import { FaTimes, } from "react-icons/fa";
+import ReactDOM from "react-dom";
+import { IconButton, Tooltip } from "@material-ui/core";
 /**
  * @description
  * @author Delfino
@@ -10,13 +13,26 @@ import { Input, Button } from "../Form";
  * @returns {*}
  */
 export default function CustomAlertInput(props) {
-  const { titulo, children, className, dnone } = props;
+  const { titulo, children, className, dnone, close } = props;
+
   return (
-    <section
-      className={`c-alertInput ${!dnone && "active"} ` + className || ""}
-    >
-      <h3 className="c-alertInput__span">{titulo || "Titulo Do alert"}</h3>
-      {children}
+    <section className={`c-alertInput ${!dnone && "active"} ` + className || ""} >
+      <div className={`c-alertInput__alert`}>
+        <h3 className="c-alertInput__span">{titulo || "Atualizar"}</h3>
+        {children}
+      </div>
+      <div className="relative">
+        <Tooltip
+          className="c-alertInput__icon"
+          title="Fechar"
+          enterDelay={400}
+          enterNextDelay={200}
+        >
+          <IconButton onClick={() => close()}>
+            <FaTimes />
+          </IconButton>
+        </Tooltip>
+      </div>
     </section>
   );
 }
@@ -42,7 +58,7 @@ export function TesteAlert() {
             //   value={"Valor"}
             // error={}
             onChange={(e) => {
-            // setAttMateria(e.target.value);
+              // setAttMateria(e.target.value);
             }}
             inputMode="text"
           />
