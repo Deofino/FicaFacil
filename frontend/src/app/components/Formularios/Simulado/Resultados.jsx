@@ -9,11 +9,11 @@ import { useSimulado } from "../../Context/SImuladoContext";
 import { ToastError } from "../../Alert/Toast";
 
 export default function Resultados(props) {
-  const { quantidade, comeco, fim /* reqQuestao */ } = props;
-  let { acertos, erros, questoesSimulado, set } = useSimulado();
+  const { quantidade, comeco, fim, reqQuestao } = props;
+  let { acertos, erros, questoesSimulado, setRefazer } = useSimulado();
   const [Sair, setSair] = React.useState(false);
-  // console.log(props);
-  const [Refazer, setRefazer] = React.useState(false);
+  console.log(props);
+  const [Refazer, setRefazerS] = React.useState(false);
   document.querySelector("audio").play();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const inserir = useCallback(() => {
@@ -52,15 +52,15 @@ export default function Resultados(props) {
 
   React.useEffect(() => {
     return () => {
-      setSair(true);
+      // setSair(true);
     };
   }, []);
   if (Refazer) {
-    console.log(props.reqQuestao);
     let user = parseJwt(localStorage.getItem("user"));
     if (user.id !== undefined) {
       inserir().finally(() => {
-          
+        console.log({ reqQuestao });
+        setRefazer(true);
       });
     }
   }
@@ -109,7 +109,7 @@ export default function Resultados(props) {
         <Button
           className="c-results__dados__btns__r__b"
           onClick={() => {
-            setRefazer(true);
+            setRefazerS(true);
           }}
         >
           Refazer <FaHistory style={{ marginLeft: 10 }} />

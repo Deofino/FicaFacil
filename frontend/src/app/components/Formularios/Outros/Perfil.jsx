@@ -69,7 +69,6 @@ export default function Perfil() {
     setZoom(zoom);
   }, []);
 
-
   React.useEffect(() => {
     if (isDark === 1) {
       html.classList.remove("dark");
@@ -142,7 +141,9 @@ export default function Perfil() {
               <p className="fixo">Nome de Usuário</p>
               <p className="var">Paulo Moreira #2323</p>
             </div>
-            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <Button className="pequeno" onClick={() => alterarBackdrop()}>
+              alterar
+            </Button>
             <CustomAlertInput dnone={dnone}>
               <form action="">
                 <Input
@@ -152,8 +153,7 @@ export default function Perfil() {
                   className=""
                   name={"nome"}
                   type={"text"}
-                  onChange={(e) => {
-                  }}
+                  onChange={(e) => {}}
                   inputMode="text"
                 />
                 <Button type="submit" className="mt">
@@ -168,7 +168,9 @@ export default function Perfil() {
               <p className="fixo">Email</p>
               <p className="var">nagatogts@hotmail.com</p>
             </div>
-            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <Button className="mt" onClick={() => alterarBackdrop()}>
+              alterar
+            </Button>
             <CustomAlertInput dnone={dnone}>
               <form action="">
                 <Input
@@ -178,8 +180,7 @@ export default function Perfil() {
                   className=""
                   name={"email"}
                   type={"email"}
-                  onChange={(e) => {
-                  }}
+                  onChange={(e) => {}}
                   inputMode="text"
                 />
                 <Button type="submit" className="mt">
@@ -194,7 +195,9 @@ export default function Perfil() {
               <p className="fixo">Data de Nascimento</p>
               <p className="var">08/01/2004</p>
             </div>
-            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <Button className="mt" onClick={() => alterarBackdrop()}>
+              alterar
+            </Button>
             <CustomAlertInput dnone={dnone}>
               <form action="">
                 <Input
@@ -204,11 +207,10 @@ export default function Perfil() {
                   className=""
                   name={"datanasc"}
                   type={"datanasc"}
-                  onChange={(e) => {
-                  }}
+                  onChange={(e) => {}}
                   inputMode="text"
                 />
-                <Button type="submit" className="mt">
+                <Button type="submit" className="pequeno">
                   Atualizar Data nasc.
                 </Button>
               </form>
@@ -220,7 +222,9 @@ export default function Perfil() {
               <p className="fixo">Senha da Conta</p>
               <p className="var">Altere sua senha</p>
             </div>
-            <Button className="mt" onClick={() => alterarBackdrop()}>alterar</Button>
+            <Button className="mt" onClick={() => alterarBackdrop()}>
+              alterar
+            </Button>
             <CustomAlertInput dnone={dnone}>
               <form action="">
                 <Input
@@ -230,8 +234,7 @@ export default function Perfil() {
                   className=""
                   name={"Senha"}
                   type={"senha"}
-                  onChange={(e) => {
-                  }}
+                  onChange={(e) => {}}
                   inputMode="text"
                 />
                 <Button type="submit" className="mt">

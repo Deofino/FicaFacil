@@ -14,7 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 export default function CustomButton(props) {
   return (
     <Button
-      className={props.className + " c-button" || "c-butotn"}
+      className={props.className + " c-button" || "c-button"}
       variant={props.variant || "contained"}
       color="primary"
       type={props.type}

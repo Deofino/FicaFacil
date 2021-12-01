@@ -22,7 +22,7 @@ class QuestaoController
                     $where .= '  WHERE tb_assunto_materia.idMateria = :materia AND';
                     $send[':materia']
                         = (int) $_GET['materia'];
-                    $inner .= 'INNER JOIN tb_assunto_materia on tb_assunto_materia.idAssuntoMateria = tb_questao.idAssuntoMateria INNER JOIN tb_materia on tb_assunto_materia.idMateria = tb_materia.idMateria';
+                    $inner .= 'INNER JOIN tb_assunto_materia on tb_assunto_materia.idAssuntoMateria = tb_questao.idAssuntoMateria INNER JOIN tb_materia on tb_assunto_materia.idMateria = tb_materia.idMateria ';
                 }
             }
             if (isset($params[0])) {
@@ -46,16 +46,18 @@ class QuestaoController
             }
             if (isset($_GET['cliente']) || isset($_GET['refazer'])) {
                 if (isset($_GET['refazer']) && isset($_GET['inicio'])) {
-                    $where .= ' WHERE idCliente = :cliente AND DataInicioSimulado = :inicio';
+                    $where .= ' WHERE idCliente = :cliente AND DataInicioSimulado = :inicio AND';
                     $send[':cliente']
                         = (int) $_GET['refazer'];
                     $send[':inicio'] = $_GET['inicio'];
-                    $inner .= 'INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao';
+                    $inner .= ' INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao ';
+                    // dd([$send, $where, $inner]);
                 } else if (isset($_GET['cliente'])) {
                     $where .= ' WHERE idCliente != :cliente AND';
                     $send[':cliente']
                         = (int) $_GET['cliente'];
-                    $inner .= 'INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao';
+                    $inner .= ' INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao ';
+                    // dd([$send, $where, $inner]); 
                 }
             }
 
@@ -85,7 +87,7 @@ class QuestaoController
                 $where =  substr($where, 0, strlen($where) - 4);
             };
             if (isset($_GET['random'])) {
-                $where .= ' ORDER BY RAND() ';
+                $where .= ' GROUP BY tb_questao.idQuestao ORDER BY RAND() ';
             }
             if (isset($_GET['limit'])) {
                 $where .= ' LIMIT ' . $_GET['limit'];
