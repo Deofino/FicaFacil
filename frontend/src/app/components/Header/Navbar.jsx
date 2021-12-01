@@ -6,11 +6,11 @@ import {
   FaSearch,
   FaChartPie,
   FaGraduationCap,
-  FaCog,
   FaSignOutAlt,
   FaArrowDown,
   FaUserShield,
-  FaHome
+  FaHome,
+  FaCog
 } from "react-icons/fa";
 
 export function parseJwt(token) {
@@ -98,13 +98,13 @@ export default function Navbar() {
           </ul>
         </li>
         <li className="c-navbar__menu-item">
-          <Link to="/configuracoes">
+          <Link to="/configAdm">
             <div className="space">
               <FaCog className="icon" />
-              <span className="c-navbar__links-name">Configuração</span>
+              <span className="c-navbar__links-name">Configurações</span>
             </div>
           </Link>
-          <span className="c-navbar__tooltip">Configuração</span>
+          <span className="c-navbar__tooltip">Configurações</span>
         </li>
         <li className="c-navbar__profile">
           <div className="c-navbar__image-profile">

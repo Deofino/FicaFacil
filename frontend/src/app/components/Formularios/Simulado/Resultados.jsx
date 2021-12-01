@@ -144,7 +144,7 @@ export default function Resultados(props) {
           <Button
             className="c-results__dados__btns__r__b"
             onClick={() => {
-              setRefazer(true);
+              setRefazerS(true);
             }}
           >
             Refazer <FaHistory style={{ marginLeft: 10 }} />
