@@ -7,14 +7,15 @@ import { Link } from "react-router-dom";
 import { FaArrowRight, FaHistory } from "react-icons/fa";
 import { parseJwt } from "../../Header/NavBarUser";
 import { useSimulado } from "../../Context/SImuladoContext";
-import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
+import { ChartPie } from "../../Main/Charts";
 import { FaChartPie } from "react-icons/fa";
 
 export default function Resultados(props) {
   const { quantidade, comeco, fim, reqQuestao } = props;
-  let { acertos, erros, questoesSimulado, setRefazer } = useSimulado();
+  let { acertos, erros, questoesSimulado, setRefazer, setTerminado } =
+    useSimulado();
   const [Sair, setSair] = React.useState(false);
-  console.log(props);
+  // console.log(props);
   const [Refazer, setRefazerS] = React.useState(false);
   document.querySelector("audio").play();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,8 +27,8 @@ export default function Resultados(props) {
         data.idCliente !== undefined
           ? data.idCliente
           : data.id !== undefined
-            ? data.id
-            : 0;
+          ? data.id
+          : 0;
     }
     if (user !== 0) {
       // console.log(user);
@@ -42,8 +43,9 @@ export default function Resultados(props) {
           }),
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("auth") || localStorage.getItem("user")
-                }`,
+              Authorization: `Bearer ${
+                localStorage.getItem("auth") || localStorage.getItem("user")
+              }`,
             },
           }
         )
@@ -60,7 +62,8 @@ export default function Resultados(props) {
     let user = parseJwt(localStorage.getItem("user"));
     if (user.id !== undefined) {
       inserir().finally(() => {
-        console.log({ reqQuestao });
+        // console.log({ reqQuestao });
+        setTerminado(false);
         setRefazer(true);
       });
     }
@@ -72,20 +75,17 @@ export default function Resultados(props) {
     }, 2000);
   }
 
-  const [acertosTotal, setAcertosTotal] = useState(
-    [
-      {
-        acertos: 1,
-        name: 'Acertos'
-      },
+  const [acertosTotal, setAcertosTotal] = useState([
+    {
+      acertos: 1,
+      name: "Acertos",
+    },
 
-      {
-        acertos: 1,
-        name: 'Erros'
-      },
-
-    ]
-  );
+    {
+      acertos: 1,
+      name: "Erros",
+    },
+  ]);
 
   useEffect(() => {
     setAcertosTotal([
@@ -100,7 +100,7 @@ export default function Resultados(props) {
         color: "#51348766",
       },
     ]);
-  }, [acertosTotal])
+  }, [acertos, erros]);
 
   return (
     <section className="c-results">
@@ -133,18 +133,17 @@ export default function Resultados(props) {
           </span>
           <div className="c-results__dados erro">
             <span className="grande">
-              {Math.ceil(acertos / quantidade * 100)}{"%"}
+              {Math.ceil((acertos / quantidade) * 100)}
+              {"%"}
             </span>
-            <span className="pequeno">
-              {acertos + "/" + (acertos + erros)}
-            </span>
+            <span className="pequeno">{acertos + "/" + (acertos + erros)}</span>
           </div>
         </div>
         <div className="direita">
           <Button
             className="c-results__dados__btns__r__b"
             onClick={() => {
-              setRefazer(true);
+              setRefazerS(true);
             }}
           >
             Refazer <FaHistory style={{ marginLeft: 10 }} />

@@ -27,15 +27,25 @@ export const Questao = (props) => {
     ErrarQuestao,
     erros,
     acertos,
+    isTerminado,
     setTerminado,
     setQuestoesSimulado,
     questoesSimulado,
     refazer,
+    setRefazer,
   } = useSimulado();
 
-  if (refazer) {
-    console.log({ questaoAtual, acertos, erros, questoesSimulado });
-  }
+  // if (refazer) {
+  //   let { quantidade } = props;
+  //   // console.log({
+  //   //   questaoAtual,
+  //   //   acertos,
+  //   //   erros,
+  //   //   questoesSimulado,
+  //   //   quantidade,
+  //   //   isTerminado,
+  //   // });
+  // }
 
   const [Selected, setSelected] = useState(-1);
   const [isAcertou, setAcertou] = useState("");
@@ -189,6 +199,7 @@ export const Questao = (props) => {
           className="prox"
           onClick={() => {
             if (isAcertou === "" && +Selected !== -1) {
+              setRefazer(false);
               if (+Selected === CertaResposta) {
                 AcertarQuestao();
                 setAcertou("correct");

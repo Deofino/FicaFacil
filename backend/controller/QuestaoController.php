@@ -53,7 +53,7 @@ class QuestaoController
                     $inner .= ' INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao ';
                     // dd([$send, $where, $inner]);
                 } else if (isset($_GET['cliente'])) {
-                    $where .= ' WHERE idCliente != :cliente AND';
+                    $where .= ' WHERE idCliente not in(:cliente) AND';
                     $send[':cliente']
                         = (int) $_GET['cliente'];
                     $inner .= ' INNER JOIN tb_simulado on tb_simulado.idQuestao = tb_questao.idQuestao ';

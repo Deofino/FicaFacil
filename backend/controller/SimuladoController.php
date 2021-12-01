@@ -36,7 +36,7 @@ class SimuladoController
             }
             $con = Connection::getConn();
             $stmt = $con->prepare("UPDATE tb_cliente SET simuladosFeitos = simuladosFeitos + 1 WHERE idCliente = ?");
-            $stmt->bindValue(1,($data->user), PDO::PARAM_INT);
+            $stmt->bindValue(1, ($data->user), PDO::PARAM_INT);
             $stmt->execute();
             // json($item);
             exit;
@@ -47,7 +47,9 @@ class SimuladoController
     public function update() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT' && auth()) { // verificar se eh post
+            $data = json_decode(file_get_contents('php://input'));
 
+            dd($data);
         }
         echo Response::warning('Metodo não encontrado', 404);
     }

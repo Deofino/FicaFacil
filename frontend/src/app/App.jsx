@@ -18,8 +18,10 @@ function App() {
 
   React.useEffect(() => {
     const html = document.querySelector("html");
+
     html.classList.remove("dark");
-    html.classList.add(localStorage.getItem("dark") === true && "dark");
+    html.classList.add(localStorage.getItem("dark") === "true" && "dark");
+    // let dark =
     let fonte = localStorage.getItem("fonte");
     let zoom = localStorage.getItem("zoom");
 
