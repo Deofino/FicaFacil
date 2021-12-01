@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
 import { FaEdit } from "react-icons/fa";
+import axios from "axios";
 import { Link } from 'react-router-dom';
 import { parseJwt } from "../../Header/NavBarUser";
 
+
 const jwt = localStorage.getItem('auth');
 const adm = parseJwt(jwt);
-console.log(adm);
 
 export default function DashboardAdm() {
+  const [totalClientes, setTotalClientes] = useState();
+  const [totalSimuladosFeitos, setTotalSimuladosFeitos] = useState();
+  const [totalQuestoesCadastradas, setTotalQuestoesCadastradas] = useState();
+
   let dataExemplo = [
     {
       name: "Exatas",
@@ -47,6 +52,42 @@ export default function DashboardAdm() {
     }
   ];
 
+  useEffect(() => {
+    (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getTotalClientes`
+      );
+      let res = await req.data.data;
+      if (res.length > 0) {
+        setTotalClientes(+res[0].total);
+      }
+    })();
+
+
+     (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getTotalSimuladosFeitos`
+      );
+      let res = await req.data.data;
+      if (res.length > 0) {
+        setTotalSimuladosFeitos(+res[0].total);
+      }
+    })(); 
+
+
+     (async function () {
+      let req = await axios.get(
+        `${process.env.REACT_APP_API}/procedures/sp_getTotalQuestoesCadastradas`
+      );
+      let res = await req.data.data;
+      if (res.length > 0) {
+        setTotalQuestoesCadastradas(+res[0].total);
+      }
+    })(); 
+    
+  });
+
+
   return (
     <section className="dashboard">
       <h1 className="dashboard__title">Dashboard</h1>
@@ -64,7 +105,7 @@ export default function DashboardAdm() {
 
               )}</div>
             </div>
-       {/*      <Link to='/perfil'>
+            {/*      <Link to='/perfil'>
               <FaEdit className="dashboard__c__right__profile__p__icon" />
             </Link> */}
             <h3 className="dashboard__c__right__profile__p__title">{adm.nomeAdministrador}</h3>
@@ -78,14 +119,14 @@ export default function DashboardAdm() {
             <h2 className="dashboard__c__right__statistics__datas__title">
               Clientes cadastrados
             </h2>
-            <p className="dashboard__c__right__statistics__datas__num">45</p>
+            <p className="dashboard__c__right__statistics__datas__num">{totalClientes}</p>
           </div>
           <div className="dashboard__c__right__statistics__datas">
             <h2 className="dashboard__c__right__statistics__datas__title">
               Simulados feitos
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">
-              130
+              {totalSimuladosFeitos}
             </p>
           </div>
           <div className="dashboard__c__right__statistics__datas">
@@ -93,7 +134,7 @@ export default function DashboardAdm() {
               Questões cadastradas
             </h2>
             <p className="dashboard__c__right__statistics__datas__num">
-              333
+              {totalQuestoesCadastradas}
             </p>
           </div>
         </div>

@@ -292,7 +292,7 @@ export default function DashboardAdm() {
 
         <div className="dashboard__c__left">
           <div className="dashboard__c__left__um">
-            <h3 className="dashboard__c__left__um__title">Melhores Matérias</h3>
+            <h3 className="dashboard__c__left__um__title">Questoes realizadas por materia</h3>
 
             <ChartPie
               data={qtdMateriasAgrupadas}
@@ -303,7 +303,7 @@ export default function DashboardAdm() {
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
-              Questoes realizadas por materia
+              Acertos dos últimos simulados
             </h3>
             <ChartBar
               data={acUltimosSimulados}
@@ -317,6 +317,9 @@ export default function DashboardAdm() {
               
               </h3>
               <div className="dashboard__c__left__et__tres__select">
+                {/*   <h3 className="dashboard__c__left__et__tres__title">
+                      Materias
+                  </h3> */}
                 <Select
                   className="c-formAssuntoMateria__select"
                   name="materia"
@@ -337,7 +340,8 @@ export default function DashboardAdm() {
 
               {acertosMateria[0].Acertos > 0 || acertosMateria[1].Acertos > 0 ? (
                 <React.Fragment>
-                  <h3>{nomePorMateria}</h3>
+
+                  <h3 className="dashboard__c__left__et__tres__mate">{nomePorMateria}</h3>
                   <ChartPie
                     data={acertosMateria}
                     dataKey="Acertos"
