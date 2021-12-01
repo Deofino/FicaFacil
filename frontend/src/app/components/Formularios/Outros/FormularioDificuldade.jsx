@@ -99,7 +99,6 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioDificuldade() {
-
   const [pesquisa, setPesquisa] = useState("");
 
   const [ErroDificuldade, setErroDificuldade] = useState(null);
@@ -108,17 +107,20 @@ export default function FormularioDificuldade() {
   const [questoes, setQuestoes] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/dificuldade/index/?pesquisa=${pesquisa}&data=true`, {
-        headers: {
-          Authorization: `Bearer ${
-            localStorage.getItem("auth") || localStorage.getItem("user")
-          }`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API}/dificuldade/index/?pesquisa=${pesquisa}&data=true`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        }
+      )
       .then((value) => {
-          if (value.data.status_code === 200) {
-            setQuestoes(value.data.data);
-          }
+        if (value.data.status_code === 200) {
+          setQuestoes(value.data.data);
+        }
       })
       .catch((error) => ToastError({ text: error || "Error" }));
   }, [pesquisa]);
@@ -235,27 +237,27 @@ export default function FormularioDificuldade() {
         </form>
 
         <div className="c-forms__table">
-        <Input
-          placeholder="Pesquise pelo nome da dificuldade"
-          icon={<FaSearch />}
-          value={pesquisa}
-          onChange={(e) => setPesquisa(e.target.value)}
-          id="pesquisa"
-          className="c-forms__inputSearch"
-        />  
+          <Input
+            placeholder="Pesquise pelo nome da dificuldade"
+            icon={<FaSearch />}
+            value={pesquisa}
+            onChange={(e) => setPesquisa(e.target.value)}
+            id="pesquisa"
+            className="c-forms__inputSearch"
+          />
 
-        <Table
-          colunas={columns}
-          linhas={linhas}
-          tabela={"dificuldade"}
-          nome="Dificuldade"
-          style={{
-            marginTop: 20,
-          }}
-          functionUpdate={update}
-        />
+          <Table
+            colunas={columns}
+            linhas={linhas}
+            tabela={"dificuldade"}
+            nome="Dificuldade"
+            style={{
+              marginTop: 20,
+            }}
+            functionUpdate={update}
+          />
+        </div>
         <div id="backdrop"></div>
-      </div>
       </div>
     </section>
   );

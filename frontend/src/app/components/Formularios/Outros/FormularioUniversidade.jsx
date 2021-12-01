@@ -5,7 +5,7 @@ import { AlertError, AlertSuccess } from "../../Alert/Modal";
 import { Input, Button, Table } from "../../Form";
 import { FaBookOpen, FaTimes, FaSearch } from "react-icons/fa";
 import { Tooltip, IconButton } from "@material-ui/core";
-import { ToastError, ToastSuccess, } from "../../Alert/Toast";
+import { ToastError, ToastSuccess } from "../../Alert/Toast";
 
 const Backdrop = (props) => {
   const [attUniversidade, setAttUniversidade] = useState(props.data[1] || ""); // State para atualizar o campo
@@ -103,7 +103,6 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioUniversidade() {
-
   const [pesquisa, setPesquisa] = useState("");
 
   const [ErroUniversidade, setErroUniversidade] = useState(null);
@@ -112,13 +111,16 @@ export default function FormularioUniversidade() {
   const [universidades, setUniversidades] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/universidade/index/?pesquisa=${pesquisa}&data=true`, {
-        headers: {
-          Authorization: `Bearer ${
-            localStorage.getItem("auth") || localStorage.getItem("user")
-          }`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API}/universidade/index/?pesquisa=${pesquisa}&data=true`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        }
+      )
       .then((value) => {
         if (value.data.status_code === 200) {
           setUniversidades(value.data.data);
@@ -251,27 +253,27 @@ export default function FormularioUniversidade() {
         </form>
 
         <div className="c-forms__table">
-        <Input
-          placeholder="Pesquise pelo nome da universidade"
-          icon={<FaSearch />}
-          value={pesquisa}
-          onChange={(e) => setPesquisa(e.target.value)}
-          id="pesquisa"
-          className="c-forms__inputSearch"
-        />  
+          <Input
+            placeholder="Pesquise pelo nome da universidade"
+            icon={<FaSearch />}
+            value={pesquisa}
+            onChange={(e) => setPesquisa(e.target.value)}
+            id="pesquisa"
+            className="c-forms__inputSearch"
+          />
 
-        <Table
-          colunas={columns}
-          linhas={linhas}
-          tabela={"universidade"}
-          nome="Universidade"
-          style={{
-            marginTop: 20,
-          }}
-          functionUpdate={update}
-        />
+          <Table
+            colunas={columns}
+            linhas={linhas}
+            tabela={"universidade"}
+            nome="Universidade"
+            style={{
+              marginTop: 20,
+            }}
+            functionUpdate={update}
+          />
+        </div>
         <div id="backdrop"></div>
-      </div>
       </div>
     </section>
   );
