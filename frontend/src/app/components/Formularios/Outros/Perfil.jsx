@@ -139,7 +139,7 @@ export default function Perfil() {
             >
               alterar
             </Button>
-            <CustomAlertInput dnone={alertNome}>
+            <CustomAlertInput dnone={alertNome} close={() => setAlertNome(false)}>
               <form action="">
                 <Input
                   title={"Nome"}
@@ -148,7 +148,7 @@ export default function Perfil() {
                   className=""
                   name={"nome"}
                   type={"text"}
-                  onChange={(e) => {}}
+                  onChange={(e) => { }}
                   inputMode="text"
                 />
                 <Button type="submit" className="mt">
@@ -178,7 +178,7 @@ export default function Perfil() {
                   className=""
                   name={"email"}
                   type={"email"}
-                  onChange={(e) => {}}
+                  onChange={(e) => { }}
                   inputMode="text"
                 />
                 <Button type="submit" className="mt">
@@ -210,7 +210,7 @@ export default function Perfil() {
                   className=""
                   name={"datanasc"}
                   type={"datanasc"}
-                  onChange={(e) => {}}
+                  onChange={(e) => { }}
                   inputMode="text"
                 />
                 <Button type="submit" className="pequeno">
@@ -240,7 +240,7 @@ export default function Perfil() {
                   className=""
                   name={"Senha"}
                   type={"senha"}
-                  onChange={(e) => {}}
+                  onChange={(e) => { }}
                   inputMode="text"
                 />
                 <Button type="submit" className="mt">
