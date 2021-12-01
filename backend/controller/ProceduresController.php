@@ -332,4 +332,49 @@ class ProceduresController
         }
         echo Response::warning('Metodo não encontrado', 404);
     }
+
+    
+    public function sp_getAcertosPorUniversidade() // parametros daqui sao da URL
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
+            $model = new ProceduresModel();
+
+            echo $model->getAcertosPorUniversidade();
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+
+    public function sp_getAcertosTotais() // parametros daqui sao da URL
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
+            $model = new ProceduresModel();
+
+            echo $model->getAcertosTotais();
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+
+    public function sp_getErrosTotais() // parametros daqui sao da URL
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
+            $model = new ProceduresModel();
+
+            echo $model->getErrosTotais();
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
+
+    public function sp_getQuestoesPorDia() // parametros daqui sao da URL
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') { // Verifica o método
+            $model = new ProceduresModel();
+
+            echo $model->getQuestoesPorDia();
+            return;
+        }
+        echo Response::warning('Metodo não encontrado', 404);
+    }
 }
