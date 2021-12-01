@@ -141,7 +141,7 @@ export default function DashboardAdm() {
         <div className="dashboard__c__left">
           <div className="dashboard__c__left__um">
             <h3 className="dashboard__c__left__um__title">
-              Taxa de acertos
+              Questoes realizadas por materia
             </h3>
             <ChartBar data={dataExemplo} dataKey="Acertos" />
           </div>
@@ -189,14 +189,13 @@ export default function DashboardAdm() {
             </div>
             <div className="dashboard__c__left__et__quatro">
               <h3 className="dashboard__c__left__et__quatro__title">
-                Total de Questões
+                Questões universidade
               </h3>
               <ChartPie data={dataQuestoes} dataKey="Acertos" outerRadius={90} innerRadius={65} />
             </div>
           </div>
         </div>
       </div>
-
     </section>
   );
 }

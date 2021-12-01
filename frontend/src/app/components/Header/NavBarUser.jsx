@@ -7,6 +7,7 @@ import {
   FaUserAlt,
   FaSignOutAlt,
   FaEdit,
+  FaHome
 } from "react-icons/fa";
 import axios from "axios";
 
@@ -50,6 +51,15 @@ export default function NavbarUser() {
             placeholder="Pesquisar..."
           />
           <span className="c-navbar__tooltip">Pesquisar</span>
+        </li>
+        <li className="c-navbar__menu-item">
+          <Link to="/">
+            <div className="space">
+              <FaHome className="icon" />
+              <span className="c-navbar__links-name">Home</span>
+            </div>
+          </Link>
+          <span className="c-navbar__tooltip">Home</span>
         </li>
         <li className="c-navbar__menu-item">
           <Link to="/dashboard">
