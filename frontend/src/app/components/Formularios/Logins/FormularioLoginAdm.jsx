@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Input, Button } from "../../Form";
 import axios from "axios";
-import { FaAt, FaLock,} from "react-icons/fa";
+import { FaAt, FaLock } from "react-icons/fa";
 import Logo from "../../../../img/project/logo-branca.png";
 import { ToastError, ToastWarning } from "../../Alert/Toast";
 
@@ -92,7 +92,6 @@ export default function FormularioLoginAdm() {
                   target.value.length === 0 && setErrorSenha(null);
                 }}
                 name="password"
-                type="password"
                 icon={<FaLock />}
               />
 

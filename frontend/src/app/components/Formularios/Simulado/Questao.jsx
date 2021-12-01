@@ -27,7 +27,6 @@ export const Questao = (props) => {
     ErrarQuestao,
     erros,
     acertos,
-    isTerminado,
     setTerminado,
     setQuestoesSimulado,
     questoesSimulado,

@@ -1,76 +1,73 @@
 import React, { useEffect, useState } from "react";
-import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
+import { ChartPie, ChartBar } from "../../Main/Charts";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { parseJwt } from "../../Header/NavBarUser";
-import { Select, } from "../../Form/";
-import { ToastError, } from "../../Alert/Toast";
-import { Link } from 'react-router-dom';
-import { Avatar } from "@material-ui/core";
+import { Select } from "../../Form/";
+import { ToastError } from "../../Alert/Toast";
+import { Link } from "react-router-dom";
 
 export default function DashboardAdm() {
-
-  const [cliente, setCliente] = useState(
-    parseJwt(localStorage.getItem("user")).id || null
-  );
-  const [materia, setMateria] = useState(null);
-  const [inicio, setInicio] = useState(null);
-  const [fim, setFim] = useState(null);
+  const cliente = parseJwt(localStorage.getItem("user")).id || null;
+  const materia = null;
+  const inicio = null;
+  const fim = null;
 
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
 
-  const [quantidadeQuestoesPorCliente, setQuantidadeQuestoesPorCliente] = useState(0);
+  const [quantidadeQuestoesPorCliente, setQuantidadeQuestoesPorCliente] =
+    useState(0);
 
   const [acertosPMateria, setAcertosPMateria] = useState(0);
   const [nomePorMateria, setNomePorMateria] = useState("Portugues");
   const [errosPMateria, setErrosPMateria] = useState(0);
   const [selectedMateria, setSelectedMateria] = useState(1);
   const [simuladosRealizados, setSimuladosRealizados] = useState(0);
-  const [evoluirMateria, setEvoluirMateria] = useState("sem questões para análise");
+  const [evoluirMateria, setEvoluirMateria] = useState(
+    "sem questões para análise"
+  );
   const [acUltimosSimulados, setAcUltimosSimulados] = useState();
 
-  const colors = ['#00aced', '#6610f2', '#6f42c1', '#513487', '#007bff'];
-  const jwt = localStorage.getItem('user');
+  const jwt = localStorage.getItem("user");
   const user = parseJwt(jwt);
 
   const [qtdMateriasAgrupadas, setQtdMateriasAgrupadas] = useState([]);
   const [reqMateria, setReqMateria] = useState([]);
-  const [acertosMateria, setAcertosMaterias] = useState(
-    [
-      {
-        materia: nomePorMateria,
-        acertos: 1,
-        name: 'Erros',
-        color: "#4746B0",
-      },
-      {
-        materia: nomePorMateria,
-        acertos: 1,
-        name: 'Acertos',
-        color: "#4746B0",
-      }
-    ]
-  );
-  const [acertosTotal, setAcertosTotal] = useState(
-    [
-      {
-        acertos: 1,
-        name: 'Erros'
-      },
-      {
-        acertos: 1,
-        name: 'Acertos'
-      }
-    ]
-  );
+  const [acertosMateria, setAcertosMaterias] = useState([
+    {
+      materia: nomePorMateria,
+      acertos: 1,
+      name: "Erros",
+      color: "#4746B0",
+    },
+    {
+      materia: nomePorMateria,
+      acertos: 1,
+      name: "Acertos",
+      color: "#4746B0",
+    },
+  ]);
+  const [acertosTotal, setAcertosTotal] = useState([
+    {
+      acertos: 1,
+      name: "Erros",
+    },
+    {
+      acertos: 1,
+      name: "Acertos",
+    },
+  ]);
 
   useEffect(() => {
+    const colors = ["#00aced", "#6610f2", "#6f42c1", "#513487", "#007bff"];
+
     axios
       .get(`${process.env.REACT_APP_API}/materia/index/`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("auth") || localStorage.getItem("user")
-            }`,
+          Authorization: `Bearer ${
+            localStorage.getItem("auth") || localStorage.getItem("user")
+          }`,
         },
       })
       .then((value) => {
@@ -90,7 +87,6 @@ export default function DashboardAdm() {
       }
     })();
 
-
     (async function () {
       let req = await axios.get(
         `${process.env.REACT_APP_API}/procedures/sp_getErros?cliente=${cliente}&inicio=${inicio}&fim=${fim}`
@@ -100,7 +96,6 @@ export default function DashboardAdm() {
         setErros(+res[0].erros);
       }
     })();
-
 
     (async function () {
       let req = await axios.get(
@@ -112,7 +107,6 @@ export default function DashboardAdm() {
       }
     })();
 
-
     (async function () {
       let req = await axios.get(
         `${process.env.REACT_APP_API}/procedures/sp_getAcertosPorMateria?cliente=${cliente}&materia=${selectedMateria}&inicio=${inicio}&fim=${fim}`
@@ -123,7 +117,6 @@ export default function DashboardAdm() {
       } else setAcertosPMateria(+res.data[0].acertos);
     })();
 
-
     (async function () {
       let req = await axios.get(
         `${process.env.REACT_APP_API}/procedures/sp_getErrosPorMateria?cliente=${cliente}&materia=${selectedMateria}&inicio=${inicio}&fim=${fim}`
@@ -133,9 +126,9 @@ export default function DashboardAdm() {
       if (res.data[0].materia === undefined) {
         console.log("Erro na requisição Erros por Matéria");
       } else {
-        setErrosPMateria(+res.data[0].erros)
-        setNomePorMateria(res.data[0].materia)
-      };
+        setErrosPMateria(+res.data[0].erros);
+        setNomePorMateria(res.data[0].materia);
+      }
     })();
 
     (async function () {
@@ -148,8 +141,6 @@ export default function DashboardAdm() {
         setSimuladosRealizados(+res[0].feitos);
       }
     })();
-
-
 
     (async function () {
       let req = await axios.get(
@@ -175,9 +166,9 @@ export default function DashboardAdm() {
             return {
               Quantidade: +val.quantidade,
               name: val.nomeMateria,
-              color: colors[i]
+              color: colors[i],
             };
-          })
+          });
           setQtdMateriasAgrupadas(data);
         }
       }
@@ -196,17 +187,14 @@ export default function DashboardAdm() {
           let data = res.map((val, i) => {
             return {
               Acertos: +val.qtde,
-              inicio: 'Simulado ' + (i + 1),
+              inicio: "Simulado " + (i + 1),
             };
-          })
+          });
           setAcUltimosSimulados(data);
         }
       }
     })();
-
-
   }, [cliente, materia, inicio, fim, selectedMateria]);
-
 
   useEffect(() => {
     setAcertosMaterias([
@@ -234,8 +222,7 @@ export default function DashboardAdm() {
         color: "#2F823B",
       },
     ]);
-  }, [erros, acertos, errosPMateria, acertosPMateria])
-
+  }, [erros, acertos, errosPMateria, acertosPMateria]);
 
   return (
     <section className="dashboard">
@@ -245,19 +232,22 @@ export default function DashboardAdm() {
           <div className="dashboard__c__right__profile">
             <div className="dashboard__c__right__profile__p"></div>
             <div className="dashboard__c__right__profile__p__profile">
-              <div className="dashboard__c__right__profile__p__circle">{user !== "" && user.foto !== "" && user.foto !== undefined ? (
-                <img src={user.foto} alt={user.nome} />
-              ) : (
-                <div className="dashboard__c__right__profile__p__circle__title">
-                  {user.nome.charAt(0).toUpperCase()}
-                </div>
-
-              )}</div>
+              <div className="dashboard__c__right__profile__p__circle">
+                {user !== "" && user.foto !== "" && user.foto !== undefined ? (
+                  <img src={user.foto} alt={user.nome} />
+                ) : (
+                  <div className="dashboard__c__right__profile__p__circle__title">
+                    {user.nome.charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
             </div>
-            <Link to='/perfil'>
+            <Link to="/perfil">
               <FaEdit className="dashboard__c__right__profile__p__icon" />
             </Link>
-            <h3 className="dashboard__c__right__profile__p__title">{user.nome}</h3>
+            <h3 className="dashboard__c__right__profile__p__title">
+              {user.nome}
+            </h3>
           </div>
           <div className="dashboard__c__right__statistics">
             <h3 className="dashboard__c__right__statistics__title">
@@ -292,7 +282,9 @@ export default function DashboardAdm() {
 
         <div className="dashboard__c__left">
           <div className="dashboard__c__left__um">
-            <h3 className="dashboard__c__left__um__title">Questoes realizadas por materia</h3>
+            <h3 className="dashboard__c__left__um__title">
+              Questoes realizadas por materia
+            </h3>
 
             <ChartPie
               data={qtdMateriasAgrupadas}
@@ -313,9 +305,6 @@ export default function DashboardAdm() {
           </div>
           <div className="dashboard__c__left__et">
             <div className="dashboard__c__left__et__tres">
-              <h3 className="dashboard__c__left__et__tres__title">
-              
-              </h3>
               <div className="dashboard__c__left__et__tres__select">
                 {/*   <h3 className="dashboard__c__left__et__tres__title">
                       Materias
@@ -338,10 +327,12 @@ export default function DashboardAdm() {
                 </Select>
               </div>
 
-              {acertosMateria[0].Acertos > 0 || acertosMateria[1].Acertos > 0 ? (
+              {acertosMateria[0].Acertos > 0 ||
+              acertosMateria[1].Acertos > 0 ? (
                 <React.Fragment>
-
-                  <h3 className="dashboard__c__left__et__tres__mate">{nomePorMateria}</h3>
+                  <h3 className="dashboard__c__left__et__tres__mate">
+                    {nomePorMateria}
+                  </h3>
                   <ChartPie
                     data={acertosMateria}
                     dataKey="Acertos"
@@ -349,12 +340,12 @@ export default function DashboardAdm() {
                     innerRadius={65}
                   />
                 </React.Fragment>
-              ) : (<h3 className="dashboard__semdados_desemM">Sem dados</h3>)}
-
+              ) : (
+                <h3 className="dashboard__semdados_desemM">Sem dados</h3>
+              )}
             </div>
             <div className="dashboard__c__left__et__quatro">
               {acertos > 0 || erros > 0 ? (
-
                 <React.Fragment>
                   <h3 className="dashboard__c__left__et__quatro__title">
                     Desempenho geral
@@ -366,8 +357,9 @@ export default function DashboardAdm() {
                     innerRadius={65}
                   />
                 </React.Fragment>
-              ) : (<h3 className="dashboard__semdados_desem">Sem dados</h3>)}
-
+              ) : (
+                <h3 className="dashboard__semdados_desem">Sem dados</h3>
+              )}
             </div>
           </div>
         </div>

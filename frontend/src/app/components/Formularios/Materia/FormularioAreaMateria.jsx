@@ -100,7 +100,6 @@ const Backdrop = (props) => {
 };
 
 export default function FormularioAreaMateria() {
-
   const [pesquisa, setPesquisa] = useState("");
 
   const [ErroAreaMateria, setErroAreaMateria] = useState(null);
@@ -109,18 +108,21 @@ export default function FormularioAreaMateria() {
   const [areaMaterias, setareaMaterias] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API}/areaMateria/index/?pesquisa=${pesquisa}&data=true`, {
-        headers: {
-          Authorization: `Bearer ${
-            localStorage.getItem("auth") || localStorage.getItem("user")
-          }`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API}/areaMateria/index/?pesquisa=${pesquisa}&data=true`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("auth") || localStorage.getItem("user")
+            }`,
+          },
+        }
+      )
       .then((value) => {
-        console.log(value.data)
+        console.log(value.data);
         if (value.data.status_code === 200) {
           setareaMaterias(value.data.data);
-        } else ToastWarning({ text: value.data.data[0] || "Warning" });
+        } else ToastWarning({ text: value.data.data || "Warning" });
       })
       .catch((error) => ToastError({ text: error || "Warning" }));
   }, [pesquisa]);
@@ -239,17 +241,17 @@ export default function FormularioAreaMateria() {
           onChange={(e) => setPesquisa(e.target.value)}
           id="pesquisa"
           className="c-forms__inputSearch"
-        />   
-      <Table
-        colunas={columns}
-        linhas={linhas}
-        tabela={"areaMateria"}
-        nome="Área Matéria"
-        style={{
-          marginTop: 20,
-        }}
-        functionUpdate={update}
-      />
+        />
+        <Table
+          colunas={columns}
+          linhas={linhas}
+          tabela={"areaMateria"}
+          nome="Área Matéria"
+          style={{
+            marginTop: 20,
+          }}
+          functionUpdate={update}
+        />
       </div>
       <div id="backdrop"></div>
     </section>

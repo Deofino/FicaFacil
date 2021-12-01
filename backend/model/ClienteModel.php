@@ -177,8 +177,26 @@ class ClienteModel extends UserModel
         }
     }
 
+    public function attPass($params)
+    {
+        try {
+            if (isset($params['senha'])) {
+                $con = Connection::getConn();
+                $stmt = $con->prepare('UPDATE tb_cliente set senhaCliente = ? WHERE idCliente LIKE ?');
+                $stmt->bindParam(1, $params['senha'], PDO::PARAM_STR);
+                $stmt->bindParam(2, $params['id'], PDO::PARAM_INT);
+                if ($stmt->execute()) {
+                    return  Response::success('Senha alterada com sucesso com sucesso');
+                }
+            }
+        } catch (\Throwable $th) {
+            return Response::error("Error: " . $th->getMessage());
+        }
+    }
+
     public function put($id)
     {
+
         try {
 
             $con = Connection::getConn();

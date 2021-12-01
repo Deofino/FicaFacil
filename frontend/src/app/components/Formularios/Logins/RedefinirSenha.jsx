@@ -53,7 +53,6 @@ export default function ComponentRedefinirSenha() {
         )
         .then(({ data }) => {
           setLoading(false);
-          console.log(data);
           if (data.status_code === 200) {
             AlertSuccess({
               title: "E-mail enviado!",
@@ -92,7 +91,6 @@ export default function ComponentRedefinirSenha() {
         )
         .then(({ data }) => {
           setLoading(false);
-          console.log(data);
           if (data.status_code === 200) {
             AlertSuccess({
               text: data.data + ". \nEssa tela ira fechar automaticamente....",
@@ -103,10 +101,14 @@ export default function ComponentRedefinirSenha() {
               window.close();
             }, 2000);
           } else {
+            console.log(data);
             ToastError({ text: "E-mail informado nao existe." });
           }
         })
-        .catch((err) => ToastError({ text: err }));
+        .catch((err) => {
+          console.log(err);
+          ToastError({ text: err });
+        });
     }
   }
   return auth == null ? (
@@ -142,9 +144,7 @@ export default function ComponentRedefinirSenha() {
   ) : (
     <Main style={{ maxWidth: 690, paddingTop: 30, paddingBottom: 30 }}>
       <form onSubmit={(e) => update(e)}>
-        <h1 className="mb">
-          Digite uma nova senha segura
-        </h1>
+        <h1 className="mb">Digite uma nova senha segura</h1>
         <Input
           title="Nova senha"
           id="senha"

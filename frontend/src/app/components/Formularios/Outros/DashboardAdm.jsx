@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ChartPie, ChartArea, ChartBar } from "../../Main/Charts";
-import { FaEdit } from "react-icons/fa";
 import axios from "axios";
-import { Link } from 'react-router-dom';
 import { parseJwt } from "../../Header/NavBarUser";
 
-
-const jwt = localStorage.getItem('auth');
+const jwt = localStorage.getItem("auth");
 const adm = parseJwt(jwt);
 
 export default function DashboardAdm() {
@@ -14,7 +11,6 @@ export default function DashboardAdm() {
   const [totalSimuladosFeitos, setTotalSimuladosFeitos] = useState();
   const [totalQuestoesCadastradas, setTotalQuestoesCadastradas] = useState();
   const [questoesPorDia, setQuestoesPorDia] = useState([]);
-  const [questoesPorMateria, setQuestoesPorMateria] = useState([]);
   const [qPorMateriaAgrupada, setQPorMateriaAgrupada] = useState([]);
   const [acertosUniversidade, setAcertosUniversidade] = useState([]);
 
@@ -22,11 +18,8 @@ export default function DashboardAdm() {
   const [errosTotais, setErrosTotais] = useState(0);
   const [dataDesempenho, setDataDesempenho] = useState([]);
 
-
-  const colors = ['#00aced', '#6610f2', '#6f42c1', '#513487', '#007bff'];
-
-
   useEffect(() => {
+    const colors = ["#00aced", "#6610f2", "#6f42c1", "#513487", "#007bff"];
     (async function () {
       let req = await axios.get(
         `${process.env.REACT_APP_API}/procedures/sp_getTotalClientes`
@@ -36,7 +29,6 @@ export default function DashboardAdm() {
         setTotalClientes(+res[0].total);
       }
     })();
-
 
     (async function () {
       let req = await axios.get(
@@ -66,8 +58,8 @@ export default function DashboardAdm() {
           return {
             name: valor.dia,
             Quantidade: +valor.qtde,
-          }
-        })
+          };
+        });
         setQuestoesPorDia(data);
       }
     })();
@@ -81,8 +73,8 @@ export default function DashboardAdm() {
           return {
             name: valor.nomeMateria,
             Quantidade: +valor.quantidade,
-          }
-        })
+          };
+        });
         setQPorMateriaAgrupada(data);
       }
     })();
@@ -92,15 +84,15 @@ export default function DashboardAdm() {
         `${process.env.REACT_APP_API}/procedures/sp_getAcertosPorUniversidade`
       );
       let res = await req.data.data;
-      console.log(res)
+      console.log(res);
       if (res.length > 0) {
         let data = res.map((valor, index) => {
           return {
             name: valor.universidade,
             Quantidade: +valor.qtde,
-            color: colors[index]
-          }
-        })
+            color: colors[index],
+          };
+        });
         setAcertosUniversidade(data);
       }
     })();
@@ -120,12 +112,10 @@ export default function DashboardAdm() {
       );
       let res = await req.data.data;
       if (res.length > 0) {
-        setAcertosTotais(+res[0].acertos)
+        setAcertosTotais(+res[0].acertos);
       }
     })();
-
   }, []);
-
 
   useEffect(() => {
     setDataDesempenho([
@@ -140,10 +130,7 @@ export default function DashboardAdm() {
         color: "#4746B0",
       },
     ]);
-
-  }, [errosTotais, acertosTotais])
-
-
+  }, [errosTotais, acertosTotais]);
 
   return (
     <section className="dashboard">
@@ -153,17 +140,20 @@ export default function DashboardAdm() {
           <div className="dashboard__c__right__profile">
             <div className="dashboard__c__right__profile__p"></div>
             <div className="dashboard__c__right__profile__p__profile">
-              <div className="dashboard__c__right__profile__p__circle">{adm !== "" && adm.foto !== "" && adm.foto !== undefined ? (
-                <img src={adm.foto} alt={adm.nome} />
-              ) : (
-                <div className="dashboard__c__right__profile__p__circle__title">
-                  {adm.nomeAdministrador.charAt(0).toUpperCase()}
-                </div>
-
-              )}</div>
+              <div className="dashboard__c__right__profile__p__circle">
+                {adm !== "" && adm.foto !== "" && adm.foto !== undefined ? (
+                  <img src={adm.foto} alt={adm.nome} />
+                ) : (
+                  <div className="dashboard__c__right__profile__p__circle__title">
+                    {adm.nomeAdministrador.charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
             </div>
 
-            <h3 className="dashboard__c__right__profile__p__title">{adm.nomeAdministrador}</h3>
+            <h3 className="dashboard__c__right__profile__p__title">
+              {adm.nomeAdministrador}
+            </h3>
           </div>
           <div className="dashboard__c__right__statistics">
             <h3 className="dashboard__c__right__statistics__title">
@@ -174,7 +164,9 @@ export default function DashboardAdm() {
             <h2 className="dashboard__c__right__statistics__datas__title">
               Clientes cadastrados
             </h2>
-            <p className="dashboard__c__right__statistics__datas__num">{totalClientes}</p>
+            <p className="dashboard__c__right__statistics__datas__num">
+              {totalClientes}
+            </p>
           </div>
           <div className="dashboard__c__right__statistics__datas">
             <h2 className="dashboard__c__right__statistics__datas__title">
@@ -198,26 +190,60 @@ export default function DashboardAdm() {
             <h3 className="dashboard__c__left__um__title">
               Questoes realizadas por materia
             </h3>
-            {qPorMateriaAgrupada.length > 0 ? <ChartBar data={qPorMateriaAgrupada} dataKey="Quantidade" dataName='name' /> : <h2>Sem dados</h2>}
+            {qPorMateriaAgrupada.length > 0 ? (
+              <ChartBar
+                data={qPorMateriaAgrupada}
+                dataKey="Quantidade"
+                dataName="name"
+              />
+            ) : (
+              <h2>Sem dados</h2>
+            )}
           </div>
           <div className="dashboard__c__left__dois">
             <h3 className="dashboard__c__left__dois__title">
               Questões por dia
             </h3>
-            {questoesPorDia.length > 0 ? <ChartArea data={questoesPorDia} keyData="Quantidade" keyName="name" /> : <h2>Sem dados</h2>}
+            {questoesPorDia.length > 0 ? (
+              <ChartArea
+                data={questoesPorDia}
+                keyData="Quantidade"
+                keyName="name"
+              />
+            ) : (
+              <h2>Sem dados</h2>
+            )}
           </div>
           <div className="dashboard__c__left__et">
             <div className="dashboard__c__left__et__tres">
               <h3 className="dashboard__c__left__et__tres__title">
                 Desempenho geral
               </h3>
-              {dataDesempenho.length > 0 ? <ChartPie data={dataDesempenho} dataKey="Quantidade" outerRadius={90} innerRadius={65} /> : <h2>Sem dados</h2>}
+              {dataDesempenho.length > 0 ? (
+                <ChartPie
+                  data={dataDesempenho}
+                  dataKey="Quantidade"
+                  outerRadius={90}
+                  innerRadius={65}
+                />
+              ) : (
+                <h2>Sem dados</h2>
+              )}
             </div>
             <div className="dashboard__c__left__et__quatro">
               <h3 className="dashboard__c__left__et__quatro__title">
                 Acertos de Universidade
               </h3>
-              {acertosUniversidade.length > 0 ? <ChartPie data={acertosUniversidade} dataKey="Quantidade" outerRadius={90} innerRadius={65} /> : <h2>Sem dados</h2>}
+              {acertosUniversidade.length > 0 ? (
+                <ChartPie
+                  data={acertosUniversidade}
+                  dataKey="Quantidade"
+                  outerRadius={90}
+                  innerRadius={65}
+                />
+              ) : (
+                <h2>Sem dados</h2>
+              )}
             </div>
           </div>
         </div>

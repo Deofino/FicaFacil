@@ -1,11 +1,9 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { Switch, FormControlLabel, Tooltip } from "@material-ui/core";
 import logo from "../../../img/project/logo-branca.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Header() {
-  
   const [isOpen, setOpen] = React.useState("");
   const handle = () => {
     setOpen(isOpen === "" ? "l-header--open" : "");

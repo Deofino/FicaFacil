@@ -72,7 +72,7 @@ export const SimuladoProvider = (props) => {
           }
         )
         .then((value) => {
-          console.log(value.data);
+          // console.log(value.data);
           if (value.data.status_code === 200) {
             setReqQuestao(value.data.data);
           } else {

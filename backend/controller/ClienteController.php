@@ -308,7 +308,7 @@ class ClienteController
                 $ids = $ids->data;
                 foreach ($ids as $id) {
                     if (md5($id->id) === $data->auth) {
-                        echo (new ClienteModel)->put(['senha' => password_hash($data->senha, PASSWORD_DEFAULT), 'id' => $id->id]);
+                        echo (new ClienteModel)->attPass(['senha' => password_hash($data->senha, PASSWORD_DEFAULT), 'id' => $id->id]);
                         return;
                     }
                 }
