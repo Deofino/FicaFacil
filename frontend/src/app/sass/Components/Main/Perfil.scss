@@ -22,6 +22,9 @@
     }
 }
 
+.c-button.pequeno {
+    max-width: rem(180) !important;
+}
 .infos {
     width: 100%;
     height: auto;
@@ -44,6 +47,7 @@
 
     &__foto {
         cursor: pointer;
+        overflow: hidden;
         @include flex(center);
         svg {
             fill: $light;

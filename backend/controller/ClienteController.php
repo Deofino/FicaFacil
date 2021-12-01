@@ -49,7 +49,7 @@ class ClienteController
             $model = new ClienteModel();
             if (isset($data->email) && isset($data->nome) && isset($data->senha)) {
                 $model->setNome(trim($data->nome));
-                $model->setEmail(trim($data->email));
+                $model->setEmail(trim($data->email), true);
                 $model->setSenha(trim(password_hash($data->senha, PASSWORD_DEFAULT))); // insere aqui pra passar pelas verificacoes 
                 $model->setFoto('');
                 echo $model->post();
@@ -62,31 +62,46 @@ class ClienteController
     public function update() // parametro do file_get_contents
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && auth()) { // verificar se eh post
-            $req = json_decode(file_get_contents('php://input')); // pega os dados da requisicao json
-            if (isset($req->nomeCliente) && isset($req->emailCliente) && isset($req->senhaCliente) && isset($req->id)) { // verifica se o id e a dificuldade existem
-                if ($req->id > 0 && $req->id !== null && $req->id > 0) { // verifica se o id pode existir
-                    $model = new ClienteModel();
-                    $data = json_decode($model->get()); // requisicao para verificar se bate com alguma dificuldade existente
-                    if ($data->status_code === 200) { // se houver erro na requisicao na dificuldade 
-                        foreach ($data->data as $el) { // foreach pra verificar cada elemento
-                            if ($el->idCliente == $req->id) { // se for igual pode atualizar
-                                $model->setNome(trim($req->nomeCliente)); // insere aqui pra passar pelas verificacoes de dados
-                                $model->setEmail(trim($req->emailCliente));
-                                $model->setSenha(trim($req->senhaCliente));
-                                echo $model->put($req->id);
-                                return;
-                            };
-                        }
-                        echo Response::warning("Cliente com id `" . $req->id . "` não encontrada", 404);
-                        return; // senao puder ele ira gerar erro daqui pra baixo
-                    } else {
-                        echo Response::error("Erro ao pegar Cliente", 404);
-                        return;
-                    };
+
+
+
+
+            if ($_POST['id']) {
+                // base
+                $model = new ClienteModel();
+                $user = json_decode($model->get(['id' => $_POST['id']]))->data[0];
+                $model->setNome($user->nomeCompletoCliente);
+                $model->setSenha($user->senhaCliente);
+                $model->setDataAniversario($user->dataAniversarioCliente);
+                $model->setEmail($user->emailCliente, false);
+                $model->setFoto($user->fotoCliente);
+
+
+                // pra cada campo que querer
+                if (isset($_FILES['imagem']) && isset($_POST['id'])) {
+                    if ($user->fotoCliente !== '') {
+                        $photo = $user->fotoCliente;
+                        $photo = explode('backend/', $photo);
+                        $photo = './' . $photo[1];
+                        unlink($photo);
+                    }
+                    $imagem = $_FILES['imagem'];
+
+                    $ext = pathinfo($imagem['name'], PATHINFO_EXTENSION);
+                    $name = md5(time() . $imagem['name']) . '.' . $ext;
+                    $variavel = ($imagem['tmp_name']);
+                    $url = 'http://' . $_SERVER['HTTP_HOST'] . explode('index.php', $_SERVER['PHP_SELF'])[0] . 'images/users/' . $name;
+                    $path = './images/users/';
+                    file_exists($path) or mkdir($path);
+                    move_uploaded_file($variavel, $path . $name);
+
+                    $model->setFoto($url);
                 }
-                echo Response::warning("id da Cliente invalida", 400);
+
+                echo $model->put($_POST['id']);
                 return;
-            } else echo Response::warning('Parametro `cliente/id` não encontrado ou vazio/nulo', 404);
+            }
+            echo Response::warning('Parametro `id` não encontrado ou vazio/nulo', 404);
             return;
         }
         echo Response::warning('Metodo não encontrado', 404);
@@ -162,7 +177,7 @@ class ClienteController
                 ];
             } else {
                 $model->setNome(trim($user->getFirstName() . " " . $user->getLastName()));
-                $model->setEmail(trim($user->getEmail()));
+                $model->setEmail(trim($user->getEmail()), true);
                 $model->setSenha(trim(password_hash($token,  PASSWORD_DEFAULT)));
                 $model->setFoto(trim($user->getAvatar()));
                 $model->post();

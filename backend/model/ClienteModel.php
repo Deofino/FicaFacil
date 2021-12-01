@@ -20,28 +20,32 @@ class ClienteModel extends UserModel
     private int $videosAssistidos;
     private int $comentariosFeitos;
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email, bool $verificar = true): void
     {
-        if (
-            isset($email) && trim($email) !== '' && strlen(trim($email)) !== 0 && trim($email) !== null
-        ) {
-            $data =  json_decode($this->get());
+        if ($verificar) {
+            if (
+                isset($email) && trim($email) !== '' && strlen(trim($email)) !== 0 && trim($email) !== null
+            ) {
+                $data =  json_decode($this->get());
 
-            if ($data->status_code === 200) {
-                foreach ($data->data as $el) {
-                    if ($el->emailCliente == $email) {
-                        throw new \Exception("Esse email ja esta cadastrado como um usuario.", 400);
-                    };
-                }
-                $this->email = $email;
-                return;
-            } else {
-                throw new \Exception("User codigo não 200", 400);
-                return;
-            };
+                if ($data->status_code === 200) {
+                    foreach ($data->data as $el) {
+                        if ($el->emailCliente == $email) {
+                            throw new \Exception("Esse email ja esta cadastrado como um usuario.", 400);
+                        };
+                    }
+                    $this->email = $email;
+                    return;
+                } else {
+                    throw new \Exception("User codigo não 200", 400);
+                    return;
+                };
+            }
+            throw new \Exception("Esse email não pode ser aceito", 400);
+            return;
+        } else {
+            $this->email = $email;
         }
-        throw new \Exception("Esse email não pode ser aceito", 400);
-        return;
     }
 
     public function getEmail(): string
@@ -172,16 +176,19 @@ class ClienteModel extends UserModel
             return Response::error("Error: " . $th->getMessage());
         }
     }
+
     public function put($id)
     {
         try {
+
             $con = Connection::getConn();
             $stmt = $con->prepare('UPDATE tb_cliente set nomeCompletoCliente = ? , emailCliente = ? , senhaCliente = ? , dataAniversarioCliente = ? , fotoCliente = ? WHERE idCliente LIKE ?');
             $stmt->bindParam(1, $this->getNome(), PDO::PARAM_STR);
             $stmt->bindParam(2, $this->getEmail(), PDO::PARAM_STR);
             $stmt->bindParam(3, $this->getSenha(), PDO::PARAM_STR);
             $stmt->bindParam(4, $this->getDataAniversario(), PDO::PARAM_STR);
-            $stmt->bindParam(5, $id, PDO::PARAM_INT);
+            $stmt->bindParam(5, $this->getFoto(), PDO::PARAM_STR);
+            $stmt->bindParam(6, $id, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
                 return  Response::success('Dados alterados com sucesso');

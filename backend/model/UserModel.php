@@ -27,7 +27,7 @@ class UserModel
 
         $this->nome = ucfirst($nome);
     }
-    public function setEmail(string $email): void
+    public function setEmail(string $email, bool $verificar): void
     {
         //poliforma pra cada cxaaso adm e clinete
         $this->email = $email;
